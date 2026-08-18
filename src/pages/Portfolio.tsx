@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import AnalysisWidget from '../components/AnalysisWidget';
+import PropertyWidget from '../components/PropertyWidget';
 
 export default function Portfolio() {
   return (
@@ -81,7 +81,6 @@ export default function Portfolio() {
 
             {/* Right Column: Embedded Widget */}
             <div className="relative">
-              {/* Pulsing Backlight for the widget */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#CCFF00]/10 rounded-full blur-[100px] pointer-events-none"></div>
               <AnalysisWidget />
             </div>
@@ -132,11 +131,11 @@ export default function Portfolio() {
                 </div>
 
                 {/* Final Nodes */}
-                <div className="flex gap-8 w-full justify-center pt-2">
-                  <div className="bg-slate-900 border border-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.1)] rounded-xl px-4 py-3 text-white font-bold text-xs w-40 text-center z-10">
-                    GorillaDesk CRM
+                <div className="flex gap-4 w-full justify-center pt-2">
+                  <div className="bg-slate-900 border border-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.1)] rounded-xl px-4 py-3 text-white font-bold text-[11px] w-44 text-center z-10">
+                    Target CRM (FUB / Buildium)
                   </div>
-                  <div className="bg-slate-900 border border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.1)] rounded-xl px-4 py-3 text-white font-bold text-xs w-40 text-center z-10">
+                  <div className="bg-slate-900 border border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.1)] rounded-xl px-4 py-3 text-white font-bold text-[11px] w-44 text-center z-10">
                     Client Welcome SMS
                   </div>
                 </div>
@@ -161,13 +160,13 @@ export default function Portfolio() {
               
               <div className="space-y-6 text-slate-400 leading-relaxed mb-8">
                 <p>
-                  <strong className="text-white">The Problem:</strong> A beautiful website is useless if your office staff still has to manually copy and paste lead data from email alerts into your scheduling software.
+                  <strong className="text-white">The Problem:</strong> Generating leads across varying divisions is useless if your team still has to manually copy and paste data from email alerts into multiple different software platforms.
                 </p>
                 <p>
-                  <strong className="text-white">The Solution:</strong> We build automated asynchronous data pipelines connecting your front-end web portal directly into your operational stack.
+                  <strong className="text-white">The Solution:</strong> We build automated, asynchronous data pipelines that connect your front-end web portals directly into your entire operational stack.
                 </p>
                 <p>
-                  By leveraging webhook architecture, the moment a client requests a quote, their data is instantly transformed and securely pushed into your CRM (like GorillaDesk or LawnPro). Simultaneously, a personalized welcome SMS is triggered to the client, guaranteeing a sub-5-minute response time without any human intervention.
+                  By leveraging webhook architecture, the moment a client submits a request, their data is instantly transformed and securely pushed into the correct system (like Follow Up Boss, Buildium, or GorillaDesk). Simultaneously, a personalized SMS is triggered, guaranteeing a sub-5-minute response time without human intervention.
                 </p>
               </div>
 
@@ -184,6 +183,85 @@ export default function Portfolio() {
             </div>
 
           </div>
+        </motion.div>
+
+        {/* Case Study 3: Cross-Discipline AI (Real Estate/Construction) */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="bg-slate-900/50 border border-slate-800 rounded-3xl p-8 md:p-12 backdrop-blur-md shadow-2xl relative overflow-hidden"
+        >
+          {/* Decorative Accent */}
+          <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            
+            {/* Left Column: Embedded Widget */}
+            <div className="relative order-2 lg:order-1">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+              <PropertyWidget />
+            </div>
+
+            {/* Right Column: The Business Value */}
+            <div className="order-1 lg:order-2">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="px-3 py-1 bg-brand-midnight text-blue-400 border border-blue-500/30 text-xs font-bold uppercase tracking-widest rounded-full">
+                  Operations & Triage
+                </span>
+                <span className="text-slate-500 text-sm font-bold uppercase tracking-widest">
+                  Real Estate & Construction
+                </span>
+              </div>
+              
+              <h2 className="text-4xl font-black text-white mb-6 leading-tight">
+                The Omni-Triage <br/> Property Hub.
+              </h2>
+              
+              <div className="space-y-6 text-slate-400 leading-relaxed mb-8">
+                <p>
+                  <strong className="text-white">The Problem:</strong> Managing Real Estate, Property Management, and Construction creates a massive communications bottleneck. The phone never stops ringing with routine questions, site updates, and maintenance requests, stalling actual growth.
+                </p>
+                <p>
+                  <strong className="text-white">The Solution:</strong> We deploy the <span className="text-blue-400">Omni-Triage Hub</span>—a unified AI interface designed to classify and route operational requests instantly.
+                </p>
+                <p>
+                  Whether a tenant is reporting a leaky sink, a buyer is scheduling a showing, or a field crew is uploading photos of site framing, the AI analyzes the intent. It categorizes the data, prioritizes urgency, and fires off a Make.com webhook to automatically alert the correct vendor, update the daily log, or book the calendar.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 border-t border-slate-800 pt-8">
+                <div>
+                  <div className="text-3xl font-black text-white mb-1">24/7</div>
+                  <div className="text-xs text-slate-500 font-bold uppercase tracking-widest">Unified Dispatch</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-black text-white mb-1">Visual</div>
+                  <div className="text-xs text-slate-500 font-bold uppercase tracking-widest">Context Routing</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
+
+        {/* Continue to Automations Button */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="flex justify-center mt-12 pb-16"
+        >
+          <Link to="/automations">
+            <button className="group relative inline-flex items-center justify-center px-10 py-5 font-bold text-white transition-all duration-300 bg-slate-900 border border-slate-700 rounded-full hover:border-brand-orange hover:shadow-[0_0_30px_rgba(255,95,31,0.3)] hover:scale-105">
+              <span className="uppercase tracking-widest text-sm mr-4">Explore Make.com Automations</span>
+              <svg className="w-5 h-5 text-brand-orange group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </Link>
         </motion.div>
 
       </div>
