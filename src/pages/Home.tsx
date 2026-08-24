@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import heroLogo from '../assets/hero.png';
 import AnimationShowcase from '../components/AnimationShowcase';
 import FramerPlayground from '../components/FramerPlayground';
 
@@ -27,9 +26,9 @@ export default function Home() {
             ease: "easeInOut" 
           }}
         >
-          {/* Image: Scaled down to max-w-lg and rounded-3xl */}
+          {/* Image: Scaled down to max-w-lg and rounded-3xl, src updated to root public folder */}
           <motion.img
-            src={heroLogo}
+            src="/hero.png"
             alt="CG Strategic Enterprises"
             className="w-full max-w-lg h-auto rounded-3xl bg-white"
             initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
