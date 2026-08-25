@@ -56,10 +56,10 @@ export default function CinematicSequences() {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white">
+    <div ref={containerRef} className="w-full bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white">
       
       {/* Hero Section */}
-      <section className="hero-section h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+      <section className="hero-section h-screen w-full flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-brand-midnight/40 via-slate-950 to-slate-950"></div>
         
         <div className="z-10 w-full flex flex-col items-center justify-center h-full pt-20">
@@ -90,13 +90,13 @@ export default function CinematicSequences() {
       </section>
 
       {/* Horizontal Scroll Container */}
-      <section ref={horizontalRef} className="h-screen flex flex-nowrap w-[300vw] overflow-hidden bg-[#020617] relative border-t border-slate-900">
+      <section ref={horizontalRef} className="h-screen flex flex-nowrap w-full overflow-hidden bg-[#020617] relative border-t border-slate-900">
         
         {/* Background wireframe grid for depth across the whole horizontal span */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 w-[300vw]"></div>
+        <div className="absolute top-0 left-0 h-full w-[300%] bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20"></div>
 
         {/* Panel 1 */}
-        <div className="horizontal-panel w-screen h-screen flex items-center justify-center relative px-6 md:px-24 shrink-0">
+        <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">01</div>
           <div className="z-10 max-w-4xl backdrop-blur-sm bg-slate-950/60 p-8 md:p-16 rounded-3xl border border-slate-800 shadow-2xl">
             <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4 flex items-center gap-4">
@@ -110,7 +110,7 @@ export default function CinematicSequences() {
         </div>
 
         {/* Panel 2 */}
-        <div className="horizontal-panel w-screen h-screen flex items-center justify-center relative px-6 md:px-24 shrink-0">
+        <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">02</div>
           <div className="z-10 max-w-4xl backdrop-blur-sm bg-slate-950/60 p-8 md:p-16 rounded-3xl border border-brand-orange/20 shadow-[0_0_50px_rgba(255,95,31,0.1)]">
             <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4 flex items-center gap-4">
@@ -124,7 +124,7 @@ export default function CinematicSequences() {
         </div>
 
         {/* Panel 3 */}
-        <div className="horizontal-panel w-screen h-screen flex items-center justify-center relative px-6 md:px-24 shrink-0">
+        <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">03</div>
           <div className="z-10 max-w-4xl text-center flex flex-col items-center">
             <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4">Phase 3</h2>
@@ -141,7 +141,7 @@ export default function CinematicSequences() {
       </section>
 
       {/* Outro Spacer (gives the user scrolling room to exit the pin) */}
-      <section className="h-[40vh] bg-slate-950 flex flex-col items-center justify-center border-t border-slate-900">
+      <section className="h-[40vh] w-full bg-slate-950 flex flex-col items-center justify-center border-t border-slate-900">
          <p className="text-slate-500 font-bold tracking-widest uppercase text-sm mb-4">Efficiency Engineered. Growth Automated.</p>
          <div className="w-12 h-1 bg-brand-orange/50 rounded-full"></div>
       </section>
