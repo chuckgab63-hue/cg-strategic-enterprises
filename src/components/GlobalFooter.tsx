@@ -68,9 +68,9 @@ export default function GlobalFooter() {
             <div className="flex flex-col items-center md:items-start gap-4">
               <h4 className="text-white font-black tracking-widest uppercase text-xs mb-2">Explore</h4>
               <Link to="/" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Hub</Link>
-              {/* Perfectly mapped to /automations */}
               <Link to="/automations" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">The Engine</Link>
               <Link to="/portfolio" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Case Studies</Link>
+              <Link to="/skunkworks" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Skunkworks</Link>
             </div>
 
             {/* Column 3: Legal */}

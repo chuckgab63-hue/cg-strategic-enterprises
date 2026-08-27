@@ -1,41 +1,45 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ScrollToTop from './components/ScrollToTop';
+
+// Global Components
 import GlobalHeader from './components/GlobalHeader';
 import GlobalFooter from './components/GlobalFooter';
-import Home from './pages/Home';
-import UIPolish from './pages/UIPolish';
-import FluidDynamics from './pages/FluidDynamics';
-import CinematicSequences from './pages/CinematicSequences';
-import Portfolio from './pages/Portfolio';
-import Automations from './pages/Automations';
+import ScrollToTop from './components/ScrollToTop';
 
-function App() {
+// Pages
+import Home from './pages/Home';
+import Automations from './pages/Automations';
+import Portfolio from './pages/Portfolio';
+import CinematicSequences from './pages/CinematicSequences';
+import FluidDynamics from './pages/FluidDynamics';
+import UIPolish from './pages/UIPolish';
+import Skunkworks from './pages/Skunkworks';
+
+export default function App() {
   return (
     <Router>
       <ScrollToTop />
       
-      {/* Outer wrapper to ensure the footer stays at the bottom */}
-      <div className="flex flex-col min-h-screen bg-slate-950">
-        
+      <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-white">
+        {/* Fixed Navigation */}
         <GlobalHeader />
         
-        {/* Main content area. pt-28 ensures content starts below the fixed header */}
-        <main className="flex-grow pt-28">
+        {/* Main Routing Canvas */}
+        <main className="flex-grow w-full">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/ui-polish" element={<UIPolish />} />
-            <Route path="/fluid-dynamics" element={<FluidDynamics />} />
-            <Route path="/cinematic" element={<CinematicSequences />} />
-            <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/automations" element={<Automations />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/cinematic" element={<CinematicSequences />} />
+            <Route path="/fluid" element={<FluidDynamics />} />
+            <Route path="/ui-polish" element={<UIPolish />} />
+            <Route path="/skunkworks" element={<Skunkworks />} />
           </Routes>
         </main>
-
-        <GlobalFooter />
         
+        {/* Global Footer */}
+        <GlobalFooter />
       </div>
     </Router>
   );
 }
-
-export default App;

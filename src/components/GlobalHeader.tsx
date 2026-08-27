@@ -34,23 +34,27 @@ export default function GlobalHeader() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[50] bg-slate-950/80 backdrop-blur-md border-b border-slate-900">
-        <div className="max-w-7xl mx-auto px-6 h-20 grid grid-cols-2 md:grid-cols-3 items-center">
+        {/* Adjusted grid and gap slightly to accommodate the 4th navigation link comfortably */}
+        <div className="max-w-7xl mx-auto px-6 h-20 grid grid-cols-2 lg:grid-cols-3 items-center">
           
           <Link to="/" className="flex items-center gap-2 justify-self-start">
             <span className="text-2xl font-black text-white tracking-tighter">CG</span>
             <span className="text-2xl font-black text-brand-orange tracking-tighter">STRATEGIC</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 justify-self-center">
-            <Link to="/" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors">
+          <nav className="hidden lg:flex items-center gap-6 justify-self-center">
+            <Link to="/" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
               Hub
             </Link>
-            {/* Perfectly mapped to /automations */}
-            <Link to="/automations" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors">
+            <Link to="/automations" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
               The Engine
             </Link>
-            <Link to="/portfolio" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors">
+            <Link to="/portfolio" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
               Case Studies
+            </Link>
+            {/* Added Skunkworks Link */}
+            <Link to="/skunkworks" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
+              Skunkworks
             </Link>
           </nav>
 
