@@ -85,6 +85,7 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
       let fileData = null;
       let mimeType = null;
 
+      // This logic perfectly converts your image to Base64 for the future API
       if (currentFile) {
         const base64Data = await new Promise<string>((resolve) => {
           const reader = new FileReader();
@@ -96,17 +97,15 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
         mimeType = base64Data.split(',')[0].split(':')[1].split(';')[0];
       }
 
-      const apiResponse = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentInput, fileData, mimeType })
-      });
-
-      const data = await apiResponse.json();
-
-      if (!apiResponse.ok) {
-        throw new Error(data.error || "Failed to fetch analysis");
-      }
+      // --- MOCK API CALL FOR UI TESTING ---
+      // Simulating a 3-second network request to an AI model
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Simulating the exact text structure needed to trigger your UI card
+      const data = {
+        text: `Based on the visual analysis of the uploaded image and cross-referencing with Northeast Florida pest databases, I have identified the threat.\n\nDUVAL HUB REPORT\nPRIORITY: HIGH STATUS\nPEST SPECIES: Reticulitermes flavipes (Eastern Subterranean Termite)\nSTRUCTURAL RISK: 8.5/10\nASSIGNED HUB: Jax Beach Outpost\nTARGET AREA: Duval County`
+      };
+      // -------------------------------------
 
       let responseText = data.text || "Diagnostic review complete, but no text was returned.";
 
@@ -253,7 +252,6 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
     <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
       <div className="absolute inset-0 bg-[#020617]/80 backdrop-blur-md transition-opacity" onClick={onClose} />
 
-      {/* Reduced modal width from max-w-2xl to max-w-md for a sleeker footprint */}
       <div className="relative w-full max-w-md bg-slate-50 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col h-[650px] max-h-[90vh] animate-in fade-in zoom-in-95 duration-300 border border-white/10">
         
         <div className="bg-[#020617] px-6 py-5 flex items-center justify-between shrink-0">
@@ -298,7 +296,6 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
                   </strong>
                 )}
                 
-                {/* Reduced chat image size from max-h-80 to max-h-48 */}
                 {msg.imageUrl && (
                   <img src={msg.imageUrl} alt="User Upload" className="w-full rounded-xl mb-4 max-h-48 object-cover border border-white/20" />
                 )}
@@ -347,7 +344,6 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
             <div className="mb-3 relative w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
               <div className="bg-[#020617] rounded-2xl p-2 shadow-xl border border-white/10 w-full flex items-center gap-3">
                 
-                {/* Replaced massive h-64 div with a compact h-14 thumbnail box */}
                 <div className="relative rounded-lg overflow-hidden h-14 w-14 bg-slate-800 shrink-0 border border-white/20">
                   <img src={selectedImage} alt="Upload preview" className="w-full h-full object-cover" />
                   <div className={`absolute inset-0 bg-[#020617]/70 backdrop-blur-sm flex items-center justify-center transition-opacity duration-300 pointer-events-none ${isXHovered ? 'opacity-100' : 'opacity-0'}`}>

@@ -30,6 +30,8 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/automations" element={<Automations />} />
             <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/case-studies" element={<Portfolio />} />
+            <Route path="/case-study" element={<Portfolio />} />
             <Route path="/cinematic" element={<CinematicSequences />} />
             <Route path="/fluid" element={<FluidDynamics />} />
             <Route path="/fluid-dynamics" element={<FluidDynamics />} />

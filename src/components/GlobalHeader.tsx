@@ -34,7 +34,6 @@ export default function GlobalHeader() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[50] bg-slate-950/80 backdrop-blur-md border-b border-slate-900">
-        {/* Adjusted grid and gap slightly to accommodate the 4th navigation link comfortably */}
         <div className="max-w-7xl mx-auto px-6 h-20 grid grid-cols-2 lg:grid-cols-3 items-center">
           
           <Link to="/" className="flex items-center gap-2 justify-self-start">
@@ -49,10 +48,10 @@ export default function GlobalHeader() {
             <Link to="/automations" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
               The Engine
             </Link>
+            {/* The Case Studies Link is now pointing to the correct /portfolio path */}
             <Link to="/portfolio" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
               Case Studies
             </Link>
-            {/* Added Skunkworks Link */}
             <Link to="/skunkworks" className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap">
               Skunkworks
             </Link>

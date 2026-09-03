@@ -65,6 +65,16 @@ export default function Automations() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  
+  // Progressive group count state: cycles 1 -> 2 -> 3 -> 4 -> resets to 1
+  const [packetCount, setPacketCount] = useState(1);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPacketCount((prev) => (prev >= 4 ? 1 : prev + 1));
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Lock body scroll if either modal is open
   useEffect(() => {
@@ -81,7 +91,6 @@ export default function Automations() {
     e.preventDefault();
     setFormStatus('submitting');
     try {
-      // Replace with your actual Make.com webhook URL
       await fetch('YOUR_MAKE_WEBHOOK_URL_HERE', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,10 +117,87 @@ export default function Automations() {
       <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
         
         {/* Navigation */}
-        <div className="w-full flex justify-center mb-10">
+        <div className="w-full flex justify-center mb-8">
           <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
             &larr; BACK TO HUB
           </Link>
+        </div>
+
+        {/* --- Immersive Telemetry Hero Banner with Clustered Group Packets --- */}
+        <div className="relative w-full h-[320px] md:h-[420px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 mb-12 group">
+          <img 
+            src="/automations-hero.png" 
+            alt="Enterprise Infrastructure & Telemetry" 
+            className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          
+          {/* Animated SVG Telemetry Pipes Overlay */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-60" viewBox="0 0 1200 400" fill="none" preserveAspectRatio="none">
+            {/* Background Data Pipes */}
+            <path d="M 0,200 Q 300,50 600,200 T 1200,200" stroke="#3b82f6" strokeWidth="2" strokeDasharray="6 6" className="animate-pulse" />
+            <path d="M 0,300 Q 400,100 800,300 T 1200,100" stroke="#ff5f1f" strokeWidth="1.5" strokeDasharray="4 4" />
+            
+            {/* TOP PIPE: Left to Right (0% -> 100%) moving as a tight group with organic randomness */}
+            {Array.from({ length: packetCount }).map((_, i) => (
+              <motion.circle
+                key={`top-group-${packetCount}-${i}`}
+                r={4.5 + (i % 2) * 2}
+                fill={i === 0 ? "#ffffff" : "#38bdf8"}
+                filter="drop-shadow(0px 0px 8px #ffffff)"
+                animate={{
+                  offsetDistance: ["0%", "100%"]
+                }}
+                transition={{
+                  duration: 3.2 + (i * 0.08),
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.14 // tight cluster spacing so they move as a group
+                }}
+                style={{
+                  offsetPath: "path('M 0,200 Q 300,50 600,200 T 1200,200')"
+                }}
+              />
+            ))}
+
+            {/* BOTTOM PIPE: Right to Left (100% -> 0%) moving as a tight group with organic randomness */}
+            {Array.from({ length: packetCount }).map((_, i) => (
+              <motion.circle
+                key={`bottom-group-${packetCount}-${i}`}
+                r={4 + (i % 3) * 1.5}
+                fill={i === 0 ? "#ff5f1f" : "#ffffff"}
+                filter="drop-shadow(0px 0px 8px #ff5f1f)"
+                animate={{
+                  offsetDistance: ["100%", "0%"]
+                }}
+                transition={{
+                  duration: 3.4 + (i * 0.1),
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.6 + (i * 0.14) // tight cluster spacing, offset from top group
+                }}
+                style={{
+                  offsetPath: "path('M 0,300 Q 400,100 800,300 T 1200,100')"
+                }}
+              />
+            ))}
+          </svg>
+
+          {/* Banner Text Content */}
+          <div className="absolute bottom-8 left-8 right-8 text-left z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div>
+              <span className="text-brand-orange text-xs font-bold uppercase tracking-widest bg-slate-900/80 px-3 py-1 rounded-full border border-slate-700 backdrop-blur-md">
+                Active Telemetry & Sync ({packetCount} {packetCount === 1 ? 'Cluster' : 'Clusters'})
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black text-white mt-3 tracking-tight">
+                Real-Time Data Orchestration
+              </h2>
+            </div>
+            <div className="hidden lg:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-xl backdrop-blur-md">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+              <span className="text-emerald-400 font-mono text-xs uppercase tracking-wider">Pipelines Online</span>
+            </div>
+          </div>
         </div>
 
         {/* Header */}
@@ -145,6 +231,36 @@ export default function Automations() {
               </motion.div>
             ))}
           </AnimatePresence>
+        </div>
+
+        {/* --- Next Page Runway CTA --- */}
+        <div className="w-full mt-24 mb-8 relative z-10">
+          <Link 
+            to="/portfolio" 
+            className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
+          >
+            {/* Glowing Hover Background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/0 via-brand-orange/10 to-brand-orange/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
+            
+            {/* Inner Content Card */}
+            <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="text-center md:text-left">
+                <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
+                  See It In Action
+                </h3>
+                <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
+                  Explore Case Studies.
+                </h2>
+              </div>
+              
+              {/* Arrow Button */}
+              <div className="w-16 h-16 rounded-full bg-slate-900 border border-slate-700 text-slate-400 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-[#020617] transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] shrink-0">
+                <svg className="w-6 h-6 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </div>
+            </div>
+          </Link>
         </div>
 
       </div>
@@ -256,7 +372,7 @@ export default function Automations() {
         )}
       </AnimatePresence>
 
-      {/* --- Global Communication Modal (Stacked on top with z-[10000]) --- */}
+      {/* --- Global Communication Modal --- */}
       <AnimatePresence>
         {isContactModalOpen && (
           <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 pt-20">

@@ -152,6 +152,36 @@ export default function Home() {
       <AnimationShowcase />
       <FramerPlayground />
 
+      {/* --- Next Page Runway CTA --- */}
+      <div className="w-full max-w-7xl mx-auto px-6 mt-16 mb-24 relative z-10">
+        <Link 
+          to="/automations" 
+          className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
+        >
+          {/* Glowing Hover Background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/0 via-brand-orange/10 to-brand-orange/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
+          
+          {/* Inner Content Card */}
+          <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="text-center md:text-left">
+              <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
+                Continue Exploring
+              </h3>
+              <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
+                Enter The Engine.
+              </h2>
+            </div>
+            
+            {/* Arrow Button */}
+            <div className="w-16 h-16 rounded-full bg-slate-900 border border-slate-700 text-slate-400 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-[#020617] transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] shrink-0">
+              <svg className="w-6 h-6 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </div>
+          </div>
+        </Link>
+      </div>
+
       {/* --- Global Communication Modal --- */}
       <AnimatePresence>
         {isModalOpen && (
