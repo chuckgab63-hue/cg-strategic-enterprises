@@ -46,92 +46,113 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center overflow-hidden">
-      <header className="flex flex-col items-center justify-center text-center max-w-4xl w-full p-6 min-h-[90vh]">
+      
+      {/* Split-Screen Hero Section */}
+      <header className="flex flex-col lg:flex-row items-center justify-center text-left max-w-7xl mx-auto w-full p-6 py-12 lg:py-24 gap-10 lg:gap-16 min-h-[85vh]">
         
-        {/* Wrapper: Adjusted to rounded-3xl to stop cropping the text */}
-        <motion.div
-          className="mb-6 rounded-3xl"
-          initial={{ y: 0 }}
-          animate={{ 
-            y: [0, -15, 0],
-            boxShadow: [
-              '0 10px 40px rgba(255, 95, 31, 0.3)',
-              '0 20px 100px rgba(255, 95, 31, 0.9)',
-              '0 10px 40px rgba(255, 95, 31, 0.3)'
-            ] 
-          }}
-          transition={{ 
-            duration: 3,
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-        >
-          {/* Image: Scaled down to max-w-lg and rounded-3xl, src updated to root public folder */}
-          <motion.img
-            src="/hero.png"
-            alt="CG Strategic Enterprises"
-            className="w-full max-w-lg h-auto rounded-3xl bg-white"
-            initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
+        {/* Left Column: Visual Hook (Shifted slightly down and right) */}
+        <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:ml-8">
+          <motion.div
+            className="rounded-3xl"
+            initial={{ y: 0 }}
             animate={{ 
-              opacity: 1, 
-              scale: 1, 
-              filter: [
-                "blur(0px) hue-rotate(0deg)", 
-                "blur(0px) hue-rotate(45deg)",
-                "blur(0px) hue-rotate(0deg)"
-              ]
+              y: [0, -15, 0],
+              boxShadow: [
+                '0 10px 40px rgba(255, 95, 31, 0.3)',
+                '0 20px 80px rgba(255, 95, 31, 0.7)',
+                '0 10px 40px rgba(255, 95, 31, 0.3)'
+              ] 
             }}
             transition={{ 
-              opacity: { duration: 1.2, ease: "easeOut" },
-              scale: { duration: 1.2, ease: "easeOut" },
-              filter: { 
-                duration: 5,
-                repeat: Infinity, 
-                ease: "easeInOut",
-                delay: 1.2
-              } 
+              duration: 3,
+              repeat: Infinity, 
+              ease: "easeInOut" 
             }}
-            whileHover={{ scale: 1.05 }}
-          />
-        </motion.div>
-
-        {/* Paragraph: Scaled down slightly to match the new image size */}
-        <motion.p
-          className="text-lg md:text-xl text-brand-midnight mb-10 max-w-2xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-        >
-          We remove repetitive data entry, capture every lead automatically, and streamline your day-to-day operations so your team runs leaner and faster — giving you back the time to focus on growing the business. Efficiency Engineered. Growth Automated.
-        </motion.p>
-
-        <motion.div 
-          className="flex gap-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-        >
-          {/* Trigger Communication Modal */}
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="bg-brand-orange text-white px-8 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-all shadow-md cursor-pointer hover:scale-105"
           >
-            Start a Project
-          </button>
+            <motion.img
+              src="/hero.png"
+              alt="CG Strategic Enterprises"
+              className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
+              initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1, 
+                filter: [
+                  "blur(0px) hue-rotate(0deg)", 
+                  "blur(0px) hue-rotate(45deg)",
+                  "blur(0px) hue-rotate(0deg)"
+                ]
+              }}
+              transition={{ 
+                opacity: { duration: 1.2, ease: "easeOut" },
+                scale: { duration: 1.2, ease: "easeOut" },
+                filter: { 
+                  duration: 5,
+                  repeat: Infinity, 
+                  ease: "easeInOut",
+                  delay: 1.2
+                } 
+              }}
+              whileHover={{ scale: 1.05 }}
+            />
+          </motion.div>
+        </div>
+
+        {/* Right Column: High-Impact Abbreviated Copy */}
+        <div className="flex-1 w-full flex flex-col items-start text-left z-20">
           
-          <Link to="/portfolio">
-            <button className="bg-transparent border-2 border-brand-midnight text-brand-midnight px-8 py-3 rounded-md font-bold tracking-wide hover:bg-brand-midnight hover:text-white transition-all cursor-pointer hover:scale-105">
-              View Our Work
+          <motion.h1 
+            className="text-4xl lg:text-6xl font-black mb-6 tracking-tight leading-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          >
+            {/* Hardcoded deep hex color to override any fading/opacity issues */}
+            <span className="text-[#0f172a]">Look established.</span><br />
+            <span className="text-brand-orange">Or BE established.</span>
+          </motion.h1>
+
+          <motion.div 
+            className="space-y-4 text-base md:text-lg text-slate-600 mb-8 max-w-xl leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          >
+            <p>
+              In an industry obsessed with "faking it," we operate differently. CG Strategic Enterprises is built on forty-five years of enterprise architecture experience. 
+            </p>
+            <p>
+              No smoke, mirrors, or marketing fluff. Just tested code, secure integrations, and relentless execution to streamline your operations so your team runs leaner and faster.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="flex flex-wrap gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          >
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-brand-orange text-white px-8 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-all shadow-md cursor-pointer hover:scale-105"
+            >
+              Start a Project
             </button>
-          </Link>
-          
-        </motion.div>
+            
+            <Link to="/portfolio">
+              <button className="bg-transparent border-2 border-[#0f172a] text-[#0f172a] px-8 py-3 rounded-md font-bold tracking-wide hover:bg-[#0f172a] hover:text-white transition-all cursor-pointer hover:scale-105">
+                View Our Work
+              </button>
+            </Link>
+          </motion.div>
+
+        </div>
       </header>
 
       <AnimationShowcase />
       <FramerPlayground />
 
-      {/* --- Global Communication Modal (Dark Theme matched) --- */}
+      {/* --- Global Communication Modal --- */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 pt-20 text-left">

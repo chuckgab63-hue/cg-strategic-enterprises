@@ -2,8 +2,17 @@ import React, { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
-// --- Expanded & Debranded Portfolio Data ---
-const projects = [
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  desc: string;
+  color: string;
+  details: string;
+  capabilities: string[];
+}
+
+const projects: Project[] = [
   { 
     id: 1, 
     title: 'Enterprise Lead Pipeline', 
@@ -57,13 +66,12 @@ const projects = [
     color: 'from-slate-500 to-slate-400',
     details: 'Your digital presence should be an experience. We utilize React, Tailwind, and GSAP/Framer Motion to build immersive, hardware-accelerated web applications that prove your technical competence before a client ever speaks to you.',
     capabilities: ['State-Driven UI', 'Physics Animations', 'Component Architecture']
-  },
+  }
 ];
 
 const filters = ['ALL', 'WEB', 'AUTOMATION', 'AI'];
 
-// --- Custom 3D Tilt Card Component ---
-const TiltCard = ({ project, onClick }: { project: typeof projects[0], onClick: () => void }) => {
+const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -94,10 +102,6 @@ const TiltCard = ({ project, onClick }: { project: typeof projects[0], onClick: 
     <motion.div
       layoutId={`card-container-${project.id}`}
       onClick={onClick}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -110,7 +114,7 @@ const TiltCard = ({ project, onClick }: { project: typeof projects[0], onClick: 
       
       <div className={`absolute -bottom-20 -right-20 w-64 h-64 bg-gradient-to-br ${project.color} blur-[80px] opacity-0 group-hover:opacity-80 transition-opacity duration-700 rounded-full z-0 pointer-events-none`} />
       
-      <div style={{ transform: "translateZ(40px)" }} className="relative z-10">
+      <div style={{ transform: "translateZ(40px)" }} className="relative z-10 pointer-events-none">
         <motion.span layoutId={`category-${project.id}`} className="inline-block px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase mb-4 bg-white/20 text-white backdrop-blur-md border border-white/30">
           {project.category}
         </motion.span>
@@ -124,7 +128,7 @@ const TiltCard = ({ project, onClick }: { project: typeof projects[0], onClick: 
 
       <div 
         style={{ transform: "translateZ(10px)" }}
-        className={`absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white/40 transition-colors duration-500 pointer-events-none`}
+        className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white/40 transition-colors duration-500 pointer-events-none"
       />
     </motion.div>
   );
@@ -132,7 +136,7 @@ const TiltCard = ({ project, onClick }: { project: typeof projects[0], onClick: 
 
 export default function FluidDynamics() {
   const [activeFilter, setActiveFilter] = useState('ALL');
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const filteredProjects = projects.filter(p => activeFilter === 'ALL' || p.category === activeFilter);
 
@@ -141,7 +145,7 @@ export default function FluidDynamics() {
       
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
-      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 min-h-[60vh]">
         
         <div className="w-full flex justify-center mb-10">
           <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
@@ -178,17 +182,32 @@ export default function FluidDynamics() {
           ))}
         </div>
 
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full perspective-[1000px]">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <TiltCard key={project.id} project={project} onClick={() => setSelectedProject(project)} />
-            ))}
-          </AnimatePresence>
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full perspective-[1000px] min-h-[400px]">
+          {filteredProjects.length > 0 ? (
+            <AnimatePresence>
+              {filteredProjects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+                  className="w-full"
+                >
+                  <TiltCard project={project} onClick={() => setSelectedProject(project)} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          ) : (
+            <div className="col-span-full py-20 text-slate-500 font-mono text-sm">
+              // NO MODULES FOUND MATCHING CURRENT FILTER PARAMETERS
+            </div>
+          )}
         </motion.div>
 
       </div>
 
-      {/* --- Compact Detailed Modal Overlay --- */}
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-[9999] flex items-start justify-center p-4 md:p-6 pt-28 md:pt-32">

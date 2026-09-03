@@ -32,6 +32,7 @@ export default function App() {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/cinematic" element={<CinematicSequences />} />
             <Route path="/fluid" element={<FluidDynamics />} />
+            <Route path="/fluid-dynamics" element={<FluidDynamics />} />
             <Route path="/ui-polish" element={<UIPolish />} />
             <Route path="/skunkworks" element={<Skunkworks />} />
           </Routes>
