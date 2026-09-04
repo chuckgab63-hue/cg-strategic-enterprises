@@ -86,7 +86,7 @@ export default function Automations() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [selectedWorkflow, isContactModalOpen]);
 
-  // Handle Make.com Webhook Submission
+  // Handle Webhook Submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('submitting');
@@ -114,17 +114,27 @@ export default function Automations() {
       {/* Background Wireframe Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
-      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center relative z-10">
         
         {/* Navigation */}
-        <div className="w-full flex justify-center mb-8">
+        <div className="w-full flex justify-center mb-10">
           <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
             &larr; BACK TO HUB
           </Link>
         </div>
 
-        {/* --- Immersive Telemetry Hero Banner with Clustered Group Packets --- */}
-        <div className="relative w-full h-[320px] md:h-[420px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 mb-12 group">
+        {/* Page Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
+            System <span className="text-brand-orange">Automations.</span>
+          </h1>
+          <p className="text-lg text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
+            Efficiency Engineered. Growth Automated. Fast integrations that save time and close deals.
+          </p>
+        </div>
+
+        {/* --- Immersive Telemetry Hero Banner --- */}
+        <div className="relative w-full h-[320px] md:h-[400px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 mb-20 group">
           <img 
             src="/automations-hero.png" 
             alt="Enterprise Infrastructure & Telemetry" 
@@ -138,47 +148,39 @@ export default function Automations() {
             <path d="M 0,200 Q 300,50 600,200 T 1200,200" stroke="#3b82f6" strokeWidth="2" strokeDasharray="6 6" className="animate-pulse" />
             <path d="M 0,300 Q 400,100 800,300 T 1200,100" stroke="#ff5f1f" strokeWidth="1.5" strokeDasharray="4 4" />
             
-            {/* TOP PIPE: Left to Right (0% -> 100%) moving as a tight group with organic randomness */}
+            {/* TOP PIPE */}
             {Array.from({ length: packetCount }).map((_, i) => (
               <motion.circle
                 key={`top-group-${packetCount}-${i}`}
                 r={4.5 + (i % 2) * 2}
                 fill={i === 0 ? "#ffffff" : "#38bdf8"}
                 filter="drop-shadow(0px 0px 8px #ffffff)"
-                animate={{
-                  offsetDistance: ["0%", "100%"]
-                }}
+                animate={{ offsetDistance: ["0%", "100%"] }}
                 transition={{
                   duration: 3.2 + (i * 0.08),
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: i * 0.14 // tight cluster spacing so they move as a group
+                  delay: i * 0.14
                 }}
-                style={{
-                  offsetPath: "path('M 0,200 Q 300,50 600,200 T 1200,200')"
-                }}
+                style={{ offsetPath: "path('M 0,200 Q 300,50 600,200 T 1200,200')" }}
               />
             ))}
 
-            {/* BOTTOM PIPE: Right to Left (100% -> 0%) moving as a tight group with organic randomness */}
+            {/* BOTTOM PIPE */}
             {Array.from({ length: packetCount }).map((_, i) => (
               <motion.circle
                 key={`bottom-group-${packetCount}-${i}`}
                 r={4 + (i % 3) * 1.5}
                 fill={i === 0 ? "#ff5f1f" : "#ffffff"}
                 filter="drop-shadow(0px 0px 8px #ff5f1f)"
-                animate={{
-                  offsetDistance: ["100%", "0%"]
-                }}
+                animate={{ offsetDistance: ["100%", "0%"] }}
                 transition={{
                   duration: 3.4 + (i * 0.1),
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 0.6 + (i * 0.14) // tight cluster spacing, offset from top group
+                  delay: 0.6 + (i * 0.14)
                 }}
-                style={{
-                  offsetPath: "path('M 0,300 Q 400,100 800,300 T 1200,100')"
-                }}
+                style={{ offsetPath: "path('M 0,300 Q 400,100 800,300 T 1200,100')" }}
               />
             ))}
           </svg>
@@ -200,14 +202,108 @@ export default function Automations() {
           </div>
         </div>
 
-        {/* Header */}
-        <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">
-          System <span className="text-brand-orange">Automations.</span>
-        </h1>
-        
-        <p className="text-xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed mb-16">
-          Efficiency Engineered. Growth Automated. Click any module to map its logical workflow and evaluate deployment requirements.
-        </p>
+        {/* --- Make.com / API Architecture Highlight --- */}
+        <div className="w-full bg-slate-900/40 border border-slate-800 rounded-3xl p-8 md:p-12 shadow-2xl mb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-20">
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center justify-center text-purple-400">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              </div>
+              <h3 className="text-2xl font-black text-white">The Make.com Advantage</h3>
+            </div>
+            <p className="text-slate-400 leading-relaxed text-sm">
+              We leverage <strong className="text-white">Make.com</strong> as the central nervous system for our automation stacks. Unlike rigid, out-of-the-box software, Make allows us to visually construct complex, multi-step API integrations that map perfectly to your unique business logic.
+            </p>
+            <p className="text-slate-400 leading-relaxed text-sm border-l-2 border-purple-500 pl-4 bg-purple-500/5 p-4 rounded-r-lg">
+              <strong className="text-purple-400 block mb-1">Unmatched Speed & Response</strong>
+              By intercepting webhooks and pushing raw data payloads instantly across your CRM, dispatch software, and communication tools, we guarantee that your leads are contacted, logged, and evaluated within seconds—drastically improving conversion rates and saving your team hundreds of manual hours.
+            </p>
+          </div>
+
+          <div className="bg-[#020617] rounded-2xl border border-slate-800 p-6 shadow-inner flex flex-col justify-center gap-4 relative overflow-hidden h-full min-h-[250px]">
+            {/* Abstract background glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent opacity-50 pointer-events-none"></div>
+            
+            <div className="flex items-center justify-between w-full relative z-10 px-4">
+              
+              {/* Node 1: Webhook In */}
+              <div className="w-14 h-14 bg-slate-800 rounded-full border-2 border-purple-500 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.4)] z-20 relative bg-slate-900">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+              </div>
+              
+              {/* Line 1: Webhook -> Logic (Framer Motion Packets) */}
+              <div className="flex-1 h-1 mx-[-2px] relative bg-slate-800 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-50"></div>
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={`line1-${i}`}
+                    className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full z-10"
+                    style={{ boxShadow: "0 0 8px 2px rgba(168, 85, 247, 0.8)" }}
+                    initial={{ left: "0%", opacity: 0 }}
+                    animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
+                    transition={{ 
+                      duration: 1, 
+                      repeat: Infinity, 
+                      repeatDelay: 1.5,
+                      ease: "linear",
+                      delay: i * 0.15 // cluster spacing
+                    }}
+                  />
+                ))}
+              </div>
+              
+              {/* Node 2: Make Logic */}
+              <motion.div 
+                className="w-14 h-14 bg-slate-900 rounded-full border-2 border-blue-500 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.4)] z-20 relative"
+                animate={{ 
+                  boxShadow: ["0 0 15px rgba(59,130,246,0.4)", "0 0 30px rgba(59,130,246,0.8)", "0 0 15px rgba(59,130,246,0.4)"],
+                  borderColor: ["rgba(59,130,246,1)", "rgba(147,197,253,1)", "rgba(59,130,246,1)"]
+                }}
+                transition={{ duration: 2.5, repeat: Infinity, delay: 0.8 }} // Pulses as the packets cross it
+              >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+              </motion.div>
+              
+              {/* Line 2: Logic -> API Out (Cascading Framer Motion Packets) */}
+              <div className="flex-1 h-1 mx-[-2px] relative bg-slate-800 pointer-events-none">
+                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-emerald-500 opacity-50"></div>
+                 {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={`line2-${i}`}
+                    className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full z-10"
+                    style={{ boxShadow: "0 0 8px 2px rgba(16, 185, 129, 0.8)" }}
+                    initial={{ left: "0%", opacity: 0 }}
+                    animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
+                    transition={{ 
+                      duration: 1, 
+                      repeat: Infinity, 
+                      repeatDelay: 1.5,
+                      ease: "linear",
+                      delay: 1 + (i * 0.15) // Wait 1s for Line 1 to finish, then cascade
+                    }}
+                  />
+                ))}
+              </div>
+              
+              {/* Node 3: API Out */}
+              <div className="w-14 h-14 bg-slate-900 rounded-full border-2 border-emerald-500 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.4)] z-20 relative">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+            </div>
+            
+            <div className="flex justify-between w-full px-2 mt-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+              <span className="w-16 text-center">Webhook In</span>
+              <span className="w-16 text-center text-blue-400">Make Logic</span>
+              <span className="w-16 text-center">API Out</span>
+            </div>
+          </div>
+        </div>
+        {/* ------------------------------------------- */}
+
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-black text-white mb-2">Pre-Engineered Workflows</h2>
+          <p className="text-sm text-slate-400 max-w-2xl mx-auto">Click any module to map its logical execution sequence.</p>
+        </div>
 
         {/* Automation Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
@@ -233,10 +329,10 @@ export default function Automations() {
           </AnimatePresence>
         </div>
 
-        {/* --- Next Page Runway CTA --- */}
+        {/* --- Next Page Runway CTA (Skunkworks) --- */}
         <div className="w-full mt-24 mb-8 relative z-10">
           <Link 
-            to="/portfolio" 
+            to="/skunkworks" 
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             {/* Glowing Hover Background */}
@@ -246,10 +342,10 @@ export default function Automations() {
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
                 <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
-                  See It In Action
+                  The Next Frontier
                 </h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
-                  Explore Case Studies.
+                  Explore Skunkworks.
                 </h2>
               </div>
               
