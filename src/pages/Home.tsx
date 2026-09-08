@@ -5,6 +5,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
+// --- Restored Component ---
+import FramerPlayground from '../components/FramerPlayground';
+
 gsap.registerPlugin(ScrollTrigger);
 
 // ==========================================
@@ -730,6 +733,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* =========================================
+          SECTION 5: FRAMER PLAYGROUND (GAMIFIED)
+          ========================================= */}
+      <div className="relative z-10 w-full border-t border-slate-900 bg-slate-950">
+        <FramerPlayground />
+      </div>
 
 
       {/* =========================================
