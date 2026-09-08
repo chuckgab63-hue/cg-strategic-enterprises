@@ -329,10 +329,10 @@ export default function Automations() {
           </AnimatePresence>
         </div>
 
-        {/* --- Next Page Runway CTA (Skunkworks) --- */}
+        {/* --- Next Page Runway CTA (Case Studies) --- */}
         <div className="w-full mt-24 mb-8 relative z-10">
           <Link 
-            to="/skunkworks" 
+            to="/portfolio" 
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             {/* Glowing Hover Background */}
@@ -342,10 +342,10 @@ export default function Automations() {
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
                 <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
-                  The Next Frontier
+                  See It In Action
                 </h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
-                  Explore Skunkworks.
+                  Explore Case Studies.
                 </h2>
               </div>
               
