@@ -317,7 +317,7 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 w-full">
             <VideoAd 
               id={1}
-              src="/veo-ad-1.mp4" 
+              src="/veo-live-1.mp4" 
               title="Brand Awareness V1" 
               tag="TikTok Ad"
               activeVideoId={activeVideoId}
@@ -325,7 +325,7 @@ export default function Portfolio() {
             />
             <VideoAd 
               id={2}
-              src="/veo-ad-2.mp4" 
+              src="/veo-live-2.mp4" 
               title="Service Retargeting" 
               tag="FB Carousel"
               activeVideoId={activeVideoId}
@@ -333,7 +333,7 @@ export default function Portfolio() {
             />
             <VideoAd 
               id={3}
-              src="/veo-ad-3.mp4" 
+              src="/veo-live-3.mp4" 
               title="Direct Response AI" 
               tag="Google LSA"
               activeVideoId={activeVideoId}
