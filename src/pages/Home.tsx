@@ -282,7 +282,7 @@ export default function Home() {
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <motion.img
-              src="/hero.png"
+              src="/hero-live.webp"
               alt="CG Strategic Enterprises"
               className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
               initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
