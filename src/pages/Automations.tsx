@@ -114,7 +114,7 @@ export default function Automations() {
         {/* --- Immersive Telemetry Hero Banner --- */}
         <div className="relative w-full h-[320px] md:h-[400px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 mb-20 group">
           <img 
-            src="/automations-hero.png" 
+            src="/automations-hero-live.webp" 
             alt="Enterprise Infrastructure & Telemetry" 
             className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-700"
           />
