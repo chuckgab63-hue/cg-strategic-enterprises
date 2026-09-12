@@ -6,9 +6,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
-// --- Assets ---
-import heroImg from '../assets/hero.png';
-
 // --- Restored Components ---
 import FramerPlayground from '../components/FramerPlayground';
 import ContactModal from '../components/ContactModal';
@@ -285,7 +282,7 @@ export default function Home() {
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <motion.img
-              src={heroImg}
+              src="/hero.png"
               alt="CG Strategic Enterprises"
               className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
               initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
