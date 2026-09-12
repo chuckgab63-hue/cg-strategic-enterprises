@@ -1,6 +1,8 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState } from 'react';
+import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import ContactModal from '../components/ContactModal';
 
 interface Project {
   id: number;
@@ -137,6 +139,10 @@ const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void 
 export default function FluidDynamics() {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  
+  // Global Contact Modal State
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [contactMessage, setContactMessage] = useState('');
 
   const filteredProjects = projects.filter(p => activeFilter === 'ALL' || p.category === activeFilter);
 
@@ -268,7 +274,14 @@ export default function FluidDynamics() {
                 </div>
 
                 <div className="pt-3 border-t border-slate-800 flex justify-end">
-                  <button className="bg-brand-orange hover:bg-white text-white hover:text-brand-orange px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]">
+                  <button 
+                    onClick={() => {
+                      setContactMessage(`System Inquiry: Requesting integration details for the ${selectedProject.title} module.`);
+                      setSelectedProject(null);
+                      setTimeout(() => setIsContactModalOpen(true), 300); // Wait for card to close before opening comms
+                    }}
+                    className="bg-brand-orange hover:bg-white text-white hover:text-brand-orange px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
+                  >
                     Request Integration
                   </button>
                 </div>
@@ -278,6 +291,13 @@ export default function FluidDynamics() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* --- Global Communication Modal --- */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+        initialMessage={contactMessage} 
+      />
 
     </div>
   );
