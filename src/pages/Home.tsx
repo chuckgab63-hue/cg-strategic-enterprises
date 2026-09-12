@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect, MouseEvent } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import gsap from 'gsap';
