@@ -187,14 +187,14 @@ export default function Automations() {
               <div className="w-10 h-10 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center justify-center text-purple-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
               </div>
-              <h3 className="text-2xl font-black text-white">The Make.com Advantage</h3>
+              <h3 className="text-2xl font-black text-white">Cognitive Infrastructure Engineering</h3>
             </div>
             <p className="text-slate-400 leading-relaxed text-sm">
-              We leverage <strong className="text-white">Make.com</strong> as the central nervous system for our automation stacks. Unlike rigid, out-of-the-box software, Make allows us to visually construct complex, multi-step API integrations that map perfectly to your unique business logic.
+              Rigid, out-of-the-box software forces you to adapt your business to its limitations. We do the exact opposite. By integrating <strong className="text-white">Anthropic's Claude AI</strong> directly into our <strong className="text-white">Make.com</strong> deployment pipeline, we don't just use AI to run your workflows—we use it to <em>build</em> them. We dynamically translate your exact operational rules into live, executable API scenarios with zero templates and zero compromises.
             </p>
             <p className="text-slate-400 leading-relaxed text-sm border-l-2 border-purple-500 pl-4 bg-purple-500/5 p-4 rounded-r-lg">
-              <strong className="text-purple-400 block mb-1">Unmatched Speed & Response</strong>
-              By intercepting webhooks and pushing raw data payloads instantly across your CRM, dispatch software, and communication tools, we guarantee that your leads are contacted, logged, and evaluated within seconds—drastically improving conversion rates and saving your team hundreds of manual hours.
+              <strong className="text-purple-400 block mb-1">Enterprise-Grade Deployment at AI Speed</strong>
+              Bespoke integrations that traditionally take months of development are mapped, tested, and deployed in a matter of days. You get flawless data routing engineered specifically for your operations. And when your business needs to pivot, your infrastructure pivots with it instantly.
             </p>
           </div>
 
