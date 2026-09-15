@@ -451,6 +451,7 @@ export default function Automations() {
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 
         initialMessage={contactMessage} 
+        source="Automations Page"
       />
 
     </div>

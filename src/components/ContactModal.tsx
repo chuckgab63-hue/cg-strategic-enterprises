@@ -1,16 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CONTACT_WEBHOOK_URL } from '../config/webhooks';
+
+type Variant = 'default' | 'cinematic';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialMessage?: string;
+  /** Controls the copy/theme shown in the "Direct Message" panel. */
+  variant?: Variant;
+  /** Tags this submission so the leads sheet shows where it came from. */
+  source: string;
 }
 
-export default function ContactModal({ isOpen, onClose, initialMessage = '' }: ContactModalProps) {
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+const COPY: Record<Variant, {
+  title: string;
+  subtitle: string;
+  formLabel: string;
+  namePlaceholder: string;
+  emailPlaceholder: string;
+  messagePlaceholder: string;
+  submitLabel: string;
+  submittingLabel: string;
+  successTitle: string;
+  successMessage: string;
+}> = {
+  default: {
+    title: "Let's Connect",
+    subtitle: "Choose how you'd like to reach us.",
+    formLabel: 'Direct Message',
+    namePlaceholder: 'Your Name',
+    emailPlaceholder: 'Email Address',
+    messagePlaceholder: 'How can we help you?',
+    submitLabel: 'Send Message',
+    submittingLabel: 'Sending...',
+    successTitle: 'Message Sent',
+    successMessage: "We've received your message and will be in touch shortly.",
+  },
+  cinematic: {
+    title: 'Initialize Communication',
+    subtitle: 'Select your preferred routing protocol.',
+    formLabel: 'Secure Data Transmission',
+    namePlaceholder: 'System / Commander Name',
+    emailPlaceholder: 'Secure Comm Link (Email)',
+    messagePlaceholder: 'Define your operational objective...',
+    submitLabel: 'Transmit Payload',
+    submittingLabel: 'Transmitting...',
+    successTitle: 'Payload Delivered',
+    successMessage: 'Your data has been successfully routed to our internal systems.',
+  },
+};
+
+export default function ContactModal({ isOpen, onClose, initialMessage = '', variant = 'default', source }: ContactModalProps) {
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [callText, setCallText] = useState('Initiate Call');
+  const copy = COPY[variant];
 
   // Pre-fill the message if the user clicked a specific workflow button
   useEffect(() => {
@@ -26,15 +72,22 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '' }: C
     }
   }, [isOpen]);
 
+  // Lock body scroll while the modal is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('submitting');
     try {
-      await fetch('YOUR_MAKE_WEBHOOK_URL_HERE', {
+      const response = await fetch(CONTACT_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, source }),
       });
+      if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
       setFormStatus('success');
       setTimeout(() => {
         setFormStatus('idle');
@@ -43,7 +96,7 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '' }: C
       }, 3000);
     } catch (error) {
       console.error('Webhook failed:', error);
-      setFormStatus('idle');
+      setFormStatus('error');
     }
   };
 
@@ -68,8 +121,8 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '' }: C
             {/* Header */}
             <div className="p-6 md:p-8 border-b border-slate-800 flex justify-between items-center bg-[#020617] shrink-0">
               <div>
-                <h3 className="text-2xl font-black text-white">Let's Connect</h3>
-                <p className="text-slate-400 text-sm mt-1">Choose how you'd like to reach us.</p>
+                <h3 className="text-2xl font-black text-white">{copy.title}</h3>
+                <p className="text-slate-400 text-sm mt-1">{copy.subtitle}</p>
               </div>
               <button 
                 onClick={onClose}
@@ -106,7 +159,7 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '' }: C
               <div className="flex-[1.2] w-full bg-slate-900/50 border border-slate-800 rounded-2xl p-8 shrink-0">
                 <div className="flex items-center gap-3 mb-6">
                    <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse shadow-[0_0_10px_rgba(255,95,31,0.8)]"></div>
-                   <h4 className="text-white font-bold text-lg">Direct Message</h4>
+                   <h4 className="text-white font-bold text-lg">{copy.formLabel}</h4>
                 </div>
                 
                 {formStatus === 'success' ? (
@@ -114,23 +167,28 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '' }: C
                     <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
                     </div>
-                    <h5 className="text-emerald-400 font-bold mb-2">Message Sent</h5>
-                    <p className="text-slate-400 text-sm">We've received your message and will be in touch shortly.</p>
+                    <h5 className="text-emerald-400 font-bold mb-2">{copy.successTitle}</h5>
+                    <p className="text-slate-400 text-sm">{copy.successMessage}</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    {formStatus === 'error' && (
+                      <p className="text-red-400 text-xs font-semibold">
+                        Something went wrong sending that — please try again, or reach us directly.
+                      </p>
+                    )}
                     <input 
-                      type="text" required placeholder="Your Name" 
+                      type="text" required placeholder={copy.namePlaceholder}
                       value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className="w-full bg-slate-950 border border-slate-700 focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors"
                     />
                     <input 
-                      type="email" required placeholder="Email Address" 
+                      type="email" required placeholder={copy.emailPlaceholder}
                       value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
                       className="w-full bg-slate-950 border border-slate-700 focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors"
                     />
                     <textarea 
-                      required placeholder="How can we help you?" rows={4}
+                      required placeholder={copy.messagePlaceholder} rows={4}
                       value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
                       className="w-full bg-slate-950 border border-slate-700 focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors resize-none"
                     />
@@ -142,7 +200,7 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '' }: C
                           : 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange border border-transparent'
                       }`}
                     >
-                      {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
+                      {formStatus === 'submitting' ? copy.submittingLabel : copy.submitLabel}
                     </button>
                   </form>
                 )}

@@ -144,7 +144,7 @@ export default function GlobalFooter() {
       </AnimatePresence>
 
       {/* --- Global Contact Modal --- */}
-      <ContactModal isOpen={activeModal === 'contact'} onClose={() => setActiveModal(null)} />
+      <ContactModal isOpen={activeModal === 'contact'} onClose={() => setActiveModal(null)} source="Footer Contact Modal" />
     </>
   );
 }
