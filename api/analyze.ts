@@ -35,7 +35,10 @@ export default async function handler(req: any, res: any) {
       model: 'gemini-3.6-flash',
       contents: [{ role: 'user', parts: parts }],
       config: {
-        tools: [{ googleSearch: {} }],
+        // Search grounding temporarily disabled to test whether it's the source
+        // of the RESOURCE_EXHAUSTED errors — grounded requests are often metered
+        // separately and more strictly than plain generation.
+        // tools: [{ googleSearch: {} }],
         systemInstruction: "You are the ONE SOURCE DUVAL HUB Senior Diagnostic Architect. You analyze pest threats in Northeast Florida. Be highly tactical, use formatting (bullet points, bold text), and always end with a 'DUVAL HUB REPORT' summarizing priority, pest species, structural risk (out of 10), assigned hub, and target area.",
       },
     });
