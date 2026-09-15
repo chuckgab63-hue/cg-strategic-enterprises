@@ -125,7 +125,7 @@ export default function CinematicSequences() {
             <p className="text-xl md:text-2xl text-slate-400 font-light max-w-2xl mx-auto opacity-70">
               Scroll down to initialize the timeline.
             </p>
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-brand-orange opacity-70">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-brand-orange drop-shadow-[0_0_14px_rgba(255,95,31,0.9)]">
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
           </div>
