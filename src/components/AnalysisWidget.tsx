@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { CONTACT_WEBHOOK_URL } from '../config/webhooks';
 
 interface Message {
   id: string;
@@ -13,6 +14,7 @@ const AnalysisWidget: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isXHovered, setIsXHovered] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [loggedDemos, setLoggedDemos] = useState<Set<string>>(new Set());
   
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -111,7 +113,7 @@ const AnalysisWidget: React.FC = () => {
 
       let responseText = data.text || "Diagnostic review complete, but no text was returned.";
 
-      const dispatchMessage = "\n\nOur Duval/Beaches dispatch team is currently optimizing routes for your area; we will contact you shortly with the next available window. For further assistance, you can reach our local hub at 904-249-6994.\n\n";
+      const dispatchMessage = "\n\nOur Duval/Beaches dispatch team is currently optimizing routes for your area; we will contact you shortly with the next available window. For further assistance, you can reach our local hub at 555-555-0100.\n\n";
 
       if (responseText.includes('DUVAL HUB REPORT')) {
         responseText = responseText.replace('DUVAL HUB REPORT', dispatchMessage + 'DUVAL HUB REPORT');
@@ -132,7 +134,7 @@ const AnalysisWidget: React.FC = () => {
       const status = error?.status || error?.error?.code;
       
       if (status === 429 || message.includes('429') || message.includes('quota')) {
-         errorMessage = "RESOURCE_EXHAUSTED: The Duval Hub Architect is currently at capacity. Please call **904-249-6994** to reach a technician directly.";
+         errorMessage = "RESOURCE_EXHAUSTED: The Duval Hub Architect is currently at capacity. Please call **555-555-0100** to reach a technician directly.";
       }
 
       setMessages(prev => [...prev, {
@@ -145,10 +147,29 @@ const AnalysisWidget: React.FC = () => {
     }
   };
 
-  const renderMessageText = (text: string) => {
+  const handleLogDemo = async (messageId: string, reportData: { species: string; riskNum: number; priority: string }) => {
+    if (loggedDemos.has(messageId)) return;
+    setLoggedDemos(prev => new Set(prev).add(messageId));
+    try {
+      await fetch(CONTACT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Portfolio Demo Visitor',
+          email: '',
+          message: `AI Diagnostic Widget demo completed successfully. Identified: ${reportData.species} (Structural Risk ${reportData.riskNum}/10, Priority: ${reportData.priority}).`,
+          source: 'AI Diagnostic Widget Demo',
+        }),
+      });
+    } catch (error) {
+      console.error('Failed to log demo completion:', error);
+    }
+  };
+
+  const renderMessageText = (text: string, messageId: string) => {
     const reportIndex = text.indexOf('DUVAL HUB REPORT');
     let mainContent = text;
-    let reportData = null;
+    let reportData: { priority: string; species: string; riskNum: number; hub: string; area: string } | null = null;
 
     if (reportIndex !== -1) {
       mainContent = text.substring(0, reportIndex).replace(/###/g, '').trim();
@@ -173,10 +194,10 @@ const AnalysisWidget: React.FC = () => {
       };
     }
 
-    const formattedMain = mainContent.split(/(904-249-6994)/g).map((part, i) => {
-      if (part === '904-249-6994') {
+    const formattedMain = mainContent.split(/(555-555-0100)/g).map((part, i) => {
+      if (part === '555-555-0100') {
         return (
-          <a key={i} href="tel:904-249-6994" className="bg-[#CCFF00] text-[#020617] font-black px-2 py-0.5 rounded-md inline-block hover:scale-105 transition-transform mx-1 no-underline">
+          <a key={i} href="tel:555-555-0100" className="bg-[#CCFF00] text-[#020617] font-black px-2 py-0.5 rounded-md inline-block hover:scale-105 transition-transform mx-1 no-underline">
             {part}
           </a>
         );
@@ -237,12 +258,18 @@ const AnalysisWidget: React.FC = () => {
               </div>
             </div>
 
-            <a
-              href="#contact"
-              className="w-full bg-[#CCFF00] hover:bg-lime-400 text-[#020617] font-black text-[11px] tracking-widest uppercase py-4 transition-colors flex justify-center border-t border-[#CCFF00]/20"
+            <button
+              type="button"
+              onClick={() => handleLogDemo(messageId, reportData!)}
+              disabled={loggedDemos.has(messageId)}
+              className={`w-full font-black text-[11px] tracking-widest uppercase py-4 transition-colors flex justify-center items-center gap-2 border-t ${
+                loggedDemos.has(messageId)
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 cursor-default'
+                  : 'bg-[#CCFF00] hover:bg-lime-400 text-[#020617] border-[#CCFF00]/20 cursor-pointer'
+              }`}
             >
-              Sync to Duval Dispatch
-            </a>
+              {loggedDemos.has(messageId) ? '✓ Demo Logged' : 'Log Successful Demo'}
+            </button>
           </div>
         )}
       </div>
@@ -272,7 +299,7 @@ const AnalysisWidget: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <a href="tel:+19042496994" className="w-8 h-8 rounded-lg bg-[#CCFF00] flex items-center justify-center hover:scale-105 transition-transform" title="Call Dispatch">
+          <a href="tel:+15555550100" className="w-8 h-8 rounded-lg bg-[#CCFF00] flex items-center justify-center hover:scale-105 transition-transform" title="Call Dispatch">
             <span className="text-[#020617] text-sm">📞</span>
           </a>
         </div>
@@ -297,7 +324,7 @@ const AnalysisWidget: React.FC = () => {
                 <img src={msg.imageUrl} alt="User Upload" className="w-40 h-40 rounded-xl mb-3 object-cover border border-slate-200 shadow-sm" />
               )}
               
-              {msg.role === 'assistant' ? renderMessageText(msg.text) : (
+              {msg.role === 'assistant' ? renderMessageText(msg.text, msg.id) : (
                 <div className="text-sm font-medium leading-relaxed whitespace-pre-wrap">{msg.text}</div>
               )}
             </div>
@@ -368,7 +395,7 @@ const AnalysisWidget: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
-          <button onClick={handleCameraClick} disabled={isSearching} className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50">
+          <button onClick={handleCameraClick} disabled={isSearching} aria-label="Upload a photo" className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
             </svg>
@@ -385,6 +412,7 @@ const AnalysisWidget: React.FC = () => {
           <button 
             onClick={handleSend}
             disabled={isSearching}
+            aria-label="Send message"
             className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors group shadow-md shrink-0 ${isSearching ? 'bg-slate-300 cursor-not-allowed' : 'bg-slate-600 hover:bg-[#020617]'}`}
           >
             <svg className={`w-5 h-5 text-[#CCFF00] transition-all ${isSearching ? '' : 'group-hover:scale-110 group-hover:-translate-y-0.5'}`} fill="currentColor" viewBox="0 0 20 20">
