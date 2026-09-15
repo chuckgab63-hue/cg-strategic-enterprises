@@ -391,36 +391,36 @@ export default function Home() {
               {/* Button 1: Plasma Sweep */}
               <button 
                 onClick={() => setActiveFeature(activeFeature === 'plasma' ? null : 'plasma')}
-                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs overflow-hidden group/btn1 hover:border-brand-orange/50 hover:shadow-[0_0_30px_-5px_rgba(255,95,31,0.5)] transition-all duration-300 ${activeFeature === 'plasma' ? 'border-brand-orange bg-brand-orange/10' : 'bg-slate-950 border-slate-800'}`}
+                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs overflow-hidden group/btn1 hover:border-brand-orange/50 hover:shadow-[0_0_30px_-5px_rgba(255,95,31,0.5)] transition-all duration-300 ${activeFeature === 'plasma' ? 'border-brand-orange bg-brand-orange/10 shadow-[0_0_30px_-5px_rgba(255,95,31,0.5)]' : 'bg-slate-950 border-slate-800'}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-orange to-amber-500 translate-x-[-100%] group-hover/btn1:translate-x-0 transition-transform duration-500 ease-out"></div>
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'plasma' ? 'text-brand-orange group-hover/btn1:text-white' : 'text-slate-400 group-hover/btn1:text-white'}`}>Plasma Sweep</span>
+                <div className={`absolute inset-0 bg-gradient-to-r from-brand-orange to-amber-500 transition-transform duration-500 ease-out group-hover/btn1:translate-x-0 ${activeFeature === 'plasma' ? 'translate-x-0' : 'translate-x-[-100%]'}`}></div>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'plasma' ? 'text-white' : 'text-slate-400 group-hover/btn1:text-white'}`}>Plasma Sweep</span>
               </button>
 
               {/* Button 2: Cyber Override */}
               <button 
                 onClick={() => setActiveFeature(activeFeature === 'cyber' ? null : 'cyber')}
-                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn2 overflow-hidden hover:bg-[#CCFF00] hover:shadow-[0_0_30px_-5px_rgba(204,255,0,0.6)] transition-all duration-300 ${activeFeature === 'cyber' ? 'border-[#CCFF00] bg-[#CCFF00]/10' : 'bg-[#020617] border-[#CCFF00]/30'}`}
+                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn2 overflow-hidden hover:bg-[#CCFF00] hover:shadow-[0_0_30px_-5px_rgba(204,255,0,0.6)] transition-all duration-300 ${activeFeature === 'cyber' ? 'border-[#CCFF00] bg-[#CCFF00] shadow-[0_0_30px_-5px_rgba(204,255,0,0.6)]' : 'bg-[#020617] border-[#CCFF00]/30'}`}
               >
-                <div className="absolute inset-0 bg-white opacity-0 group-hover/btn2:animate-ping transition-opacity duration-300"></div>
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'cyber' ? 'text-[#CCFF00] group-hover/btn2:text-black' : 'text-[#CCFF00] group-hover/btn2:text-black'}`}>Cyber Override</span>
+                <div className={`absolute inset-0 bg-white opacity-0 group-hover/btn2:animate-ping transition-opacity duration-300 ${activeFeature === 'cyber' ? 'animate-ping' : ''}`}></div>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'cyber' ? 'text-black' : 'text-[#CCFF00] group-hover/btn2:text-black'}`}>Cyber Override</span>
               </button>
 
               {/* Button 3: Neon Elevation */}
               <button 
                 onClick={() => setActiveFeature(activeFeature === 'neon' ? null : 'neon')}
-                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn3 hover:-translate-y-2 hover:bg-blue-600 hover:border-blue-400 hover:shadow-[0_15px_30px_-5px_rgba(37,99,235,0.6)] transition-all duration-300 ${activeFeature === 'neon' ? 'border-blue-500 bg-blue-500/20 shadow-[0_5px_20px_-5px_rgba(37,99,235,0.4)]' : 'bg-slate-900 border-slate-700'}`}
+                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn3 hover:-translate-y-2 hover:bg-blue-600 hover:border-blue-400 hover:shadow-[0_15px_30px_-5px_rgba(37,99,235,0.6)] transition-all duration-300 ${activeFeature === 'neon' ? '-translate-y-2 bg-blue-600 border-blue-400 shadow-[0_15px_30px_-5px_rgba(37,99,235,0.6)]' : 'bg-slate-900 border-slate-700'}`}
               >
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'neon' ? 'text-blue-400 group-hover/btn3:text-white' : 'text-slate-300 group-hover/btn3:text-white'}`}>Neon Elevation</span>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'neon' ? 'text-white' : 'text-slate-300 group-hover/btn3:text-white'}`}>Neon Elevation</span>
               </button>
 
               {/* Button 4: Frosted Glass */}
               <button 
                 onClick={() => setActiveFeature(activeFeature === 'frosted' ? null : 'frosted')}
-                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn4 overflow-hidden backdrop-blur-md hover:border-pink-500 hover:shadow-[0_0_30px_-5px_rgba(236,72,153,0.4)] transition-all duration-300 ${activeFeature === 'frosted' ? 'border-pink-500 bg-pink-500/10' : 'border-slate-700'}`}
+                className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn4 overflow-hidden backdrop-blur-md hover:border-pink-500 hover:shadow-[0_0_30px_-5px_rgba(236,72,153,0.4)] transition-all duration-300 ${activeFeature === 'frosted' ? 'border-pink-500 bg-pink-500/10 shadow-[0_0_30px_-5px_rgba(236,72,153,0.4)]' : 'border-slate-700'}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-600/20 opacity-0 group-hover/btn4:opacity-100 transition-opacity duration-500"></div>
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'frosted' ? 'text-pink-400 group-hover/btn4:text-pink-300' : 'text-slate-400 group-hover/btn4:text-pink-300'}`}>Frosted Glass</span>
+                <div className={`absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-600/20 transition-opacity duration-500 group-hover/btn4:opacity-100 ${activeFeature === 'frosted' ? 'opacity-100' : 'opacity-0'}`}></div>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'frosted' ? 'text-pink-300' : 'text-slate-400 group-hover/btn4:text-pink-300'}`}>Frosted Glass</span>
               </button>
             </div>
 
