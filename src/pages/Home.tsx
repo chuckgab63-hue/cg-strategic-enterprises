@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Restored Components ---
 import FramerPlayground from '../components/FramerPlayground';
+import AnimationShowcase from '../components/AnimationShowcase';
 import ContactModal from '../components/ContactModal';
 
 
@@ -132,6 +133,8 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      <AnimationShowcase />
 
       {/* =========================================
           SECTION 5: FRAMER PLAYGROUND (GAMIFIED)
