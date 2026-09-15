@@ -47,24 +47,24 @@ export default function CinematicSequences() {
   }, []);
 
   useGSAP(() => {
-    // Fade out the surrounding UI elements early so the scale effect is clean.
-    // This is a simple scrub (no pin), so it stays reliable on mobile too.
-    gsap.to('.fade-element', {
-      opacity: 0,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.hero-section',
-        start: 'top top',
-        end: '30% top',
-        scrub: true,
-      },
-    });
-
-    // Desktop-only scroll-jacked effects: GSAP's `pin: true` is unreliable on real
-    // mobile browsers (address-bar resizing throws off its scroll-distance math,
-    // producing dead blank space) — so both pinned effects are gated to desktop here.
+    // Desktop-only scroll-jacked effects: GSAP's scroll-scrubbed animations rely on
+    // stable viewport height math, which mobile browsers break by resizing the
+    // address bar mid-scroll — so all three scroll-tied hero/panel effects are
+    // gated to desktop here. Mobile gets the plain, always-visible version instead.
     ScrollTrigger.matchMedia({
       '(min-width: 1024px)': () => {
+        // Fade out the surrounding UI elements early so the scale effect is clean
+        gsap.to('.fade-element', {
+          opacity: 0,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: '30% top',
+            scrub: true,
+          },
+        });
+
         // 1. Hero Text Scale (Scrubbed to scrollbar)
         gsap.to(heroTextRef.current, {
           scale: 15,
