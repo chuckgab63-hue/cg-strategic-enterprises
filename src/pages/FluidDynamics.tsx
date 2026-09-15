@@ -71,8 +71,6 @@ const projects: Project[] = [
   }
 ];
 
-const filters = ['ALL', 'WEB', 'AUTOMATION', 'AI'];
-
 const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -137,14 +135,11 @@ const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void 
 };
 
 export default function FluidDynamics() {
-  const [activeFilter, setActiveFilter] = useState('ALL');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
   // Global Contact Modal State
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactMessage, setContactMessage] = useState('');
-
-  const filteredProjects = projects.filter(p => activeFilter === 'ALL' || p.category === activeFilter);
 
   return (
     <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
@@ -167,49 +162,22 @@ export default function FluidDynamics() {
           Interact with physics-based layout transitions. Click any module to evaluate architectural specifications and request integration.
         </p>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-16 p-2 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`relative px-6 py-3 text-sm font-bold tracking-widest uppercase rounded-xl transition-colors duration-300 z-10 ${
-                activeFilter === filter ? 'text-white' : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
-              {activeFilter === filter && (
-                <motion.div
-                  layoutId="activeFilterBubble"
-                  className="absolute inset-0 bg-brand-orange rounded-xl -z-10 shadow-[0_0_20px_rgba(255,95,31,0.4)]"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              {filter}
-            </button>
-          ))}
-        </div>
-
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full perspective-[1000px] min-h-[400px]">
-          {filteredProjects.length > 0 ? (
-            <AnimatePresence>
-              {filteredProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
-                  className="w-full"
-                >
-                  <TiltCard project={project} onClick={() => setSelectedProject(project)} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          ) : (
-            <div className="col-span-full py-20 text-slate-500 font-mono text-sm">
-              // NO MODULES FOUND MATCHING CURRENT FILTER PARAMETERS
-            </div>
-          )}
+          <AnimatePresence>
+            {projects.map((project) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+                className="w-full"
+              >
+                <TiltCard project={project} onClick={() => setSelectedProject(project)} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
 
       </div>
