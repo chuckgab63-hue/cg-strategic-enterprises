@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -14,6 +15,20 @@ export default function CinematicSequences() {
 
   // --- Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // --- Mobile Swipe Carousel State (Horizontal Scroll Container is scroll-driven
+  // via GSAP on desktop; below 1024px it becomes a touch-swipeable carousel instead) ---
+  const [mobilePanel, setMobilePanel] = useState(0);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1023px)');
+    const handleChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handleChange);
+    return () => mql.removeEventListener('change', handleChange);
+  }, []);
 
   useGSAP(() => {
     // 1. Hero Text Scale (Scrubbed to scrollbar)
@@ -42,18 +57,23 @@ export default function CinematicSequences() {
       },
     });
 
-    // 2. Horizontal Scroll Section (The Film Strip)
-    const panels = gsap.utils.toArray('.horizontal-panel');
-    
-    gsap.to(panels, {
-      xPercent: -100 * (panels.length - 1),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: horizontalRef.current,
-        pin: true,
-        scrub: 1, // Smooth 1-second delay on the scrub
-        snap: 1 / (panels.length - 1),
-        end: () => "+=" + (horizontalRef.current?.offsetWidth || 0),
+    // 2. Horizontal Scroll Section (The Film Strip) — desktop only.
+    // Below 1024px this section becomes a touch-swipeable carousel instead (see JSX).
+    ScrollTrigger.matchMedia({
+      '(min-width: 1024px)': () => {
+        const panels = gsap.utils.toArray('.horizontal-panel');
+
+        gsap.to(panels, {
+          xPercent: -100 * (panels.length - 1),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: horizontalRef.current,
+            pin: true,
+            scrub: 1, // Smooth 1-second delay on the scrub
+            snap: 1 / (panels.length - 1),
+            end: () => "+=" + (horizontalRef.current?.offsetWidth || 0),
+          },
+        });
       },
     });
 
@@ -93,57 +113,89 @@ export default function CinematicSequences() {
         </div>
       </section>
 
-      {/* Horizontal Scroll Container */}
-      <section ref={horizontalRef} className="h-screen flex flex-nowrap w-full overflow-hidden bg-[#020617] relative border-t border-slate-900">
+      {/* Horizontal Scroll Container: scroll-jacked on desktop, swipeable on mobile */}
+      <section ref={horizontalRef} className="h-screen w-full overflow-hidden bg-[#020617] relative border-t border-slate-900">
         
         {/* Background wireframe grid */}
         <div className="absolute top-0 left-0 h-full w-[300%] bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20"></div>
 
-        {/* Panel 1 */}
-        <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">01</div>
-          <div className="z-10 max-w-4xl backdrop-blur-sm bg-slate-950/60 p-8 md:p-16 rounded-3xl border border-slate-800 shadow-2xl">
-            <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4 flex items-center gap-4">
-              <span className="w-12 h-[2px] bg-brand-orange"></span> Phase 1
-            </h2>
-            <h3 className="text-5xl md:text-7xl font-bold mb-6">The Audit.</h3>
-            <p className="text-2xl text-slate-300 leading-relaxed font-light">
-              We don't guess. We map your exact processes, find the hidden revenue leaks, and identify the manual, repetitive work that is stealing your time.
-            </p>
+        <motion.div
+          className="flex flex-nowrap w-full h-full"
+          drag={isMobile ? 'x' : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.15}
+          onDragEnd={(_e, info) => {
+            if (!isMobile) return;
+            const threshold = 50;
+            if (info.offset.x < -threshold) {
+              setMobilePanel(p => Math.min(p + 1, 2));
+            } else if (info.offset.x > threshold) {
+              setMobilePanel(p => Math.max(p - 1, 0));
+            }
+          }}
+          animate={{ x: isMobile ? `-${mobilePanel * 100}%` : 0 }}
+          transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
+        >
+          {/* Panel 1 */}
+          <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">01</div>
+            <div className="z-10 max-w-4xl backdrop-blur-sm bg-slate-950/60 p-8 md:p-16 rounded-3xl border border-slate-800 shadow-2xl">
+              <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4 flex items-center gap-4">
+                <span className="w-12 h-[2px] bg-brand-orange"></span> Phase 1
+              </h2>
+              <h3 className="text-5xl md:text-7xl font-bold mb-6">The Audit.</h3>
+              <p className="text-2xl text-slate-300 leading-relaxed font-light">
+                We don't guess. We map your exact processes, find the hidden revenue leaks, and identify the manual, repetitive work that is stealing your time.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Panel 2 */}
-        <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">02</div>
-          <div className="z-10 max-w-4xl backdrop-blur-sm bg-slate-950/60 p-8 md:p-16 rounded-3xl border border-brand-orange/20 shadow-[0_0_50px_rgba(255,95,31,0.1)]">
-            <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4 flex items-center gap-4">
-              <span className="w-12 h-[2px] bg-brand-orange"></span> Phase 2
-            </h2>
-            <h3 className="text-5xl md:text-7xl font-bold mb-6">The Engineering.</h3>
-            <p className="text-2xl text-slate-300 leading-relaxed font-light">
-              We build custom digital infrastructure. From seamless CRM integrations to client portals, we engineer the systems that allow you to scale without adding headcount.
-            </p>
+          {/* Panel 2 */}
+          <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">02</div>
+            <div className="z-10 max-w-4xl backdrop-blur-sm bg-slate-950/60 p-8 md:p-16 rounded-3xl border border-brand-orange/20 shadow-[0_0_50px_rgba(255,95,31,0.1)]">
+              <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4 flex items-center gap-4">
+                <span className="w-12 h-[2px] bg-brand-orange"></span> Phase 2
+              </h2>
+              <h3 className="text-5xl md:text-7xl font-bold mb-6">The Engineering.</h3>
+              <p className="text-2xl text-slate-300 leading-relaxed font-light">
+                We build custom digital infrastructure. From seamless CRM integrations to client portals, we engineer the systems that allow you to scale without adding headcount.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Panel 3 */}
-        <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">03</div>
-          <div className="z-10 max-w-4xl text-center flex flex-col items-center">
-            <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4">Phase 3</h2>
-            <h3 className="text-6xl md:text-8xl font-black mb-6">Automated <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-500">Growth.</span></h3>
-            <p className="text-2xl text-slate-300 leading-relaxed font-light mb-12">
-              Lead routing, automated invoicing, and intelligent support. Your business runs 24/7, delivering flawless client experiences while you step back from the daily grind.
-            </p>
-            {/* Trigger Communication Modal */}
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="bg-brand-orange text-white px-12 py-5 rounded-md font-bold tracking-widest uppercase hover:bg-white hover:text-brand-orange transition-all shadow-[0_0_30px_rgba(255,95,31,0.3)] hover:scale-105 cursor-pointer"
-            >
-              Start Your Transformation
-            </button>
+          {/* Panel 3 */}
+          <div className="horizontal-panel w-full h-full flex items-center justify-center relative px-6 md:px-24 shrink-0">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-black text-slate-900/40 z-0 select-none tracking-tighter">03</div>
+            <div className="z-10 max-w-4xl text-center flex flex-col items-center">
+              <h2 className="text-brand-orange font-bold tracking-widest uppercase mb-4">Phase 3</h2>
+              <h3 className="text-6xl md:text-8xl font-black mb-6">Automated <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-500">Growth.</span></h3>
+              <p className="text-2xl text-slate-300 leading-relaxed font-light mb-12">
+                Lead routing, automated invoicing, and intelligent support. Your business runs 24/7, delivering flawless client experiences while you step back from the daily grind.
+              </p>
+              {/* Trigger Communication Modal */}
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="bg-brand-orange text-white px-12 py-5 rounded-md font-bold tracking-widest uppercase hover:bg-white hover:text-brand-orange transition-all shadow-[0_0_30px_rgba(255,95,31,0.3)] hover:scale-105 cursor-pointer"
+              >
+                Start Your Transformation
+              </button>
+            </div>
           </div>
+        </motion.div>
+
+        {/* Mobile swipe indicator dots */}
+        <div className="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          {[0, 1, 2].map(i => (
+            <button
+              key={i}
+              onClick={() => setMobilePanel(i)}
+              aria-label={`Go to phase ${i + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                mobilePanel === i ? 'w-6 bg-brand-orange' : 'w-2 bg-slate-700'
+              }`}
+            />
+          ))}
         </div>
 
       </section>
