@@ -22,6 +22,22 @@ export default function CinematicSequences() {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
   );
+  const touchStartX = useRef<number | null>(null);
+
+  const goToPanel = (index: number) => setMobilePanel(Math.max(0, Math.min(index, 2)));
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const threshold = 40;
+    if (deltaX < -threshold) goToPanel(mobilePanel + 1);
+    else if (deltaX > threshold) goToPanel(mobilePanel - 1);
+    touchStartX.current = null;
+  };
 
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 1023px)');
@@ -31,21 +47,8 @@ export default function CinematicSequences() {
   }, []);
 
   useGSAP(() => {
-    // 1. Hero Text Scale (Scrubbed to scrollbar)
-    gsap.to(heroTextRef.current, {
-      scale: 15,
-      opacity: 0,
-      ease: 'power2.in',
-      scrollTrigger: {
-        trigger: '.hero-section',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-        pin: true,
-      },
-    });
-
-    // Fade out the surrounding UI elements early so the scale effect is clean
+    // Fade out the surrounding UI elements early so the scale effect is clean.
+    // This is a simple scrub (no pin), so it stays reliable on mobile too.
     gsap.to('.fade-element', {
       opacity: 0,
       ease: 'power2.out',
@@ -57,10 +60,26 @@ export default function CinematicSequences() {
       },
     });
 
-    // 2. Horizontal Scroll Section (The Film Strip) — desktop only.
-    // Below 1024px this section becomes a touch-swipeable carousel instead (see JSX).
+    // Desktop-only scroll-jacked effects: GSAP's `pin: true` is unreliable on real
+    // mobile browsers (address-bar resizing throws off its scroll-distance math,
+    // producing dead blank space) — so both pinned effects are gated to desktop here.
     ScrollTrigger.matchMedia({
       '(min-width: 1024px)': () => {
+        // 1. Hero Text Scale (Scrubbed to scrollbar)
+        gsap.to(heroTextRef.current, {
+          scale: 15,
+          opacity: 0,
+          ease: 'power2.in',
+          scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+            pin: true,
+          },
+        });
+
+        // 2. Horizontal Scroll Section (The Film Strip)
         const panels = gsap.utils.toArray('.horizontal-panel');
 
         gsap.to(panels, {
@@ -121,18 +140,8 @@ export default function CinematicSequences() {
 
         <motion.div
           className="flex flex-nowrap w-full h-full"
-          drag={isMobile ? 'x' : false}
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.15}
-          onDragEnd={(_e, info) => {
-            if (!isMobile) return;
-            const threshold = 50;
-            if (info.offset.x < -threshold) {
-              setMobilePanel(p => Math.min(p + 1, 2));
-            } else if (info.offset.x > threshold) {
-              setMobilePanel(p => Math.max(p - 1, 0));
-            }
-          }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           animate={{ x: isMobile ? `-${mobilePanel * 100}%` : 0 }}
           transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
         >
@@ -184,12 +193,33 @@ export default function CinematicSequences() {
           </div>
         </motion.div>
 
-        {/* Mobile swipe indicator dots */}
+        {/* Mobile swipe indicator dots + directional nav arrows */}
+        <button
+          onClick={() => goToPanel(mobilePanel - 1)}
+          disabled={mobilePanel === 0}
+          aria-label="Previous phase"
+          className="lg:hidden absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white z-20 disabled:opacity-30 transition-opacity"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={() => goToPanel(mobilePanel + 1)}
+          disabled={mobilePanel === 2}
+          aria-label="Next phase"
+          className="lg:hidden absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white z-20 disabled:opacity-30 transition-opacity"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
         <div className="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {[0, 1, 2].map(i => (
             <button
               key={i}
-              onClick={() => setMobilePanel(i)}
+              onClick={() => goToPanel(i)}
               aria-label={`Go to phase ${i + 1}`}
               className={`h-2 rounded-full transition-all duration-300 ${
                 mobilePanel === i ? 'w-6 bg-brand-orange' : 'w-2 bg-slate-700'
