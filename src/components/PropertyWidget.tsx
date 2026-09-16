@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { SITE_PROGRESS_WEBHOOK_URL } from '../config/webhooks';
+import { SITE_PROGRESS_WEBHOOK_URL, MAINTENANCE_WEBHOOK_URL } from '../config/webhooks';
 
 interface Message {
   id: string;
@@ -8,18 +8,24 @@ interface Message {
   imageUrl?: string | null;
 }
 
-type Mode = 'idle' | 'log-progress' | 'coming-soon';
+type Mode = 'idle' | 'log-progress' | 'report-maintenance' | 'coming-soon';
 
 const PropertyWidget: React.FC = () => {
   const [mode, setMode] = useState<Mode>('idle');
   const [comingSoonLabel, setComingSoonLabel] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [clientEmail, setClientEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Log Site Progress fields
   const [siteLocation, setSiteLocation] = useState('');
   const [crewNumber, setCrewNumber] = useState('');
   const [comment, setComment] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Report Maintenance fields
+  const [maintenanceLocation, setMaintenanceLocation] = useState('');
+  const [issueDescription, setIssueDescription] = useState('');
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -62,6 +68,8 @@ const PropertyWidget: React.FC = () => {
     setSiteLocation('');
     setCrewNumber('');
     setComment('');
+    setMaintenanceLocation('');
+    setIssueDescription('');
     setSelectedImage(null);
     setSelectedFile(null);
   };
@@ -72,7 +80,7 @@ const PropertyWidget: React.FC = () => {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'assistant',
-      text: `${label} is still being built for this demo. "Log Site Progress" is fully working \u2014 try that one.`
+      text: `${label} is still being built for this demo. "Log Site Progress" and "Report Maintenance" are fully working \u2014 try one of those.`
     }]);
   };
 
@@ -163,6 +171,85 @@ const PropertyWidget: React.FC = () => {
     }
   };
 
+  const handleSubmitMaintenance = async () => {
+    if (!selectedFile || !maintenanceLocation.trim() || !issueDescription.trim() || !clientEmail.trim() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setMessages(prev => [...prev, {
+      id: Date.now().toString(),
+      role: 'user',
+      text: `Property: ${maintenanceLocation}\n${issueDescription}`,
+      imageUrl: selectedImage
+    }]);
+
+    try {
+      const base64Data = await compressImage(selectedFile);
+      const fileData = base64Data.split(',')[1];
+      const mimeType = base64Data.split(',')[0].split(':')[1].split(';')[0];
+
+      // Step 1: classify urgency and category
+      const triageResponse = await fetch('/api/triage-maintenance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ issueDescription, fileData, mimeType }),
+      });
+
+      if (!triageResponse.ok) throw new Error(`Triage responded with ${triageResponse.status}`);
+      const triage = await triageResponse.json();
+
+      // Step 2: route based on classification
+      const response = await fetch(MAINTENANCE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientEmail,
+          propertyLocation: maintenanceLocation,
+          issueDescription,
+          priority: triage.priority,
+          category: triage.category,
+          summary: triage.summary,
+          fileData,
+          mimeType,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
+      const data = await response.json().catch(() => ({}));
+
+      if (data.limitReached) {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: "You've reached today's usage limit for this demo (10 submissions). Check your email for details, or reach out to CG Strategic Enterprises directly to discuss your own embedded version."
+        }]);
+      } else if (data.priority === 'high') {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: `Flagged as **HIGH priority** (${triage.category}). Your ${triage.category.toLowerCase()} contractor has been notified immediately.`
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: `Logged as **routine** (${triage.category}). This has been added to the maintenance queue for scheduled handling.`
+        }]);
+      }
+      resetToIdle();
+    } catch (error) {
+      console.error('Maintenance report failed:', error);
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        text: 'Something went wrong submitting that \u2014 please try again.'
+      }]);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const isUploadMode = mode === 'log-progress' || mode === 'report-maintenance';
+
   return (
     <div className="relative w-full max-w-md mx-auto bg-slate-50 rounded-[2rem] overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col h-[650px] border border-white/10">
 
@@ -227,7 +314,7 @@ const PropertyWidget: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
               <span className="text-xs font-black uppercase tracking-widest opacity-70">
-                Uploading...
+                {mode === 'report-maintenance' ? 'Analyzing & routing...' : 'Uploading...'}
               </span>
             </div>
           </div>
@@ -246,7 +333,7 @@ const PropertyWidget: React.FC = () => {
               Log Site Progress
             </button>
             <button
-              onClick={() => selectComingSoon('Report Maintenance')}
+              onClick={() => setMode('report-maintenance')}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-blue-500 hover:text-[#020617] hover:shadow-md transition-all text-left"
             >
               Report Maintenance
@@ -269,7 +356,7 @@ const PropertyWidget: React.FC = () => {
           </button>
         )}
 
-        {mode === 'log-progress' && (
+        {isUploadMode && (
           <>
             {selectedImage && (
               <div className="relative w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
@@ -279,7 +366,7 @@ const PropertyWidget: React.FC = () => {
                   </div>
                   <div className="flex-1">
                     <span className="text-blue-400 text-[9px] font-black uppercase tracking-widest block mb-0.5">Photo attached</span>
-                    <span className="text-slate-400 text-xs">Ready to log</span>
+                    <span className="text-slate-400 text-xs">Ready to submit</span>
                   </div>
                   <button onClick={handleRemoveImage} aria-label="Remove attached photo" className="bg-white/10 hover:bg-red-500/20 text-slate-300 hover:text-red-500 rounded-full p-2 transition-colors mr-1">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -297,50 +384,90 @@ const PropertyWidget: React.FC = () => {
               className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
             />
 
-            <div className="grid grid-cols-2 gap-2">
-              <input
-                type="text"
-                value={siteLocation}
-                onChange={(e) => setSiteLocation(e.target.value)}
-                placeholder="Site location"
-                disabled={isSubmitting}
-                className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
-              />
-              <input
-                type="text"
-                value={crewNumber}
-                onChange={(e) => setCrewNumber(e.target.value)}
-                placeholder="Crew #"
-                disabled={isSubmitting}
-                className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
-              />
-            </div>
+            {mode === 'log-progress' && (
+              <>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="text"
+                    value={siteLocation}
+                    onChange={(e) => setSiteLocation(e.target.value)}
+                    placeholder="Site location"
+                    disabled={isSubmitting}
+                    className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
+                  />
+                  <input
+                    type="text"
+                    value={crewNumber}
+                    onChange={(e) => setCrewNumber(e.target.value)}
+                    placeholder="Crew #"
+                    disabled={isSubmitting}
+                    className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
+                  />
+                </div>
 
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Add a comment (optional)"
-              disabled={isSubmitting}
-              rows={2}
-              className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 resize-none"
-            />
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Add a comment (optional)"
+                  disabled={isSubmitting}
+                  rows={2}
+                  className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 resize-none"
+                />
+              </>
+            )}
+
+            {mode === 'report-maintenance' && (
+              <>
+                <input
+                  type="text"
+                  value={maintenanceLocation}
+                  onChange={(e) => setMaintenanceLocation(e.target.value)}
+                  placeholder="Property / unit"
+                  disabled={isSubmitting}
+                  className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
+                />
+
+                <textarea
+                  value={issueDescription}
+                  onChange={(e) => setIssueDescription(e.target.value)}
+                  placeholder='Describe the issue (e.g. "kitchen sink is leaking under the cabinet")'
+                  disabled={isSubmitting}
+                  rows={3}
+                  className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 resize-none"
+                />
+              </>
+            )}
 
             <div className="flex items-center gap-2">
               <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
               <button onClick={handleCameraClick} disabled={isSubmitting} aria-label="Upload a photo" className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50 shrink-0">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /></svg>
               </button>
-              <button
-                onClick={handleSubmitProgress}
-                disabled={isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim()}
-                className={`flex-1 h-12 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-widest transition-colors ${
-                  isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim()
-                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                    : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
-                }`}
-              >
-                {isSubmitting ? 'Uploading...' : 'Submit Progress'}
-              </button>
+              {mode === 'log-progress' ? (
+                <button
+                  onClick={handleSubmitProgress}
+                  disabled={isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim()}
+                  className={`flex-1 h-12 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-widest transition-colors ${
+                    isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim()
+                      ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                      : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
+                  }`}
+                >
+                  {isSubmitting ? 'Uploading...' : 'Submit Progress'}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmitMaintenance}
+                  disabled={isSubmitting || !selectedFile || !maintenanceLocation.trim() || !issueDescription.trim() || !clientEmail.trim()}
+                  className={`flex-1 h-12 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-widest transition-colors ${
+                    isSubmitting || !selectedFile || !maintenanceLocation.trim() || !issueDescription.trim() || !clientEmail.trim()
+                      ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                      : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
+                  }`}
+                >
+                  {isSubmitting ? 'Analyzing...' : 'Submit Report'}
+                </button>
+              )}
             </div>
 
             <button
