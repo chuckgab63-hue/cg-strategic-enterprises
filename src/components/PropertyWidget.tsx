@@ -18,6 +18,7 @@ const PropertyWidget: React.FC = () => {
   const [siteLocation, setSiteLocation] = useState('');
   const [crewNumber, setCrewNumber] = useState('');
   const [comment, setComment] = useState('');
+  const [clientEmail, setClientEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [messages, setMessages] = useState<Message[]>([
@@ -111,7 +112,7 @@ const PropertyWidget: React.FC = () => {
   };
 
   const handleSubmitProgress = async () => {
-    if (!selectedFile || !siteLocation.trim() || !crewNumber.trim() || isSubmitting) return;
+    if (!selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
     setMessages(prev => [...prev, {
@@ -129,16 +130,26 @@ const PropertyWidget: React.FC = () => {
       const response = await fetch(SITE_PROGRESS_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ siteLocation, crewNumber, comment, fileData, mimeType }),
+        body: JSON.stringify({ siteLocation, crewNumber, comment, clientEmail, fileData, mimeType }),
       });
 
       if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
 
-      setMessages(prev => [...prev, {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        text: "Logged. The photo is saved to the shared Drive folder, and this entry will roll up into tonight's digest email."
-      }]);
+      const data = await response.json().catch(() => ({}));
+
+      if (data.limitReached) {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: "You've reached today's usage limit for this demo (10 submissions). Check your email for details, or reach out to CG Strategic Enterprises directly to discuss your own embedded version."
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: "Logged. The photo is saved to the shared Drive folder, and this entry will roll up into tonight's digest email."
+        }]);
+      }
       resetToIdle();
     } catch (error) {
       console.error('Site progress upload failed:', error);
@@ -277,6 +288,15 @@ const PropertyWidget: React.FC = () => {
               </div>
             )}
 
+            <input
+              type="email"
+              value={clientEmail}
+              onChange={(e) => setClientEmail(e.target.value)}
+              placeholder="Your email"
+              disabled={isSubmitting}
+              className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
+            />
+
             <div className="grid grid-cols-2 gap-2">
               <input
                 type="text"
@@ -312,9 +332,9 @@ const PropertyWidget: React.FC = () => {
               </button>
               <button
                 onClick={handleSubmitProgress}
-                disabled={isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim()}
+                disabled={isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim()}
                 className={`flex-1 h-12 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-widest transition-colors ${
-                  isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim()
+                  isSubmitting || !selectedFile || !siteLocation.trim() || !crewNumber.trim() || !clientEmail.trim()
                     ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
                     : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
                 }`}
