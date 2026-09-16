@@ -213,10 +213,10 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-emerald-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    Predictive AI
+                    Time-Saving Automation
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Enterprise ERP Integration
+                    Field Operations Hub
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
@@ -230,14 +230,26 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-emerald-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">Asset Tracking & Forecasting</h3>
+                    <h3 className="text-xl font-black text-white">Automated Field Reporting</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    An embedded AI module designed to sit seamlessly inside existing property management ERPs. It analyzes historical purchasing data and maintenance logs to map out future requirements.
+                    Crews log site progress in seconds — snap a photo, tag the site and crew number, add a quick note — directly from the job site, with no separate app to install.
                   </p>
-                  <p className="text-sm text-slate-400 leading-relaxed">
-                    By flagging supply chain bottlenecks before they happen, the widget generates automated procurement requests, ensuring property managers never experience downtime due to missing materials.
+                  <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                    Every photo is automatically filed into a shared Drive folder, and property managers get one clean digest email each evening instead of hunting through scattered texts and camera rolls for updates.
                   </p>
+
+                  {/* --- INTERACTIVE CTA --- */}
+                  <div className="flex items-center gap-3 animate-pulse mt-2">
+                    <div className="w-8 h-8 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-emerald-400 hidden lg:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                      <svg className="w-4 h-4 text-emerald-400 block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                    <span className="text-emerald-400 font-black uppercase tracking-widest text-xs">
+                      Try it out! Interact with the live demo.
+                    </span>
+                  </div>
+                  {/* ------------------------- */}
                 </div>
               </div>
             </div>
