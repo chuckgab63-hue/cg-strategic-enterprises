@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { SITE_PROGRESS_WEBHOOK_URL, MAINTENANCE_WEBHOOK_URL } from '../config/webhooks';
+import { SITE_PROGRESS_WEBHOOK_URL, MAINTENANCE_WEBHOOK_URL, SHOWING_WEBHOOK_URL } from '../config/webhooks';
 
 interface Message {
   id: string;
@@ -8,11 +8,36 @@ interface Message {
   imageUrl?: string | null;
 }
 
-type Mode = 'idle' | 'log-progress' | 'report-maintenance' | 'coming-soon';
+type Mode = 'idle' | 'log-progress' | 'report-maintenance' | 'schedule-showing';
+
+interface ShowingSlot {
+  key: string;
+  label: string;
+}
+
+function generateShowingSlots(): ShowingSlot[] {
+  const slots: ShowingSlot[] = [];
+  const dayFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  const cursor = new Date();
+  cursor.setDate(cursor.getDate() + 1); // start tomorrow
+
+  while (slots.length < 6) {
+    const day = cursor.getDay();
+    if (day !== 0 && day !== 6) { // skip weekends
+      const dateLabel = dayFmt.format(cursor);
+      const dateKey = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}-${String(cursor.getDate()).padStart(2, '0')}`;
+      slots.push({ key: `${dateKey}-10AM`, label: `${dateLabel}, 10:00 AM` });
+      slots.push({ key: `${dateKey}-2PM`, label: `${dateLabel}, 2:00 PM` });
+    }
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  return slots;
+}
+
+const SHOWING_SLOTS = generateShowingSlots();
 
 const PropertyWidget: React.FC = () => {
   const [mode, setMode] = useState<Mode>('idle');
-  const [comingSoonLabel, setComingSoonLabel] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [clientEmail, setClientEmail] = useState('');
@@ -26,6 +51,10 @@ const PropertyWidget: React.FC = () => {
   // Report Maintenance fields
   const [maintenanceLocation, setMaintenanceLocation] = useState('');
   const [issueDescription, setIssueDescription] = useState('');
+
+  // Schedule Showing fields
+  const [showingProperty, setShowingProperty] = useState('');
+  const [selectedSlot, setSelectedSlot] = useState<ShowingSlot | null>(null);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -70,18 +99,10 @@ const PropertyWidget: React.FC = () => {
     setComment('');
     setMaintenanceLocation('');
     setIssueDescription('');
+    setShowingProperty('');
+    setSelectedSlot(null);
     setSelectedImage(null);
     setSelectedFile(null);
-  };
-
-  const selectComingSoon = (label: string) => {
-    setComingSoonLabel(label);
-    setMode('coming-soon');
-    setMessages(prev => [...prev, {
-      id: Date.now().toString(),
-      role: 'assistant',
-      text: `${label} is still being built for this demo. "Log Site Progress" and "Report Maintenance" are fully working \u2014 try one of those.`
-    }]);
   };
 
   const compressImage = (file: File): Promise<string> => {
@@ -250,6 +271,65 @@ const PropertyWidget: React.FC = () => {
 
   const isUploadMode = mode === 'log-progress' || mode === 'report-maintenance';
 
+  const handleSubmitShowing = async () => {
+    if (!showingProperty.trim() || !selectedSlot || !clientEmail.trim() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setMessages(prev => [...prev, {
+      id: Date.now().toString(),
+      role: 'user',
+      text: `Showing request: ${showingProperty}\n${selectedSlot.label}`
+    }]);
+
+    try {
+      const response = await fetch(SHOWING_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prospectEmail: clientEmail,
+          propertyLocation: showingProperty,
+          slotKey: selectedSlot.key,
+          slotLabel: selectedSlot.label,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
+      const data = await response.json().catch(() => ({}));
+
+      if (data.limitReached) {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: "You've reached today's usage limit for this demo (10 submissions). Check your email for details, or reach out to CG Strategic Enterprises directly to discuss your own embedded version."
+        }]);
+        resetToIdle();
+      } else if (data.slotTaken) {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: `Sorry, ${selectedSlot.label} was just booked by someone else. Please pick a different time.`
+        }]);
+        setSelectedSlot(null);
+      } else {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          text: `Confirmed! Your showing for **${showingProperty}** is booked for **${selectedSlot.label}**. A confirmation has been sent to your email.`
+        }]);
+        resetToIdle();
+      }
+    } catch (error) {
+      console.error('Showing booking failed:', error);
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        text: 'Something went wrong booking that \u2014 please try again.'
+      }]);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="relative w-full max-w-md mx-auto bg-slate-50 rounded-[2rem] overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col h-[650px] border border-white/10">
 
@@ -339,7 +419,7 @@ const PropertyWidget: React.FC = () => {
               Report Maintenance
             </button>
             <button
-              onClick={() => selectComingSoon('Schedule Showing')}
+              onClick={() => setMode('schedule-showing')}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-blue-500 hover:text-[#020617] hover:shadow-md transition-all text-left"
             >
               Schedule Showing
@@ -347,13 +427,63 @@ const PropertyWidget: React.FC = () => {
           </div>
         )}
 
-        {mode === 'coming-soon' && (
-          <button
-            onClick={resetToIdle}
-            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-[#020617] transition-colors self-start"
-          >
-            &larr; Back to menu ({comingSoonLabel})
-          </button>
+        {mode === 'schedule-showing' && (
+          <>
+            <input
+              type="email"
+              value={clientEmail}
+              onChange={(e) => setClientEmail(e.target.value)}
+              placeholder="Your email"
+              disabled={isSubmitting}
+              className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
+            />
+
+            <input
+              type="text"
+              value={showingProperty}
+              onChange={(e) => setShowingProperty(e.target.value)}
+              placeholder="Which property?"
+              disabled={isSubmitting}
+              className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
+            />
+
+            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+              {SHOWING_SLOTS.map((slot) => (
+                <button
+                  key={slot.key}
+                  onClick={() => setSelectedSlot(slot)}
+                  disabled={isSubmitting}
+                  className={`p-2.5 rounded-xl text-xs font-bold text-center transition-all border disabled:opacity-50 ${
+                    selectedSlot?.key === slot.key
+                      ? 'bg-[#020617] text-blue-400 border-[#020617]'
+                      : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-400'
+                  }`}
+                >
+                  {slot.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={handleSubmitShowing}
+              disabled={isSubmitting || !showingProperty.trim() || !selectedSlot || !clientEmail.trim()}
+              className={`h-12 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-widest transition-colors ${
+                isSubmitting || !showingProperty.trim() || !selectedSlot || !clientEmail.trim()
+                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
+              }`}
+            >
+              {isSubmitting ? 'Booking...' : 'Book Showing'}
+            </button>
+
+            <button
+              onClick={resetToIdle}
+              disabled={isSubmitting}
+              className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors self-start disabled:opacity-50"
+            >
+              Cancel
+            </button>
+          </>
         )}
 
         {isUploadMode && (
