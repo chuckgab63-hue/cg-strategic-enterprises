@@ -17,6 +17,7 @@ const PropertyWidget: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [siteLocation, setSiteLocation] = useState('');
   const [crewNumber, setCrewNumber] = useState('');
+  const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [messages, setMessages] = useState<Message[]>([
@@ -59,6 +60,7 @@ const PropertyWidget: React.FC = () => {
     setMode('idle');
     setSiteLocation('');
     setCrewNumber('');
+    setComment('');
     setSelectedImage(null);
     setSelectedFile(null);
   };
@@ -115,7 +117,7 @@ const PropertyWidget: React.FC = () => {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'user',
-      text: `Site: ${siteLocation} \u00b7 Crew #${crewNumber}`,
+      text: comment.trim() ? `Site: ${siteLocation} \u00b7 Crew #${crewNumber}\n${comment}` : `Site: ${siteLocation} \u00b7 Crew #${crewNumber}`,
       imageUrl: selectedImage
     }]);
 
@@ -127,7 +129,7 @@ const PropertyWidget: React.FC = () => {
       const response = await fetch(SITE_PROGRESS_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ siteLocation, crewNumber, fileData, mimeType }),
+        body: JSON.stringify({ siteLocation, crewNumber, comment, fileData, mimeType }),
       });
 
       if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
@@ -293,6 +295,15 @@ const PropertyWidget: React.FC = () => {
                 className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
               />
             </div>
+
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add a comment (optional)"
+              disabled={isSubmitting}
+              rows={2}
+              className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 resize-none"
+            />
 
             <div className="flex items-center gap-2">
               <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
