@@ -216,7 +216,7 @@ export default function Portfolio() {
                     Time-Saving Automation
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Field Operations Hub
+                    3 Workflows, One Hub
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
@@ -230,13 +230,13 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-emerald-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">Automated Field Reporting</h3>
+                    <h3 className="text-xl font-black text-white">Three Workflows. One Widget.</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Crews log site progress in seconds — snap a photo, tag the site and crew number, add a quick note — directly from the job site, with no separate app to install.
+                    This single widget handles three of the most common property management workflows: logging site progress with photos, triaging and routing maintenance requests, and letting prospective tenants book their own property showings.
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                    Every photo is automatically filed into a shared Drive folder, and property managers get one clean digest email each evening instead of hunting through scattered texts and camera rolls for updates.
+                    Instead of juggling separate apps, text threads, and phone tag, property managers get one place where field updates, repair requests, and showing bookings all flow in — automatically organized, routed, and ready to act on.
                   </p>
 
                   {/* --- INTERACTIVE CTA --- */}
