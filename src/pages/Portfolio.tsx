@@ -7,6 +7,7 @@ import PropertyWidget from '../components/PropertyWidget';
 import AssetTrackerWidget from '../components/AssetTrackerWidget';
 import IslandFreshWidget from '../components/IslandFreshWidget';
 import TaxWidget from '../components/TaxWidget';
+import MobileExpandWidget from '../components/MobileExpandWidget';
 
 // --- Custom AI Video Player Component ---
 const VideoAd = ({ 
@@ -190,9 +191,9 @@ export default function Portfolio() {
 
             {/* Right Column: Island Fresh Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+               <MobileExpandWidget label="Island Fresh Ordering Demo">
                  <IslandFreshWidget />
-               </div>
+               </MobileExpandWidget>
             </div>
           </div>
 
@@ -251,9 +252,9 @@ export default function Portfolio() {
             
             {/* Right Column: Analysis Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+               <MobileExpandWidget label="Pest Diagnostic Demo">
                  <AnalysisWidget />
-               </div>
+               </MobileExpandWidget>
             </div>
           </div>
 
@@ -262,9 +263,9 @@ export default function Portfolio() {
             
             {/* Left Column: Property Widget (Drops to bottom on mobile) */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2 lg:order-1">
-               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+               <MobileExpandWidget label="Property Ops Hub Demo">
                  <PropertyWidget />
-               </div>
+               </MobileExpandWidget>
             </div>
 
             {/* Right Column: Text (Rises to top on mobile) */}
@@ -366,9 +367,9 @@ export default function Portfolio() {
 
             {/* Right Column: Asset Tracker Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+               <MobileExpandWidget label="Asset Tracker Demo">
                  <AssetTrackerWidget />
-               </div>
+               </MobileExpandWidget>
             </div>
 
           </div>
@@ -412,9 +413,9 @@ export default function Portfolio() {
             
             {/* Right Column: Tax Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+               <MobileExpandWidget label="Tax Engine Demo">
                  <TaxWidget />
-               </div>
+               </MobileExpandWidget>
             </div>
           </div>
 
