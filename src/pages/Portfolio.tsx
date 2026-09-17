@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import AnalysisWidget from '../components/AnalysisWidget';
 import PropertyWidget from '../components/PropertyWidget';
 import AssetTrackerWidget from '../components/AssetTrackerWidget';
+import IslandFreshWidget from '../components/IslandFreshWidget';
 import TaxWidget from '../components/TaxWidget';
 
 // --- Custom AI Video Player Component ---
@@ -137,7 +138,64 @@ export default function Portfolio() {
         </div>
 
         <div className="w-full flex flex-col gap-20 mb-32">
-          
+
+          {/* --- Case Study 0: Island Fresh (Text Left, Widget Right) --- */}
+          <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            {/* Left Column: Text */}
+            <div className="flex flex-col gap-6 order-1">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-green-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                    Full Ordering Platform
+                  </span>
+                  <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
+                    Island Fresh Meals
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
+                  Order Ahead, <br className="hidden md:block" /> Simplified.
+                </h2>
+              </div>
+
+              <div className="border-t border-slate-800 pt-6 flex flex-col gap-6">
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 className="text-xl font-black text-white">A Complete Ordering Experience</h3>
+                  </div>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-3">
+                    Built around Island Fresh's real menu and their actual weekly ordering cadence — order by Sunday 9AM, delivery Wednesday. Customers browse real meals, build a cart, and check out with delivery or pickup, all without leaving the page.
+                  </p>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                    This demonstrates what a fully custom-built ordering platform could look like — fast, focused, and tailored entirely to their menu and cutoff schedule, with instant order confirmation to the customer and immediate notification to the kitchen.
+                  </p>
+
+                  {/* --- INTERACTIVE CTA --- */}
+                  <div className="flex items-center gap-3 animate-pulse mt-2">
+                    <div className="w-8 h-8 rounded-full bg-green-400/20 flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-green-400 hidden lg:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                      <svg className="w-4 h-4 text-green-400 block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                    <span className="text-green-400 font-black uppercase tracking-widest text-xs">
+                      Try it out! Interact with the live demo.
+                    </span>
+                  </div>
+                  {/* ------------------------- */}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Island Fresh Widget */}
+            <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
+               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+                 <IslandFreshWidget />
+               </div>
+            </div>
+          </div>
+
           {/* --- Case Study 1: One Source (Text Left, Widget Right) --- */}
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             
@@ -285,7 +343,7 @@ export default function Portfolio() {
                     <h3 className="text-xl font-black text-white">See Every Dumpster, Instantly.</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Built for a dumpster rental operation serving demolition and remodeling contractors. A driver logs a drop-off with the job site address, and it instantly appears as a pin on a live, aggregated map \u2014 no separate app, no manual spreadsheet updates.
+                    Built for a dumpster rental operation serving demolition and remodeling contractors. A driver logs a drop-off with the job site address, and it instantly appears as a pin on a live, aggregated map — no separate app, no manual spreadsheet updates.
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
                     Every drop-off and return triggers a real-time email, and a daily digest rolls up the day's activity automatically. When a unit heads back to the yard, one tap marks it returned and clears it from the active map.

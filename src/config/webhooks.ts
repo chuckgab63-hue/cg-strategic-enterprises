@@ -9,3 +9,4 @@ export const SHOWING_WEBHOOK_URL = 'https://hook.us2.make.com/dyk9yh1vnzho0icm9d
 export const ASSET_DROP_OFF_WEBHOOK_URL = 'https://hook.us2.make.com/uy2blad99b3bqxnxrt1k6mq3qysjvkis';
 export const ASSET_RETURN_WEBHOOK_URL = 'https://hook.us2.make.com/87znwz8ftrqpsmfwc49bf533g2kufs0l';
 export const ASSET_GET_LOCATIONS_WEBHOOK_URL = 'https://hook.us2.make.com/ohd5tlttrqstc7y4cg9377fwkncy5scv';
+export const ISLAND_FRESH_ORDER_WEBHOOK_URL = 'https://hook.us2.make.com/ubtyzoiqcnv2xsser1sqas9r4dofpqf0';
