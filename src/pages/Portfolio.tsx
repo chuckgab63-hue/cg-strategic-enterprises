@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 // --- Top-Level Widgets ---
 import AnalysisWidget from '../components/AnalysisWidget';
 import PropertyWidget from '../components/PropertyWidget';
+import AssetTrackerWidget from '../components/AssetTrackerWidget';
 import TaxWidget from '../components/TaxWidget';
 
 // --- Custom AI Video Player Component ---
@@ -254,6 +255,64 @@ export default function Portfolio() {
               </div>
             </div>
             
+          </div>
+
+          {/* --- Case Study 2.5: Asset Tracker (Text Left, Widget Right) --- */}
+          <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            {/* Left Column: Text */}
+            <div className="flex flex-col gap-6 order-1">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-amber-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                    Real-Time Tracking
+                  </span>
+                  <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
+                    Logistics & Fleet Ops
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
+                  Asset Tracking <br className="hidden md:block" /> Intelligence.
+                </h2>
+              </div>
+
+              <div className="border-t border-slate-800 pt-6 flex flex-col gap-6">
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center text-amber-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </div>
+                    <h3 className="text-xl font-black text-white">See Every Dumpster, Instantly.</h3>
+                  </div>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-3">
+                    Built for a dumpster rental operation serving demolition and remodeling contractors. A driver logs a drop-off with the job site address, and it instantly appears as a pin on a live, aggregated map \u2014 no separate app, no manual spreadsheet updates.
+                  </p>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                    Every drop-off and return triggers a real-time email, and a daily digest rolls up the day's activity automatically. When a unit heads back to the yard, one tap marks it returned and clears it from the active map.
+                  </p>
+
+                  {/* --- INTERACTIVE CTA --- */}
+                  <div className="flex items-center gap-3 animate-pulse mt-2">
+                    <div className="w-8 h-8 rounded-full bg-amber-400/20 flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-amber-400 hidden lg:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                      <svg className="w-4 h-4 text-amber-400 block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                    <span className="text-amber-400 font-black uppercase tracking-widest text-xs">
+                      Try it out! Interact with the live demo.
+                    </span>
+                  </div>
+                  {/* ------------------------- */}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Asset Tracker Widget */}
+            <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
+               <div className="absolute transform scale-[0.70] sm:scale-75 md:scale-[0.85] lg:scale-[0.80] xl:scale-90 origin-center">
+                 <AssetTrackerWidget />
+               </div>
+            </div>
+
           </div>
 
           {/* --- Case Study 3: Tax Engine (Text Left, Widget Right) --- */}
