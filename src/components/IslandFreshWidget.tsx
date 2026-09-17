@@ -304,15 +304,23 @@ const IslandFreshWidget: React.FC = () => {
           <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
             <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
           </div>
-          <h4 className="text-lg font-black text-[#0a3d2e]">Order Confirmed!</h4>
+          <h4 className="text-lg font-black text-[#0a3d2e]">Demo Order Captured</h4>
           <p className="text-sm text-slate-500 max-w-xs">
-            A confirmation has been sent to {email}. We'll be in touch to confirm payment before {deliveryLabel}.
+            This is a portfolio demo — no real food will be prepared or delivered. To place an actual order with Island Fresh, use their real ordering site below.
           </p>
+          <a
+            href="https://islandfreshmeals.com/menu/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 w-full bg-[#0a3d2e] text-green-400 font-black text-xs uppercase tracking-widest py-3 rounded-xl text-center hover:bg-slate-800 transition-colors"
+          >
+            Order for Real at islandfreshmeals.com &rarr;
+          </a>
           <button
             onClick={resetAll}
-            className="mt-2 text-xs font-black uppercase tracking-widest text-green-700 hover:underline"
+            className="mt-1 text-xs font-black uppercase tracking-widest text-slate-400 hover:underline"
           >
-            Place Another Order
+            Try the Demo Again
           </button>
         </div>
       )}
