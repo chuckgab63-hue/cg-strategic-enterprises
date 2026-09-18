@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // --- Restored Components ---
 import FramerPlayground from '../components/FramerPlayground';
@@ -39,7 +39,7 @@ export default function Home() {
         {/* Left Column: Visual Hook */}
         <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:ml-8">
           <motion.div
-            className="rounded-3xl"
+            className="rounded-3xl relative"
             initial={{ y: 0 }}
             animate={{ 
               y: [0, -15, 0],
@@ -72,6 +72,42 @@ export default function Home() {
               }}
               whileHover={{ scale: 1.05 }}
             />
+
+            {/* Subtle breathing glow over the medallion's outer ring \u2014 the image itself is untouched; this is a separate pulsing glow layered on top */}
+            <motion.div
+              className="absolute rounded-full pointer-events-none z-20"
+              style={{ top: '13%', left: '18%', right: '18%', bottom: '26%' }}
+              animate={{
+                boxShadow: [
+                  '0 0 20px 4px rgba(59,130,246,0.25)',
+                  '0 0 34px 10px rgba(59,130,246,0.5)',
+                  '0 0 20px 4px rgba(59,130,246,0.25)',
+                ],
+              }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
+            {/* Near-imperceptible slow-turning gears, layered over the mechanical side of the lion's head */}
+            <motion.div
+              className="absolute pointer-events-none z-20"
+              style={{ top: '48%', left: '34%', width: '9%', aspectRatio: '1 / 1' }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+            >
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
+                <path fill="#d946a8" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
+              </svg>
+            </motion.div>
+            <motion.div
+              className="absolute pointer-events-none z-20"
+              style={{ top: '55%', left: '41%', width: '7.5%', aspectRatio: '1 / 1' }}
+              animate={{ rotate: -360 }}
+              transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
+            >
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
+                <path fill="#2dd4bf" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
+              </svg>
+            </motion.div>
           </motion.div>
         </div>
 
