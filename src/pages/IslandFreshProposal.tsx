@@ -1,3 +1,5 @@
+import IslandFreshHeroArt from '../components/IslandFreshHeroArt';
+
 const PHASES = [
   {
     n: 1,
@@ -101,7 +103,14 @@ export default function IslandFreshProposal() {
         .if-wrap { max-width: 760px; margin: 0 auto; padding: 0 28px; }
         .if-measure { max-width: 63ch; }
 
-        .if-hero { padding: 96px 0 72px; }
+        .if-art-band {
+          width: 100%;
+          background: #0B2B21;
+          line-height: 0;
+        }
+        .if-hero-art { width: 100%; height: auto; display: block; }
+
+        .if-hero { padding: 64px 0 72px; }
         .if-hero h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); margin: 0 0 24px; }
         .if-kicker {
           font-family: 'Karla', sans-serif;
@@ -182,10 +191,14 @@ export default function IslandFreshProposal() {
         .if-sig { margin-top: 30px; font-size: 0.9rem; color: var(--ink-soft); }
 
         @media (max-width: 560px) {
-          .if-hero { padding: 64px 0 48px; }
+          .if-hero { padding: 44px 0 48px; }
           .if-phase { grid-template-columns: 40px 1fr; gap: 14px; }
         }
       `}</style>
+
+      <div className="if-art-band">
+        <IslandFreshHeroArt />
+      </div>
 
       <header className="if-hero">
         <div className="if-wrap">
