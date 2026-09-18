@@ -94,7 +94,7 @@ export default function Home() {
             {/* Slow-turning gears, layered over the mechanical side of the lion's head \u2014 three shapes: large magenta, small teal, small dark-pink. Each cycles hue as it spins. */}
             <motion.div
               className="absolute pointer-events-none z-20"
-              style={{ top: '48%', left: '33%', width: '9%', aspectRatio: '1 / 1' }}
+              style={{ top: '48%', left: '37%', width: '9%', aspectRatio: '1 / 1' }}
               animate={{ rotate: 360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
               transition={{
                 rotate: { duration: 7, repeat: Infinity, ease: 'linear' },
@@ -120,7 +120,7 @@ export default function Home() {
             </motion.div>
             <motion.div
               className="absolute pointer-events-none z-20"
-              style={{ top: '60%', left: '45%', width: '4.5%', aspectRatio: '1 / 1' }}
+              style={{ top: '60%', left: '49%', width: '4.5%', aspectRatio: '1 / 1' }}
               animate={{ rotate: 360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
               transition={{
                 rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
