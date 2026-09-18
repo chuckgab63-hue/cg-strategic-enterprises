@@ -73,48 +73,61 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
             />
 
-            {/* Subtle breathing glow over the medallion's outer ring \u2014 the image itself is untouched; this is a separate pulsing glow layered on top */}
+            {/* Breathing glow over the medallion's outer ring \u2014 the image itself is untouched; this is a separate pulsing, hue-cycling glow layered on top */}
             <motion.div
               className="absolute rounded-full pointer-events-none z-20"
               style={{ top: '13%', left: '18%', right: '18%', bottom: '26%' }}
               animate={{
                 boxShadow: [
-                  '0 0 20px 4px rgba(59,130,246,0.25)',
-                  '0 0 34px 10px rgba(59,130,246,0.5)',
-                  '0 0 20px 4px rgba(59,130,246,0.25)',
+                  '0 0 28px 8px rgba(59,130,246,0.55)',
+                  '0 0 48px 18px rgba(59,130,246,0.9)',
+                  '0 0 28px 8px rgba(59,130,246,0.55)',
                 ],
+                filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'],
               }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                boxShadow: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+                filter: { duration: 9, repeat: Infinity, ease: 'linear' },
+              }}
             />
 
-            {/* Slow-turning gears, layered over the mechanical side of the lion's head \u2014 three shapes: large magenta, small teal, small dark-pink */}
+            {/* Slow-turning gears, layered over the mechanical side of the lion's head \u2014 three shapes: large magenta, small teal, small dark-pink. Each cycles hue as it spins. */}
             <motion.div
               className="absolute pointer-events-none z-20"
               style={{ top: '48%', left: '33%', width: '9%', aspectRatio: '1 / 1' }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
+              animate={{ rotate: 360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
+              transition={{
+                rotate: { duration: 7, repeat: Infinity, ease: 'linear' },
+                filter: { duration: 5, repeat: Infinity, ease: 'linear' },
+              }}
             >
-              <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-85">
                 <path fill="#d946a8" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
             </motion.div>
             <motion.div
               className="absolute pointer-events-none z-20"
               style={{ top: '53%', left: '42%', width: '5.5%', aspectRatio: '1 / 1' }}
-              animate={{ rotate: -360 }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+              animate={{ rotate: -360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
+              transition={{
+                rotate: { duration: 6, repeat: Infinity, ease: 'linear' },
+                filter: { duration: 4, repeat: Infinity, ease: 'linear' },
+              }}
             >
-              <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-85">
                 <path fill="#2dd4bf" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
             </motion.div>
             <motion.div
               className="absolute pointer-events-none z-20"
               style={{ top: '60%', left: '45%', width: '4.5%', aspectRatio: '1 / 1' }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              animate={{ rotate: 360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
+              transition={{
+                rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
+                filter: { duration: 6, repeat: Infinity, ease: 'linear' },
+              }}
             >
-              <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-85">
                 <path fill="#be185d" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
             </motion.div>
