@@ -92,7 +92,7 @@ export default function Home() {
               className="absolute pointer-events-none z-20"
               style={{ top: '48%', left: '34%', width: '9%', aspectRatio: '1 / 1' }}
               animate={{ rotate: 360 }}
-              transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
             >
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
                 <path fill="#d946a8" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
@@ -102,7 +102,7 @@ export default function Home() {
               className="absolute pointer-events-none z-20"
               style={{ top: '55%', left: '41%', width: '7.5%', aspectRatio: '1 / 1' }}
               animate={{ rotate: -360 }}
-              transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
             >
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
                 <path fill="#2dd4bf" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
