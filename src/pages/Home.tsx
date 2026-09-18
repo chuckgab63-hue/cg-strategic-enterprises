@@ -87,10 +87,10 @@ export default function Home() {
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
             />
 
-            {/* Near-imperceptible slow-turning gears, layered over the mechanical side of the lion's head */}
+            {/* Slow-turning gears, layered over the mechanical side of the lion's head \u2014 three shapes: large magenta, small teal, small dark-pink */}
             <motion.div
               className="absolute pointer-events-none z-20"
-              style={{ top: '48%', left: '34%', width: '9%', aspectRatio: '1 / 1' }}
+              style={{ top: '48%', left: '33%', width: '9%', aspectRatio: '1 / 1' }}
               animate={{ rotate: 360 }}
               transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
             >
@@ -100,12 +100,22 @@ export default function Home() {
             </motion.div>
             <motion.div
               className="absolute pointer-events-none z-20"
-              style={{ top: '55%', left: '41%', width: '7.5%', aspectRatio: '1 / 1' }}
+              style={{ top: '53%', left: '42%', width: '5.5%', aspectRatio: '1 / 1' }}
               animate={{ rotate: -360 }}
               transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
             >
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
                 <path fill="#2dd4bf" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
+              </svg>
+            </motion.div>
+            <motion.div
+              className="absolute pointer-events-none z-20"
+              style={{ top: '60%', left: '45%', width: '4.5%', aspectRatio: '1 / 1' }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+            >
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-40">
+                <path fill="#be185d" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
             </motion.div>
           </motion.div>
