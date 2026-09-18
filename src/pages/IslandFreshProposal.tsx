@@ -1,4 +1,5 @@
 import IslandFreshHeroArt from '../components/IslandFreshHeroArt';
+import IslandFreshMenu from '../components/IslandFreshMenu';
 
 const PHASES = [
   {
@@ -195,6 +196,8 @@ export default function IslandFreshProposal() {
           .if-phase { grid-template-columns: 40px 1fr; gap: 14px; }
         }
       `}</style>
+
+      <IslandFreshMenu />
 
       <div className="if-art-band">
         <IslandFreshHeroArt />
