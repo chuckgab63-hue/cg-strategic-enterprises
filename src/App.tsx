@@ -1,4 +1,4 @@
-import React from 'react';
+// (no default React import needed — this project uses the react-jsx transform)
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Global Components
@@ -14,6 +14,7 @@ import CinematicSequences from './pages/CinematicSequences';
 import FluidDynamics from './pages/FluidDynamics';
 import UIPolish from './pages/UIPolish';
 import Skunkworks from './pages/Skunkworks';
+import IslandFreshProposal from './pages/IslandFreshProposal';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="/fluid-dynamics" element={<FluidDynamics />} />
             <Route path="/ui-polish" element={<UIPolish />} />
             <Route path="/skunkworks" element={<Skunkworks />} />
+            <Route path="/island-fresh" element={<IslandFreshProposal />} />
           </Routes>
         </main>
         
