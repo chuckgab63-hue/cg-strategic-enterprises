@@ -16,6 +16,9 @@ const PHASES = [
     when: 'Following week',
     body: 'The audit becomes an itemized plan. Every piece written down, priced separately, with the sequence they get built in. We go back and forth until it matches what you actually want.',
   },
+  // TODO(chuck): the scope behind this phase has grown since the original estimate.
+  // It now includes a working backend (database + secure admin auth) and the AI image
+  // pipeline, both demonstrated this week. Revisit the quoted range before numbers go out.
   {
     n: 3,
     name: 'Pricing',
