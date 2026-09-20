@@ -1,6 +1,8 @@
 import IslandFreshHeroArt from '../components/IslandFreshHeroArt';
 import IslandFreshMenu from '../components/IslandFreshMenu';
 
+const PROTOTYPE_URL = 'https://islandfreshmeals-git-main-chuckgab63-5322s-projects.vercel.app';
+
 const PHASES = [
   {
     n: 1,
@@ -88,6 +90,18 @@ const SCOPE = [
     ],
   },
 ];
+
+function PrototypeLink({ className = '' }) {
+  return (
+    <p className={`if-cta-row ${className}`.trim()}>
+      <a className="if-cta" href={PROTOTYPE_URL} target="_blank" rel="noopener noreferrer">
+        Try the Live Prototype
+        <span aria-hidden="true">→</span>
+      </a>
+      <span className="if-cta-note">Opens the working build in a new tab.</span>
+    </p>
+  );
+}
 
 export default function IslandFreshProposal() {
   return (
@@ -203,6 +217,34 @@ export default function IslandFreshProposal() {
         .if-note ul { margin: 0; padding-left: 18px; color: var(--ink-soft); }
         .if-note li { margin-bottom: 8px; }
 
+        .if-cta-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 8px 16px;
+          margin: 0;
+        }
+        .if-cta-row.is-hero { margin-top: 30px; }
+        .if-cta-row.is-group { margin-top: 22px; }
+        .if-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: 'Karla', sans-serif;
+          font-size: 0.98rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          background: var(--ink);
+          border: 1px solid var(--ink);
+          border-radius: 3px;
+          padding: 13px 22px;
+          text-decoration: none;
+          transition: background .18s ease, color .18s ease, border-color .18s ease;
+        }
+        .if-cta:hover { background: var(--mango); border-color: var(--mango); color: var(--ink); }
+        .if-cta:focus-visible { outline: 2px solid var(--mango); outline-offset: 3px; }
+        .if-cta-note { font-size: 0.88rem; color: var(--ink-soft); }
+
         .if-end { border-top: 3px solid var(--ink); padding: 40px 0 110px; }
         .if-end h2 { font-size: 1.6rem; margin: 0 0 14px; }
         .if-end p { color: var(--ink-soft); }
@@ -211,6 +253,7 @@ export default function IslandFreshProposal() {
         @media (max-width: 560px) {
           .if-hero { padding: 44px 0 48px; }
           .if-phase { grid-template-columns: 40px 1fr; gap: 14px; }
+          .if-cta { width: 100%; justify-content: center; }
         }
       `}</style>
 
@@ -229,6 +272,7 @@ export default function IslandFreshProposal() {
             consists of, and the order I would do it in. Nothing here is final. It exists so
             Thursday is a working session instead of a recap.
           </p>
+          <PrototypeLink className="is-hero" />
         </div>
       </header>
 
@@ -289,6 +333,7 @@ export default function IslandFreshProposal() {
                   <span>{desc}</span>
                 </div>
               ))}
+              {g.live && <PrototypeLink className="is-group" />}
             </div>
           ))}
 
