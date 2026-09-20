@@ -126,6 +126,9 @@ export default function IslandFreshProposal() {
           font-family: 'Karla', system-ui, sans-serif;
           font-size: 17px;
           line-height: 1.6;
+          /* #root in index.css centers everything site-wide. This proposal is set as
+             left-aligned prose, so undo that inside the page only. */
+          text-align: left;
         }
         .if-proposal h1, .if-proposal h2, .if-proposal h3 {
           font-family: 'Fraunces', Georgia, serif;
