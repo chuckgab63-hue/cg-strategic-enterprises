@@ -1,7 +1,12 @@
 import IslandFreshHeroArt from '../components/IslandFreshHeroArt';
 import IslandFreshMenu from '../components/IslandFreshMenu';
 
-const PROTOTYPE_URL = 'https://islandfreshmeals-git-main-chuckgab63-5322s-projects.vercel.app';
+const PROTOTYPE_BASE = 'https://islandfreshmeals-git-main-chuckgab63-5322s-projects.vercel.app';
+
+const PROTOTYPE_LINKS = [
+  { label: 'Try the Storefront', href: `${PROTOTYPE_BASE}/menu` },
+  { label: 'Try the Admin Dashboard', href: `${PROTOTYPE_BASE}/admin/login` },
+];
 
 const PHASES = [
   {
@@ -94,14 +99,22 @@ const SCOPE = [
   },
 ];
 
-function PrototypeLink({ className = '' }) {
+function PrototypeLinks({ className = '' }) {
   return (
     <p className={`if-cta-row ${className}`.trim()}>
-      <a className="if-cta" href={PROTOTYPE_URL} target="_blank" rel="noopener noreferrer">
-        Try the Live Prototype
-        <span aria-hidden="true">→</span>
-      </a>
-      <span className="if-cta-note">Opens the working build in a new tab.</span>
+      {PROTOTYPE_LINKS.map((link) => (
+        <a
+          className="if-cta"
+          href={link.href}
+          key={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {link.label}
+          <span aria-hidden="true">→</span>
+        </a>
+      ))}
+      <span className="if-cta-note">Both open the working build in a new tab.</span>
     </p>
   );
 }
@@ -278,7 +291,7 @@ export default function IslandFreshProposal() {
             consists of, and the order I would do it in. Nothing here is final. It exists so
             Thursday is a working session instead of a recap.
           </p>
-          <PrototypeLink className="is-hero" />
+          <PrototypeLinks className="is-hero" />
         </div>
       </header>
 
@@ -339,7 +352,7 @@ export default function IslandFreshProposal() {
                   <span>{desc}</span>
                 </div>
               ))}
-              {g.live && <PrototypeLink className="is-group" />}
+              {g.live && <PrototypeLinks className="is-group" />}
             </div>
           ))}
 
