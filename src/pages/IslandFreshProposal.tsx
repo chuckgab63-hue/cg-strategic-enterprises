@@ -36,8 +36,19 @@ const PHASES = [
 
 const SCOPE = [
   {
+    group: 'Already built',
+    urgent: false,
+    live: true,
+    note: 'Demonstrated working this week. These are running now, not proposals.',
+    items: [
+      ['Secure Admin Dashboard', 'You update meal pricing, toggle free delivery on and off, manage pickup locations, and edit coupon codes yourself, in real time, with a full history of every change. No developer in the loop. Live and working as of this week.'],
+      ['AI-Consistent Meal Photography', 'New meals get a professional, on-brand photo generated automatically to match the look of the existing menu, so the imagery stays consistent as the menu grows. Each image is quality-checked automatically before it comes to you for approval. Already generating real images today.'],
+    ],
+  },
+  {
     group: 'Stop the bleeding',
     urgent: true,
+    live: false,
     note: 'Built and shipped first, ahead of everything else.',
     items: [
       ['Checkout and order capture rebuild', 'A checkout that reliably records every order and customer, replacing the one that stopped logging after your provider moved servers.'],
@@ -47,6 +58,7 @@ const SCOPE = [
   {
     group: 'Foundation',
     urgent: false,
+    live: false,
     note: 'The plumbing everything else depends on.',
     items: [
       ['Customer and subscription migration', 'Roughly 2,000 profiles moved with a staged export, verify, import, verify again process. You lost 50 subscriptions in a past move. That does not happen here.'],
@@ -57,6 +69,7 @@ const SCOPE = [
   {
     group: 'Automation',
     urgent: false,
+    live: false,
     note: 'Work you currently do by hand, done for you.',
     items: [
       ['Weekly specials and rotating coupons', 'New code generated and pushed into the weekly campaign automatically. No more setting up the same FRESH20 by hand every week.'],
@@ -68,6 +81,7 @@ const SCOPE = [
   {
     group: 'Intelligence',
     urgent: false,
+    live: false,
     note: 'The part your current provider cannot build.',
     items: [
       ['AI meal recommendation assistant', 'Customers describe what they want in plain language and get matched to real meals from your menu. Working demo available now.'],
@@ -89,6 +103,7 @@ export default function IslandFreshProposal() {
           --edge: #D6E0D6;
           --mango: #E2930B;
           --hibiscus: #B8362E;
+          --leaf: #1F7A4D;
           background: var(--ground);
           color: var(--ink);
           font-family: 'Karla', system-ui, sans-serif;
@@ -175,6 +190,8 @@ export default function IslandFreshProposal() {
         .if-item strong { display: block; font-weight: 700; margin-bottom: 4px; }
         .if-item span { color: var(--ink-soft); font-size: 0.97rem; }
         .if-group.is-urgent .if-item strong { color: var(--hibiscus); }
+        .if-flag.is-live { color: var(--leaf); border-color: var(--leaf); }
+        .if-group.is-live .if-item strong { color: var(--leaf); }
 
         .if-note {
           background: var(--surface);
@@ -256,10 +273,14 @@ export default function IslandFreshProposal() {
             padded to look impressive.
           </p>
           {SCOPE.map((g) => (
-            <div className={`if-group${g.urgent ? ' is-urgent' : ''}`} key={g.group}>
+            <div
+              className={`if-group${g.urgent ? ' is-urgent' : ''}${g.live ? ' is-live' : ''}`}
+              key={g.group}
+            >
               <div className="if-group-head">
                 <h3>{g.group}</h3>
                 {g.urgent && <span className="if-flag">First</span>}
+                {g.live && <span className="if-flag is-live">Live</span>}
               </div>
               <p className="if-group-note">{g.note}</p>
               {g.items.map(([title, desc]) => (
@@ -275,9 +296,10 @@ export default function IslandFreshProposal() {
             <h3>Not included, and worth saying so</h3>
             <ul>
               <li>
-                Product photography. Your current images are generic stock. Replacing them would
-                change how the whole site reads, but it is a separate piece of work with its own
-                cost, and I would rather quote it on its own than bury it here.
+                Re-shooting the existing menu. The AI pipeline above keeps new meals on brand as
+                they are added, but replacing the generic stock images already on the site is a
+                separate piece of work with its own cost, and I would rather quote it on its own
+                than bury it here.
               </li>
               <li>
                 Third-party subscriptions. Your CRM, the AI usage, and review cards are billed to
