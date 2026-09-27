@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import ContactModal from './ContactModal';
+import { PHONE_HREF, PHONE_DISPLAY, CALL_ARIA_LABEL } from '../config/site';
 
 export default function GlobalFooter() {
-  const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'contact' | null>(null);
+  const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | null>(null);
 
   useEffect(() => {
     if (activeModal) {
@@ -63,12 +63,19 @@ export default function GlobalFooter() {
               <p className="text-xs text-slate-500 leading-relaxed max-w-[200px] text-center md:text-left font-medium">
                 Ready to upgrade your digital infrastructure? Let's build.
               </p>
-              <button 
-                onClick={() => setActiveModal('contact')}
-                className="bg-brand-orange text-white px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] mt-2 cursor-pointer"
+              <a
+                href={PHONE_HREF}
+                className="text-sm font-bold tracking-widest text-slate-300 hover:text-brand-orange transition-colors"
+              >
+                {PHONE_DISPLAY}
+              </a>
+              <a
+                href={PHONE_HREF}
+                aria-label={CALL_ARIA_LABEL}
+                className="inline-block bg-brand-orange text-white px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] mt-2 cursor-pointer"
               >
                 Let's Talk
-              </button>
+              </a>
             </div>
           </div>
 
@@ -142,9 +149,6 @@ export default function GlobalFooter() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* --- Global Contact Modal --- */}
-      <ContactModal isOpen={activeModal === 'contact'} onClose={() => setActiveModal(null)} source="Footer Contact Modal" />
     </>
   );
 }

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import ContactModal from './ContactModal';
+import { PHONE_HREF, CALL_ARIA_LABEL } from '../config/site';
 
 const NAV_LINKS = [
   { to: '/', label: 'Hub' },
@@ -10,8 +10,6 @@ const NAV_LINKS = [
 ];
 
 export default function GlobalHeader() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[50] bg-slate-950/80 backdrop-blur-md border-b border-slate-900">
@@ -35,19 +33,17 @@ export default function GlobalHeader() {
           </nav>
 
           <div className="lg:justify-self-end">
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="bg-brand-orange text-white px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
+            <a
+              href={PHONE_HREF}
+              aria-label={CALL_ARIA_LABEL}
+              className="inline-block bg-brand-orange text-white px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
             >
               Let's Talk
-            </button>
+            </a>
           </div>
           
         </div>
       </header>
-
-      {/* --- Global Communication Modal --- */}
-      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} source="Header Contact Modal" />
     </>
   );
 }
