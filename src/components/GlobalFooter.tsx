@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PHONE_HREF, PHONE_DISPLAY, CALL_ARIA_LABEL } from '../config/site';
+import { PHONE_HREF, PHONE_DISPLAY, CALL_ARIA_LABEL, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL } from '../config/site';
 
 export default function GlobalFooter() {
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | null>(null);
@@ -68,6 +68,13 @@ export default function GlobalFooter() {
                 className="text-sm font-bold tracking-widest text-slate-300 hover:text-brand-orange transition-colors"
               >
                 {PHONE_DISPLAY}
+              </a>
+              <a
+                href={EMAIL_HREF}
+                aria-label={EMAIL_ARIA_LABEL}
+                className="text-sm md:text-xs xl:text-sm font-bold tracking-widest text-slate-300 hover:text-brand-orange transition-colors"
+              >
+                {EMAIL.split('@')[0]}@<wbr />{EMAIL.split('@')[1]}
               </a>
               <a
                 href={PHONE_HREF}

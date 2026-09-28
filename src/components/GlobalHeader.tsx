@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PHONE_HREF, CALL_ARIA_LABEL } from '../config/site';
+import { PHONE_HREF, CALL_ARIA_LABEL, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL } from '../config/site';
 
 const NAV_LINKS = [
   { to: '/', label: 'Hub' },
@@ -32,7 +32,17 @@ export default function GlobalHeader() {
             ))}
           </nav>
 
-          <div className="lg:justify-self-end">
+          <div className="flex items-center gap-3 xl:gap-5 lg:justify-self-end">
+            <a
+              href={EMAIL_HREF}
+              aria-label={EMAIL_ARIA_LABEL}
+              className="flex items-center gap-2 p-2 xl:p-0 text-xs font-bold tracking-widest text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap"
+            >
+              <svg className="w-5 h-5 xl:w-4 xl:h-4 text-brand-orange shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+              <span className="hidden xl:inline">{EMAIL}</span>
+            </a>
             <a
               href={PHONE_HREF}
               aria-label={CALL_ARIA_LABEL}
