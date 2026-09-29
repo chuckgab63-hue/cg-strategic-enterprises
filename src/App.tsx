@@ -15,6 +15,8 @@ import FluidDynamics from './pages/FluidDynamics';
 import UIPolish from './pages/UIPolish';
 import Skunkworks from './pages/Skunkworks';
 import IslandFreshProposal from './pages/IslandFreshProposal';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 
 export default function App() {
   return (
@@ -39,6 +41,8 @@ export default function App() {
             <Route path="/ui-polish" element={<UIPolish />} />
             <Route path="/skunkworks" element={<Skunkworks />} />
             <Route path="/island-fresh" element={<IslandFreshProposal />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
           </Routes>
         </main>
         
