@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CONTACT_WEBHOOK_URL } from '../config/webhooks';
-import { SMS_CONSENT_TEXT } from '../config/site';
+import ContactForm, { type ContactFormCopy } from './ContactForm';
 
 type Variant = 'default' | 'cinematic';
 
@@ -16,17 +14,10 @@ interface ContactModalProps {
   source: string;
 }
 
-const COPY: Record<Variant, {
+const COPY: Record<Variant, ContactFormCopy & {
   title: string;
   subtitle: string;
   formLabel: string;
-  namePlaceholder: string;
-  emailPlaceholder: string;
-  messagePlaceholder: string;
-  submitLabel: string;
-  submittingLabel: string;
-  successTitle: string;
-  successMessage: string;
 }> = {
   default: {
     title: "Let's Connect",
@@ -54,26 +45,9 @@ const COPY: Record<Variant, {
   },
 };
 
-// Render the consent label straight from the shared constant so the on-screen
-// wording and the sms_consent_text sent to Make.com can never drift apart.
-const [CONSENT_BEFORE_PRIVACY, CONSENT_AFTER_PRIVACY] = SMS_CONSENT_TEXT.split('Privacy Policy');
-const [CONSENT_BETWEEN_LINKS, CONSENT_AFTER_TERMS] = CONSENT_AFTER_PRIVACY.split('SMS Terms');
-
-const EMPTY_FORM = { name: '', email: '', phone: '', message: '', smsConsent: false };
-
 export default function ContactModal({ isOpen, onClose, initialMessage = '', variant = 'default', source }: ContactModalProps) {
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [formData, setFormData] = useState(EMPTY_FORM);
-  const [phoneError, setPhoneError] = useState('');
   const [callText, setCallText] = useState('Initiate Call');
   const copy = COPY[variant];
-
-  // Pre-fill the message if the user clicked a specific workflow button
-  useEffect(() => {
-    if (isOpen) {
-      setFormData(prev => ({ ...prev, message: initialMessage }));
-    }
-  }, [isOpen, initialMessage]);
 
   // Reset the "Coming Soon" button when the modal closes
   useEffect(() => {
@@ -87,39 +61,6 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
     document.body.style.overflow = isOpen ? 'hidden' : 'unset';
     return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.smsConsent && !formData.phone.trim()) {
-      setPhoneError('Please enter a mobile number so we can text you, or uncheck the text message box.');
-      return;
-    }
-    setFormStatus('submitting');
-    const { smsConsent, ...fields } = formData;
-    try {
-      const response = await fetch(CONTACT_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...fields,
-          source,
-          sms_consent: smsConsent,
-          sms_consent_text: SMS_CONSENT_TEXT,
-          ...(smsConsent && { sms_consent_timestamp: new Date().toISOString() }),
-        }),
-      });
-      if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
-      setFormStatus('success');
-      setTimeout(() => {
-        setFormStatus('idle');
-        onClose();
-        setFormData(EMPTY_FORM);
-      }, 3000);
-    } catch (error) {
-      console.error('Webhook failed:', error);
-      setFormStatus('error');
-    }
-  };
 
   return (
     <AnimatePresence>
@@ -183,77 +124,12 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
                    <h4 className="text-white font-bold text-lg">{copy.formLabel}</h4>
                 </div>
                 
-                {formStatus === 'success' ? (
-                  <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <h5 className="text-emerald-400 font-bold mb-2">{copy.successTitle}</h5>
-                    <p className="text-slate-400 text-sm">{copy.successMessage}</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {formStatus === 'error' && (
-                      <p className="text-red-400 text-xs font-semibold">
-                        Something went wrong sending that — please try again, or reach us directly.
-                      </p>
-                    )}
-                    <input 
-                      type="text" required placeholder={copy.namePlaceholder}
-                      value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full bg-slate-950 border border-slate-700 focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors"
-                    />
-                    <input 
-                      type="email" required placeholder={copy.emailPlaceholder}
-                      value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full bg-slate-950 border border-slate-700 focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors"
-                    />
-                    <input
-                      type="tel" autoComplete="tel" placeholder="Mobile phone (optional)"
-                      aria-label="Mobile phone (optional)"
-                      aria-invalid={phoneError ? true : undefined}
-                      aria-describedby={phoneError ? 'contact-phone-error' : undefined}
-                      value={formData.phone}
-                      onChange={(e) => { setFormData({...formData, phone: e.target.value}); setPhoneError(''); }}
-                      className={`w-full bg-slate-950 border ${phoneError ? 'border-red-400' : 'border-slate-700'} focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors`}
-                    />
-                    {phoneError && (
-                      <p id="contact-phone-error" role="alert" className="text-red-400 text-xs font-semibold -mt-2">
-                        {phoneError}
-                      </p>
-                    )}
-                    <textarea 
-                      required placeholder={copy.messagePlaceholder} rows={4}
-                      value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      className="w-full bg-slate-950 border border-slate-700 focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors resize-none"
-                    />
-                    <label className="flex items-start gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.smsConsent}
-                        onChange={(e) => { setFormData({...formData, smsConsent: e.target.checked}); setPhoneError(''); }}
-                        className="mt-0.5 w-4 h-4 shrink-0 accent-brand-orange cursor-pointer"
-                      />
-                      <span className="text-xs text-slate-300 leading-relaxed">
-                        {CONSENT_BEFORE_PRIVACY}
-                        <Link to="/privacy" className="text-brand-orange underline hover:text-white transition-colors">Privacy Policy</Link>
-                        {CONSENT_BETWEEN_LINKS}
-                        <Link to="/terms#sms" className="text-brand-orange underline hover:text-white transition-colors">SMS Terms</Link>
-                        {CONSENT_AFTER_TERMS}
-                      </span>
-                    </label>
-                    <button 
-                      type="submit" disabled={formStatus === 'submitting'}
-                      className={`w-full mt-2 py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] ${
-                        formStatus === 'submitting' 
-                          ? 'bg-slate-700 text-slate-400 cursor-not-allowed border border-slate-600' 
-                          : 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange border border-transparent'
-                      }`}
-                    >
-                      {formStatus === 'submitting' ? copy.submittingLabel : copy.submitLabel}
-                    </button>
-                  </form>
-                )}
+                <ContactForm
+                  source={source}
+                  copy={copy}
+                  initialMessage={initialMessage}
+                  onSuccess={onClose}
+                />
               </div>
 
             </div>

@@ -74,7 +74,7 @@ export default function Terms() {
         </p>
         <p>
           <strong className="text-white">How to opt in:</strong> Check the optional text message consent
-          box on our contact form and provide your mobile number. Consent is not a condition of
+          box on our <Link to="/contact" className={linkClass}>contact form</Link> and provide your mobile number. Consent is not a condition of
           purchase.
         </p>
         <ul className="list-disc pl-6 flex flex-col gap-2">

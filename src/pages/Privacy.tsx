@@ -52,7 +52,8 @@ export default function Privacy() {
           Mobile phone numbers and SMS consent collected by CG Strategic Enterprises will not be shared, sold, or rented to third parties or affiliates for marketing or promotional purposes. Information may be shared with service providers (such as our messaging platform) solely to deliver messages you have requested. Text messaging originator opt-in data and consent will not be shared with any third parties.
         </p>
         <p>
-          Text messaging is optional. You can opt out at any time by replying STOP, or get help by
+          You can opt in to text messages using the consent checkbox on our{' '}
+          <Link to="/contact" className={linkClass}>Contact page</Link>. Text messaging is optional. You can opt out at any time by replying STOP, or get help by
           replying HELP. See our <Link to="/terms#sms" className={linkClass}>SMS Terms</Link> for
           full program details.
         </p>

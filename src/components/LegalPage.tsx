@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { BUSINESS_NAME, LEGAL_LAST_UPDATED } from '../config/site';
+import usePageMeta from '../hooks/usePageMeta';
 
 interface LegalPageProps {
   title: string;
@@ -12,11 +13,7 @@ interface LegalPageProps {
 export default function LegalPage({ title, children }: LegalPageProps) {
   const { hash } = useLocation();
 
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = `${title} | ${BUSINESS_NAME}`;
-    return () => { document.title = previousTitle; };
-  }, [title]);
+  usePageMeta(`${title} | ${BUSINESS_NAME}`);
 
   // ScrollToTop sends every route change to the top, so deep links like
   // /terms#sms need to jump to their section after that has run.

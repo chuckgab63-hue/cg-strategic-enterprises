@@ -41,6 +41,7 @@ export default function GlobalFooter() {
             <h4 className="text-white font-black tracking-widest uppercase text-xs mb-2">Legal</h4>
             <Link to="/privacy" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Terms</Link>
+            <Link to="/contact" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Contact</Link>
           </div>
 
           {/* Column 4: CTA */}
@@ -69,6 +70,9 @@ export default function GlobalFooter() {
             >
               Let's Talk
             </a>
+            <Link to="/contact" className="text-xs font-semibold tracking-wide text-slate-400 hover:text-brand-orange transition-colors">
+              Or send us a message
+            </Link>
           </div>
         </div>
 
