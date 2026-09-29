@@ -6,7 +6,8 @@ import {
 } from '../config/site';
 
 const FORM_COPY: ContactFormCopy = {
-  namePlaceholder: 'Your Name',
+  firstNamePlaceholder: 'First name',
+  lastNamePlaceholder: 'Last name',
   emailPlaceholder: 'Email Address',
   messagePlaceholder: 'How can we help you?',
   submitLabel: 'Send Message',

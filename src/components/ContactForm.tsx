@@ -7,7 +7,8 @@ import {
 } from '../config/site';
 
 export interface ContactFormCopy {
-  namePlaceholder: string;
+  firstNamePlaceholder: string;
+  lastNamePlaceholder: string;
   emailPlaceholder: string;
   messagePlaceholder: string;
   submitLabel: string;
@@ -29,7 +30,7 @@ interface ContactFormProps {
 }
 
 const EMPTY_FORM = {
-  name: '', email: '', phone: '', message: '',
+  firstName: '', lastName: '', email: '', phone: '', message: '',
   smsConsent: false, smsMarketingConsent: false, emailMarketingConsent: false,
 };
 
@@ -53,7 +54,10 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({ ...EMPTY_FORM, message: initialMessage });
   const [phoneError, setPhoneError] = useState('');
+  const [nameErrors, setNameErrors] = useState({ firstName: '', lastName: '' });
   const phoneErrorId = useId();
+  const firstNameErrorId = useId();
+  const lastNameErrorId = useId();
 
   // Pre-fill the message if the user clicked a specific workflow button
   useEffect(() => {
@@ -73,18 +77,32 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const firstName = formData.firstName.trim();
+    const lastName = formData.lastName.trim();
+    // `required` catches empty fields; this also catches whitespace-only ones.
+    if (!firstName || !lastName) {
+      setNameErrors({
+        firstName: firstName ? '' : 'Please enter your first name.',
+        lastName: lastName ? '' : 'Please enter your last name.',
+      });
+      return;
+    }
     if ((formData.smsConsent || formData.smsMarketingConsent) && !formData.phone.trim()) {
       setPhoneError('Please enter a mobile number so we can text you, or uncheck the text message boxes.');
       return;
     }
     setFormStatus('submitting');
-    const { smsConsent, smsMarketingConsent, emailMarketingConsent, ...fields } = formData;
+    const { firstName: _first, lastName: _last, smsConsent, smsMarketingConsent, emailMarketingConsent, ...fields } = formData;
     const now = new Date().toISOString();
     try {
       const response = await fetch(CONTACT_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          // Kept alongside the split fields so existing Make.com mappings keep working.
+          name: `${firstName} ${lastName}`.trim(),
           ...fields,
           source,
           sms_consent: smsConsent,
@@ -135,12 +153,29 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           <a href={PHONE_HREF} className={linkClass}>{PHONE_DISPLAY}</a>.
         </p>
       )}
-      <input
-        type="text" required autoComplete="name" placeholder={copy.namePlaceholder}
-        aria-label="Name"
-        value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
-        className={`${inputClass} border-slate-700`}
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {([
+          ['firstName', 'given-name', 'First name', copy.firstNamePlaceholder, firstNameErrorId],
+          ['lastName', 'family-name', 'Last name', copy.lastNamePlaceholder, lastNameErrorId],
+        ] as const).map(([field, autoComplete, label, placeholder, errorId]) => (
+          <div key={field} className="flex flex-col gap-2">
+            <input
+              type="text" required autoComplete={autoComplete} placeholder={placeholder}
+              aria-label={label}
+              aria-invalid={nameErrors[field] ? true : undefined}
+              aria-describedby={nameErrors[field] ? errorId : undefined}
+              value={formData[field]}
+              onChange={(e) => { setFormData({...formData, [field]: e.target.value}); setNameErrors({...nameErrors, [field]: ''}); }}
+              className={`${inputClass} ${nameErrors[field] ? 'border-red-400' : 'border-slate-700'}`}
+            />
+            {nameErrors[field] && (
+              <p id={errorId} role="alert" className="text-red-400 text-xs font-semibold">
+                {nameErrors[field]}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
       <input
         type="email" required autoComplete="email" placeholder={copy.emailPlaceholder}
         aria-label="Email"
