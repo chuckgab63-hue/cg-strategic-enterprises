@@ -65,6 +65,13 @@ export default function Terms() {
 
       <LegalSection id="sms" title="SMS Terms">
         <p>
+          We run two separate text messaging programs. Each has its own optional opt-in checkbox on
+          our <Link to="/contact" className={linkClass}>contact form</Link>, so you can join either
+          one, both, or neither.
+        </p>
+
+        <h3 className="text-white font-bold text-lg mt-2">Program 1: Client Messaging</h3>
+        <p>
           <strong className="text-white">Program name:</strong> CG Strategic Enterprises Client Messaging
         </p>
         <p>
@@ -72,15 +79,26 @@ export default function Terms() {
           you text messages about inquiries you submit, appointment scheduling and reminders, and
           project status updates.
         </p>
+        <p>Message frequency varies.</p>
+
+        <h3 className="text-white font-bold text-lg mt-2">Program 2: News &amp; Offers</h3>
         <p>
-          <strong className="text-white">How to opt in:</strong> Check the optional text message consent
-          box on our <Link to="/contact" className={linkClass}>contact form</Link> and provide your mobile number. Consent is not a condition of
+          CG Strategic Enterprises News &amp; Offers — occasional news, tips, and promotional offers for subscribers who opt in separately. Up to 4 messages per month.
+        </p>
+
+        <h3 className="text-white font-bold text-lg mt-2">How to opt in</h3>
+        <p>
+          Check the text message consent box for the program you want on
+          our <Link to="/contact" className={linkClass}>contact form</Link> and provide your mobile
+          number. Both checkboxes are optional and unchecked by default. Consent is not a condition of
           purchase.
         </p>
+
+        <h3 className="text-white font-bold text-lg mt-2">Terms that apply to both programs</h3>
         <ul className="list-disc pl-6 flex flex-col gap-2">
-          <li>Message frequency varies.</li>
           <li>Message and data rates may apply.</li>
           <li>Reply STOP to cancel at any time. After you send STOP, we will send one confirmation message and no further messages.</li>
+          <li>Replying STOP stops all text messages from our number, for both programs.</li>
           <li>
             Reply HELP for help, or contact us at{' '}
             <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a> or{' '}

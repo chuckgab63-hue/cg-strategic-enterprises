@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useId, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CONTACT_WEBHOOK_URL } from '../config/webhooks';
-import { SMS_CONSENT_TEXT, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
+import {
+  SMS_CONSENT_TEXT, SMS_MARKETING_CONSENT_TEXT, EMAIL_MARKETING_CONSENT_TEXT,
+  EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
+} from '../config/site';
 
 export interface ContactFormCopy {
   namePlaceholder: string;
@@ -25,15 +28,26 @@ interface ContactFormProps {
   onSuccess?: () => void;
 }
 
-// Render the consent label straight from the shared constant so the on-screen
-// wording and the sms_consent_text sent to Make.com can never drift apart.
-const [CONSENT_BEFORE_PRIVACY, CONSENT_AFTER_PRIVACY] = SMS_CONSENT_TEXT.split('Privacy Policy');
-const [CONSENT_BETWEEN_LINKS, CONSENT_AFTER_TERMS] = CONSENT_AFTER_PRIVACY.split('SMS Terms');
+const EMPTY_FORM = {
+  name: '', email: '', phone: '', message: '',
+  smsConsent: false, smsMarketingConsent: false, emailMarketingConsent: false,
+};
 
-const EMPTY_FORM = { name: '', email: '', phone: '', message: '', smsConsent: false };
+type ConsentField = 'smsConsent' | 'smsMarketingConsent' | 'emailMarketingConsent';
 
 const inputClass = 'w-full bg-slate-950 border focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors';
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
+
+// Render consent labels straight from the shared constants so the on-screen
+// wording and the consent text sent to Make.com can never drift apart.
+// "Privacy Policy" and "SMS Terms" become links wherever they appear.
+function ConsentText({ text }: { text: string }) {
+  return text.split(/(Privacy Policy|SMS Terms)/).map((part, i) => {
+    if (part === 'Privacy Policy') return <Link key={i} to="/privacy" className={linkClass}>Privacy Policy</Link>;
+    if (part === 'SMS Terms') return <Link key={i} to="/terms#sms" className={linkClass}>SMS Terms</Link>;
+    return part;
+  });
+}
 
 export default function ContactForm({ source, copy, initialMessage = '', onSuccess }: ContactFormProps) {
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -59,12 +73,13 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.smsConsent && !formData.phone.trim()) {
-      setPhoneError('Please enter a mobile number so we can text you, or uncheck the text message box.');
+    if ((formData.smsConsent || formData.smsMarketingConsent) && !formData.phone.trim()) {
+      setPhoneError('Please enter a mobile number so we can text you, or uncheck the text message boxes.');
       return;
     }
     setFormStatus('submitting');
-    const { smsConsent, ...fields } = formData;
+    const { smsConsent, smsMarketingConsent, emailMarketingConsent, ...fields } = formData;
+    const now = new Date().toISOString();
     try {
       const response = await fetch(CONTACT_WEBHOOK_URL, {
         method: 'POST',
@@ -74,7 +89,11 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           source,
           sms_consent: smsConsent,
           sms_consent_text: SMS_CONSENT_TEXT,
-          ...(smsConsent && { sms_consent_timestamp: new Date().toISOString() }),
+          ...(smsConsent && { sms_consent_timestamp: now }),
+          sms_marketing_consent: smsMarketingConsent,
+          ...(smsMarketingConsent && { sms_marketing_consent_text: SMS_MARKETING_CONSENT_TEXT }),
+          email_marketing_consent: emailMarketingConsent,
+          ...((smsMarketingConsent || emailMarketingConsent) && { marketing_consent_timestamp: now }),
         }),
       });
       if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
@@ -148,21 +167,23 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
         value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
         className={`${inputClass} border-slate-700 resize-none`}
       />
-      <label className="flex items-start gap-3 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={formData.smsConsent}
-          onChange={(e) => { setFormData({...formData, smsConsent: e.target.checked}); setPhoneError(''); }}
-          className="mt-0.5 w-4 h-4 shrink-0 accent-brand-orange cursor-pointer"
-        />
-        <span className="text-xs text-slate-300 leading-relaxed">
-          {CONSENT_BEFORE_PRIVACY}
-          <Link to="/privacy" className={linkClass}>Privacy Policy</Link>
-          {CONSENT_BETWEEN_LINKS}
-          <Link to="/terms#sms" className={linkClass}>SMS Terms</Link>
-          {CONSENT_AFTER_TERMS}
-        </span>
-      </label>
+      {([
+        ['smsConsent', SMS_CONSENT_TEXT],
+        ['smsMarketingConsent', SMS_MARKETING_CONSENT_TEXT],
+        ['emailMarketingConsent', EMAIL_MARKETING_CONSENT_TEXT],
+      ] as [ConsentField, string][]).map(([field, text]) => (
+        <label key={field} className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={formData[field]}
+            onChange={(e) => { setFormData({...formData, [field]: e.target.checked}); setPhoneError(''); }}
+            className="mt-0.5 w-4 h-4 shrink-0 accent-brand-orange cursor-pointer"
+          />
+          <span className="text-xs text-slate-300 leading-relaxed">
+            <ConsentText text={text} />
+          </span>
+        </label>
+      ))}
       <button
         type="submit" disabled={formStatus === 'submitting'}
         className={`w-full mt-2 py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] ${

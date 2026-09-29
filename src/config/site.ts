@@ -20,3 +20,10 @@ export const LEGAL_LAST_UPDATED = 'September 29, 2026';
 // submission as proof of what the visitor agreed to — don't reword casually.
 export const SMS_CONSENT_TEXT =
   'I agree to receive text messages from CG Strategic Enterprises about my inquiry, appointments, and project updates. Message frequency varies. Msg & data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of purchase. See our Privacy Policy and SMS Terms.';
+
+// Separate, optional marketing opt-ins (A2P 10DLC promotional program and
+// CAN-SPAM email). Same rule as above: exact wording, sent with submissions.
+export const SMS_MARKETING_CONSENT_TEXT =
+  'Yes, send me occasional news, tips, and offers from CG Strategic Enterprises by text. Up to 4 msgs/month. Msg & data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of purchase. See our Privacy Policy and SMS Terms.';
+export const EMAIL_MARKETING_CONSENT_TEXT =
+  'Yes, send me occasional news, tips, and offers from CG Strategic Enterprises by email. Unsubscribe anytime.';
