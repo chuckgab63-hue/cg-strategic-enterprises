@@ -3,6 +3,7 @@
 
 export const PHONE_DISPLAY = '(904) 822-8929';
 export const PHONE_HREF = 'tel:+19048228929';
+export const PHONE_INTL = '+1-904-822-8929';
 export const CALL_ARIA_LABEL = `Call CG Strategic Enterprises at ${PHONE_DISPLAY}`;
 
 export const EMAIL = 'info@cgstrategic.dev';
@@ -10,10 +11,27 @@ export const EMAIL_HREF = `mailto:${EMAIL}`;
 export const EMAIL_ARIA_LABEL = `Email CG Strategic Enterprises at ${EMAIL}`;
 
 export const BUSINESS_NAME = 'CG Strategic Enterprises';
+export const LEGAL_BUSINESS_NAME = 'CG Strategic Enterprises, LLC';
 export const BUSINESS_LOCATION = 'Jacksonville, FL';
+export const SITE_URL = 'https://www.cgstrategic.dev';
+
+// Mailing address, used in the footer, /contact, the legal pages, and the
+// Organization JSON-LD that vite.config.ts injects into index.html.
+export const ADDRESS = {
+  street: '12220 Atlantic Blvd, Ste 130 1506',
+  city: 'Jacksonville',
+  region: 'FL',
+  postalCode: '32225',
+  country: 'US',
+};
+export const MAILING_ADDRESS_LINES = [
+  LEGAL_BUSINESS_NAME,
+  ADDRESS.street,
+  `${ADDRESS.city}, ${ADDRESS.region} ${ADDRESS.postalCode}`,
+];
 
 // Shown on /privacy and /terms. Bump it whenever either page's wording changes.
-export const LEGAL_LAST_UPDATED = 'September 29, 2026';
+export const LEGAL_LAST_UPDATED = 'September 30, 2026';
 
 // A2P 10DLC opt-in language. Carrier reviewers check this against the live
 // site word for word, and the exact text is sent with every contact-form

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import LegalPage, { LegalSection } from '../components/LegalPage';
+import MailingAddress from '../components/MailingAddress';
 import {
-  BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
+  BUSINESS_NAME, LEGAL_BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
 } from '../config/site';
 
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
@@ -10,7 +11,7 @@ export default function Privacy() {
   return (
     <LegalPage title="Privacy Policy">
       <p>
-        {BUSINESS_NAME} LLC ("{BUSINESS_NAME}," "we," "our," or "us") is a technology consulting
+        {LEGAL_BUSINESS_NAME} ("{BUSINESS_NAME}," "we," "our," or "us") is a technology consulting
         business based in {BUSINESS_LOCATION}. This Privacy Policy explains, in plain language, what
         information we collect when you visit cgstrategic.dev, fill out one of our forms, or call or
         text us, how we use it, and the choices you have.
@@ -145,9 +146,8 @@ export default function Privacy() {
       </LegalSection>
 
       <LegalSection title="Contact Us">
+        <MailingAddress />
         <p>
-          {BUSINESS_NAME} LLC<br />
-          {BUSINESS_LOCATION}<br />
           Email: <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a><br />
           Phone: <a href={PHONE_HREF} className={linkClass}>{PHONE_DISPLAY}</a>
         </p>

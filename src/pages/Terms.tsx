@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import LegalPage, { LegalSection } from '../components/LegalPage';
+import MailingAddress from '../components/MailingAddress';
 import {
-  BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, LEGAL_LAST_UPDATED,
+  BUSINESS_NAME, LEGAL_BUSINESS_NAME, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, LEGAL_LAST_UPDATED,
 } from '../config/site';
 
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
@@ -11,13 +12,13 @@ export default function Terms() {
     <LegalPage title="Terms of Service">
       <p>
         These Terms of Service ("Terms") govern your use of cgstrategic.dev and the services provided
-        by {BUSINESS_NAME} LLC ("Company," "we," "our," or "us"). By using this website or our
+        by {LEGAL_BUSINESS_NAME} ("Company," "we," "our," or "us"). By using this website or our
         services, you agree to these Terms. If you do not agree, please do not use them.
       </p>
 
       <LegalSection title="1. Services Provided">
         <p>
-          {BUSINESS_NAME} LLC provides digital infrastructure engineering, custom web applications, AI
+          {LEGAL_BUSINESS_NAME} provides digital infrastructure engineering, custom web applications, AI
           integration, and workflow automation services. Specific deliverables, timelines, and costs
           will be outlined in a separate Statement of Work (SOW) or Master Services Agreement (MSA)
           for your specific project. If those documents conflict with these Terms, the signed
@@ -38,16 +39,16 @@ export default function Terms() {
         <p>
           Unless explicitly stated otherwise in your specific contract, all pre-existing codebases,
           automation templates, and proprietary frameworks used to construct your solution remain the
-          intellectual property of {BUSINESS_NAME} LLC. Clients receive a license to use the deployed
+          intellectual property of {LEGAL_BUSINESS_NAME}. Clients receive a license to use the deployed
           final product as intended. The content, design, and code of this website belong to{' '}
-          {BUSINESS_NAME} LLC and may not be copied without our permission.
+          {LEGAL_BUSINESS_NAME} and may not be copied without our permission.
         </p>
       </LegalSection>
 
       <LegalSection title="4. Disclaimer and Limitation of Liability">
         <p>
           This website and its content are provided "as is," without warranties of any kind. To the
-          fullest extent allowed by law, {BUSINESS_NAME} LLC is not liable for any indirect,
+          fullest extent allowed by law, {LEGAL_BUSINESS_NAME} is not liable for any indirect,
           incidental, or consequential damages arising from your use of this website.
         </p>
       </LegalSection>
@@ -114,9 +115,8 @@ export default function Terms() {
       </LegalSection>
 
       <LegalSection title="Contact Us">
+        <MailingAddress />
         <p>
-          {BUSINESS_NAME} LLC<br />
-          {BUSINESS_LOCATION}<br />
           Email: <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a><br />
           Phone: <a href={PHONE_HREF} className={linkClass}>{PHONE_DISPLAY}</a>
         </p>

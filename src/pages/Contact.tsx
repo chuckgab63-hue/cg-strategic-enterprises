@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import ContactForm, { type ContactFormCopy } from '../components/ContactForm';
 import usePageMeta from '../hooks/usePageMeta';
+import MailingAddress from '../components/MailingAddress';
 import {
   BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL, PHONE_DISPLAY, PHONE_HREF, CALL_ARIA_LABEL,
 } from '../config/site';
@@ -22,9 +23,9 @@ const ICON_PATHS = {
   location: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z',
 };
 
-function ContactMethod({ icon, label, children }: { icon: keyof typeof ICON_PATHS; label: string; children: ReactNode }) {
+function ContactMethod({ icon, label, className = '', children }: { icon: keyof typeof ICON_PATHS; label: string; className?: string; children: ReactNode }) {
   return (
-    <div className="flex items-start gap-3 bg-slate-900/50 border border-slate-800 rounded-2xl p-5">
+    <div className={`flex items-start gap-3 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 ${className}`.trim()}>
       <svg className="w-5 h-5 mt-0.5 text-brand-orange shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={ICON_PATHS[icon]}></path>
       </svg>
@@ -53,7 +54,7 @@ export default function Contact() {
         we'll get back to you shortly.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
         <ContactMethod icon="phone" label="Phone">
           <a href={PHONE_HREF} aria-label={CALL_ARIA_LABEL} className={methodLinkClass}>{PHONE_DISPLAY}</a>
         </ContactMethod>
@@ -62,8 +63,8 @@ export default function Contact() {
             {EMAIL.split('@')[0]}@<wbr />{EMAIL.split('@')[1]}
           </a>
         </ContactMethod>
-        <ContactMethod icon="location" label="Location">
-          <span className="text-sm font-bold tracking-wide text-slate-200">{BUSINESS_LOCATION}</span>
+        <ContactMethod icon="location" label="Mailing Address" className="sm:col-span-2">
+          <MailingAddress className="text-sm font-bold tracking-wide leading-relaxed text-slate-200" />
         </ContactMethod>
       </div>
 

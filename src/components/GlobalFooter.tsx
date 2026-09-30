@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { PHONE_HREF, PHONE_DISPLAY, CALL_ARIA_LABEL, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL } from '../config/site';
+import { PHONE_HREF, PHONE_DISPLAY, CALL_ARIA_LABEL, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL, LEGAL_BUSINESS_NAME } from '../config/site';
+import MailingAddress from './MailingAddress';
 
 export default function GlobalFooter() {
   return (
@@ -63,6 +64,7 @@ export default function GlobalFooter() {
             >
               {EMAIL.split('@')[0]}@<wbr />{EMAIL.split('@')[1]}
             </a>
+            <MailingAddress className="text-xs font-semibold tracking-wide leading-relaxed text-slate-400" />
             <a
               href={PHONE_HREF}
               aria-label={CALL_ARIA_LABEL}
@@ -77,7 +79,7 @@ export default function GlobalFooter() {
         </div>
 
         <div className="border-t border-slate-900 pt-8 flex justify-center md:justify-start">
-          <p className="text-xs text-slate-600 font-bold tracking-widest uppercase">&copy; {new Date().getFullYear()} CG Strategic Enterprises LLC. All rights reserved.</p>
+          <p className="text-xs text-slate-600 font-bold tracking-widest uppercase">&copy; {new Date().getFullYear()} {LEGAL_BUSINESS_NAME}. All rights reserved.</p>
         </div>
       </div>
     </footer>
