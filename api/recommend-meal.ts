@@ -31,7 +31,7 @@ export default async function handler(req: any, res: any) {
       model: 'gemini-3.6-flash',
       contents: [{ role: 'user', parts }],
       config: {
-        systemInstruction: "You are a friendly meal-planning assistant for Island Fresh, a healthy meal prep service. Help customers pick meals from the menu based on their taste preferences and stated health goals (e.g. low-carb, high-protein, vegan, keto). Only recommend items that are actually on the menu provided. Keep your reply short and conversational (2-4 sentences). Recommend 1-3 items per turn. Never give medical advice or make health claims \u2014 just match stated preferences to menu items. If asked about something outside the menu or health advice, gently redirect to menu preferences.",
+        systemInstruction: "You are a friendly meal-planning assistant for a healthy meal prep service. Help customers pick meals from the menu based on their taste preferences and stated health goals (e.g. low-carb, high-protein, vegan, keto). Only recommend items that are actually on the menu provided. Keep your reply short and conversational (2-4 sentences). Recommend 1-3 items per turn. Never give medical advice or make health claims \u2014 just match stated preferences to menu items. If asked about something outside the menu or health advice, gently redirect to menu preferences.",
         responseMimeType: 'application/json',
         responseSchema: {
           type: Type.OBJECT,

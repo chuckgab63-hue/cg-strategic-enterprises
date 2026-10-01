@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import AnalysisWidget from '../components/AnalysisWidget';
 import PropertyWidget from '../components/PropertyWidget';
 import AssetTrackerWidget from '../components/AssetTrackerWidget';
-import IslandFreshWidget from '../components/IslandFreshWidget';
+import MealPrepOrderWidget from '../components/MealPrepOrderWidget';
 import TaxWidget from '../components/TaxWidget';
 import MobileExpandWidget from '../components/MobileExpandWidget';
 
@@ -140,7 +140,7 @@ export default function Portfolio() {
 
         <div className="w-full flex flex-col gap-20 mb-32">
 
-          {/* --- Case Study 0: Island Fresh (Text Left, Widget Right) --- */}
+          {/* --- Case Study 0.5: Meal Prep Ordering (Text Left, Widget Right) --- */}
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
             {/* Left Column: Text */}
@@ -151,7 +151,7 @@ export default function Portfolio() {
                     Full Ordering Platform
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Island Fresh Meals
+                    Meal Prep Concept
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
@@ -168,10 +168,10 @@ export default function Portfolio() {
                     <h3 className="text-xl font-black text-white">A Complete Ordering Experience</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Built around Island Fresh's real menu and their actual weekly ordering cadence — order by Sunday 9AM, delivery Wednesday. Customers browse real meals, build a cart, and check out with delivery or pickup, all without leaving the page.
+                    A complete custom ordering flow, built around a business's real menu and its weekly cutoff schedule. Customers browse meals, ask an AI assistant for picks that fit their goals, build a cart, and check out for delivery or pickup — all without leaving the page.
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                    This demonstrates what a fully custom-built ordering platform could look like — fast, focused, and tailored entirely to their menu and cutoff schedule, with instant order confirmation to the customer and immediate notification to the kitchen.
+                    Instead of a generic storefront, the whole experience is shaped around one menu and one cutoff, with instant order confirmation to the customer and immediate notification to the kitchen. The menu here is a demo; no real food is prepared or delivered.
                   </p>
 
                   {/* --- INTERACTIVE CTA --- */}
@@ -189,10 +189,10 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* Right Column: Island Fresh Widget */}
+            {/* Right Column: Meal Prep Ordering Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <MobileExpandWidget label="Island Fresh Ordering Demo">
-                 <IslandFreshWidget />
+               <MobileExpandWidget label="Meal Prep Ordering Demo">
+                 <MealPrepOrderWidget />
                </MobileExpandWidget>
             </div>
           </div>
