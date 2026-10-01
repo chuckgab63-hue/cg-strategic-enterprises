@@ -174,23 +174,43 @@ export default function Portfolio() {
                     Customers get a full storefront: a menu they can filter by diet and allergens, a cart, accounts and reviews. You get a real admin dashboard for meals, pricing, coupons, pickup locations and incoming orders.
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Every meal photo is AI-generated in one consistent, on-brand style, and an existing WooCommerce catalogue can be imported so the platform starts from your actual menu.
+                    Every meal photo is AI-generated in one consistent, on-brand style, and an existing WooCommerce catalogue can already be imported so the platform starts from your actual menu. Coming from Shopify, Square or a plain CSV or spreadsheet export instead? Those imports are straightforward to add, and which one fits is something we'd work out on the discovery call.
                   </p>
                   <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-teal-400 pl-4 bg-teal-400/5 p-4 rounded-r-lg mt-2 mb-6">
                     <strong className="text-teal-400 text-xs uppercase tracking-widest block mb-1">Private by Design</strong>
                     The demo runs entirely in your browser. Nothing you enter leaves your machine, and nothing you change affects anyone else. Payments aren't processed in the demo.
                   </div>
 
-                  <a
-                    href="https://demo.cgstrategic.dev"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-teal-400 text-[#020617] font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-teal-300 transition-colors shadow-[0_0_25px_rgba(45,212,191,0.3)]"
-                  >
-                    Open the Live Demo
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
-                    <span className="sr-only">(opens in a new tab)</span>
-                  </a>
+                  {/* Storefront first (primary), admin second (outline) with its demo sign-in underneath */}
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                    <a
+                      href="https://demo.cgstrategic.dev/menu"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-teal-400 text-[#020617] font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full border border-teal-400 hover:bg-teal-300 hover:border-teal-300 transition-colors shadow-[0_0_25px_rgba(45,212,191,0.3)]"
+                    >
+                      Open the Storefront
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+
+                    <div className="flex flex-col items-stretch sm:items-start gap-2">
+                      <a
+                        href="https://demo.cgstrategic.dev/admin/login"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap border border-teal-400/40 text-teal-400 font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-teal-400/10 hover:border-teal-400 transition-colors"
+                      >
+                        Admin Dashboard
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
+                        <span className="sr-only">(opens in a new tab)</span>
+                      </a>
+                      <p className="text-[11px] text-slate-500 leading-relaxed text-center sm:text-left">
+                        <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Demo login, resets on reload</span>
+                        <span className="whitespace-nowrap"><code className="text-slate-300 select-all">admin@demo.example</code> / <code className="text-slate-300 select-all">demo-admin</code></span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
