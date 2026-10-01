@@ -140,6 +140,95 @@ export default function Portfolio() {
 
         <div className="w-full flex flex-col gap-20 mb-32">
 
+          {/* --- Case Study 0: White-Label Platform (Text Left, Screenshots Right) --- */}
+          <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            {/* Left Column: Text */}
+            <div className="flex flex-col gap-6 order-1">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-teal-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                    White-Label Platform
+                  </span>
+                  <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
+                    Runs in Your Browser
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
+                  Your Brand. <br className="hidden md:block" /> Your Storefront.
+                </h2>
+              </div>
+
+              <div className="border-t border-slate-800 pt-6 flex flex-col gap-6">
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-teal-500/10 border border-teal-500/30 rounded-lg flex items-center justify-center text-teal-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    </div>
+                    <h3 className="text-xl font-black text-white">See It With Your Name On It</h3>
+                  </div>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-3">
+                    Type in your business name, pick your colours, add a logo — about ten seconds later you're browsing your own storefront. Then keep going: the whole platform is there to click through.
+                  </p>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-3">
+                    Customers get a full storefront: a menu they can filter by diet and allergens, a cart, accounts and reviews. You get a real admin dashboard for meals, pricing, coupons, pickup locations and incoming orders.
+                  </p>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-3">
+                    Every meal photo is AI-generated in one consistent, on-brand style, and an existing WooCommerce catalogue can be imported so the platform starts from your actual menu.
+                  </p>
+                  <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-teal-400 pl-4 bg-teal-400/5 p-4 rounded-r-lg mt-2 mb-6">
+                    <strong className="text-teal-400 text-xs uppercase tracking-widest block mb-1">Private by Design</strong>
+                    The demo runs entirely in your browser. Nothing you enter leaves your machine, and nothing you change affects anyone else. Payments aren't processed in the demo.
+                  </div>
+
+                  <a
+                    href="https://demo.cgstrategic.dev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-teal-400 text-[#020617] font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-teal-300 transition-colors shadow-[0_0_25px_rgba(45,212,191,0.3)]"
+                  >
+                    Open the Live Demo
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Screenshots of the live demo (it can't be iframed) */}
+            <a
+              href="https://demo.cgstrategic.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              tabIndex={-1}
+              aria-hidden="true"
+              className="relative w-full aspect-[16/12] block order-2 group"
+            >
+              <img
+                src="/portfolio/white-label-storefront-800w.webp"
+                srcSet="/portfolio/white-label-storefront-800w.webp 800w, /portfolio/white-label-storefront-1600w.webp 1600w"
+                sizes="(min-width: 1024px) 520px, 90vw"
+                width={1600}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+                alt="Demo storefront rebranded as Your Kitchen, with the branding panel open"
+                className="absolute top-0 left-0 w-[88%] rounded-xl border border-slate-700 shadow-2xl transition-transform duration-500 group-hover:-translate-y-1"
+              />
+              <img
+                src="/portfolio/white-label-admin-800w.webp"
+                srcSet="/portfolio/white-label-admin-800w.webp 800w, /portfolio/white-label-admin-1600w.webp 1600w"
+                sizes="(min-width: 1024px) 360px, 62vw"
+                width={1600}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+                alt="Demo admin dashboard listing meals with prices and availability"
+                className="absolute bottom-0 right-0 w-[62%] rounded-xl border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:translate-y-1"
+              />
+            </a>
+          </div>
+
           {/* --- Case Study 0.5: Meal Prep Ordering (Text Left, Widget Right) --- */}
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
