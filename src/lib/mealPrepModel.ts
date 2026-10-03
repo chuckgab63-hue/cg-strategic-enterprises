@@ -68,6 +68,8 @@ export interface MealPrepResults {
   foodCostPct: number | null;
   labourPct: number | null;
   primeCostPct: number | null;
+  /** What the grocery receipt suggests: food (before spoilage) plus packaging, over price. */
+  receiptCogsPct: number | null;
   /** Food, spoilage, packaging, delivery and labour as a share of revenue. */
   trueCogsPct: number | null;
   netMarginPct: number | null;
@@ -106,7 +108,8 @@ export function calculate(raw: MealPrepInputs): MealPrepResults {
   const spoilage = clampPct(nonNegative(raw.spoilagePct)) / 100;
   const sourcingMultiplier = raw.sourcing === 'local' ? 1 + LOCAL_SOURCING_PREMIUM : 1;
 
-  const foodCostPerMeal = nonNegative(raw.foodCostPerMeal) * sourcingMultiplier * (1 + spoilage);
+  const purchasedFoodPerMeal = nonNegative(raw.foodCostPerMeal) * sourcingMultiplier;
+  const foodCostPerMeal = purchasedFoodPerMeal * (1 + spoilage);
   const packagingPerMeal = nonNegative(raw.packagingPerMeal);
   const deliveryPerMeal = (deliveryShare * nonNegative(raw.deliveryCostPerDrop)) / mealsPerOrder;
   const processingPerMeal = price * PROCESSING_RATE + PROCESSING_FEE_PER_ORDER / mealsPerOrder;
@@ -140,6 +143,7 @@ export function calculate(raw: MealPrepInputs): MealPrepResults {
     foodCostPct: pctOf(foodCostPerMeal, price),
     labourPct: pctOf(ownerPayWeekly, weeklyRevenue),
     primeCostPct: pctOf(weeklyFood + ownerPayWeekly, weeklyRevenue),
+    receiptCogsPct: pctOf(purchasedFoodPerMeal + packagingPerMeal, price),
     trueCogsPct: pctOf(trueCogsWeekly, weeklyRevenue),
     netMarginPct: pctOf(weeklyProfit, weeklyRevenue),
     weeklyRevenue,

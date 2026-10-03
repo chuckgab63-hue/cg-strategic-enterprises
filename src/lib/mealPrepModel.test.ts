@@ -120,6 +120,8 @@ describe('percentages', () => {
     // Per meal: food 3.30 + packaging 1 + delivery 1, ×50 = 265, plus labour 100, over 500.
     expect(r.foodCostPerMeal).toBeCloseTo(3.3, 9);
     expect(r.trueCogsPct).toBeCloseTo(73, 9);
+    // The receipt view sees only food as bought plus packaging: (3 + 1) / 10.
+    expect(r.receiptCogsPct).toBeCloseTo(40, 9);
   });
 
   it('net margin % is weekly profit over weekly revenue', () => {
@@ -180,8 +182,9 @@ describe('edge cases', () => {
     expect(plan({ mealsPerOrder: 0 }).processingPerMeal).toBeCloseTo(0.29 + 0.3, 9);
   });
 
-  it('zero price: food cost % is null rather than infinite', () => {
+  it('zero price: per-meal percentages are null rather than infinite', () => {
     expect(plan({ pricePerMeal: 0 }).foodCostPct).toBeNull();
+    expect(plan({ pricePerMeal: 0 }).receiptCogsPct).toBeNull();
   });
 
   it('treats blank or negative entries as zero', () => {
