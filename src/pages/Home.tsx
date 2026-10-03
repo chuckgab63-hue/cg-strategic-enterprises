@@ -27,8 +27,25 @@ export default function Home() {
   }, [isModalOpen]);
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white relative">
-      
+    <div className="home-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white relative">
+
+      {/* The bare `h2` rule in index.css (24px, weight 500, its own colour, margins and
+          letter-spacing) is unlayered, so it beats every Tailwind class on this page's
+          headings. revert-layer hands each of those properties back to Tailwind, so the
+          classes on the headings apply as written. Not redundant: removing it shrinks
+          every section heading here back to 24px. */}
+      <style>{`
+        .home-page h2 {
+          font-family: revert-layer;
+          font-size: revert-layer;
+          font-weight: revert-layer;
+          line-height: revert-layer;
+          letter-spacing: revert-layer;
+          color: revert-layer;
+          margin: revert-layer;
+        }
+      `}</style>
+
       {/* Global Background Wireframe */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
