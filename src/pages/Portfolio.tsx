@@ -282,6 +282,16 @@ export default function Portfolio() {
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
                     Instead of a generic storefront, the whole experience is shaped around one menu and one cutoff, with instant order confirmation to the customer and immediate notification to the kitchen. The menu here is a demo; no real food is prepared or delivered.
                   </p>
+                  <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-green-400 pl-4 bg-green-400/5 p-4 rounded-r-lg mb-6">
+                    <strong className="text-green-400 text-xs uppercase tracking-widest block mb-1">Planning One?</strong>
+                    Run your price, food cost, kitchen rent and delivery through our free calculator and see how many meals a week it takes to break even.
+                    <Link
+                      to="/meal-prep-calculator"
+                      className="mt-3 flex w-fit items-center gap-2 text-green-400 font-black uppercase tracking-widest text-xs hover:text-white transition-colors"
+                    >
+                      Run the Numbers &rarr;
+                    </Link>
+                  </div>
 
                   {/* --- INTERACTIVE CTA --- */}
                   <div className="flex items-center gap-3 animate-pulse mt-2">

@@ -35,6 +35,7 @@ export default function GlobalFooter() {
             <Link to="/automations" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">The Engine</Link>
             <Link to="/portfolio" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Case Studies</Link>
             <Link to="/skunkworks" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Skunkworks</Link>
+            <Link to="/meal-prep-calculator" className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">Meal Prep Calculator</Link>
           </div>
 
           {/* Column 3: Legal */}
