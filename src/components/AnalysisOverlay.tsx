@@ -72,7 +72,9 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
     
     setMessages(prev => [...prev, newUserMsg]);
     
-    const currentInput = inputValue;
+    // _currentInput, _fileData and _mimeType are kept for the real API call that will
+    // replace the mock below; the underscore tells the linter they're unused on purpose.
+    const _currentInput = inputValue;
     const currentFile = selectedFile;
 
     setInputValue('');
@@ -82,8 +84,8 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
     setIsSearching(true);
 
     try {
-      let fileData = null;
-      let mimeType = null;
+      let _fileData = null;
+      let _mimeType = null;
 
       // This logic perfectly converts your image to Base64 for the future API
       if (currentFile) {
@@ -93,8 +95,8 @@ const AnalysisOverlay: React.FC<AnalysisOverlayProps> = ({ isOpen, onClose }) =>
           reader.readAsDataURL(currentFile);
         });
 
-        fileData = base64Data.split(',')[1];
-        mimeType = base64Data.split(',')[0].split(':')[1].split(';')[0];
+        _fileData = base64Data.split(',')[1];
+        _mimeType = base64Data.split(',')[0].split(':')[1].split(';')[0];
       }
 
       // --- MOCK API CALL FOR UI TESTING ---
