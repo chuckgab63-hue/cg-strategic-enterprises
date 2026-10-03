@@ -40,6 +40,8 @@ export function buildCalculatorSubmission(
     kitchen_cost_monthly: money(inputs.kitchenCostMonthly),
     delivery_share: inputs.deliverySharePct,
     delivery_cost_per_drop: money(inputs.deliveryCostPerDrop),
+    meals_per_order: inputs.mealsPerOrder,
+    spoilage_pct: inputs.spoilagePct,
     owner_hours_per_week: inputs.ownerHoursPerWeek,
     owner_hourly_target: money(inputs.ownerHourlyTarget),
     sourcing: inputs.sourcing === 'local' ? 'Local' : 'Broadline',

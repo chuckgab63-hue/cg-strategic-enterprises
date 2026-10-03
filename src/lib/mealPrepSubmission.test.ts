@@ -34,6 +34,7 @@ const EXPECTED_KEYS = [
   'email_marketing_consent', 'marketing_consent_text', 'marketing_consent_timestamp',
   'meals_per_week', 'price_per_meal', 'food_cost_per_meal', 'packaging_per_meal',
   'kitchen_cost_monthly', 'delivery_share', 'delivery_cost_per_drop',
+  'meals_per_order', 'spoilage_pct',
   'owner_hours_per_week', 'owner_hourly_target', 'sourcing',
   'food_cost_pct', 'prime_cost_pct', 'contribution_margin',
   'break_even_meals', 'monthly_revenue', 'monthly_profit',
@@ -41,6 +42,7 @@ const EXPECTED_KEYS = [
 
 describe('buildCalculatorSubmission', () => {
   it('sends exactly the keys the Make.com scenario maps', () => {
+    expect(EXPECTED_KEYS).toHaveLength(24);
     expect(Object.keys(build()).sort()).toEqual([...EXPECTED_KEYS].sort());
   });
 
@@ -68,6 +70,8 @@ describe('buildCalculatorSubmission', () => {
     expect(body.food_cost_pct).toBe(Math.round(r.foodCostPct! * 10) / 10);
     expect(body.monthly_profit).toBe(Math.round(r.monthlyProfit * 100) / 100);
     expect(body.delivery_share).toBe(50); // a percentage, not 0.5
+    expect(body.spoilage_pct).toBe(5); // likewise
+    expect(body.meals_per_order).toBe(4);
   });
 
   it('records the consent wording always, but a consent timestamp only when consent is given', () => {
