@@ -31,7 +31,7 @@ export const MAILING_ADDRESS_LINES = [
 ];
 
 // Shown on /privacy and /terms. Bump it whenever either page's wording changes.
-export const LEGAL_LAST_UPDATED = 'September 30, 2026';
+export const LEGAL_LAST_UPDATED = 'October 2, 2026';
 
 // A2P 10DLC opt-in language. Carrier reviewers check this against the live
 // site word for word, and the exact text is sent with every contact-form

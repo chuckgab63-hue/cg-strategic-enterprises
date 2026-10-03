@@ -25,6 +25,7 @@ export default function Privacy() {
           <li>Your phone number, including a mobile number if you provide one</li>
           <li>Your company or business name</li>
           <li>The content of your message and any details you share about your project</li>
+          <li>The figures you enter into our meal-prep business calculator, if you ask us to email you a summary of them</li>
           <li>Whether you agreed to receive service texts, promotional texts, or marketing emails from us, and when</li>
           <li>Records of calls and text messages you exchange with us</li>
         </ul>
@@ -68,10 +69,11 @@ export default function Privacy() {
 
       <LegalSection title="Email Communications">
         <p>
-          We reply by email to inquiries you send us and email you about projects you hire us for.
-          We only send marketing emails, such as occasional news, tips, and offers, to people who
-          opt in using the email checkbox on our{' '}
-          <Link to="/contact" className={linkClass}>Contact page</Link>.
+          We reply by email to inquiries you send us, email you about projects you hire us for, and
+          send the calculator summary you ask for. We only send marketing emails, such as occasional
+          news, tips, and offers, to people who opt in using the email checkbox on our{' '}
+          <Link to="/contact" className={linkClass}>Contact page</Link> or our{' '}
+          <Link to="/meal-prep-calculator" className={linkClass}>meal-prep calculator</Link>.
         </p>
         <p>
           Every marketing email we send includes an unsubscribe link, and we honor unsubscribe
