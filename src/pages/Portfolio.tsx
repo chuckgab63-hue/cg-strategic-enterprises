@@ -116,12 +116,17 @@ export default function Portfolio() {
   return (
     <div className="portfolio-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
 
-      {/* The bare `h1` rule in index.css (56px, weight 500, its own colour, margins and
-          letter-spacing) is unlayered, so it beats the Tailwind classes on this page's
-          title. revert-layer hands those properties back to Tailwind. Not redundant:
-          removing it shrinks "Case Studies." back to 56px at weight 500. */}
+      {/* The bare `h1`, `h2` and `p` rules in index.css (fixed sizes, weight 500, their
+          own colour and margins; `p { margin: 0 }`) are unlayered, so they beat the
+          Tailwind classes on this page's headings and paragraphs. revert-layer hands
+          those properties back to Tailwind. Not redundant: removing it shrinks the
+          title and card headings to the global sizes and runs card paragraphs together. */}
       <style>{`
-        .portfolio-page h1 {
+        .portfolio-page p {
+          margin: revert-layer;
+        }
+        .portfolio-page h1,
+        .portfolio-page h2 {
           font-family: revert-layer;
           font-size: revert-layer;
           font-weight: revert-layer;
