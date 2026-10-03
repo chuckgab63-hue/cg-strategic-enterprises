@@ -114,8 +114,24 @@ export default function Portfolio() {
   const [activeVideoId, setActiveVideoId] = useState<number | null>(null);
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
-      
+    <div className="portfolio-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
+
+      {/* The bare `h1` rule in index.css (56px, weight 500, its own colour, margins and
+          letter-spacing) is unlayered, so it beats the Tailwind classes on this page's
+          title. revert-layer hands those properties back to Tailwind. Not redundant:
+          removing it shrinks "Case Studies." back to 56px at weight 500. */}
+      <style>{`
+        .portfolio-page h1 {
+          font-family: revert-layer;
+          font-size: revert-layer;
+          font-weight: revert-layer;
+          line-height: revert-layer;
+          letter-spacing: revert-layer;
+          color: revert-layer;
+          margin: revert-layer;
+        }
+      `}</style>
+
       {/* Background Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
@@ -129,7 +145,7 @@ export default function Portfolio() {
         </div>
 
         {/* Page Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-20">
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
             Case <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-brand-orange to-amber-500">Studies.</span>
           </h1>
@@ -138,34 +154,16 @@ export default function Portfolio() {
           </p>
         </div>
 
-        {/* Free-tool pointer. One row on purpose, not a section: the case studies are the
-            page, and anything taller pushes the first card below the fold. */}
-        <Link
-          to="/meal-prep-calculator"
-          className="group mb-12 w-full max-w-3xl flex flex-wrap items-center gap-x-4 gap-y-3 bg-slate-900/50 border border-slate-800 hover:border-brand-orange/50 rounded-2xl px-5 py-4 text-left transition-colors duration-300"
-        >
-          {/* Phones: pill and link share the top row, sentence wraps below. sm+: one row. */}
-          <span className="order-1 shrink-0 px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
-            Free Tool
-          </span>
-          <span className="order-3 basis-full sm:order-2 sm:basis-0 sm:flex-1 text-sm text-slate-300 leading-snug">
-            Running a meal-prep business? See how many meals a week it takes to cover your kitchen and pay yourself.
-          </span>
-          <span className="order-2 ml-auto sm:order-3 sm:ml-0 shrink-0 inline-flex items-center gap-2 text-brand-orange font-black uppercase tracking-widest text-xs group-hover:text-white transition-colors">
-            Try the calculator
-            <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </span>
-        </Link>
-
         <div className="w-full flex flex-col gap-20 mb-32">
 
           {/* --- Case Study 0: White-Label Platform (Text Left, Screenshots Right) --- */}
+          {/* Each card's text column carries text-left to counter the global
+              `#root { text-align: center }` in index.css, which otherwise centres
+              the copy under a left-aligned tag row. */}
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
             {/* Left Column: Text */}
-            <div className="flex flex-col gap-6 order-1">
+            <div className="flex flex-col gap-6 order-1 text-left">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-teal-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
@@ -236,45 +234,72 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* Right Column: Screenshots of the live demo (it can't be iframed) */}
-            <a
-              href="https://demo.cgstrategic.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={-1}
-              aria-hidden="true"
-              className="relative w-full aspect-[16/12] block order-2 group"
-            >
-              <img
-                src="/portfolio/white-label-storefront-800w.webp"
-                srcSet="/portfolio/white-label-storefront-800w.webp 800w, /portfolio/white-label-storefront-1600w.webp 1600w"
-                sizes="(min-width: 1024px) 520px, 90vw"
-                width={1600}
-                height={1000}
-                loading="lazy"
-                decoding="async"
-                alt="Demo storefront rebranded as Your Kitchen, with the branding panel open"
-                className="absolute top-0 left-0 w-[88%] rounded-xl border border-slate-700 shadow-2xl transition-transform duration-500 group-hover:-translate-y-1"
-              />
-              <img
-                src="/portfolio/white-label-admin-800w.webp"
-                srcSet="/portfolio/white-label-admin-800w.webp 800w, /portfolio/white-label-admin-1600w.webp 1600w"
-                sizes="(min-width: 1024px) 360px, 62vw"
-                width={1600}
-                height={1000}
-                loading="lazy"
-                decoding="async"
-                alt="Demo admin dashboard listing meals with prices and availability"
-                className="absolute bottom-0 right-0 w-[62%] rounded-xl border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:translate-y-1"
-              />
-            </a>
+            {/* Right Column: stretches to the row height on lg so the screenshots stay
+                centred where they were, while the calculator callout sits in the empty
+                space above them, level with the heading. It's absolute on lg so it can
+                never make the card taller; in the stacked layout it follows the screenshots. */}
+            <div className="order-2 relative flex flex-col gap-8 lg:self-stretch lg:justify-center">
+
+              {/* Screenshots of the live demo (it can't be iframed) */}
+              <a
+                href="https://demo.cgstrategic.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="relative w-full aspect-[16/12] block group"
+              >
+                <img
+                  src="/portfolio/white-label-storefront-800w.webp"
+                  srcSet="/portfolio/white-label-storefront-800w.webp 800w, /portfolio/white-label-storefront-1600w.webp 1600w"
+                  sizes="(min-width: 1024px) 520px, 90vw"
+                  width={1600}
+                  height={1000}
+                  loading="lazy"
+                  decoding="async"
+                  alt="Demo storefront rebranded as Your Kitchen, with the branding panel open"
+                  className="absolute top-0 left-0 w-[88%] rounded-xl border border-slate-700 shadow-2xl transition-transform duration-500 group-hover:-translate-y-1"
+                />
+                <img
+                  src="/portfolio/white-label-admin-800w.webp"
+                  srcSet="/portfolio/white-label-admin-800w.webp 800w, /portfolio/white-label-admin-1600w.webp 1600w"
+                  sizes="(min-width: 1024px) 360px, 62vw"
+                  width={1600}
+                  height={1000}
+                  loading="lazy"
+                  decoding="async"
+                  alt="Demo admin dashboard listing meals with prices and availability"
+                  className="absolute bottom-0 right-0 w-[62%] rounded-xl border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:translate-y-1"
+                />
+              </a>
+
+              {/* Related tool, deliberately not styled like the teal demo buttons: no pill,
+                  no fill, an orange text link. It's a pointer elsewhere, not another demo. */}
+              <Link
+                to="/meal-prep-calculator"
+                className="group lg:absolute lg:top-[3.05rem] lg:left-0 lg:right-0 block text-left border-l-2 border-brand-orange/50 hover:border-brand-orange pl-4 transition-colors"
+              >
+                <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                  Related free tool
+                </span>
+                <span className="block text-sm text-slate-300 leading-snug mt-1">
+                  Planning a meal-prep business? See how many meals a week it takes to cover your kitchen and pay yourself.
+                </span>
+                <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-brand-orange group-hover:text-white transition-colors">
+                  Try the meal-prep calculator
+                  <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </span>
+              </Link>
+            </div>
           </div>
 
           {/* --- Case Study 0.5: Meal Prep Ordering (Text Left, Widget Right) --- */}
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
             {/* Left Column: Text */}
-            <div className="flex flex-col gap-6 order-1">
+            <div className="flex flex-col gap-6 order-1 text-left">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-green-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
@@ -341,7 +366,7 @@ export default function Portfolio() {
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             
             {/* Left Column: Text */}
-            <div className="flex flex-col gap-6 order-1">
+            <div className="flex flex-col gap-6 order-1 text-left">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
@@ -409,7 +434,7 @@ export default function Portfolio() {
             </div>
 
             {/* Right Column: Text (Rises to top on mobile) */}
-            <div className="flex flex-col gap-6 order-1 lg:order-2">
+            <div className="flex flex-col gap-6 order-1 lg:order-2 text-left">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-emerald-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
@@ -460,7 +485,7 @@ export default function Portfolio() {
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
             {/* Left Column: Text */}
-            <div className="flex flex-col gap-6 order-1">
+            <div className="flex flex-col gap-6 order-1 text-left">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-amber-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
@@ -518,7 +543,7 @@ export default function Portfolio() {
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             
             {/* Left Column: Text */}
-            <div className="flex flex-col gap-6 order-1">
+            <div className="flex flex-col gap-6 order-1 text-left">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
