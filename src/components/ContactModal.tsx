@@ -67,7 +67,9 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 pt-20 text-left">
+        // contact-modal: a hook only, no styles. Home.tsx's heading/paragraph override
+        // skips it so the modal looks the same on every page that opens it.
+        <div className="contact-modal fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 pt-20 text-left">
           
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}

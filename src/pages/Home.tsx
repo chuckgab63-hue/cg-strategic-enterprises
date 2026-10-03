@@ -29,13 +29,19 @@ export default function Home() {
   return (
     <div className="home-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white relative">
 
-      {/* The bare `h2` rule in index.css (24px, weight 500, its own colour, margins and
-          letter-spacing) is unlayered, so it beats every Tailwind class on this page's
-          headings. revert-layer hands each of those properties back to Tailwind, so the
-          classes on the headings apply as written. Not redundant: removing it shrinks
-          every section heading here back to 24px. */}
+      {/* The bare `h1`, `h2` and `p` rules in index.css (fixed sizes, weight 500, their
+          own colour and margins; `p { margin: 0 }`) are unlayered, so they beat every
+          Tailwind class on this page's headings and paragraphs — including `mx-auto`.
+          revert-layer hands each of those properties back to Tailwind, so the classes
+          apply as written. Not redundant: removing it shrinks the headings back to the
+          global sizes and un-centres the section intros. The contact modal is skipped
+          so it looks the same here as on every other page that opens it. */}
       <style>{`
-        .home-page h2 {
+        .home-page p:not(.contact-modal p) {
+          margin: revert-layer;
+        }
+        .home-page h1:not(.contact-modal h1),
+        .home-page h2:not(.contact-modal h2) {
           font-family: revert-layer;
           font-size: revert-layer;
           font-weight: revert-layer;
@@ -155,7 +161,7 @@ export default function Home() {
         {/* Right Column: High-Impact Abbreviated Copy */}
         <div className="flex-1 w-full flex flex-col items-start text-left z-20">
           <motion.h1 
-            className="text-4xl lg:text-6xl font-black mb-6 tracking-tight leading-tight"
+            className="text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
