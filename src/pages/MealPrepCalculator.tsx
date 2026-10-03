@@ -1,11 +1,11 @@
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import usePageMeta from '../hooks/usePageMeta';
 import BreakEvenChart from '../components/BreakEvenChart';
 import MealPrepSummaryForm from '../components/MealPrepSummaryForm';
 import { BUSINESS_NAME } from '../config/site';
 import {
-  calculate, compareToRange, foodCostTier, BENCHMARKS, EXAMPLE_SHIFT_COST, LOCAL_SOURCING_PREMIUM,
+  calculate, compareToRange, foodCostTier, BENCHMARKS, DEFAULT_INPUTS, EXAMPLE_SHIFT_COST, LOCAL_SOURCING_PREMIUM,
   type MealPrepInputs, type RangePosition, type Sourcing,
 } from '../lib/mealPrepModel';
 
@@ -30,37 +30,37 @@ const FIELD_GROUPS: { title: string; fields: FieldSpec[] }[] = [
   {
     title: 'Your menu',
     fields: [
-      { key: 'mealsPerWeek', label: 'Meals per week', defaultValue: 60, suffix: 'meals', step: 1,
+      { key: 'mealsPerWeek', label: 'Meals per week', defaultValue: DEFAULT_INPUTS.mealsPerWeek, suffix: 'meals', step: 1,
         note: 'A starting point for a solo operator. Slide it and watch where you cross break-even on the chart.' },
-      { key: 'pricePerMeal', label: 'Price per meal', defaultValue: 12, prefix: '$', step: 0.25,
+      { key: 'pricePerMeal', label: 'Price per meal', defaultValue: DEFAULT_INPUTS.pricePerMeal, prefix: '$', step: 0.25,
         note: '$12 is the example price used throughout this page. Check what meal-prep sellers near you charge.' },
-      { key: 'foodCostPerMeal', label: 'Food cost per meal', defaultValue: 3.75, prefix: '$', step: 0.05,
+      { key: 'foodCostPerMeal', label: 'Food cost per meal', defaultValue: DEFAULT_INPUTS.foodCostPerMeal, prefix: '$', step: 0.05,
         note: '31% of a $12 meal before spoilage — inside the standard 28–32% food-cost band. Cost your real recipe, ingredient by ingredient, at broadline prices.' },
-      { key: 'packagingPerMeal', label: 'Packaging per meal', defaultValue: 0.6, prefix: '$', step: 0.05,
+      { key: 'packagingPerMeal', label: 'Packaging per meal', defaultValue: DEFAULT_INPUTS.packagingPerMeal, prefix: '$', step: 0.05,
         note: 'Container, lid and label. A planning figure — swap in your supplier’s quote.' },
-      { key: 'spoilagePct', label: 'Spoilage and waste', defaultValue: 5, suffix: '% of food', step: 1, max: 100,
+      { key: 'spoilagePct', label: 'Spoilage and waste', defaultValue: DEFAULT_INPUTS.spoilagePct, suffix: '% of food', step: 1, max: 100,
         note: 'Trim, over-production and meals that don’t sell. A planning allowance, not an industry benchmark — track your own.' },
     ],
   },
   {
     title: 'Kitchen and delivery',
     fields: [
-      { key: 'kitchenCostMonthly', label: 'Kitchen cost per month', defaultValue: 600, prefix: '$', step: 25,
+      { key: 'kitchenCostMonthly', label: 'Kitchen cost per month', defaultValue: DEFAULT_INPUTS.kitchenCostMonthly, prefix: '$', step: 25,
         note: 'Commissary kitchens run $15–40 an hour or $300–1,200 a month; most small operators spend $400–800 a month all in. $600 is the middle of that.' },
-      { key: 'deliverySharePct', label: 'Share of orders delivered', defaultValue: 50, suffix: '%', step: 5, max: 100,
+      { key: 'deliverySharePct', label: 'Share of orders delivered', defaultValue: DEFAULT_INPUTS.deliverySharePct, suffix: '%', step: 5, max: 100,
         note: 'Half delivered, half picked up. Pickup-only? Set it to 0.' },
-      { key: 'deliveryCostPerDrop', label: 'Delivery cost per drop', defaultValue: 6, prefix: '$', step: 0.5,
+      { key: 'deliveryCostPerDrop', label: 'Delivery cost per drop', defaultValue: DEFAULT_INPUTS.deliveryCostPerDrop, prefix: '$', step: 0.5,
         note: 'Food delivery typically costs $5–8 a drop, whether that’s a courier or your own time, fuel and mileage.' },
-      { key: 'mealsPerOrder', label: 'Meals per order', defaultValue: 4, suffix: 'meals', step: 1,
+      { key: 'mealsPerOrder', label: 'Meals per order', defaultValue: DEFAULT_INPUTS.mealsPerOrder, suffix: 'meals', step: 1,
         note: 'Delivery and the 30¢ card fee are charged per order, not per meal. Four $12 meals is a $48 order — inside the typical $35–60 average order value.' },
     ],
   },
   {
     title: 'Your own time',
     fields: [
-      { key: 'ownerHoursPerWeek', label: 'Your hours per week', defaultValue: 20, suffix: 'hrs', step: 1,
+      { key: 'ownerHoursPerWeek', label: 'Your hours per week', defaultValue: DEFAULT_INPUTS.ownerHoursPerWeek, suffix: 'hrs', step: 1,
         note: 'Shopping, prep, cooking, packing, delivery, customer messages, social posts. Count all of it.' },
-      { key: 'ownerHourlyTarget', label: 'What you need to pay yourself', defaultValue: 20, prefix: '$', suffix: '/hr', step: 1,
+      { key: 'ownerHourlyTarget', label: 'What you need to pay yourself', defaultValue: DEFAULT_INPUTS.ownerHourlyTarget, prefix: '$', suffix: '/hr', step: 1,
         note: 'What you’d have to pay someone else to do this work. Put $0 and the business is quietly borrowing from you.' },
     ],
   },
@@ -68,7 +68,7 @@ const FIELD_GROUPS: { title: string; fields: FieldSpec[] }[] = [
 
 const ALL_FIELDS = FIELD_GROUPS.flatMap(g => g.fields);
 const DEFAULT_VALUES = Object.fromEntries(ALL_FIELDS.map(f => [f.key, String(f.defaultValue)])) as Record<NumericField, string>;
-const DEFAULT_SOURCING: Sourcing = 'broadline';
+const DEFAULT_SOURCING: Sourcing = DEFAULT_INPUTS.sourcing;
 const MEALS_SLIDER_MAX = 300;
 
 // ---------------------------------------------------------------------------
@@ -161,7 +161,17 @@ export default function MealPrepCalculator() {
     'Free meal-prep business calculator: enter your price, food cost, kitchen rent, delivery and your own time to see food cost %, prime cost %, contribution per meal, and the break-even volume that matters most.',
   );
 
-  const [values, setValues] = useState(DEFAULT_VALUES);
+  // The home-page preview links here with ?price=&meals= so a visitor's own
+  // numbers carry through. Anything missing or not a number keeps its default.
+  const [searchParams] = useSearchParams();
+  const [values, setValues] = useState(() => {
+    const seeded = { ...DEFAULT_VALUES };
+    for (const [param, key] of [['price', 'pricePerMeal'], ['meals', 'mealsPerWeek']] as const) {
+      const n = Number(searchParams.get(param) ?? '');
+      if (searchParams.get(param) && Number.isFinite(n) && n >= 0) seeded[key] = String(n);
+    }
+    return seeded;
+  });
   const [sourcing, setSourcing] = useState<Sourcing>(DEFAULT_SOURCING);
 
   const inputs: MealPrepInputs = useMemo(() => {

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import FramerPlayground from '../components/FramerPlayground';
 import AnimationShowcase from '../components/AnimationShowcase';
 import ContactModal from '../components/ContactModal';
+import MealPrepPreview from '../components/MealPrepPreview';
 
 
 // MAIN COMPONENT: CONTINUOUS SCROLL HOME
@@ -201,6 +202,11 @@ export default function Home() {
       <div className="relative z-10 w-full border-t border-slate-900 bg-slate-950">
         <FramerPlayground />
       </div>
+
+      {/* =========================================
+          SECTION 6: MEAL-PREP CALCULATOR (LIVE SLICE)
+          ========================================= */}
+      <MealPrepPreview />
 
 
       {/* =========================================

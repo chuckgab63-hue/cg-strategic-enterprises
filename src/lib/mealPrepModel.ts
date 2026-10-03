@@ -36,6 +36,25 @@ export const LOCAL_SOURCING_PREMIUM = 0.25;
 /** The kitchen-shift example on the page: four hours at $25/hour. */
 export const EXAMPLE_SHIFT_COST = 100;
 
+/**
+ * The plan the calculator starts from. The page explains where each figure comes
+ * from; the home-page preview holds everything but price and volume at these.
+ */
+export const DEFAULT_INPUTS: MealPrepInputs = {
+  mealsPerWeek: 60,
+  pricePerMeal: 12,
+  foodCostPerMeal: 3.75,
+  packagingPerMeal: 0.6,
+  kitchenCostMonthly: 600,
+  deliverySharePct: 50,
+  deliveryCostPerDrop: 6,
+  mealsPerOrder: 4,
+  ownerHoursPerWeek: 20,
+  ownerHourlyTarget: 20,
+  spoilagePct: 5,
+  sourcing: 'broadline',
+};
+
 // Industry ranges to measure against, not targets to price to.
 // The two food ranges use different denominators — see foodPackagingPct.
 export const BENCHMARKS = {
