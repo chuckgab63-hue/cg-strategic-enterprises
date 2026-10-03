@@ -14,11 +14,19 @@ export default function GlobalHeader() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[50] bg-slate-950/80 backdrop-blur-md border-b border-slate-900">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-end lg:grid lg:grid-cols-3">
-          
-          <Link to="/" className="hidden lg:flex items-center gap-2 lg:justify-self-start">
-            <span className="text-2xl font-black text-white tracking-tighter">CG</span>
-            <span className="text-2xl font-black text-brand-orange tracking-tighter">STRATEGIC</span>
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
+
+          {/* The emblem is decorative (empty alt); the wordmark names the link. Below xl the
+              wordmark is visually hidden but stays readable, so the link keeps its name. */}
+          <Link to="/" className="flex items-center gap-3 shrink-0 lg:justify-self-start">
+            <picture className="shrink-0">
+              <source srcSet="/cg-strategic-mark.webp" type="image/webp" />
+              <img src="/cg-strategic-mark.png" alt="" width={48} height={48} className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
+            </picture>
+            <span className="sr-only xl:not-sr-only xl:flex xl:items-center xl:gap-2">
+              <span className="text-2xl font-black text-white tracking-tighter">CG</span>{' '}
+              <span className="text-2xl font-black text-brand-orange tracking-tighter">STRATEGIC</span>
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-6 lg:justify-self-center">
@@ -33,7 +41,7 @@ export default function GlobalHeader() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 lg:justify-self-end">
+          <div className="flex items-center gap-2 sm:gap-3 lg:justify-self-end">
             {/* The main nav is desktop-only, so give small screens their own Contact link. */}
             <Link
               to="/contact"
@@ -55,7 +63,7 @@ export default function GlobalHeader() {
               <a
                 href={PHONE_HREF}
                 aria-label={CALL_ARIA_LABEL}
-                className="inline-block bg-brand-orange text-white px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
+                className="inline-block bg-brand-orange text-white px-4 sm:px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
               >
                 Let's Talk
               </a>
