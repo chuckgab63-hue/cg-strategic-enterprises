@@ -17,6 +17,7 @@ import Skunkworks from './pages/Skunkworks';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Contact from './pages/Contact';
+import MealPrepCalculator from './pages/MealPrepCalculator';
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/meal-prep-calculator" element={<MealPrepCalculator />} />
           </Routes>
         </main>
         

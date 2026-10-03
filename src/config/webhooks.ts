@@ -10,3 +10,4 @@ export const ASSET_DROP_OFF_WEBHOOK_URL = 'https://hook.us2.make.com/uy2blad99b3
 export const ASSET_RETURN_WEBHOOK_URL = 'https://hook.us2.make.com/87znwz8ftrqpsmfwc49bf533g2kufs0l';
 export const ASSET_GET_LOCATIONS_WEBHOOK_URL = 'https://hook.us2.make.com/ohd5tlttrqstc7y4cg9377fwkncy5scv';
 export const MEAL_PREP_ORDER_WEBHOOK_URL = 'https://hook.us2.make.com/ubtyzoiqcnv2xsser1sqas9r4dofpqf0';
+export const MEAL_PREP_CALCULATOR_WEBHOOK_URL = 'https://hook.us2.make.com/2rvhw5jk86hxpx7s4pbgtptjwfk96ugk';

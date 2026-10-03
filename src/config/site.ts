@@ -45,3 +45,9 @@ export const SMS_MARKETING_CONSENT_TEXT =
   'Yes, send me occasional news, tips, and offers from CG Strategic Enterprises by text. Up to 4 msgs/month. Msg & data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of purchase. See our Privacy Policy and SMS Terms.';
 export const EMAIL_MARKETING_CONSENT_TEXT =
   'Yes, send me occasional news, tips, and offers from CG Strategic Enterprises by email. Unsubscribe anytime.';
+
+// Optional follow-up opt-in on the meal-prep calculator's "email me my numbers"
+// form. The summary email itself is sent either way; this box only covers
+// follow-up. Same rule as above: exact wording, sent with submissions.
+export const MEAL_PREP_FOLLOW_UP_CONSENT_TEXT =
+  'Yes, CG Strategic Enterprises can email me to follow up about these numbers and send occasional tips and offers. Unsubscribe anytime.';
