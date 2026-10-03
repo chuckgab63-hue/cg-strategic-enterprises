@@ -183,6 +183,13 @@ export default function Home() {
       </header>
 
       {/* =========================================
+          SECTION 2: MEAL-PREP CALCULATOR (LIVE SLICE)
+          Sits above the transition banner: the banner's "Here is a live
+          demonstration" introduces the rendering demos, so the two stay together.
+          ========================================= */}
+      <MealPrepPreview />
+
+      {/* =========================================
           TRANSITION HEADER
           ========================================= */}
       <div className="w-full text-center py-32 relative z-10 border-t border-slate-900 mt-20">
@@ -202,11 +209,6 @@ export default function Home() {
       <div className="relative z-10 w-full border-t border-slate-900 bg-slate-950">
         <FramerPlayground />
       </div>
-
-      {/* =========================================
-          SECTION 6: MEAL-PREP CALCULATOR (LIVE SLICE)
-          ========================================= */}
-      <MealPrepPreview />
 
 
       {/* =========================================
