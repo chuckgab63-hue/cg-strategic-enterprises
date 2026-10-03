@@ -129,7 +129,7 @@ export default function Portfolio() {
         </div>
 
         {/* Page Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-8">
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
             Case <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-brand-orange to-amber-500">Studies.</span>
           </h1>
@@ -137,6 +137,27 @@ export default function Portfolio() {
             A selection of high-fidelity frontend engineering and automated infrastructure deployments.
           </p>
         </div>
+
+        {/* Free-tool pointer. One row on purpose, not a section: the case studies are the
+            page, and anything taller pushes the first card below the fold. */}
+        <Link
+          to="/meal-prep-calculator"
+          className="group mb-12 w-full max-w-3xl flex flex-wrap items-center gap-x-4 gap-y-3 bg-slate-900/50 border border-slate-800 hover:border-brand-orange/50 rounded-2xl px-5 py-4 text-left transition-colors duration-300"
+        >
+          {/* Phones: pill and link share the top row, sentence wraps below. sm+: one row. */}
+          <span className="order-1 shrink-0 px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
+            Free Tool
+          </span>
+          <span className="order-3 basis-full sm:order-2 sm:basis-0 sm:flex-1 text-sm text-slate-300 leading-snug">
+            Running a meal-prep business? See how many meals a week it takes to cover your kitchen and pay yourself.
+          </span>
+          <span className="order-2 ml-auto sm:order-3 sm:ml-0 shrink-0 inline-flex items-center gap-2 text-brand-orange font-black uppercase tracking-widest text-xs group-hover:text-white transition-colors">
+            Try the calculator
+            <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
+        </Link>
 
         <div className="w-full flex flex-col gap-20 mb-32">
 
