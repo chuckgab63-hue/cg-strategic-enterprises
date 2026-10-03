@@ -105,6 +105,12 @@ describe('percentages', () => {
     expect(plan({}).foodCostPct).toBeCloseTo(30, 9);
   });
 
+  it('food + packaging % adds packaging to the same food figure, over menu price', () => {
+    // (3 × 1.05 spoilage + 0.60) / 10
+    expect(plan({ packagingPerMeal: 0.6, spoilagePct: 5 }).foodPackagingPct).toBeCloseTo(37.5, 9);
+    expect(plan({ pricePerMeal: 0 }).foodPackagingPct).toBeNull();
+  });
+
   it('prime cost % is food plus labour over revenue', () => {
     // Food $150 + labour $100 over $500 revenue.
     const r = plan({ ownerHoursPerWeek: 5, ownerHourlyTarget: 20 });

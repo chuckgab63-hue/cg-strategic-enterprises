@@ -6,7 +6,7 @@ import MealPrepSummaryForm from '../components/MealPrepSummaryForm';
 import { BUSINESS_NAME } from '../config/site';
 import {
   calculate, compareToRange, foodCostTier, BENCHMARKS, EXAMPLE_SHIFT_COST, LOCAL_SOURCING_PREMIUM,
-  type MealPrepInputs, type Sourcing,
+  type MealPrepInputs, type RangePosition, type Sourcing,
 } from '../lib/mealPrepModel';
 
 // ---------------------------------------------------------------------------
@@ -105,11 +105,11 @@ function StatusChip({ tone, children }: { tone: Tone; children: ReactNode }) {
   );
 }
 
-function MetricCard({ label, value, valueClass = 'text-white', status, children }: {
-  label: string; value: string; valueClass?: string; status?: ReactNode; children: ReactNode;
+function MetricCard({ label, value, valueClass = 'text-white', status, className = '', children }: {
+  label: string; value: string; valueClass?: string; status?: ReactNode; className?: string; children: ReactNode;
 }) {
   return (
-    <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col gap-3">
+    <div className={`bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col gap-3 ${className}`.trim()}>
       <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{label}</span>
       <span className={`text-3xl font-black tabular-nums leading-none ${valueClass}`}>{value}</span>
       {status}
@@ -202,6 +202,14 @@ export default function MealPrepCalculator() {
   // --- Benchmark readings ---------------------------------------------------
   const foodPos = r.foodCostPct === null ? null : compareToRange(r.foodCostPct, BENCHMARKS.foodCost.low, BENCHMARKS.foodCost.high);
   const tier = r.foodCostPct === null ? null : foodCostTier(r.foodCostPct);
+  const foodPackPos = r.foodPackagingPct === null ? null
+    : compareToRange(r.foodPackagingPct, BENCHMARKS.foodPackaging.low, BENCHMARKS.foodPackaging.high);
+  const rangeChip = (pos: RangePosition | null, range: { low: number; high: number }, extra?: string | null) => pos && (
+    <StatusChip tone={pos === 'within' ? 'good' : pos === 'above' ? 'warn' : 'neutral'}>
+      {pos === 'within' ? 'Inside' : pos === 'above' ? 'Above' : 'Below'} the {range.low}–{range.high}% range
+      {extra && ` · ${extra}`}
+    </StatusChip>
+  );
 
   const primeTone: Tone = r.primeCostPct === null ? 'neutral'
     : r.primeCostPct <= BENCHMARKS.primeCost.target ? 'good'
@@ -366,22 +374,39 @@ export default function MealPrepCalculator() {
 
           {/* Metric grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <MetricCard
-              label="Food cost"
-              value={r.foodCostPct === null ? '—' : pct(r.foodCostPct)}
-              status={foodPos && (
-                <StatusChip tone={foodPos === 'within' ? 'good' : foodPos === 'above' ? 'warn' : 'neutral'}>
-                  {foodPos === 'within' && `Inside the ${BENCHMARKS.foodCost.low}–${BENCHMARKS.foodCost.high}% range`}
-                  {foodPos === 'above' && `Above the ${BENCHMARKS.foodCost.low}–${BENCHMARKS.foodCost.high}% range`}
-                  {foodPos === 'below' && `Below the ${BENCHMARKS.foodCost.low}–${BENCHMARKS.foodCost.high}% range`}
-                  {tier && ` · ${tier} band`}
-                </StatusChip>
-              )}
-            >
-              Food (with spoilage{sourcing === 'local' ? ' and the local premium' : ''}) as a share of the menu price.
-              Typical: budget 25–28%, standard 28–32%, premium or organic 35–40%.
-              {foodPos === 'below' && ' Low isn’t automatically good — check every ingredient is costed.'}
-            </MetricCard>
+            {/* Two food benchmarks, two denominators: keep them side by side and say which is which. */}
+            <div className="sm:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-5">
+              <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Food cost, measured two ways</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 mt-3">
+                <div className="flex flex-col gap-3">
+                  <span className="text-xs font-bold text-slate-300">Food alone ÷ revenue</span>
+                  <span className="text-3xl font-black tabular-nums leading-none text-white">{r.foodCostPct === null ? '—' : pct(r.foodCostPct)}</span>
+                  {rangeChip(foodPos, BENCHMARKS.foodCost, tier && `${tier} band`)}
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Food (with spoilage{sourcing === 'local' ? ' and the local premium' : ''}) against <strong className="text-slate-200">revenue</strong>:
+                    what your books record, including any delivery fees you charge and net of discounts.
+                    Budget 25–28%, standard 28–32%, premium or organic 35–40%.
+                    {foodPos === 'below' && ' Low isn’t automatically good — check every ingredient is costed.'}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 border-t sm:border-t-0 sm:border-l border-slate-800 pt-5 sm:pt-0 sm:pl-6">
+                  <span className="text-xs font-bold text-slate-300">Food + packaging ÷ menu price</span>
+                  <span className="text-3xl font-black tabular-nums leading-none text-white">{r.foodPackagingPct === null ? '—' : pct(r.foodPackagingPct)}</span>
+                  {rangeChip(foodPackPos, BENCHMARKS.foodPackaging)}
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Food plus packaging against <strong className="text-slate-200">gross menu price</strong>: before
+                    discounts, without delivery fees. This range comes from guidance for small operators with
+                    simpler meals, so it’s the tighter target.
+                  </p>
+                </div>
+              </div>
+              <p className="text-[11px] text-slate-500 leading-relaxed border-t border-slate-800 mt-5 pt-4">
+                The ranges overlap at 28–30%, but a figure in that band doesn’t mean the same thing in both.
+                This calculator doesn’t model delivery fees or discounts, so revenue and menu price are the
+                same here — in your own books they usually aren’t. Check which denominator your figure uses
+                before you compare it.
+              </p>
+            </div>
 
             <MetricCard
               label="Prime cost"
@@ -433,6 +458,7 @@ export default function MealPrepCalculator() {
 
             <MetricCard
               label="Monthly profit"
+              className="sm:col-span-2"
               value={usd(r.monthlyProfit)}
               valueClass={r.monthlyProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}
               status={r.netMarginPct !== null && (
@@ -515,9 +541,18 @@ export default function MealPrepCalculator() {
           premium menu can run a higher food cost and still work; a budget menu at 25% can still lose
           money on delivery.
         </p>
+        <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-brand-orange bg-brand-orange/5 p-4 rounded-r-lg mt-6 max-w-3xl">
+          <strong className="text-brand-orange text-xs uppercase tracking-widest block mb-1">Check the denominator</strong>
+          The two food ranges below measure different things against different bases. 28–35% is food alone
+          against revenue, which includes delivery fees and is net of discounts. 22–30% is food plus packaging
+          against gross menu price, before discounts and without delivery fees. They overlap at 28–30%, but a
+          number in that band doesn’t mean the same thing in both — so work out your own figure on the same
+          base as the range you compare it to.
+        </div>
         <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-5 mt-8">
           {[
-            ['Food cost', '28–35% of revenue. Budget 25–28%, standard 28–32%, premium or organic 35–40%.'],
+            ['Food cost', '28–35% of revenue: food alone, against revenue including delivery fees and net of discounts. Budget 25–28%, standard 28–32%, premium or organic 35–40%.'],
+            ['Food + packaging', '22–30% of menu price: food plus packaging, against gross menu price before discounts and without delivery fees. Aimed at small operators with simpler meals, so it’s the tighter target.'],
             ['Labour', '25–35% of revenue.'],
             ['Prime cost (food + labour)', 'Under 65%, with 60% a common target.'],
             ['Net margin', '10–20% once established. Expect less in the first months.'],

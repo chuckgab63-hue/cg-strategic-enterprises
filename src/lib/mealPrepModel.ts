@@ -37,8 +37,12 @@ export const LOCAL_SOURCING_PREMIUM = 0.25;
 export const EXAMPLE_SHIFT_COST = 100;
 
 // Industry ranges to measure against, not targets to price to.
+// The two food ranges use different denominators — see foodPackagingPct.
 export const BENCHMARKS = {
+  /** Food alone against revenue (which includes delivery fees and is net of discounts). */
   foodCost: { low: 28, high: 35 },
+  /** Food plus packaging against gross menu price (before discounts, without delivery fees). */
+  foodPackaging: { low: 22, high: 30 },
   foodCostTiers: [
     { label: 'Budget', low: 25, high: 28 },
     { label: 'Standard', low: 28, high: 32 },
@@ -66,6 +70,12 @@ export interface MealPrepResults {
   /** Meals per week to cover the kitchen and pay yourself. null when no volume ever covers it. */
   breakEvenMeals: number | null;
   foodCostPct: number | null;
+  /**
+   * Food (with spoilage) plus packaging over menu price. This calculator has no
+   * delivery fees charged to customers and no discounts, so menu price and
+   * revenue per meal are the same figure here; in an operator's books they differ.
+   */
+  foodPackagingPct: number | null;
   labourPct: number | null;
   primeCostPct: number | null;
   /** What the grocery receipt suggests: food (before spoilage) plus packaging, over price. */
@@ -141,6 +151,7 @@ export function calculate(raw: MealPrepInputs): MealPrepResults {
     breakEvenMeals: breakEvenVolume(kitchenCostWeekly + ownerPayWeekly, contributionMargin),
     // Food cost % is a per-meal ratio, so it still means something at zero volume.
     foodCostPct: pctOf(foodCostPerMeal, price),
+    foodPackagingPct: pctOf(foodCostPerMeal + packagingPerMeal, price),
     labourPct: pctOf(ownerPayWeekly, weeklyRevenue),
     primeCostPct: pctOf(weeklyFood + ownerPayWeekly, weeklyRevenue),
     receiptCogsPct: pctOf(purchasedFoodPerMeal + packagingPerMeal, price),
