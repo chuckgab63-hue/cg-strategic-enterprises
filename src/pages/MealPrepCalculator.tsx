@@ -8,6 +8,7 @@ import {
   calculate, compareToRange, foodCostTier, BENCHMARKS, DEFAULT_INPUTS, EXAMPLE_SHIFT_COST, LOCAL_SOURCING_PREMIUM,
   type MealPrepInputs, type RangePosition, type Sourcing,
 } from '../lib/mealPrepModel';
+import { calculatorUrl, parseCalculatorParams } from '../lib/mealPrepUrl';
 
 // ---------------------------------------------------------------------------
 // Inputs: each has a realistic default and a note on where the default comes from.
@@ -151,6 +152,44 @@ function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string
   );
 }
 
+// The no-email way to keep a scenario: a link that reopens these exact inputs.
+// The page's own origin, so it works on whichever deployment you're looking at.
+function CopyLinkButton({ inputs }: { inputs: MealPrepInputs }) {
+  const [copied, setCopied] = useState<{ url: string; ok: boolean } | null>(null);
+  const url = calculatorUrl(inputs, window.location.origin);
+  // Edit anything after copying and the old message no longer describes this link.
+  const status = copied?.url === url ? copied : null;
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied({ url, ok: true });
+    } catch {
+      // No clipboard access (an http page, a locked-down browser): show the link to copy by hand.
+      setCopied({ url, ok: false });
+    }
+  };
+
+  return (
+    <div className="mt-5 pt-4 border-t border-slate-800 text-xs text-slate-400 leading-relaxed">
+      Rather not give an email?{' '}
+      <button
+        type="button" onClick={copy}
+        className="font-bold text-brand-orange underline hover:text-white transition-colors cursor-pointer"
+      >
+        Copy a link to these numbers
+      </button>
+      {' '}to bookmark or share.
+      <p role="status" className="mt-2 empty:hidden">
+        {status?.ok && <span className="text-emerald-400 font-semibold">Link copied.</span>}
+        {status && !status.ok && (
+          <>Couldn’t reach your clipboard. Here’s the link: <span className="text-slate-200 break-all select-all">{url}</span></>
+        )}
+      </p>
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // The page
 // ---------------------------------------------------------------------------
@@ -161,18 +200,14 @@ export default function MealPrepCalculator() {
     'Free meal-prep business calculator: enter your price, food cost, kitchen rent, delivery and your own time to see food cost %, prime cost %, contribution per meal, and the break-even volume that matters most.',
   );
 
-  // The home-page preview links here with ?price=&meals= so a visitor's own
-  // numbers carry through. Anything missing or not a number keeps its default.
+  // Links (the summary email, a copied link, the home-page preview) carry inputs
+  // in the query string. Anything missing, malformed or out of range keeps its default.
   const [searchParams] = useSearchParams();
-  const [values, setValues] = useState(() => {
-    const seeded = { ...DEFAULT_VALUES };
-    for (const [param, key] of [['price', 'pricePerMeal'], ['meals', 'mealsPerWeek']] as const) {
-      const n = Number(searchParams.get(param) ?? '');
-      if (searchParams.get(param) && Number.isFinite(n) && n >= 0) seeded[key] = String(n);
-    }
-    return seeded;
-  });
-  const [sourcing, setSourcing] = useState<Sourcing>(DEFAULT_SOURCING);
+  const [seed] = useState(() => parseCalculatorParams(searchParams));
+  const [values, setValues] = useState(
+    () => Object.fromEntries(ALL_FIELDS.map(f => [f.key, String(seed[f.key])])) as Record<NumericField, string>,
+  );
+  const [sourcing, setSourcing] = useState<Sourcing>(seed.sourcing);
 
   const inputs: MealPrepInputs = useMemo(() => {
     const parsed = Object.fromEntries(
@@ -537,6 +572,7 @@ export default function MealPrepCalculator() {
               We’ll email you a summary of what you entered and what it works out to, so you can come back to it.
             </p>
             <MealPrepSummaryForm inputs={inputs} results={r} />
+            <CopyLinkButton inputs={inputs} />
           </div>
         </div>
       </div>

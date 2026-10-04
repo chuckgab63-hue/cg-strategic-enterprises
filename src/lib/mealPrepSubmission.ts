@@ -4,7 +4,9 @@
 // the exact key list. Numbers go out as plain values; the emails and the
 // sheet add the $ and % themselves.
 
+import { SITE_URL } from '../config/site';
 import type { MealPrepInputs, MealPrepResults } from './mealPrepModel';
+import { calculatorUrl } from './mealPrepUrl';
 
 export const CALCULATOR_SOURCE = 'Meal Prep Calculator';
 
@@ -53,5 +55,10 @@ export function buildCalculatorSubmission(
     break_even_meals: results.breakEvenMeals,
     monthly_revenue: money(results.monthlyRevenue),
     monthly_profit: money(results.monthlyProfit),
+
+    // Reopens the calculator on these exact inputs. Always the canonical site,
+    // never the page's own origin: an email outlives preview deployments and
+    // must never point at localhost.
+    results_url: calculatorUrl(inputs, SITE_URL),
   };
 }

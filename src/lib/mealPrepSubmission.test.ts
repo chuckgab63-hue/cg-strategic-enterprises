@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { calculate, type MealPrepInputs } from './mealPrepModel';
 import { buildCalculatorSubmission, CALCULATOR_SOURCE } from './mealPrepSubmission';
+import { parseCalculatorParams } from './mealPrepUrl';
 
 const INPUTS: MealPrepInputs = {
   mealsPerWeek: 60,
@@ -38,11 +39,12 @@ const EXPECTED_KEYS = [
   'owner_hours_per_week', 'owner_hourly_target', 'sourcing',
   'food_cost_pct', 'prime_cost_pct', 'contribution_margin',
   'break_even_meals', 'monthly_revenue', 'monthly_profit',
+  'results_url',
 ];
 
 describe('buildCalculatorSubmission', () => {
   it('sends exactly the keys the Make.com scenario maps', () => {
-    expect(EXPECTED_KEYS).toHaveLength(24);
+    expect(EXPECTED_KEYS).toHaveLength(25);
     expect(Object.keys(build()).sort()).toEqual([...EXPECTED_KEYS].sort());
   });
 
@@ -57,10 +59,11 @@ describe('buildCalculatorSubmission', () => {
   it('sends numbers as plain values with no currency or percent signs', () => {
     const body = build();
     for (const key of EXPECTED_KEYS.slice(6)) {
-      if (key === 'sourcing') continue;
+      if (key === 'sourcing' || key === 'results_url') continue;
       expect(typeof body[key as keyof typeof body], key).toBe('number');
     }
-    expect(JSON.stringify(body)).not.toMatch(/[$%]/);
+    const { results_url: _url, ...rest } = body;
+    expect(JSON.stringify(rest)).not.toMatch(/[$%]/);
   });
 
   it('rounds money to cents and percentages to one decimal', () => {
@@ -99,5 +102,14 @@ describe('buildCalculatorSubmission', () => {
     const body = build(CONTACT, { ...INPUTS, mealsPerWeek: 0 });
     expect(body.prime_cost_pct).toBeNull();
     expect(JSON.stringify(body)).not.toMatch(/NaN|Infinity/);
+  });
+
+  it('links back to these exact numbers on the canonical site', () => {
+    expect(build().results_url).toBe('https://www.cgstrategic.dev/meal-prep-calculator');
+    const inputs = { ...INPUTS, mealsPerWeek: 90, sourcing: 'local' as const };
+    const url = new URL(build(CONTACT, inputs).results_url);
+    expect(url.origin).toBe('https://www.cgstrategic.dev');
+    expect(url.pathname).toBe('/meal-prep-calculator');
+    expect(parseCalculatorParams(url.searchParams)).toEqual(inputs);
   });
 });

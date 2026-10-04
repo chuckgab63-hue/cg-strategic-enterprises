@@ -2,6 +2,7 @@ import { useId, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { calculate, DEFAULT_INPUTS, PROCESSING_RATE, PROCESSING_FEE_PER_ORDER } from '../lib/mealPrepModel';
+import { calculatorPath } from '../lib/mealPrepUrl';
 
 // A live slice of /meal-prep-calculator for the home page: price and weekly
 // volume are the visitor's, everything else is held at the full tool's defaults.
@@ -73,9 +74,7 @@ export default function MealPrepPreview() {
 
   // Carry the visitor's numbers through so the full tool opens where they left off.
   const edited = price !== String(D.pricePerMeal) || meals !== String(D.mealsPerWeek);
-  const href = edited
-    ? `/meal-prep-calculator?${new URLSearchParams({ price: String(priceNum), meals: String(mealsNum) })}`
-    : '/meal-prep-calculator';
+  const href = calculatorPath({ ...D, pricePerMeal: priceNum, mealsPerWeek: mealsNum });
 
   // Beside the inputs on desktop; under the result on phones, so the number stays
   // right below the fields being typed into.
