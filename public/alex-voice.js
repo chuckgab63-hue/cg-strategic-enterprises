@@ -14,16 +14,41 @@ const LABELS = {
   live: "End call",
 };
 
-function setState(state, message = "") {
-  document.querySelectorAll("[data-alex-call]").forEach((btn) => {
+let current = { state: "idle", message: "" };
+
+// Apply the current state to every button and status line under root.
+function render(root) {
+  const { state, message } = current;
+  const within = (sel) => [
+    ...(root.matches?.(sel) ? [root] : []),
+    ...root.querySelectorAll(sel),
+  ];
+  within("[data-alex-call]").forEach((btn) => {
     btn.textContent = LABELS[state];
     btn.disabled = state === "connecting";
     btn.setAttribute("aria-pressed", state === "live" ? "true" : "false");
   });
-  document.querySelectorAll("[data-alex-status]").forEach((el) => {
+  within("[data-alex-status]").forEach((el) => {
     el.textContent = message;
   });
 }
+
+function setState(state, message = "") {
+  current = { state, message };
+  render(document);
+}
+
+// Buttons inside a modal mount after a call may have started (close it mid-call,
+// reopen it). Bring new ones up to date so they don't show "Initiate call" while
+// a call is connecting or live. Idle buttons already render the right label.
+new MutationObserver((mutations) => {
+  if (current.state === "idle") return;
+  for (const m of mutations) {
+    m.addedNodes.forEach((node) => {
+      if (node.nodeType === Node.ELEMENT_NODE) render(node);
+    });
+  }
+}).observe(document.documentElement, { childList: true, subtree: true });
 
 async function startCall() {
   if (busy || active) return;
