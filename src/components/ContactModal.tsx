@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContactForm, { type ContactFormCopy } from './ContactForm';
 
@@ -48,15 +48,7 @@ const COPY: Record<Variant, ContactFormCopy & {
 };
 
 export default function ContactModal({ isOpen, onClose, initialMessage = '', variant = 'default', source }: ContactModalProps) {
-  const [callText, setCallText] = useState('Initiate Call');
   const copy = COPY[variant];
-
-  // Reset the "Coming Soon" button when the modal closes
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => setCallText('Initiate Call'), 300);
-    }
-  }, [isOpen]);
 
   // Lock body scroll while the modal is open
   useEffect(() => {
@@ -110,15 +102,17 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
                 <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-1">
                   Bypass the form. Instantly connect with our intelligent voice agent to ask questions and route your inquiry directly to the right engineer.
                 </p>
-                <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setCallText('Coming Soon');
-                  }}
+                {/* public/alex-voice.js handles the click and rewrites this label and the
+                    status line below, so React must not own either one's text. */}
+                <button
+                  type="button"
+                  data-alex-call
                   className="w-full bg-blue-600/20 border border-blue-500 hover:bg-blue-500 text-blue-400 hover:text-white py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  {callText}
+                  Initiate call
                 </button>
+                {/* min-h reserves four lines (the longest message at 320px) so status text doesn't resize the card. */}
+                <p data-alex-status aria-live="polite" className="w-full mt-3 min-h-20 text-xs leading-5 text-slate-400"></p>
               </div>
 
               {/* Option 2: Webhook Form */}
