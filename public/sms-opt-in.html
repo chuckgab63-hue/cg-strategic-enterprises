@@ -1,0 +1,246 @@
+<!doctype html>
+<!--
+  Static SMS opt-in form for carrier (A2P 10DLC) review. The rest of the site
+  is a client-rendered React app, so reviewers who fetch /contact without
+  JavaScript see an empty shell. This page needs no JavaScript and no build
+  step. It posts to api/sms-opt-in.ts, which forwards to the same Make
+  scenario as the contact form.
+
+  The consent wording must match SMS_CONSENT_TEXT in src/config/site.ts word
+  for word, and the phone pattern must match PHONE_PATTERN in
+  src/lib/smsOptIn.ts. src/lib/smsOptInPage.test.ts fails if either drifts.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text Message Opt-In | CG Strategic Enterprises</title>
+<meta name="description" content="Contact CG Strategic Enterprises and opt in to text messages about your inquiry, appointments, and project updates.">
+<link rel="canonical" href="https://www.cgstrategic.dev/sms-opt-in.html">
+<link rel="icon" type="image/png" href="/cg-strategic-mark.png">
+<style>
+  :root {
+    --bg: #020617;           /* slate-950 */
+    --card: rgba(15, 23, 42, 0.5); /* slate-900/50 */
+    --card-border: #1e293b;  /* slate-800 */
+    --input-border: #334155; /* slate-700 */
+    --text: #cbd5e1;         /* slate-300 */
+    --muted: #94a3b8;        /* slate-400 */
+    --faint: #64748b;        /* slate-500 */
+    --heading: #fff;
+    --orange: #FF5F1F;
+    --error: #f87171;        /* red-400 */
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 system-ui, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--orange); color: #fff; }
+  a { color: var(--orange); }
+  a:hover { color: #fff; }
+
+  .site-header { border-bottom: 1px solid #0f172a; }
+  .site-header .inner, main, .site-footer .inner { max-width: 48rem; margin: 0 auto; padding-inline: 1rem; }
+  .site-header .inner { height: 5rem; display: flex; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+  .brand img { width: 2.5rem; height: 2.5rem; }
+  .brand span { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.05em; color: #fff; }
+  .brand span b { color: var(--orange); font-weight: 900; }
+
+  main { padding-block: 3rem 4rem; }
+  h1 { color: var(--heading); font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; line-height: 1.1; margin: 0; }
+  .lede { margin: 1rem 0 2.5rem; }
+
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1rem; padding: 1.5rem; }
+  .card h2 { color: var(--heading); font-size: 1.125rem; margin: 0 0 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .card h2::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px rgba(255, 95, 31, 0.8); }
+
+  form { display: flex; flex-direction: column; gap: 1rem; }
+  .row { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.5rem; }
+  label.field-label { font-size: 0.75rem; font-weight: 600; color: var(--text); }
+  input[type=text], input[type=email], input[type=tel], textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--input-border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #fff;
+    font: inherit;
+    font-size: 0.875rem;
+    transition: border-color 0.15s;
+  }
+  textarea { resize: vertical; min-height: 7rem; }
+  input:focus, textarea:focus { outline: none; border-color: var(--orange); }
+  input::placeholder, textarea::placeholder { color: var(--faint); }
+  /* :user-invalid waits until the visitor has interacted, unlike :invalid. */
+  input:user-invalid, textarea:user-invalid { border-color: var(--error); }
+  .hint { font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+  .consent { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.75rem; line-height: 1.6; }
+  .consent input { margin: 0.2rem 0 0; width: 1rem; height: 1rem; flex-shrink: 0; accent-color: var(--orange); cursor: pointer; }
+  .consent a { text-decoration: underline; }
+
+  /* Honeypot: off-screen rather than display:none, which some bots skip. */
+  .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+  button {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    background: var(--orange);
+    color: #fff;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 95, 31, 0.3);
+    transition: background-color 0.15s, color 0.15s;
+  }
+  button:hover { background: #fff; color: var(--orange); }
+  button:disabled { background: #334155; color: var(--muted); border-color: #475569; cursor: not-allowed; }
+
+  .site-footer { border-top: 1px solid #0f172a; font-size: 0.875rem; color: var(--muted); }
+  .site-footer .inner { padding-block: 2rem; display: grid; gap: 1rem; }
+  .site-footer address { font-style: normal; }
+  .site-footer nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+  @media (min-width: 640px) {
+    .row { grid-template-columns: 1fr 1fr; }
+    .card { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="/">
+      <img src="/cg-strategic-mark.png" alt="" width="48" height="48">
+      <span>CG <b>STRATEGIC</b></span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <h1>Text message opt-in</h1>
+  <p class="lede">
+    Send us a message and, if you'd like, opt in to text messages from CG Strategic Enterprises about your
+    inquiry, appointments, and project updates. Texting is optional. You can also call
+    <a href="tel:+19048228929">(904) 822-8929</a> or email <a href="mailto:info@cgstrategic.dev">info@cgstrategic.dev</a>.
+  </p>
+
+  <section class="card" aria-labelledby="form-heading">
+    <h2 id="form-heading">Send Us a Message</h2>
+    <form id="opt-in-form" method="post" action="/api/sms-opt-in">
+      <div class="row">
+        <div class="field">
+          <label class="field-label" for="first_name">First name</label>
+          <input id="first_name" name="first_name" type="text" required maxlength="100" autocomplete="given-name" placeholder="First name">
+        </div>
+        <div class="field">
+          <label class="field-label" for="last_name">Last name</label>
+          <input id="last_name" name="last_name" type="text" required maxlength="100" autocomplete="family-name" placeholder="Last name">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="email">Email</label>
+        <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label class="field-label" for="message">Message</label>
+        <textarea id="message" name="message" required maxlength="5000" rows="4" placeholder="How can we help you?"></textarea>
+      </div>
+
+      <!-- Leave this empty. It's hidden from people and catches automated spam. -->
+      <div class="hp" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- The phone sits directly above the SMS consent box so reviewers can see
+           which number the consent applies to. Required once the box is ticked. -->
+      <div class="field">
+        <label class="field-label" for="phone">Mobile phone number</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30"
+          pattern="\+?1?[\s.\-]*\(?[0-9]{3}\)?[\s.\-]*[0-9]{3}[\s.\-]*[0-9]{4}"
+          title="A 10-digit US mobile number, like (555) 555-5555"
+          placeholder="(555) 555-5555" aria-describedby="phone-hint">
+        <p class="hint" id="phone-hint">Required if you agree to receive text messages.</p>
+      </div>
+      <label class="consent">
+        <input id="sms_consent" name="sms_consent" type="checkbox" value="yes">
+        <span>I agree to receive text messages from CG Strategic Enterprises about my inquiry, appointments, and project updates. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of purchase. See our <a href="/privacy">Privacy Policy</a> and <a href="/terms#sms">SMS Terms</a>.</span>
+      </label>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <address>CG Strategic Enterprises, LLC<br>12220 Atlantic Blvd, Ste 130 1506<br>Jacksonville, FL 32225</address>
+    <nav aria-label="Legal">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms#sms">SMS Terms</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Progressive enhancement only: everything above works without this.
+  // Same rule as ContactForm (src/lib/smsPhone.ts): the phone is optional
+  // unless the text message box is ticked. Without JavaScript the server
+  // enforces it instead.
+  (function () {
+    var form = document.getElementById('opt-in-form');
+    var phone = document.getElementById('phone');
+    var consent = document.getElementById('sms_consent');
+    var names = [document.getElementById('first_name'), document.getElementById('last_name')];
+    var PHONE_REQUIRED = 'Please enter your mobile phone number so we can text you, or uncheck the text message boxes.';
+
+    function checkPhone() {
+      var missing = consent.checked && !phone.value.trim();
+      phone.setCustomValidity(missing ? PHONE_REQUIRED : '');
+      phone.setAttribute('aria-required', consent.checked ? 'true' : 'false');
+    }
+    // `required` accepts whitespace-only names; the server doesn't.
+    function checkName(input) {
+      input.setCustomValidity(input.value && !input.value.trim() ? 'Please enter your ' + input.labels[0].textContent.toLowerCase() + '.' : '');
+    }
+
+    phone.addEventListener('input', checkPhone);
+    consent.addEventListener('change', checkPhone);
+    names.forEach(function (input) {
+      input.addEventListener('input', function () { checkName(input); });
+    });
+    checkPhone();
+
+    form.addEventListener('submit', function () {
+      // Only reached once the browser's validation has passed.
+      var button = form.querySelector('button[type=submit]');
+      button.disabled = true;
+      button.textContent = 'Sending...';
+    });
+    // Re-enable the button if the visitor comes back with the Back button.
+    window.addEventListener('pageshow', function () {
+      var button = form.querySelector('button[type=submit]');
+      button.disabled = false;
+      button.textContent = 'Send Message';
+    });
+  })();
+</script>
+</body>
+</html>

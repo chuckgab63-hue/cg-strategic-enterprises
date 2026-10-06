@@ -1,0 +1,148 @@
+<!doctype html>
+<!--
+  Where api/sms-opt-in.ts sends visitors after the static opt-in form
+  (sms-opt-in.html) is accepted. Plain HTML, styled to match that page.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Message Sent | CG Strategic Enterprises</title>
+<meta name="description" content="Contact CG Strategic Enterprises and opt in to text messages about your inquiry, appointments, and project updates.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/cg-strategic-mark.png">
+<style>
+  :root {
+    --bg: #020617;           /* slate-950 */
+    --card: rgba(15, 23, 42, 0.5); /* slate-900/50 */
+    --card-border: #1e293b;  /* slate-800 */
+    --input-border: #334155; /* slate-700 */
+    --text: #cbd5e1;         /* slate-300 */
+    --muted: #94a3b8;        /* slate-400 */
+    --faint: #64748b;        /* slate-500 */
+    --heading: #fff;
+    --orange: #FF5F1F;
+    --error: #f87171;        /* red-400 */
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 system-ui, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--orange); color: #fff; }
+  a { color: var(--orange); }
+  a:hover { color: #fff; }
+
+  .site-header { border-bottom: 1px solid #0f172a; }
+  .site-header .inner, main, .site-footer .inner { max-width: 48rem; margin: 0 auto; padding-inline: 1rem; }
+  .site-header .inner { height: 5rem; display: flex; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+  .brand img { width: 2.5rem; height: 2.5rem; }
+  .brand span { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.05em; color: #fff; }
+  .brand span b { color: var(--orange); font-weight: 900; }
+
+  main { padding-block: 3rem 4rem; }
+  h1 { color: var(--heading); font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; line-height: 1.1; margin: 0; }
+  .lede { margin: 1rem 0 2.5rem; }
+
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1rem; padding: 1.5rem; }
+  .card h2 { color: var(--heading); font-size: 1.125rem; margin: 0 0 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .card h2::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px rgba(255, 95, 31, 0.8); }
+
+  form { display: flex; flex-direction: column; gap: 1rem; }
+  .row { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.5rem; }
+  label.field-label { font-size: 0.75rem; font-weight: 600; color: var(--text); }
+  input[type=text], input[type=email], input[type=tel], textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--input-border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #fff;
+    font: inherit;
+    font-size: 0.875rem;
+    transition: border-color 0.15s;
+  }
+  textarea { resize: vertical; min-height: 7rem; }
+  input:focus, textarea:focus { outline: none; border-color: var(--orange); }
+  input::placeholder, textarea::placeholder { color: var(--faint); }
+  /* :user-invalid waits until the visitor has interacted, unlike :invalid. */
+  input:user-invalid, textarea:user-invalid { border-color: var(--error); }
+  .hint { font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+  .consent { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.75rem; line-height: 1.6; }
+  .consent input { margin: 0.2rem 0 0; width: 1rem; height: 1rem; flex-shrink: 0; accent-color: var(--orange); cursor: pointer; }
+  .consent a { text-decoration: underline; }
+
+  /* Honeypot: off-screen rather than display:none, which some bots skip. */
+  .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+  button {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    background: var(--orange);
+    color: #fff;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 95, 31, 0.3);
+    transition: background-color 0.15s, color 0.15s;
+  }
+  button:hover { background: #fff; color: var(--orange); }
+  button:disabled { background: #334155; color: var(--muted); border-color: #475569; cursor: not-allowed; }
+
+  .site-footer { border-top: 1px solid #0f172a; font-size: 0.875rem; color: var(--muted); }
+  .site-footer .inner { padding-block: 2rem; display: grid; gap: 1rem; }
+  .site-footer address { font-style: normal; }
+  .site-footer nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+  @media (min-width: 640px) {
+    .row { grid-template-columns: 1fr 1fr; }
+    .card { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="/">
+      <img src="/cg-strategic-mark.png" alt="" width="48" height="48">
+      <span>CG <b>STRATEGIC</b></span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="card" role="status">
+    <h2>Message Sent</h2>
+    <p>Thanks for reaching out. We've received your message and will be in touch shortly.</p>
+    <p>If you agreed to text messages, you can reply STOP at any time to opt out, or HELP for help.</p>
+    <p><a href="/">Back to CG Strategic Enterprises</a></p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <address>CG Strategic Enterprises, LLC<br>12220 Atlantic Blvd, Ste 130 1506<br>Jacksonville, FL 32225</address>
+    <nav aria-label="Legal">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms#sms">SMS Terms</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
