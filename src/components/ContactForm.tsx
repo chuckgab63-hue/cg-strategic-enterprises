@@ -5,6 +5,7 @@ import {
   SMS_CONSENT_TEXT, SMS_MARKETING_CONSENT_TEXT, EMAIL_MARKETING_CONSENT_TEXT,
   EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
 } from '../config/site';
+import { smsPhoneError } from '../lib/smsPhone';
 
 export interface ContactFormCopy {
   firstNamePlaceholder: string;
@@ -55,6 +56,8 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
   const [formData, setFormData] = useState({ ...EMPTY_FORM, message: initialMessage });
   const [phoneError, setPhoneError] = useState('');
   const [nameErrors, setNameErrors] = useState({ firstName: '', lastName: '' });
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const phoneId = useId();
   const phoneErrorId = useId();
   const firstNameErrorId = useId();
   const lastNameErrorId = useId();
@@ -75,6 +78,8 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
     return () => clearTimeout(timer);
   }, [formStatus]);
 
+  const wantsTexts = formData.smsConsent || formData.smsMarketingConsent;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -87,12 +92,14 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
       });
       return;
     }
-    if ((formData.smsConsent || formData.smsMarketingConsent) && !formData.phone.trim()) {
-      setPhoneError('Please enter a mobile number so we can text you, or uncheck the text message boxes.');
+    const smsError = smsPhoneError(formData.phone, wantsTexts);
+    if (smsError) {
+      setPhoneError(smsError);
+      phoneRef.current?.focus();
       return;
     }
     setFormStatus('submitting');
-    const { firstName: _first, lastName: _last, smsConsent, smsMarketingConsent, emailMarketingConsent, ...fields } = formData;
+    const { firstName: _first, lastName: _last, phone, smsConsent, smsMarketingConsent, emailMarketingConsent, ...fields } = formData;
     const now = new Date().toISOString();
     try {
       const response = await fetch(CONTACT_WEBHOOK_URL, {
@@ -104,6 +111,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           // Kept alongside the split fields so existing Make.com mappings keep working.
           name: `${firstName} ${lastName}`.trim(),
           ...fields,
+          phone: phone.trim(),
           source,
           sms_consent: smsConsent,
           sms_consent_text: SMS_CONSENT_TEXT,
@@ -182,26 +190,38 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
         value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
         className={`${inputClass} border-slate-700`}
       />
-      <input
-        type="tel" autoComplete="tel" placeholder="Mobile phone (optional)"
-        aria-label="Mobile phone (optional)"
-        aria-invalid={phoneError ? true : undefined}
-        aria-describedby={phoneError ? phoneErrorId : undefined}
-        value={formData.phone}
-        onChange={(e) => { setFormData({...formData, phone: e.target.value}); setPhoneError(''); }}
-        className={`${inputClass} ${phoneError ? 'border-red-400' : 'border-slate-700'}`}
-      />
-      {phoneError && (
-        <p id={phoneErrorId} role="alert" className="text-red-400 text-xs font-semibold -mt-2">
-          {phoneError}
-        </p>
-      )}
       <textarea
         required placeholder={copy.messagePlaceholder} rows={4}
         aria-label="Message"
         value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
         className={`${inputClass} border-slate-700 resize-none`}
       />
+      {/* The phone sits directly above the SMS consent box so carrier (A2P) reviewers
+          can see which number the consent applies to. Optional unless a text box is ticked. */}
+      <div className="flex flex-col gap-2">
+        <label htmlFor={phoneId} className="text-xs font-semibold text-slate-300">
+          Mobile phone number
+        </label>
+        <input
+          ref={phoneRef} id={phoneId}
+          type="tel" autoComplete="tel" inputMode="tel" placeholder="(555) 555-5555"
+          aria-required={wantsTexts}
+          aria-invalid={phoneError ? true : undefined}
+          aria-describedby={phoneError ? phoneErrorId : undefined}
+          value={formData.phone}
+          onChange={(e) => {
+            setFormData({...formData, phone: e.target.value});
+            // Catches clearing the number after ticking a text box, not just on submit.
+            setPhoneError(smsPhoneError(e.target.value, wantsTexts));
+          }}
+          className={`${inputClass} ${phoneError ? 'border-red-400' : 'border-slate-700'}`}
+        />
+        {phoneError && (
+          <p id={phoneErrorId} role="alert" className="text-red-400 text-xs font-semibold">
+            {phoneError}
+          </p>
+        )}
+      </div>
       {([
         ['smsConsent', SMS_CONSENT_TEXT],
         ['smsMarketingConsent', SMS_MARKETING_CONSENT_TEXT],
@@ -211,7 +231,11 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           <input
             type="checkbox"
             checked={formData[field]}
-            onChange={(e) => { setFormData({...formData, [field]: e.target.checked}); setPhoneError(''); }}
+            onChange={(e) => {
+              const next = {...formData, [field]: e.target.checked};
+              setFormData(next);
+              setPhoneError(smsPhoneError(next.phone, next.smsConsent || next.smsMarketingConsent));
+            }}
             className="mt-0.5 w-4 h-4 shrink-0 accent-brand-orange cursor-pointer"
           />
           <span className="text-xs text-slate-300 leading-relaxed">
