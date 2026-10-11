@@ -14,7 +14,7 @@ export default function GlobalHeader() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[50] bg-slate-950/80 backdrop-blur-md border-b border-slate-900">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
+        <div className="site-container h-20 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
 
           {/* The emblem is decorative (empty alt); the wordmark names the link. Below xl the
               wordmark is visually hidden but stays readable, so the link keeps its name. */}

@@ -58,7 +58,7 @@ export default function Home() {
       {/* =========================================
           SECTION 1: ORIGINAL HERO 
           ========================================= */}
-      <header className="flex flex-col lg:flex-row items-center justify-center text-left max-w-7xl mx-auto w-full p-6 py-12 lg:py-24 gap-10 lg:gap-16 min-h-[85vh] relative z-10">
+      <header className="flex flex-col lg:flex-row items-center justify-center text-left site-container py-12 lg:py-24 gap-10 lg:gap-16 min-h-[85vh] relative z-10">
         
         {/* Left Column: Visual Hook */}
         <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:ml-8">
@@ -237,7 +237,7 @@ export default function Home() {
       {/* =========================================
           NEXT PAGE RUNWAY CTA (The Engine)
           ========================================= */}
-      <div className="w-full max-w-7xl mx-auto px-6 mt-16 mb-24 relative z-10">
+      <div className="site-container mt-16 mb-24 relative z-10">
         <Link 
           to="/automations" 
           className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"

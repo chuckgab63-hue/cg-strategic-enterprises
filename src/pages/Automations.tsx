@@ -92,7 +92,7 @@ export default function Automations() {
       {/* Background Wireframe Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
-      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center relative z-10">
+      <div className="pt-20 site-container flex flex-col items-center relative z-10">
         
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">

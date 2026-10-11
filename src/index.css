@@ -57,12 +57,11 @@
   }
 }
 
+/* Full width: section backgrounds and media run edge to edge. Content is
+   capped by `site-container` below, not by #root. */
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
   text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -71,6 +70,16 @@
 
 body {
   margin: 0;
+}
+
+/* Shared content width for every page, header and footer: wide on big screens,
+   with fluid side padding. 24px is the floor so phone layouts keep the old px-6
+   gutter. Readable text widths are capped separately (max-w-prose etc.). */
+@utility site-container {
+  width: 100%;
+  max-width: 1520px;
+  margin-inline: auto;
+  padding-inline: clamp(24px, 4vw, 64px);
 }
 
 h1,

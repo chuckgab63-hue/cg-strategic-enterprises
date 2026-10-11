@@ -20,9 +20,11 @@ export default function usePageMeta(title: string, description?: string) {
     }
 
     return () => {
-      document.title = previousTitle;
+      // A prerendered page (see vite.config.ts) starts with its own title and
+      // description in the HTML; going back means the generic site head.
+      document.title = document.querySelector('title')?.dataset.siteTitle ?? previousTitle;
       if (!description || !meta) return;
-      if (createdMeta) meta.remove();
+      if (createdMeta || meta.hasAttribute('data-prerendered')) meta.remove();
       else meta.content = previousDescription;
     };
   }, [title, description]);

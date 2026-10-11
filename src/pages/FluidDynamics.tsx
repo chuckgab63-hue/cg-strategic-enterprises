@@ -146,7 +146,7 @@ export default function FluidDynamics() {
       
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
-      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 min-h-[60vh]">
+      <div className="pt-20 site-container flex flex-col items-center text-center relative z-10 min-h-[60vh]">
         
         <div className="w-full flex justify-center mb-10">
           <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">

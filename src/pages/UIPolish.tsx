@@ -55,7 +55,7 @@ export default function UIPolish() {
   return (
     <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-24">
       
-      <div className="pt-20 px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
+      <div className="pt-20 site-container flex flex-col items-center text-center">
         
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">

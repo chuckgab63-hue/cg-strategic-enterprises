@@ -262,7 +262,7 @@ export default function MealPrepCalculator() {
 
   return (
     // text-left counters the global `#root { text-align: center }` in index.css.
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 md:pt-32 pb-24 text-left">
+    <section className="max-w-[1392px] mx-auto px-4 sm:px-6 pt-28 md:pt-32 pb-24 text-left">
 
       {/* --- Intro --- */}
       <span className="inline-block px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full mb-5">

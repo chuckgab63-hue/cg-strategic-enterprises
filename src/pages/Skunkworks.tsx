@@ -322,7 +322,7 @@ export default function Skunkworks() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-orange/10 via-slate-950 to-slate-950 pointer-events-none"></div>
 
-      <div className="max-w-6xl w-full z-10 flex flex-col gap-16">
+      <div className="max-w-[1392px] w-full z-10 flex flex-col gap-16">
         
         {/* Header */}
         <header className="text-center relative">

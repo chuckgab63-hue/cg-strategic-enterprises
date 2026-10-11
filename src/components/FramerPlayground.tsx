@@ -54,7 +54,7 @@ export default function FramerPlayground() {
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-orange/5 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10 flex flex-col gap-16">
+      <div className="site-container relative z-10 flex flex-col gap-16">
         
         {/* Section Header */}
         <header className="text-center">

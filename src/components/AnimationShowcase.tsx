@@ -27,7 +27,7 @@ export default function AnimationShowcase() {
 
   return (
     <section className="pb-32 w-full flex flex-col items-center justify-center px-6 relative z-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[1392px] w-full">
         
         {/* Card 1: Tailwind CSS (Lightweight / Micro-interactions) */}
         <Link to="/ui-polish" className="block h-full">

@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/work/one-source-total-pest-control", "destination": "/work/one-source-total-pest-control/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

@@ -10,6 +10,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Automations from './pages/Automations';
 import Portfolio from './pages/Portfolio';
+import OneSourceCaseStudy from './pages/OneSourceCaseStudy';
 import CinematicSequences from './pages/CinematicSequences';
 import FluidDynamics from './pages/FluidDynamics';
 import UIPolish from './pages/UIPolish';
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/case-studies" element={<Portfolio />} />
             <Route path="/case-study" element={<Portfolio />} />
+            <Route path="/work/one-source-total-pest-control" element={<OneSourceCaseStudy />} />
             <Route path="/cinematic" element={<CinematicSequences />} />
             <Route path="/fluid" element={<FluidDynamics />} />
             <Route path="/fluid-dynamics" element={<FluidDynamics />} />

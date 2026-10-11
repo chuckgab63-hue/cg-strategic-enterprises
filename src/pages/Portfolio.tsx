@@ -8,6 +8,7 @@ import AssetTrackerWidget from '../components/AssetTrackerWidget';
 import MealPrepOrderWidget from '../components/MealPrepOrderWidget';
 import TaxWidget from '../components/TaxWidget';
 import MobileExpandWidget from '../components/MobileExpandWidget';
+import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 
 // --- Custom AI Video Player Component ---
 const VideoAd = ({ 
@@ -125,6 +126,10 @@ export default function Portfolio() {
         .portfolio-page p {
           margin: revert-layer;
         }
+        /* Card copy stays readable (~70-75 characters a line) now that cards are wider. */
+        .portfolio-page .text-left p {
+          max-width: 68ch;
+        }
         .portfolio-page h1,
         .portfolio-page h2 {
           font-family: revert-layer;
@@ -140,7 +145,7 @@ export default function Portfolio() {
       {/* Background Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
-      <div className="pt-20 px-6 max-w-7xl mx-auto flex flex-col items-center relative z-10">
+      <div className="pt-20 site-container flex flex-col items-center relative z-10">
         
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">
@@ -367,7 +372,7 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* --- Case Study 1: One Source (Text Left, Widget Right) --- */}
+          {/* --- Case Study 1: One Source (Text Left, Widget Right). Full write-up: /work/one-source-total-pest-control --- */}
           <div className="w-full relative z-10 bg-slate-900/50 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             
             {/* Left Column: Text */}
@@ -375,14 +380,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    System Architecture & UI
+                    Website Rebuild &amp; Automation
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
                     One Source Total Pest Control
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  The AI Diagnostic <br className="hidden md:block" /> Lead Magnet.
+                  A Pest Control Site <br className="hidden md:block" /> Rebuilt to Book Jobs.
                 </h2>
               </div>
 
@@ -392,19 +397,35 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-brand-orange/10 border border-brand-orange/30 rounded-lg flex items-center justify-center text-brand-orange">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">Interactive Lead Pipeline</h3>
+                    <h3 className="text-xl font-black text-white">Website, AI Tools &amp; Lead Automation</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    We engineered a frictionless front-end diagnostic tool designed to convert casual web traffic into highly qualified, actionable leads. When homeowners face an active pest threat or suspect property damage, they simply snap a picture and upload it directly to the centralized hub. 
+                    One Source is a licensed pest control company in Jacksonville, FL. Their old single-page site was hard for search engines to read, had broken contact buttons and open AI endpoints, and sent leads to their CRM in a mess.
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    The platform immediately provides value by suggesting targeted DIY mitigation steps. However, as users realize the complexity of the infestation and exhaust those over-the-counter methods, the psychology of the UI seamlessly pivots them into a priority scheduling flow.
+                    We rebuilt it in Astro on Vercel with a page for every service and pest, a photo-based Pest Analyzer, a "Talk to Jess" AI voice assistant, a ZIP code checker, and one Make.com intake that routes every lead into GorillaDesk.
                   </p>
-                  <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-brand-orange pl-4 bg-brand-orange/5 p-4 rounded-r-lg mt-2 mb-4">
-                    <strong className="text-brand-orange text-xs uppercase tracking-widest block mb-1">Live in Production</strong>
-                    The hub is actively driving high-intent inbound leads and handing off comprehensive damage reports to dispatch. Additionally, One Source field technicians use these AI-generated, pre-arrival diagnostics to narrow down their treatment options and chemical loadouts before they ever reach the property.
+
+                  <div className="flex flex-col sm:flex-row gap-4 mt-6 mb-6">
+                    <Link
+                      to={ONE_SOURCE_CASE_STUDY.path}
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-brand-orange text-white font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_25px_rgba(255,95,31,0.3)]"
+                    >
+                      Read the case study
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </Link>
+                    <a
+                      href={ONE_SOURCE_CASE_STUDY.liveSiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap border border-brand-orange/40 text-brand-orange font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-brand-orange/10 hover:border-brand-orange transition-colors"
+                    >
+                      Visit the site
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
                   </div>
-                  
+
                   {/* --- INTERACTIVE CTA --- */}
                   <div className="flex items-center gap-3 animate-pulse mt-2">
                     <div className="w-8 h-8 rounded-full bg-[#CCFF00]/20 flex items-center justify-center shrink-0">
@@ -412,7 +433,7 @@ export default function Portfolio() {
                       <svg className="w-4 h-4 text-[#CCFF00] block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </div>
                     <span className="text-[#CCFF00] font-black uppercase tracking-widest text-xs">
-                      Try it out! Interact with the live demo.
+                      Try a pest photo diagnosis demo.
                     </span>
                   </div>
                   {/* ------------------------- */}

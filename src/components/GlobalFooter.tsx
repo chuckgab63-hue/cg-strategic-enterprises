@@ -5,7 +5,7 @@ import MailingAddress from './MailingAddress';
 export default function GlobalFooter() {
   return (
     <footer className="bg-[#020617] border-t border-slate-900 pt-16 pb-8 relative z-10">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="site-container">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
           
           {/* Column 1: Brand */}

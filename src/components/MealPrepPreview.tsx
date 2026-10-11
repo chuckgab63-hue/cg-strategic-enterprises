@@ -90,7 +90,7 @@ export default function MealPrepPreview() {
     <section className="relative z-10 w-full border-t border-slate-900 bg-slate-950 py-24 overflow-hidden text-left">
       <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-brand-orange/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col gap-12">
+      <div className="max-w-[1392px] mx-auto px-4 sm:px-6 relative z-10 flex flex-col gap-12">
         <header className="text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
