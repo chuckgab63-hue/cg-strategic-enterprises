@@ -57,7 +57,60 @@ const BUILT = [
   },
 ];
 
-const STACK = ['Astro', 'React', 'Vercel', 'Make.com', 'Retell AI', 'Google Gemini', 'GorillaDesk'];
+const STACK = ['Astro', 'React', 'Vercel', 'Supabase', 'Make.com', 'Retell AI', 'Google Gemini', 'GorillaDesk'];
+
+const ADMIN_FEATURES = [
+  {
+    title: 'Role-based access',
+    body: 'Owner, office admin and technician roles, with permissions enforced in the database, not just hidden on the screen.',
+  },
+  {
+    title: 'Licensing and compliance tracker',
+    body: 'FDACS ID cards, certified operator credentials and the business license, each with an expiration date, plus a dashboard of what expires in the next 30, 60 and 90 days.',
+  },
+  {
+    title: 'Training and route-ready status',
+    body: 'A supervised training log for each technician and a clear route-ready status, so the owner can see who is ready to run their own route.',
+  },
+  {
+    title: 'Applicant pipeline',
+    body: 'The new Careers page sends applications straight into the admin area. Each one moves from New to Interview to Hired, and hiring creates the staff record and onboarding checklist automatically.',
+  },
+  {
+    title: 'Onboarding checklists',
+    body: 'Every new hire gets a checklist with due dates, such as the deadline to apply for their FDACS ID card.',
+  },
+  {
+    title: 'Daily email digest',
+    body: 'One email a day lists anything expiring or overdue, so nothing slips.',
+  },
+  {
+    title: '"My status" for technicians',
+    body: 'Technicians get a phone-friendly view of their own credentials, training progress and checklist.',
+  },
+];
+
+// Static mock built from the admin area's own styles with fake DEMO data (design/onesource-admin-mock),
+// never the client's real staff, applicant or license records.
+const ADMIN_SCREENS = [
+  {
+    key: 'dashboard',
+    caption: 'Dashboard',
+    alt: 'Mock of the One Source admin dashboard filled with demo data: tiles for expired and soon-to-expire credentials, techs not yet route-ready and new applicants, above a table of credentials needing attention',
+  },
+  {
+    key: 'staff-readiness',
+    caption: 'A technician\'s readiness',
+    alt: 'Mock of a demo technician\'s page in the One Source admin area: supervised training progress for each license category, ID card status, onboarding progress and what\'s left before they are route-ready',
+  },
+  {
+    key: 'applicants-pipeline',
+    caption: 'Applicant pipeline',
+    alt: 'Mock of the One Source admin applicants list with demo applicants from the Careers page, filtered by stage: New, Contacted, Interview, Offer, Hired and Not hired',
+  },
+];
+
+const adminShot = (key: string, width: number) => `/portfolio/onesource/onesource-admin-${key}-mock-${width}w.webp`;
 
 const SCREENS = [
   {
@@ -279,6 +332,69 @@ export default function OneSourceCaseStudy() {
                 <figcaption className="mt-4 text-xs font-bold uppercase tracking-widest text-slate-500">{s.caption}</figcaption>
               </figure>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- Admin area (colour band, full bleed) --- */}
+      <section className="w-full py-20 md:py-28 mb-20 md:mb-28 bg-[#020617] border-y border-slate-900">
+        <div className="site-container">
+          <SectionLabel>Behind the scenes</SectionLabel>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-6">An admin area built for growth.</h2>
+          <p className="text-lg text-slate-400 leading-relaxed max-w-prose mb-4">
+            One Source's CRM (GorillaDesk) and payment system (Square) handle jobs and payments. Neither covers the people side of growing the business: licenses, training and hiring.
+          </p>
+          <p className="text-lg text-slate-400 leading-relaxed max-w-prose mb-12">
+            So we built a private, invite-only admin area that fills that gap.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+            {ADMIN_FEATURES.map((f, i) => (
+              <div key={f.title} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8 hover:border-brand-orange/40 transition-colors">
+                <span className="block text-brand-orange font-black text-xs tracking-widest mb-3">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="text-lg font-black text-white mb-3">{f.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{f.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-sm text-slate-400 leading-relaxed max-w-prose mt-10">
+            <span className="font-bold text-slate-200">The build:</span> Astro and Supabase (Postgres, sign-in and private file storage) on Vercel, with Make.com sending the daily email digest.
+          </p>
+
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mt-14">
+            {ADMIN_SCREENS.map((s) => (
+              <figure key={s.key} className="m-0">
+                <img
+                  src={adminShot(s.key, 1440)}
+                  srcSet={`${adminShot(s.key, 800)} 800w, ${adminShot(s.key, 1440)} 1440w`}
+                  sizes="(min-width: 1280px) 30vw, 92vw"
+                  width={1440}
+                  height={900}
+                  loading="lazy"
+                  decoding="async"
+                  alt={s.alt}
+                  className="w-full h-auto rounded-xl border border-slate-700 shadow-2xl"
+                />
+                <figcaption className="mt-4 text-xs font-bold uppercase tracking-widest text-slate-500">
+                  {s.caption} <span className="normal-case tracking-normal font-normal">(mock-up with demo data)</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          {/* --- Client feedback --- */}
+          <div className="mt-16 border-2 border-dashed border-amber-500/60 bg-amber-500/5 rounded-3xl p-8 md:p-12">
+            {/* TODO(client quote): Use the client's exact words only, with written permission.
+                Do not write or paraphrase a testimonial. Until then this block stays a placeholder. */}
+            <span className="inline-block px-3 py-1 bg-amber-500 text-[#020617] text-[10px] font-black uppercase tracking-widest rounded-full mb-5">
+              TODO: Client quote
+            </span>
+            {/* TODO(confirm wording with the client before launch): keep this sentence only if the owner
+                and office manager agree it reflects what they said. */}
+            <p className="text-slate-300 leading-relaxed max-w-prose">
+              Early feedback from the owner and office manager: it handles the work their CRM and payment system don't, in real time, so they can focus on growth.
+            </p>
           </div>
         </div>
       </section>

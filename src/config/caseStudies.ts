@@ -7,7 +7,7 @@ export const ONE_SOURCE_CASE_STUDY = {
   path: '/work/one-source-total-pest-control',
   title: 'One Source Total Pest Control: Case Study | CG Strategic',
   description:
-    'How we rebuilt a Jacksonville pest control website in Astro: a page for every service and pest, an AI pest photo analyzer, an AI voice assistant and one automated lead intake.',
+    'How we rebuilt a Jacksonville pest control website in Astro: a page for every service and pest, an AI pest photo analyzer, an AI voice assistant, one automated lead intake and a private admin area for licensing, training and hiring.',
   ogImage: '/portfolio/onesource/onesource-og.jpg',
   ogImageAlt: 'One Source Total Pest Control home page: "Friendly, local pest control in Jacksonville, FL" over a palm-tree hero video',
   // TODO(launch): switch to One Source's real domain once it moves to the new site.

@@ -405,6 +405,9 @@ export default function Portfolio() {
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
                     We rebuilt it in Astro on Vercel with a page for every service and pest, a photo-based Pest Analyzer, a "Talk to Jess" AI voice assistant, a ZIP code checker, and one Make.com intake that routes every lead into GorillaDesk.
                   </p>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-3">
+                    Behind the site, a private admin area tracks staff licenses, supervised training and hiring, with applications from the new Careers page flowing straight in.
+                  </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-6 mb-6">
                     <Link
