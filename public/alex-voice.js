@@ -1,12 +1,24 @@
 // alex-voice.js — connects any button with data-alex-call to Alex (Retell web call).
 // The Retell API key never touches the browser: Make mints a one-time access token.
-import { RetellWebClient } from "https://cdn.jsdelivr.net/npm/retell-client-js-sdk/+esm";
+// SDK pinned to 3.x: v3 web calls need it, and 4.0 removes RetellWebClient.
+// Only call_started, call_ended and error are used: v3 calls don't send update,
+// metadata or agent_start/stop_talking.
+import { RetellWebClient } from "https://cdn.jsdelivr.net/npm/retell-client-js-sdk@3.0.2/+esm";
+import { startCallOptions } from "./alex-voice-options.js";
 
 const TOKEN_URL = "https://hook.us2.make.com/xy2xgpmct2bxs6obfr4u9skvtg9j2gby";
+// If the SDK never reports call_started (or an error), give up and reset the button.
+const CONNECT_TIMEOUT_MS = 20000;
 
 const client = new RetellWebClient();
 let active = false;
 let busy = false;
+let connectTimer = null;
+
+function clearConnectTimer() {
+  clearTimeout(connectTimer);
+  connectTimer = null;
+}
 
 const LABELS = {
   idle: "Initiate call",
@@ -63,11 +75,20 @@ async function startCall() {
     // Simple POST with no custom headers = no CORS preflight.
     const res = await fetch(TOKEN_URL, { method: "POST" });
     if (!res.ok) throw new Error(`token request failed (${res.status})`);
-    const { access_token } = await res.json();
-    if (!access_token) throw new Error("no access token returned");
+    const options = startCallOptions(await res.json());
 
-    await client.startCall({ accessToken: access_token });
+    connectTimer = setTimeout(() => {
+      console.error("[alex-voice] call did not connect in time");
+      client.stopCall();
+      active = false;
+      busy = false;
+      connectTimer = null;
+      setState("idle", "Alex is unavailable right now. Use the message form or call (904) 822-8929.");
+    }, CONNECT_TIMEOUT_MS);
+    // The SDK reports connection failures through the "error" event, not by throwing.
+    await client.startCall(options);
   } catch (err) {
+    clearConnectTimer();
     console.error("[alex-voice]", err);
     const denied = err && err.name === "NotAllowedError";
     setState(
@@ -81,18 +102,21 @@ async function startCall() {
 }
 
 client.on("call_started", () => {
+  clearConnectTimer();
   active = true;
   busy = false;
   setState("live", "You're connected with Alex. Speak normally.");
 });
 
 client.on("call_ended", () => {
+  clearConnectTimer();
   active = false;
   busy = false;
   setState("idle", "Call ended. Thanks — we'll follow up soon.");
 });
 
 client.on("error", (err) => {
+  clearConnectTimer();
   console.error("[alex-voice]", err);
   client.stopCall();
   active = false;
@@ -108,7 +132,7 @@ document.addEventListener("click", (e) => {
   else startCall();
 });
 
-// End the call if the visitor closes the tab mid-conversation.
+// End the call (or one still connecting) if the visitor closes the tab.
 window.addEventListener("pagehide", () => {
-  if (active) client.stopCall();
+  if (active || busy) client.stopCall();
 });
