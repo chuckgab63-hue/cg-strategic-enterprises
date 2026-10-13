@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from '../components/ContactModal';
+import SkunkworksProjects from '../components/SkunkworksProjects';
+import usePageMeta from '../hooks/usePageMeta';
+import { BUSINESS_NAME } from '../config/site';
+import { pilotLeadSource, type SkunkworksProject } from '../config/skunkworksProjects';
 
 // --- Voicebot Architecture Data ---
 const voicebots = [
@@ -81,6 +85,18 @@ export default function Skunkworks() {
   // Modals specific to Contact
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactMessage, setContactMessage] = useState('');
+  const [contactSource, setContactSource] = useState('Skunkworks Page');
+
+  usePageMeta(
+    `Skunkworks: AI Automation Experiments for Local Businesses | ${BUSINESS_NAME}`,
+    'AI automation experiments for local businesses: missed-call callbacks, voice notes for field techs, photo-to-quote intake, bilingual voice agents and more, each labeled Concept, Prototype or In use.',
+  );
+
+  const openPilotInquiry = (project: SkunkworksProject) => {
+    setContactMessage(`Pilot inquiry: ${project.title}. I'd like to talk about piloting this for my business.`);
+    setContactSource(pilotLeadSource(project.slug));
+    setIsContactModalOpen(true);
+  };
   
   // Spatial Commerce Prototype States
   const [renderMode, setRenderMode] = useState<'2D' | '3D'>('2D');
@@ -382,6 +398,7 @@ export default function Skunkworks() {
             <button 
               onClick={() => {
                 setContactMessage(`Skunkworks Inquiry: Let's discuss deploying the Voicebot Architecture for my business.`);
+                setContactSource('Skunkworks Page');
                 setIsContactModalOpen(true);
               }}
               className="bg-blue-600/20 border border-blue-500 text-blue-400 px-6 py-3 rounded-lg font-bold tracking-widest uppercase text-xs hover:bg-blue-500 hover:text-white transition-colors cursor-pointer"
@@ -450,6 +467,8 @@ export default function Skunkworks() {
             
           </div>
         </motion.div>
+
+        <SkunkworksProjects onPilot={openPilotInquiry} />
 
       </div>
 
@@ -554,6 +573,7 @@ export default function Skunkworks() {
                     <button 
                       onClick={() => {
                         setContactMessage(`System Inquiry: Requesting architecture specs for the ${selectedVoicebot.title} voicebot.`);
+                        setContactSource('Skunkworks Page');
                         setSelectedVoicebot(null);
                         setTimeout(() => setIsContactModalOpen(true), 300); // Wait for card to close before opening comms
                       }}
@@ -617,7 +637,7 @@ export default function Skunkworks() {
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 
         initialMessage={contactMessage} 
-        source="Skunkworks Page"
+        source={contactSource}
       />
     </div>
   );
