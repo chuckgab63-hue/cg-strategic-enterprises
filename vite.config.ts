@@ -1,4 +1,6 @@
+/// <reference types="vitest/config" />
 import { defineConfig, type Plugin } from 'vite'
+import { configDefaults } from 'vitest/config'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import react from '@vitejs/plugin-react'
@@ -76,4 +78,8 @@ export default defineConfig({
     organizationJsonLd(),
     prerenderedPages(),
   ],
+  test: {
+    // claude-seo/ is a separate plugin repo checked out locally (gitignored).
+    exclude: [...configDefaults.exclude, 'claude-seo/**'],
+  },
 })
