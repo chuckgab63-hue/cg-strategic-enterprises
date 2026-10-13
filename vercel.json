@@ -1,6 +1,100 @@
 {
   "rewrites": [
-    { "source": "/work/one-source-total-pest-control", "destination": "/work/one-source-total-pest-control/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/automations",
+      "destination": "/automations/index.html"
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/portfolio/index.html"
+    },
+    {
+      "source": "/work/one-source-total-pest-control",
+      "destination": "/work/one-source-total-pest-control/index.html"
+    },
+    {
+      "source": "/skunkworks",
+      "destination": "/skunkworks/index.html"
+    },
+    {
+      "source": "/cinematic",
+      "destination": "/cinematic/index.html"
+    },
+    {
+      "source": "/fluid-dynamics",
+      "destination": "/fluid-dynamics/index.html"
+    },
+    {
+      "source": "/ui-polish",
+      "destination": "/ui-polish/index.html"
+    },
+    {
+      "source": "/meal-prep-calculator",
+      "destination": "/meal-prep-calculator/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms/index.html"
+    },
+    {
+      "source": "/es",
+      "destination": "/es/index.html"
+    },
+    {
+      "source": "/es/automations",
+      "destination": "/es/automations/index.html"
+    },
+    {
+      "source": "/es/portfolio",
+      "destination": "/es/portfolio/index.html"
+    },
+    {
+      "source": "/es/work/one-source-total-pest-control",
+      "destination": "/es/work/one-source-total-pest-control/index.html"
+    },
+    {
+      "source": "/es/skunkworks",
+      "destination": "/es/skunkworks/index.html"
+    },
+    {
+      "source": "/es/cinematic",
+      "destination": "/es/cinematic/index.html"
+    },
+    {
+      "source": "/es/fluid-dynamics",
+      "destination": "/es/fluid-dynamics/index.html"
+    },
+    {
+      "source": "/es/ui-polish",
+      "destination": "/es/ui-polish/index.html"
+    },
+    {
+      "source": "/es/meal-prep-calculator",
+      "destination": "/es/meal-prep-calculator/index.html"
+    },
+    {
+      "source": "/es/contact",
+      "destination": "/es/contact/index.html"
+    },
+    {
+      "source": "/es/privacy",
+      "destination": "/es/privacy/index.html"
+    },
+    {
+      "source": "/es/terms",
+      "destination": "/es/terms/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/app-shell.html"
+    }
   ]
 }

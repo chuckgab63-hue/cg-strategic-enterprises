@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 import ContactForm, { type ContactFormCopy } from '../components/ContactForm';
-import usePageMeta from '../hooks/usePageMeta';
 import MailingAddress from '../components/MailingAddress';
 import {
-  BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL, PHONE_DISPLAY, PHONE_HREF, CALL_ARIA_LABEL,
+  BUSINESS_NAME, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL, PHONE_DISPLAY, PHONE_HREF, CALL_ARIA_LABEL,
 } from '../config/site';
 
 const FORM_COPY: ContactFormCopy = {
@@ -40,10 +39,6 @@ function ContactMethod({ icon, label, className = '', children }: { icon: keyof 
 const methodLinkClass = 'text-sm font-bold tracking-wide text-slate-200 hover:text-brand-orange transition-colors break-words';
 
 export default function Contact() {
-  usePageMeta(
-    `Contact | ${BUSINESS_NAME}`,
-    `Contact ${BUSINESS_NAME} in ${BUSINESS_LOCATION}. Call ${PHONE_DISPLAY}, email ${EMAIL}, or send us a message about your web, AI, or automation project.`,
-  );
 
   return (
     // text-left counters the global `#root { text-align: center }` in index.css.

@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { PHONE_DISPLAY, PHONE_HREF, CALL_ARIA_LABEL } from '../config/site';
+import { PHONE_DISPLAY, PHONE_HREF } from '../config/site';
+import { useT } from '../i18n/useLang';
+import common from '../i18n/common';
+import alex from '../i18n/alex';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -15,6 +18,9 @@ export default function LetsTalkChooser() {
   const panelRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
   const titleId = useId();
+  const t = useT(common);
+  const c = t.chooser;
+  const callButton = useT(alex).callButton;
 
   const close = useCallback(() => {
     setOpen(false);
@@ -88,7 +94,7 @@ export default function LetsTalkChooser() {
         onClick={() => (open ? close() : setOpen(true))}
         className="inline-block bg-brand-orange text-white px-4 sm:px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
       >
-        Let's Talk
+        {t.letsTalk}
       </button>
 
       {open && createPortal(
@@ -104,11 +110,11 @@ export default function LetsTalkChooser() {
             className="fixed z-[61] inset-x-0 bottom-0 rounded-t-2xl border-t border-slate-800 bg-slate-950 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:top-[var(--chooser-top)] sm:right-[var(--chooser-right)] sm:w-80 sm:rounded-2xl sm:border"
           >
             <div className="flex items-center justify-between mb-3">
-              <h2 id={titleId} className="text-xs font-bold tracking-widest uppercase text-slate-300">Let's talk</h2>
+              <h2 id={titleId} className="text-xs font-bold tracking-widest uppercase text-slate-300">{c.title}</h2>
               <button
                 type="button"
                 onClick={close}
-                aria-label="Close"
+                aria-label={c.close}
                 className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -120,9 +126,9 @@ export default function LetsTalkChooser() {
                 click and rewrites the button label and status line, so React must
                 not own either one's text. */}
             <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
-              <p className="text-white font-bold text-sm">Talk to Alex</p>
+              <p className="text-white font-bold text-sm">{c.alexTitle}</p>
               <p id={`${titleId}-alex`} className="text-slate-400 text-xs leading-5 mt-1">
-                Our AI assistant, right in your browser. Uses your microphone.
+                {c.alexSubtext}
               </p>
               <button
                 type="button"
@@ -130,26 +136,26 @@ export default function LetsTalkChooser() {
                 aria-describedby={`${titleId}-alex`}
                 className="w-full mt-3 bg-blue-600/20 border border-blue-500 hover:bg-blue-500 text-blue-400 hover:text-white py-2.5 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors cursor-pointer disabled:cursor-wait"
               >
-                Initiate call
+                {callButton}
               </button>
               <p data-alex-status aria-live="polite" className="empty:hidden mt-2 text-xs leading-5 text-slate-400"></p>
             </div>
 
-            <p className="my-2 text-center text-[11px] text-slate-500">Can't connect, or no mic? Call us instead.</p>
+            <p className="my-2 text-center text-[11px] text-slate-500">{c.fallbackNote}</p>
 
             <a
               href={PHONE_HREF}
-              aria-label={CALL_ARIA_LABEL}
+              aria-label={t.callAriaLabel}
               onClick={close}
               className="block rounded-xl border border-slate-800 bg-slate-900/50 p-4 hover:border-brand-orange/60 transition-colors"
             >
               <span className="block text-white font-bold text-sm">
-                Call <span className="text-brand-orange whitespace-nowrap">{PHONE_DISPLAY}</span>
+                {c.call} <span className="text-brand-orange whitespace-nowrap">{PHONE_DISPLAY}</span>
               </span>
               <span className="block text-slate-400 text-xs leading-5 mt-1">
                 {/* tel: links often do nothing on desktops, so tell mouse users to dial. */}
-                <span className="pointer-fine:hidden">Prefer the phone? Tap to call.</span>
-                <span className="hidden pointer-fine:inline">Prefer the phone? Dial it from your phone.</span>
+                <span className="pointer-fine:hidden">{c.tapToCall}</span>
+                <span className="hidden pointer-fine:inline">{c.dialFromPhone}</span>
               </span>
             </a>
           </div>

@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import usePageMeta from '../hooks/usePageMeta';
 import { ONE_SOURCE_CASE_STUDY as STUDY } from '../config/caseStudies';
 
 const PROBLEMS = [
@@ -158,7 +157,6 @@ const SectionLabel = ({ children }: { children: ReactNode }) => (
 );
 
 export default function OneSourceCaseStudy() {
-  usePageMeta(STUDY.title, STUDY.description);
 
   return (
     // text-left counters the global `#root { text-align: center }` in index.css.

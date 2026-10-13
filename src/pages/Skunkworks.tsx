@@ -3,8 +3,6 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from '../components/ContactModal';
 import SkunkworksProjects from '../components/SkunkworksProjects';
-import usePageMeta from '../hooks/usePageMeta';
-import { BUSINESS_NAME } from '../config/site';
 import { pilotLeadSource, type SkunkworksProject } from '../config/skunkworksProjects';
 
 // --- Voicebot Architecture Data ---
@@ -87,10 +85,6 @@ export default function Skunkworks() {
   const [contactMessage, setContactMessage] = useState('');
   const [contactSource, setContactSource] = useState('Skunkworks Page');
 
-  usePageMeta(
-    `Skunkworks: AI Automation Experiments for Local Businesses | ${BUSINESS_NAME}`,
-    'AI automation experiments for local businesses: missed-call callbacks, voice notes for field techs, photo-to-quote intake, bilingual voice agents and more, each labeled Concept, Prototype or In use.',
-  );
 
   const openPilotInquiry = (project: SkunkworksProject) => {
     setContactMessage(`Pilot inquiry: ${project.title}. I'd like to talk about piloting this for my business.`);

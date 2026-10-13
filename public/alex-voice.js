@@ -5,6 +5,7 @@
 // metadata or agent_start/stop_talking.
 import { RetellWebClient } from "https://cdn.jsdelivr.net/npm/retell-client-js-sdk@3.0.2/+esm";
 import { startCallOptions } from "./alex-voice-options.js";
+import { ALEX_STRINGS, pageLang } from "./alex-voice-strings.js";
 
 const TOKEN_URL = "https://hook.us2.make.com/xy2xgpmct2bxs6obfr4u9skvtg9j2gby";
 // If the SDK never reports call_started (or an error), give up and reset the button.
@@ -20,23 +21,21 @@ function clearConnectTimer() {
   connectTimer = null;
 }
 
-const LABELS = {
-  idle: "Initiate call",
-  connecting: "Connecting…",
-  live: "End call",
-};
-
+// message is a key into ALEX_STRINGS[lang].messages (or ""), so the text is
+// looked up in the page's language each time it's drawn.
 let current = { state: "idle", message: "" };
 
 // Apply the current state to every button and status line under root.
 function render(root) {
-  const { state, message } = current;
+  const { state } = current;
+  const strings = ALEX_STRINGS[pageLang()];
+  const message = current.message ? strings.messages[current.message] : "";
   const within = (sel) => [
     ...(root.matches?.(sel) ? [root] : []),
     ...root.querySelectorAll(sel),
   ];
   within("[data-alex-call]").forEach((btn) => {
-    btn.textContent = LABELS[state];
+    btn.textContent = strings.labels[state];
     btn.disabled = state === "connecting";
     btn.setAttribute("aria-pressed", state === "live" ? "true" : "false");
   });
@@ -53,27 +52,33 @@ function setState(state, message = "") {
 // Buttons inside a modal mount after a call may have started (close it mid-call,
 // reopen it). Bring new ones up to date so they don't show "Initiate call" while
 // a call is connecting or live. Idle buttons already render the right label.
+// Switching language (EN | ES) changes <html lang>: redraw everything then.
 new MutationObserver((mutations) => {
   if (current.state === "idle") return;
   for (const m of mutations) {
+    if (m.type === "attributes") {
+      render(document);
+      return;
+    }
     m.addedNodes.forEach((node) => {
       if (node.nodeType === Node.ELEMENT_NODE) render(node);
     });
   }
-}).observe(document.documentElement, { childList: true, subtree: true });
+}).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["lang"] });
 
 async function startCall() {
   if (busy || active) return;
   busy = true;
-  setState("connecting", "Allow microphone access to talk with Alex.");
+  setState("connecting", "micPrompt");
 
   try {
     // Ask for the mic first so a denied permission doesn't waste a Retell call.
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     stream.getTracks().forEach((t) => t.stop());
 
-    // Simple POST with no custom headers = no CORS preflight.
-    const res = await fetch(TOKEN_URL, { method: "POST" });
+    // Simple POST with no custom headers = no CORS preflight. The page language
+    // rides in the query string for the same reason (a JSON body would need one).
+    const res = await fetch(`${TOKEN_URL}?language=${pageLang()}`, { method: "POST" });
     if (!res.ok) throw new Error(`token request failed (${res.status})`);
     const options = startCallOptions(await res.json());
 
@@ -83,7 +88,7 @@ async function startCall() {
       active = false;
       busy = false;
       connectTimer = null;
-      setState("idle", "Alex is unavailable right now. Use the message form or call (904) 822-8929.");
+      setState("idle", "unavailable");
     }, CONNECT_TIMEOUT_MS);
     // The SDK reports connection failures through the "error" event, not by throwing.
     await client.startCall(options);
@@ -91,12 +96,7 @@ async function startCall() {
     clearConnectTimer();
     console.error("[alex-voice]", err);
     const denied = err && err.name === "NotAllowedError";
-    setState(
-      "idle",
-      denied
-        ? "Microphone access is blocked. Allow it in your browser settings, or use the message form."
-        : "Alex is unavailable right now. Use the message form or call (904) 822-8929."
-    );
+    setState("idle", denied ? "micBlocked" : "unavailable");
     busy = false;
   }
 }
@@ -105,14 +105,14 @@ client.on("call_started", () => {
   clearConnectTimer();
   active = true;
   busy = false;
-  setState("live", "You're connected with Alex. Speak normally.");
+  setState("live", "connected");
 });
 
 client.on("call_ended", () => {
   clearConnectTimer();
   active = false;
   busy = false;
-  setState("idle", "Call ended. Thanks — we'll follow up soon.");
+  setState("idle", "ended");
 });
 
 client.on("error", (err) => {
@@ -121,7 +121,7 @@ client.on("error", (err) => {
   client.stopCall();
   active = false;
   busy = false;
-  setState("idle", "The call dropped. Try again, or use the message form.");
+  setState("idle", "dropped");
 });
 
 document.addEventListener("click", (e) => {

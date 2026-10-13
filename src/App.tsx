@@ -1,4 +1,4 @@
-// (no default React import needed — this project uses the react-jsx transform)
+import type React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Global Components
@@ -19,11 +19,35 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Contact from './pages/Contact';
 import MealPrepCalculator from './pages/MealPrepCalculator';
+import NotFound from './pages/NotFound';
+import SeoHead from './i18n/SeoHead';
+import SpanishPrompt from './components/SpanishPrompt';
+
+// [English path, page]. Aliases render the same page; SeoHead points their
+// canonical at the main path (src/i18n/meta.ts).
+const PAGES: [string, React.ComponentType][] = [
+  ['', Home],
+  ['/automations', Automations],
+  ['/portfolio', Portfolio],
+  ['/case-studies', Portfolio],
+  ['/case-study', Portfolio],
+  ['/work/one-source-total-pest-control', OneSourceCaseStudy],
+  ['/cinematic', CinematicSequences],
+  ['/fluid', FluidDynamics],
+  ['/fluid-dynamics', FluidDynamics],
+  ['/ui-polish', UIPolish],
+  ['/skunkworks', Skunkworks],
+  ['/privacy', Privacy],
+  ['/terms', Terms],
+  ['/contact', Contact],
+  ['/meal-prep-calculator', MealPrepCalculator],
+];
 
 export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      <SeoHead />
       
       <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-white">
         {/* Fixed Navigation */}
@@ -32,26 +56,19 @@ export default function App() {
         {/* Main Routing Canvas */}
         <main className="flex-grow w-full">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/automations" element={<Automations />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/case-studies" element={<Portfolio />} />
-            <Route path="/case-study" element={<Portfolio />} />
-            <Route path="/work/one-source-total-pest-control" element={<OneSourceCaseStudy />} />
-            <Route path="/cinematic" element={<CinematicSequences />} />
-            <Route path="/fluid" element={<FluidDynamics />} />
-            <Route path="/fluid-dynamics" element={<FluidDynamics />} />
-            <Route path="/ui-polish" element={<UIPolish />} />
-            <Route path="/skunkworks" element={<Skunkworks />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/meal-prep-calculator" element={<MealPrepCalculator />} />
+            {/* Every page also lives under /es (src/i18n/lang.ts). */}
+            {['', '/es'].flatMap(prefix => [
+              ...PAGES.map(([path, Page]) => (
+                <Route key={prefix + path} path={prefix + path || '/'} element={<Page />} />
+              )),
+              <Route key={`${prefix}*`} path={`${prefix}/*`} element={<NotFound />} />,
+            ])}
           </Routes>
         </main>
         
         {/* Global Footer */}
         <GlobalFooter />
+        <SpanishPrompt />
       </div>
     </Router>
   );

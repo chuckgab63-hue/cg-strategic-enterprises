@@ -1,17 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL } from '../config/site';
+import { EMAIL, EMAIL_HREF } from '../config/site';
 import LetsTalkChooser from './LetsTalkChooser';
+import LangToggle from './LangToggle';
+import { useLocalePath, useT } from '../i18n/useLang';
+import common from '../i18n/common';
 
 const NAV_LINKS = [
-  { to: '/', label: 'Hub' },
-  { to: '/automations', label: 'The Engine' },
-  { to: '/portfolio', label: 'Case Studies' },
-  { to: '/skunkworks', label: 'Skunkworks' },
-  { to: '/contact', label: 'Contact' },
-];
+  { to: '/', key: 'hub' },
+  { to: '/automations', key: 'engine' },
+  { to: '/portfolio', key: 'caseStudies' },
+  { to: '/skunkworks', key: 'skunkworks' },
+  { to: '/contact', key: 'contact' },
+] as const;
 
 export default function GlobalHeader() {
+  const t = useT(common);
+  const lp = useLocalePath();
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[50] bg-slate-950/80 backdrop-blur-md border-b border-slate-900">
@@ -19,7 +25,7 @@ export default function GlobalHeader() {
 
           {/* The emblem is decorative (empty alt); the wordmark names the link. Below xl the
               wordmark is visually hidden but stays readable, so the link keeps its name. */}
-          <Link to="/" className="flex items-center gap-3 shrink-0 lg:justify-self-start">
+          <Link to={lp('/')} className="flex items-center gap-3 shrink-0 lg:justify-self-start">
             <picture className="shrink-0">
               <source srcSet="/cg-strategic-mark.webp" type="image/webp" />
               <img src="/cg-strategic-mark.png" alt="" width={48} height={48} className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
@@ -30,29 +36,30 @@ export default function GlobalHeader() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-6 lg:justify-self-center">
+          <nav aria-label={t.mainNavLabel} className="hidden lg:flex items-center gap-6 lg:justify-self-center">
             {NAV_LINKS.map(link => (
               <Link
                 key={link.to}
-                to={link.to}
+                to={lp(link.to)}
                 className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap"
               >
-                {link.label}
+                {t.nav[link.key]}
               </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3 lg:justify-self-end">
             {/* The main nav is desktop-only, so give small screens their own Contact link. */}
+            <LangToggle />
             <Link
-              to="/contact"
+              to={lp('/contact')}
               className="lg:hidden text-xs font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap"
             >
-              Contact
+              {t.nav.contact}
             </Link>
             <a
               href={EMAIL_HREF}
-              aria-label={EMAIL_ARIA_LABEL}
+              aria-label={t.emailAriaLabel}
               title={EMAIL}
               className="flex items-center p-2 text-slate-300 hover:text-brand-orange transition-colors"
             >
@@ -63,10 +70,10 @@ export default function GlobalHeader() {
             <div className="flex flex-col items-center gap-1">
               <LetsTalkChooser />
               <Link
-                to="/contact"
+                to={lp('/contact')}
                 className="text-[10px] font-semibold tracking-wide text-slate-400 hover:text-brand-orange transition-colors whitespace-nowrap"
               >
-                Or send us a message
+                {t.orSendMessage}
               </Link>
             </div>
           </div>

@@ -1,7 +1,6 @@
-// Case study pages with their own URL. vite.config.ts also writes each one's
-// title, description and Open Graph tags into a prerendered HTML file, so link
-// previews and crawlers get them without running JavaScript. public/sitemap.xml
-// lists the paths; add new ones there too.
+// Case study pages with their own URL. Each one also needs an entry in
+// src/i18n/meta.ts (title, description and Open Graph image in both languages),
+// which feeds the pre-rendered HTML files, the sitemap and vercel.json's rewrites.
 
 export const ONE_SOURCE_CASE_STUDY = {
   path: '/work/one-source-total-pest-control',

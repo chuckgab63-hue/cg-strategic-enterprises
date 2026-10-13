@@ -1,9 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import usePageMeta from '../hooks/usePageMeta';
 import BreakEvenChart from '../components/BreakEvenChart';
 import MealPrepSummaryForm from '../components/MealPrepSummaryForm';
-import { BUSINESS_NAME } from '../config/site';
 import {
   calculate, compareToRange, foodCostTier, BENCHMARKS, DEFAULT_INPUTS, EXAMPLE_SHIFT_COST, LOCAL_SOURCING_PREMIUM,
   type MealPrepInputs, type RangePosition, type Sourcing,
@@ -195,10 +193,6 @@ function CopyLinkButton({ inputs }: { inputs: MealPrepInputs }) {
 // ---------------------------------------------------------------------------
 
 export default function MealPrepCalculator() {
-  usePageMeta(
-    `Meal Prep Business Calculator | ${BUSINESS_NAME}`,
-    'Free meal-prep business calculator: enter your price, food cost, kitchen rent, delivery and your own time to see food cost %, prime cost %, contribution per meal, and the break-even volume that matters most.',
-  );
 
   // Links (the summary email, a copied link, the home-page preview) carry inputs
   // in the query string. Anything missing, malformed or out of range keeps its default.
