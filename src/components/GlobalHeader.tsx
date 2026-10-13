@@ -18,7 +18,8 @@ const NAV_LINKS = [
 export default function GlobalHeader() {
   const t = useT(common);
   const lp = useLocalePath();
-  const showToggle = langToggleVisible(useLang());
+  const lang = useLang();
+  const showToggle = langToggleVisible(lang);
 
   return (
     <>
@@ -26,13 +27,16 @@ export default function GlobalHeader() {
         <div className="site-container h-20 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
 
           {/* The emblem is decorative (empty alt); the wordmark names the link. Below xl the
-              wordmark is visually hidden but stays readable, so the link keeps its name. */}
+              wordmark is visually hidden but stays readable, so the link keeps its name.
+              Spanish nav labels run longer, so there it waits until 1360px or it overlaps the nav. */}
           <Link to={lp('/')} className="flex items-center gap-3 shrink-0 lg:justify-self-start">
             <picture className="shrink-0">
               <source srcSet="/cg-strategic-mark.webp" type="image/webp" />
               <img src="/cg-strategic-mark.png" alt="" width={48} height={48} className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
             </picture>
-            <span className="sr-only xl:not-sr-only xl:flex xl:items-center xl:gap-2">
+            <span className={lang === 'es'
+              ? 'sr-only min-[1360px]:not-sr-only min-[1360px]:flex min-[1360px]:items-center min-[1360px]:gap-2'
+              : 'sr-only xl:not-sr-only xl:flex xl:items-center xl:gap-2'}>
               <span className="text-2xl font-black text-white tracking-tighter">CG</span>{' '}
               <span className="text-2xl font-black text-brand-orange tracking-tighter">STRATEGIC</span>
             </span>

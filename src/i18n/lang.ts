@@ -5,11 +5,11 @@
 export type Lang = 'en' | 'es';
 export const LANGS: Lang[] = ['en', 'es'];
 
-// Spanish is merged but hidden until a native speaker reviews the copy (see
-// docs/SPANISH_REVIEW.md). While false: the header toggle only shows on /es
-// pages (or once a visitor has used it), /es pages are noindex, and
-// neither hreflang links nor the sitemap mention them. Flip to true to launch.
-export const SPANISH_PUBLIC = false;
+// Spanish is live. Set to false to hide it again: the header toggle then only
+// shows on /es pages (or once a visitor has used it), /es pages are noindex,
+// and neither hreflang links nor the sitemap mention them. The copy still
+// awaits native review (see docs/SPANISH_REVIEW.md).
+export const SPANISH_PUBLIC = true;
 
 /** BCP 47 tag for <html lang>, hreflang and Intl formatting. */
 export const LOCALE: Record<Lang, string> = { en: 'en-US', es: 'es-US' };
