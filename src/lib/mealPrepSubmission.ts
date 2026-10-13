@@ -7,6 +7,7 @@
 import { SITE_URL } from '../config/site';
 import type { MealPrepInputs, MealPrepResults } from './mealPrepModel';
 import { calculatorUrl } from './mealPrepUrl';
+import type { Lang } from '../i18n/lang';
 
 export const CALCULATOR_SOURCE = 'Meal Prep Calculator';
 
@@ -26,6 +27,8 @@ export function buildCalculatorSubmission(
   contact: CalculatorContact,
   inputs: MealPrepInputs,
   results: MealPrepResults,
+  /** The page language, so the follow-up email can be sent in it. */
+  lang: Lang = 'en',
 ) {
   return {
     name: contact.name.trim(),
@@ -58,7 +61,8 @@ export function buildCalculatorSubmission(
 
     // Reopens the calculator on these exact inputs. Always the canonical site,
     // never the page's own origin: an email outlives preview deployments and
-    // must never point at localhost.
-    results_url: calculatorUrl(inputs, SITE_URL),
+    // must never point at localhost. Spanish visitors get the /es calculator.
+    results_url: calculatorUrl(inputs, lang === 'es' ? `${SITE_URL}/es` : SITE_URL),
+    language: lang,
   };
 }

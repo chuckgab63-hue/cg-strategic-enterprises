@@ -1,7 +1,9 @@
 import React, { useState, useId } from 'react';
 import { Link } from 'react-router-dom';
 import { MEAL_PREP_CALCULATOR_WEBHOOK_URL } from '../config/webhooks';
-import { MEAL_PREP_FOLLOW_UP_CONSENT_TEXT, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
+import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
+import summaryForm from '../i18n/mealPrepSummaryForm';
 import type { MealPrepInputs, MealPrepResults } from '../lib/mealPrepModel';
 import { buildCalculatorSubmission } from '../lib/mealPrepSubmission';
 
@@ -19,6 +21,9 @@ const linkClass = 'text-brand-orange underline hover:text-white transition-color
 // Optional: the calculator works fully without it. Sends whatever numbers are
 // on screen at the moment of sending.
 export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummaryFormProps) {
+  const t = useT(summaryForm);
+  const lang = useLang();
+  const lp = useLocalePath();
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [sentTo, setSentTo] = useState('');
@@ -29,7 +34,7 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
     e.preventDefault();
     // `required` catches an empty field; this also catches a whitespace-only one.
     if (!formData.name.trim()) {
-      setNameError('Please enter your name.');
+      setNameError(t.nameRequired);
       return;
     }
     setFormStatus('submitting');
@@ -38,11 +43,13 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
         name: formData.name,
         email: formData.email,
         emailMarketingConsent: formData.followUpConsent,
-        consentText: MEAL_PREP_FOLLOW_UP_CONSENT_TEXT,
+        // The wording the visitor actually saw, in their language.
+        consentText: t.consent,
         submittedAt: new Date().toISOString(),
       },
       inputs,
       results,
+      lang,
     );
     try {
       const response = await fetch(MEAL_PREP_CALCULATOR_WEBHOOK_URL, {
@@ -66,16 +73,16 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
         <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
         </div>
-        <h3 className="text-emerald-400 font-bold mb-2">Summary on Its Way</h3>
+        <h3 className="text-emerald-400 font-bold mb-2">{t.successTitle}</h3>
         <p className="text-slate-400 text-sm">
-          We've sent your numbers to <span className="text-slate-200 break-all">{sentTo}</span>. Check your spam folder if it isn't there in a few minutes.
+          {t.successBefore}<span className="text-slate-200 break-all">{sentTo}</span>{t.successAfter}
         </p>
         <button
           type="button"
           onClick={() => setFormStatus('idle')}
           className="mt-6 text-xs font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors cursor-pointer"
         >
-          Send another version
+          {t.sendAnother}
         </button>
       </div>
     );
@@ -85,16 +92,16 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {formStatus === 'error' && (
         <p role="alert" className="text-red-400 text-xs font-semibold leading-relaxed">
-          Something went wrong sending your summary. Please try again, or reach us directly at{' '}
-          <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a> or{' '}
+          {t.errorBefore}{' '}
+          <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a> {t.errorOr}{' '}
           <a href={PHONE_HREF} className={linkClass}>{PHONE_DISPLAY}</a>.
         </p>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <input
-            type="text" required autoComplete="name" placeholder="Your name"
-            aria-label="Your name"
+            type="text" required autoComplete="name" placeholder={t.name}
+            aria-label={t.name}
             aria-invalid={nameError ? true : undefined}
             aria-describedby={nameError ? nameErrorId : undefined}
             value={formData.name}
@@ -106,8 +113,8 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
           )}
         </div>
         <input
-          type="email" required autoComplete="email" placeholder="Email address"
-          aria-label="Email address"
+          type="email" required autoComplete="email" placeholder={t.email}
+          aria-label={t.email}
           value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className={`${inputClass} border-slate-700`}
         />
@@ -119,11 +126,13 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
           onChange={(e) => setFormData({ ...formData, followUpConsent: e.target.checked })}
           className="mt-0.5 w-4 h-4 shrink-0 accent-brand-orange cursor-pointer"
         />
-        <span className="text-xs text-slate-300 leading-relaxed">{MEAL_PREP_FOLLOW_UP_CONSENT_TEXT}</span>
+        <span className="text-xs text-slate-300 leading-relaxed">
+          {t.consent}
+          {t.consentGoverns && <span className="block mt-1 text-slate-500">{t.consentGoverns}</span>}
+        </span>
       </label>
       <p className="text-[11px] text-slate-500 leading-relaxed -mt-1">
-        Optional. Leave it unticked and we'll send the summary and nothing else.
-        See our <Link to="/privacy" className={linkClass}>Privacy Policy</Link>.
+        {t.optional} {t.see} <Link to={lp('/privacy')} className={linkClass}>{t.privacy}</Link>.
       </p>
       <button
         type="submit" disabled={formStatus === 'submitting'}
@@ -133,7 +142,7 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
             : 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange border border-transparent cursor-pointer'
         }`}
       >
-        {formStatus === 'submitting' ? 'Sending...' : 'Email Me This Summary'}
+        {formStatus === 'submitting' ? t.sending : t.submit}
       </button>
     </form>
   );

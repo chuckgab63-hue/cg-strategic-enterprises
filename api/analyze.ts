@@ -1,5 +1,11 @@
 import { GoogleGenAI } from '@google/genai';
 
+const SYSTEM_INSTRUCTION = "You are the ONE SOURCE DUVAL HUB Senior Diagnostic Architect. You analyze pest threats in Northeast Florida. Be highly tactical, use formatting (bullet points, bold text), and always end with a 'DUVAL HUB REPORT' summarizing priority, pest species, structural risk (out of 10), assigned hub, and target area.";
+
+// Spanish pages (/es) send language: 'es'. AnalysisWidget parses the report by
+// its English labels, so those stay in English; everything else is Spanish.
+const SPANISH_INSTRUCTION = " Write your entire response in natural Latin American Spanish, addressing the reader as 'usted'. Keep the heading 'DUVAL HUB REPORT' and the field labels 'PRIORITY', 'PEST SPECIES', 'STRUCTURAL RISK', 'ASSIGNED HUB' and 'TARGET AREA' exactly as written in English, each followed by a colon; write their values in Spanish.";
+
 export default async function handler(req: any, res: any) {
   // 1. Enforce POST requests
   if (req.method !== 'POST') {
@@ -17,11 +23,14 @@ export default async function handler(req: any, res: any) {
     const ai = new GoogleGenAI({ apiKey: apiKey });
 
     // 4. Extract the payload sent by AnalysisWidget.tsx
-    const { currentInput, fileData, mimeType } = req.body;
+    const { currentInput, fileData, mimeType, language } = req.body;
+    const spanish = language === 'es';
 
     // 5. Build the content array using the exact structure the SDK requires
     const parts: any[] = [{
-      text: currentInput?.trim() ? currentInput : "Analyze this pest/damage for Northeast Florida."
+      text: currentInput?.trim()
+        ? currentInput
+        : spanish ? "Analiza esta plaga o daño para el noreste de Florida." : "Analyze this pest/damage for Northeast Florida."
     }];
 
     if (fileData && mimeType) {
@@ -39,7 +48,7 @@ export default async function handler(req: any, res: any) {
         // of the RESOURCE_EXHAUSTED errors — grounded requests are often metered
         // separately and more strictly than plain generation.
         // tools: [{ googleSearch: {} }],
-        systemInstruction: "You are the ONE SOURCE DUVAL HUB Senior Diagnostic Architect. You analyze pest threats in Northeast Florida. Be highly tactical, use formatting (bullet points, bold text), and always end with a 'DUVAL HUB REPORT' summarizing priority, pest species, structural risk (out of 10), assigned hub, and target area.",
+        systemInstruction: spanish ? SYSTEM_INSTRUCTION + SPANISH_INSTRUCTION : SYSTEM_INSTRUCTION,
       },
     });
 

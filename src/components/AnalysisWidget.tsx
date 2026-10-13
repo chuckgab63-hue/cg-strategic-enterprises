@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { CONTACT_WEBHOOK_URL } from '../config/webhooks';
+import { useLang, useT } from '../i18n/useLang';
+import analysisWidget from '../i18n/analysisWidget';
 
 interface Message {
   id: string;
@@ -9,6 +11,8 @@ interface Message {
 }
 
 const AnalysisWidget: React.FC = () => {
+  const lang = useLang();
+  const t = useT(analysisWidget);
   const [inputValue, setInputValue] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -20,7 +24,7 @@ const AnalysisWidget: React.FC = () => {
     {
       id: 'welcome-msg',
       role: 'assistant',
-      text: "Senior Diagnostic Architect online. I am reviewing pest data for Northeast Florida properties. Upload a photo or describe the threat, and I will cross-reference local databases to confirm the species."
+      text: t.welcome
     }
   ]);
 
@@ -39,12 +43,7 @@ const AnalysisWidget: React.FC = () => {
     }
   }, [messages, isSearching]);
 
-  const quickQuestions = [
-    "ARE PALMETTO BUGS DANGEROUS?",
-    "SIGNS OF TERMITES IN JAX?",
-    "STOPPING FIRE ANTS?",
-    "SAFE PEST CONTROL FOR PETS?"
-  ];
+  const quickQuestions = t.quickQuestions;
 
   const handleCameraClick = () => fileInputRef.current?.click();
 
@@ -102,7 +101,7 @@ const AnalysisWidget: React.FC = () => {
       const apiResponse = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentInput, fileData, mimeType })
+        body: JSON.stringify({ currentInput, fileData, mimeType, language: lang })
       });
 
       const data = await apiResponse.json();
@@ -111,9 +110,9 @@ const AnalysisWidget: React.FC = () => {
         throw new Error(data.error || "Failed to fetch analysis");
       }
 
-      let responseText = data.text || "Diagnostic review complete, but no text was returned.";
+      let responseText = data.text || t.noText;
 
-      const dispatchMessage = "\n\nOur Duval/Beaches dispatch team is currently optimizing routes for your area; we will contact you shortly with the next available window. For further assistance, you can reach our local hub at 555-555-0100.\n\n";
+      const dispatchMessage = t.dispatch;
 
       if (responseText.includes('DUVAL HUB REPORT')) {
         responseText = responseText.replace('DUVAL HUB REPORT', dispatchMessage + 'DUVAL HUB REPORT');
@@ -129,12 +128,12 @@ const AnalysisWidget: React.FC = () => {
 
     } catch (error: any) {
       console.error("AI Error Details:", error);
-      let errorMessage = "Error: Communication with Duval Hub intercepted. Check the console for routing failures.";
+      let errorMessage = t.errorGeneric;
       const message = (error?.message || "").toLowerCase();
       const status = error?.status || error?.error?.code;
       
       if (status === 429 || message.includes('429') || message.includes('quota')) {
-         errorMessage = "RESOURCE_EXHAUSTED: The Duval Hub Architect is currently at capacity. Please call **555-555-0100** to reach a technician directly.";
+         errorMessage = t.errorCapacity;
       }
 
       setMessages(prev => [...prev, {
@@ -159,6 +158,7 @@ const AnalysisWidget: React.FC = () => {
           email: '',
           message: `AI Diagnostic Widget demo completed successfully. Identified: ${reportData.species} (Structural Risk ${reportData.riskNum}/10, Priority: ${reportData.priority}).`,
           source: 'AI Diagnostic Widget Demo',
+          language: lang,
         }),
       });
     } catch (error) {
@@ -178,7 +178,7 @@ const AnalysisWidget: React.FC = () => {
       const extract = (label: string) => {
         const regex = new RegExp(`${label}:\\s*([^\\n]+)`, 'i');
         const match = reportText.match(regex);
-        return match ? match[1].replace(/\*/g, '').trim() : 'N/A';
+        return match ? match[1].replace(/\*/g, '').trim() : t.notAvailable;
       };
 
       const rawRisk = extract('STRUCTURAL RISK');
@@ -224,23 +224,23 @@ const AnalysisWidget: React.FC = () => {
           <div className="bg-[#020617] rounded-xl overflow-hidden shadow-xl border border-white/10 flex flex-col mt-2">
             <div className="px-4 py-3 flex items-center justify-between border-b border-white/10 bg-white/5">
               <span className="text-white text-[10px] font-black uppercase tracking-widest">
-                Duval Hub Report
+                {t.reportTitle}
               </span>
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
                 <span className="text-[#CCFF00] text-[9px] font-black uppercase tracking-widest">
-                  {reportData.priority} STATUS
+                  {t.status(reportData.priority)}
                 </span>
               </div>
             </div>
 
             <div className="p-5 grid grid-cols-2 gap-y-5 gap-x-6">
               <div>
-                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">Pest Species</div>
+                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">{t.pestSpecies}</div>
                 <div className="text-white text-xs font-bold uppercase line-clamp-2" title={reportData.species}>{reportData.species}</div>
               </div>
               <div>
-                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">Structural Risk</div>
+                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">{t.structuralRisk}</div>
                 <div className="flex items-center gap-3">
                   <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                     <div className="h-full bg-[#CCFF00] transition-all duration-1000" style={{ width: `${(reportData.riskNum / 10) * 100}%` }} />
@@ -249,11 +249,11 @@ const AnalysisWidget: React.FC = () => {
                 </div>
               </div>
               <div>
-                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">Assigned Hub</div>
+                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">{t.assignedHub}</div>
                 <div className="text-white text-xs font-bold uppercase truncate">{reportData.hub}</div>
               </div>
               <div>
-                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">Target Area</div>
+                <div className="text-slate-500 text-[8px] font-black uppercase tracking-widest mb-1.5">{t.targetArea}</div>
                 <div className="text-white text-xs font-bold uppercase truncate">{reportData.area}</div>
               </div>
             </div>
@@ -268,7 +268,7 @@ const AnalysisWidget: React.FC = () => {
                   : 'bg-[#CCFF00] hover:bg-lime-400 text-[#020617] border-[#CCFF00]/20 cursor-pointer'
               }`}
             >
-              {loggedDemos.has(messageId) ? '✓ Demo Logged' : 'Log Successful Demo'}
+              {loggedDemos.has(messageId) ? t.demoLogged : t.logDemo}
             </button>
           </div>
         )}
@@ -293,13 +293,13 @@ const AnalysisWidget: React.FC = () => {
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse shadow-[0_0_8px_#CCFF00]" />
               <span className="text-[#CCFF00] text-[8px] font-black uppercase tracking-widest">
-                Protocol Active
+                {t.protocolActive}
               </span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <a href="tel:+15555550100" className="w-8 h-8 rounded-lg bg-[#CCFF00] flex items-center justify-center hover:scale-105 transition-transform" title="Call Dispatch">
+          <a href="tel:+15555550100" className="w-8 h-8 rounded-lg bg-[#CCFF00] flex items-center justify-center hover:scale-105 transition-transform" title={t.callDispatch}>
             <span className="text-[#020617] text-sm">📞</span>
           </a>
         </div>
@@ -321,7 +321,7 @@ const AnalysisWidget: React.FC = () => {
               )}
               
               {msg.imageUrl && (
-                <img src={msg.imageUrl} alt="User Upload" className="w-40 h-40 rounded-xl mb-3 object-cover border border-slate-200 shadow-sm" />
+                <img src={msg.imageUrl} alt={t.userUploadAlt} className="w-40 h-40 rounded-xl mb-3 object-cover border border-slate-200 shadow-sm" />
               )}
               
               {msg.role === 'assistant' ? renderMessageText(msg.text, msg.id) : (
@@ -340,7 +340,7 @@ const AnalysisWidget: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
               <span className="text-xs font-black uppercase tracking-widest opacity-70">
-                Analyzing...
+                {t.analyzing}
               </span>
             </div>
           </div>
@@ -366,7 +366,7 @@ const AnalysisWidget: React.FC = () => {
           <div className="mb-3 relative w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="bg-[#020617] rounded-2xl p-2 shadow-xl border border-white/10 w-full flex items-center gap-3">
               <div className="relative rounded-lg overflow-hidden h-14 w-14 bg-slate-800 shrink-0 border border-white/20">
-                <img src={selectedImage} alt="Upload preview" className="w-full h-full object-cover" />
+                <img src={selectedImage} alt={t.uploadPreviewAlt} className="w-full h-full object-cover" />
                 <div className={`absolute inset-0 bg-[#020617]/70 backdrop-blur-sm flex items-center justify-center transition-opacity duration-300 pointer-events-none ${isXHovered ? 'opacity-100' : 'opacity-0'}`}>
                   <span className="bg-[#020617] w-2 h-2 rounded-full"></span>
                 </div>
@@ -374,9 +374,9 @@ const AnalysisWidget: React.FC = () => {
 
               <div className="flex-1">
                 <span className="text-[#CCFF00] text-[9px] font-black uppercase tracking-widest block mb-0.5">
-                  Image Attached
+                  {t.imageAttached}
                 </span>
-                <span className="text-slate-400 text-xs">Ready for analysis</span>
+                <span className="text-slate-400 text-xs">{t.readyForAnalysis}</span>
               </div>
 
               <button
@@ -395,7 +395,7 @@ const AnalysisWidget: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
-          <button onClick={handleCameraClick} disabled={isSearching} aria-label="Upload a photo" className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50">
+          <button onClick={handleCameraClick} disabled={isSearching} aria-label={t.uploadPhoto} className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
             </svg>
@@ -405,14 +405,14 @@ const AnalysisWidget: React.FC = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Diagnostics..."
+            placeholder={t.placeholder}
             className="flex-1 bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
             disabled={isSearching}
           />
           <button 
             onClick={handleSend}
             disabled={isSearching}
-            aria-label="Send message"
+            aria-label={t.send}
             className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors group shadow-md shrink-0 ${isSearching ? 'bg-slate-300 cursor-not-allowed' : 'bg-slate-600 hover:bg-[#020617]'}`}
           >
             <svg className={`w-5 h-5 text-[#CCFF00] transition-all ${isSearching ? '' : 'group-hover:scale-110 group-hover:-translate-y-0.5'}`} fill="currentColor" viewBox="0 0 20 20">

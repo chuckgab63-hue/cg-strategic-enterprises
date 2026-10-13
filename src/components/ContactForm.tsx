@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useId, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CONTACT_WEBHOOK_URL } from '../config/webhooks';
-import {
-  SMS_CONSENT_TEXT, SMS_MARKETING_CONSENT_TEXT, EMAIL_MARKETING_CONSENT_TEXT,
-  EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
-} from '../config/site';
+import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { smsPhoneError } from '../lib/smsPhone';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
+import consentDict from '../i18n/consent';
+import contactDict from '../i18n/contact';
 
 export interface ContactFormCopy {
   firstNamePlaceholder: string;
@@ -40,13 +40,15 @@ type ConsentField = 'smsConsent' | 'smsMarketingConsent' | 'emailMarketingConsen
 const inputClass = 'w-full bg-slate-950 border focus:border-brand-orange focus:outline-none rounded-xl px-4 py-3 text-white text-sm transition-colors';
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
 
-// Render consent labels straight from the shared constants so the on-screen
-// wording and the consent text sent to Make.com can never drift apart.
-// "Privacy Policy" and "SMS Terms" become links wherever they appear.
+// Render consent labels straight from the shared text (src/i18n/consent.ts) so
+// the on-screen wording and the consent text sent to Make.com can never drift
+// apart. The "Privacy Policy" / "SMS Terms" phrases become links wherever they appear.
 function ConsentText({ text }: { text: string }) {
-  return text.split(/(Privacy Policy|SMS Terms)/).map((part, i) => {
-    if (part === 'Privacy Policy') return <Link key={i} to="/privacy" className={linkClass}>Privacy Policy</Link>;
-    if (part === 'SMS Terms') return <Link key={i} to="/terms#sms" className={linkClass}>SMS Terms</Link>;
+  const c = useT(consentDict);
+  const lp = useLocalePath();
+  return text.split(new RegExp(`(${c.privacyLinkText}|${c.smsTermsLinkText})`)).map((part, i) => {
+    if (part === c.privacyLinkText) return <Link key={i} to={lp('/privacy')} className={linkClass}>{part}</Link>;
+    if (part === c.smsTermsLinkText) return <Link key={i} to={lp('/terms#sms')} className={linkClass}>{part}</Link>;
     return part;
   });
 }
@@ -61,6 +63,10 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
   const phoneErrorId = useId();
   const firstNameErrorId = useId();
   const lastNameErrorId = useId();
+  const lang = useLang();
+  const consent = useT(consentDict);
+  const t = useT(contactDict).form;
+  const phoneCheck = (phone: string, wantsTexts: boolean) => smsPhoneError(phone, wantsTexts, consent.phoneRequired);
 
   // Pre-fill the message if the user clicked a specific workflow button
   useEffect(() => {
@@ -87,12 +93,12 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
     // `required` catches empty fields; this also catches whitespace-only ones.
     if (!firstName || !lastName) {
       setNameErrors({
-        firstName: firstName ? '' : 'Please enter your first name.',
-        lastName: lastName ? '' : 'Please enter your last name.',
+        firstName: firstName ? '' : t.firstNameRequired,
+        lastName: lastName ? '' : t.lastNameRequired,
       });
       return;
     }
-    const smsError = smsPhoneError(formData.phone, wantsTexts);
+    const smsError = phoneCheck(formData.phone, wantsTexts);
     if (smsError) {
       setPhoneError(smsError);
       phoneRef.current?.focus();
@@ -113,11 +119,14 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           ...fields,
           phone: phone.trim(),
           source,
+          // "en" or "es": the page language, so follow-ups can be in Spanish.
+          language: lang,
           sms_consent: smsConsent,
-          sms_consent_text: SMS_CONSENT_TEXT,
+          // The wording the visitor actually saw (Spanish on /es pages).
+          sms_consent_text: consent.sms,
           ...(smsConsent && { sms_consent_timestamp: now }),
           sms_marketing_consent: smsMarketingConsent,
-          ...(smsMarketingConsent && { sms_marketing_consent_text: SMS_MARKETING_CONSENT_TEXT }),
+          ...(smsMarketingConsent && { sms_marketing_consent_text: consent.smsMarketing }),
           email_marketing_consent: emailMarketingConsent,
           ...((smsMarketingConsent || emailMarketingConsent) && { marketing_consent_timestamp: now }),
         }),
@@ -145,7 +154,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
             onClick={() => setFormStatus('idle')}
             className="mt-6 text-xs font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors cursor-pointer"
           >
-            Send another message
+            {t.sendAnother}
           </button>
         )}
       </div>
@@ -156,15 +165,15 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {formStatus === 'error' && (
         <p role="alert" className="text-red-400 text-xs font-semibold leading-relaxed">
-          Something went wrong sending your message. Please try again, or reach us directly at{' '}
-          <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a> or{' '}
+          {t.errorBefore}{' '}
+          <a href={EMAIL_HREF} className={linkClass}>{EMAIL}</a> {t.or}{' '}
           <a href={PHONE_HREF} className={linkClass}>{PHONE_DISPLAY}</a>.
         </p>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {([
-          ['firstName', 'given-name', 'First name', copy.firstNamePlaceholder, firstNameErrorId],
-          ['lastName', 'family-name', 'Last name', copy.lastNamePlaceholder, lastNameErrorId],
+          ['firstName', 'given-name', t.firstName, copy.firstNamePlaceholder, firstNameErrorId],
+          ['lastName', 'family-name', t.lastName, copy.lastNamePlaceholder, lastNameErrorId],
         ] as const).map(([field, autoComplete, label, placeholder, errorId]) => (
           <div key={field} className="flex flex-col gap-2">
             <input
@@ -186,13 +195,13 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
       </div>
       <input
         type="email" required autoComplete="email" placeholder={copy.emailPlaceholder}
-        aria-label="Email"
+        aria-label={t.email}
         value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
         className={`${inputClass} border-slate-700`}
       />
       <textarea
         required placeholder={copy.messagePlaceholder} rows={4}
-        aria-label="Message"
+        aria-label={t.message}
         value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
         className={`${inputClass} border-slate-700 resize-none`}
       />
@@ -200,7 +209,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           can see which number the consent applies to. Optional unless a text box is ticked. */}
       <div className="flex flex-col gap-2">
         <label htmlFor={phoneId} className="text-xs font-semibold text-slate-300">
-          Mobile phone number
+          {t.mobilePhone}
         </label>
         <input
           ref={phoneRef} id={phoneId}
@@ -212,7 +221,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           onChange={(e) => {
             setFormData({...formData, phone: e.target.value});
             // Catches clearing the number after ticking a text box, not just on submit.
-            setPhoneError(smsPhoneError(e.target.value, wantsTexts));
+            setPhoneError(phoneCheck(e.target.value, wantsTexts));
           }}
           className={`${inputClass} ${phoneError ? 'border-red-400' : 'border-slate-700'}`}
         />
@@ -222,10 +231,13 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
           </p>
         )}
       </div>
+      {consent.governingNote && (
+        <p className="text-xs text-slate-400 italic">{consent.governingNote}</p>
+      )}
       {([
-        ['smsConsent', SMS_CONSENT_TEXT],
-        ['smsMarketingConsent', SMS_MARKETING_CONSENT_TEXT],
-        ['emailMarketingConsent', EMAIL_MARKETING_CONSENT_TEXT],
+        ['smsConsent', consent.sms],
+        ['smsMarketingConsent', consent.smsMarketing],
+        ['emailMarketingConsent', consent.emailMarketing],
       ] as [ConsentField, string][]).map(([field, text]) => (
         <label key={field} className="flex items-start gap-3 cursor-pointer">
           <input
@@ -234,7 +246,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
             onChange={(e) => {
               const next = {...formData, [field]: e.target.checked};
               setFormData(next);
-              setPhoneError(smsPhoneError(next.phone, next.smsConsent || next.smsMarketingConsent));
+              setPhoneError(phoneCheck(next.phone, next.smsConsent || next.smsMarketingConsent));
             }}
             className="mt-0.5 w-4 h-4 shrink-0 accent-brand-orange cursor-pointer"
           />

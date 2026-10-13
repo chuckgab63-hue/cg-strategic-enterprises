@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ContactForm, { type ContactFormCopy } from './ContactForm';
+import ContactForm from './ContactForm';
+import { useT } from '../i18n/useLang';
+import contactDict from '../i18n/contact';
+import alex from '../i18n/alex';
 
 type Variant = 'default' | 'cinematic';
 
@@ -14,41 +17,10 @@ interface ContactModalProps {
   source: string;
 }
 
-const COPY: Record<Variant, ContactFormCopy & {
-  title: string;
-  subtitle: string;
-  formLabel: string;
-}> = {
-  default: {
-    title: "Let's Connect",
-    subtitle: "Choose how you'd like to reach us.",
-    formLabel: 'Direct Message',
-    firstNamePlaceholder: 'First name',
-    lastNamePlaceholder: 'Last name',
-    emailPlaceholder: 'Email Address',
-    messagePlaceholder: 'How can we help you?',
-    submitLabel: 'Send Message',
-    submittingLabel: 'Sending...',
-    successTitle: 'Message Sent',
-    successMessage: "We've received your message and will be in touch shortly.",
-  },
-  cinematic: {
-    title: 'Initialize Communication',
-    subtitle: 'Select your preferred routing protocol.',
-    formLabel: 'Secure Data Transmission',
-    firstNamePlaceholder: 'First name',
-    lastNamePlaceholder: 'Last name',
-    emailPlaceholder: 'Secure Comm Link (Email)',
-    messagePlaceholder: 'Define your operational objective...',
-    submitLabel: 'Transmit Payload',
-    submittingLabel: 'Transmitting...',
-    successTitle: 'Payload Delivered',
-    successMessage: 'Your data has been successfully routed to our internal systems.',
-  },
-};
-
 export default function ContactModal({ isOpen, onClose, initialMessage = '', variant = 'default', source }: ContactModalProps) {
-  const copy = COPY[variant];
+  const t = useT(contactDict).modal;
+  const copy = t.variants[variant];
+  const callButton = useT(alex).callButton;
 
   // Lock body scroll while the modal is open
   useEffect(() => {
@@ -84,6 +56,7 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
               </div>
               <button 
                 onClick={onClose}
+                aria-label={t.close}
                 className="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full flex items-center justify-center transition-colors shrink-0"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -98,9 +71,9 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
                 <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(59,130,246,0.2)]">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
                 </div>
-                <h4 className="text-white font-bold text-lg mb-2">AI Voice Interface</h4>
+                <h4 className="text-white font-bold text-lg mb-2">{t.voiceTitle}</h4>
                 <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-1">
-                  Bypass the form. Instantly connect with our intelligent voice agent to ask questions and route your inquiry directly to the right engineer.
+                  {t.voiceBody}
                 </p>
                 {/* public/alex-voice.js handles the click and rewrites this label and the
                     status line below, so React must not own either one's text. */}
@@ -109,7 +82,7 @@ export default function ContactModal({ isOpen, onClose, initialMessage = '', var
                   data-alex-call
                   className="w-full bg-blue-600/20 border border-blue-500 hover:bg-blue-500 text-blue-400 hover:text-white py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  Initiate call
+                  {callButton}
                 </button>
                 {/* min-h reserves four lines (the longest message at 320px) so status text doesn't resize the card. */}
                 <p data-alex-status aria-live="polite" className="w-full mt-3 min-h-20 text-xs leading-5 text-slate-400"></p>

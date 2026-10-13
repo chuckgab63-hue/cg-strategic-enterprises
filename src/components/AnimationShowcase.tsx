@@ -3,8 +3,12 @@ import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { Link } from 'react-router-dom';
+import { useLocalePath, useT } from '../i18n/useLang';
+import home from '../i18n/home';
 
 export default function AnimationShowcase() {
+  const t = useT(home).showcase;
+  const lp = useLocalePath();
   const gsapCardRef = useRef<HTMLDivElement>(null);
   const gsapIconRef = useRef<HTMLDivElement>(null);
 
@@ -30,20 +34,20 @@ export default function AnimationShowcase() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[1392px] w-full">
         
         {/* Card 1: Tailwind CSS (Lightweight / Micro-interactions) */}
-        <Link to="/ui-polish" className="block h-full">
+        <Link to={lp('/ui-polish')} className="block h-full">
           <div className="group h-full bg-slate-900/40 p-8 rounded-2xl shadow-md border border-slate-800 backdrop-blur-md transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:border-brand-orange/50 cursor-pointer">
             <div className="w-12 h-12 bg-brand-midnight rounded-lg mb-6 flex items-center justify-center transition-transform duration-500 group-hover:rotate-12 group-hover:bg-brand-orange">
               <span className="text-white font-bold">CSS</span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">UI Polish</h3>
+            <h3 className="text-xl font-bold text-white mb-2">{t.uiPolishTitle}</h3>
             <p className="text-slate-400 text-sm">
-              Powered natively by Tailwind. Perfect for crisp, lightweight hover states, button interactions, and fast-loading micro-animations.
+              {t.uiPolishBody}
             </p>
           </div>
         </Link>
 
         {/* Card 2: Framer Motion (Fluid / Modern App Feel) */}
-        <Link to="/fluid-dynamics" className="block h-full">
+        <Link to={lp('/fluid-dynamics')} className="block h-full">
           <motion.div 
             className="bg-slate-900/40 p-8 rounded-2xl shadow-md border border-slate-800 backdrop-blur-md cursor-pointer h-full hover:border-brand-orange/50 transition-colors duration-500"
             whileHover={{ y: -12, scale: 1.02 }}
@@ -56,15 +60,15 @@ export default function AnimationShowcase() {
             >
               <span className="text-white font-bold">FM</span>
             </motion.div>
-            <h3 className="text-xl font-bold text-white mb-2">Fluid Dynamics</h3>
+            <h3 className="text-xl font-bold text-white mb-2">{t.fluidTitle}</h3>
             <p className="text-slate-400 text-sm">
-              Powered by Framer Motion. Ideal for modern web portals, physics-based scaling, smooth page transitions, and continuous looping elements.
+              {t.fluidBody}
             </p>
           </motion.div>
         </Link>
 
         {/* Card 3: GSAP (Cinematic / Heavyweight) */}
-        <Link to="/cinematic" className="block h-full">
+        <Link to={lp('/cinematic')} className="block h-full">
           <div 
             ref={gsapCardRef}
             className="bg-slate-900/40 p-8 rounded-2xl shadow-md border border-slate-800 backdrop-blur-md cursor-pointer h-full hover:border-brand-orange/50 transition-colors duration-500"
@@ -75,9 +79,9 @@ export default function AnimationShowcase() {
             >
               <span className="text-white font-bold">GS</span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Cinematic Sequences</h3>
+            <h3 className="text-xl font-bold text-white mb-2">{t.cinematicTitle}</h3>
             <p className="text-slate-400 text-sm">
-              Powered by GSAP. The industry standard for complex timeline scrubbing, scroll-driven narratives, and high-end interactive brand work.
+              {t.cinematicBody}
             </p>
           </div>
         </Link>

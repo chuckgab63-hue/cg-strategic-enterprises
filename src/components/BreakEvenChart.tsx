@@ -1,4 +1,6 @@
 import { useId, useLayoutEffect, useRef, useState, type PointerEvent } from 'react';
+import { useT } from '../i18n/useLang';
+import mealPrepCalculator from '../i18n/mealPrepCalculator';
 
 interface BreakEvenChartProps {
   contributionMargin: number;
@@ -37,6 +39,7 @@ export default function BreakEvenChart({
   contributionMargin: cm, kitchenCostWeekly, ownerPayWeekly, mealsPerWeek,
   breakEvenKitchenOnly, breakEvenMeals,
 }: BreakEvenChartProps) {
+  const t = useT(mealPrepCalculator).chart;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(600);
   const [hoverMeals, setHoverMeals] = useState<number | null>(null);
@@ -78,10 +81,10 @@ export default function BreakEvenChart({
 
   const crossings = [
     showOwnerLine && breakEvenKitchenOnly !== null && breakEvenKitchenOnly <= xMax
-      ? { meals: breakEvenKitchenOnly, level: kitchenCostWeekly, label: `${breakEvenKitchenOnly} covers the kitchen` }
+      ? { meals: breakEvenKitchenOnly, level: kitchenCostWeekly, label: t.coversKitchen(breakEvenKitchenOnly) }
       : null,
     breakEvenMeals !== null && breakEvenMeals <= xMax
-      ? { meals: breakEvenMeals, level: fixedTotal, label: `${breakEvenMeals} = break-even` }
+      ? { meals: breakEvenMeals, level: fixedTotal, label: t.breakEven(breakEvenMeals) }
       : null,
   ].filter(c => c !== null);
 
@@ -98,8 +101,8 @@ export default function BreakEvenChart({
   })();
 
   const summary = breakEvenMeals === null
-    ? `Each meal loses ${usd(-cm)} before fixed costs, so no weekly volume covers the ${usd(fixedTotal)} of weekly fixed costs.`
-    : `Weekly contribution rises by $${cm.toFixed(2)} a meal. It covers the ${usd(fixedTotal)} of weekly fixed costs at ${breakEvenMeals} meals a week. You entered ${mealsPerWeek}.`;
+    ? t.summaryNever(usd(-cm), usd(fixedTotal))
+    : t.summary(cm.toFixed(2), usd(fixedTotal), breakEvenMeals, mealsPerWeek);
 
   // Five volumes worth reading as a table: zero, each break-even, yours, and the chart's edge.
   const tableRows = [...new Set([0, breakEvenKitchenOnly, breakEvenMeals, mealsPerWeek, xMax]
@@ -108,9 +111,9 @@ export default function BreakEvenChart({
   return (
     <div ref={containerRef} className="w-full min-w-0 overflow-hidden">
       <div className="flex flex-wrap gap-x-5 gap-y-1.5 mb-3 text-[11px] text-slate-300" aria-hidden="true">
-        <span className="flex items-center gap-2"><span className="w-5 h-0.5 rounded-full" style={{ background: SERIES }} />What your meals cover</span>
-        <span className="flex items-center gap-2"><span className="w-5 border-t-2 border-dashed border-slate-300" />{showOwnerLine ? 'Kitchen + your pay' : 'Kitchen'} {usd(fixedTotal)}/wk</span>
-        {showOwnerLine && <span className="flex items-center gap-2"><span className="w-5 border-t-2 border-dashed border-slate-500" />Kitchen alone {usd(kitchenCostWeekly)}/wk</span>}
+        <span className="flex items-center gap-2"><span className="w-5 h-0.5 rounded-full" style={{ background: SERIES }} />{t.legendSeries}</span>
+        <span className="flex items-center gap-2"><span className="w-5 border-t-2 border-dashed border-slate-300" />{showOwnerLine ? t.legendKitchenPay : t.legendKitchen} {usd(fixedTotal)}{t.perWeekSuffix}</span>
+        {showOwnerLine && <span className="flex items-center gap-2"><span className="w-5 border-t-2 border-dashed border-slate-500" />{t.legendKitchenAlone} {usd(kitchenCostWeekly)}{t.perWeekSuffix}</span>}
       </div>
       <svg
         width={width} height={height}
@@ -129,7 +132,7 @@ export default function BreakEvenChart({
         {xTicks.map(m => (
           <text key={`x${m}`} x={x(m)} y={height - PAD.bottom + 18} textAnchor="middle" fontSize={11} fill="#94a3b8">{m}</text>
         ))}
-        <text x={PAD.left + plotW / 2} y={height - 6} textAnchor="middle" fontSize={11} fill="#64748b">Meals sold per week</text>
+        <text x={PAD.left + plotW / 2} y={height - 6} textAnchor="middle" fontSize={11} fill="#64748b">{t.xAxis}</text>
 
         {/* Reference lines: fixed weekly costs */}
         {showOwnerLine && (
@@ -172,7 +175,7 @@ export default function BreakEvenChart({
           textAnchor={x(mealsPerWeek) < width * 0.2 ? 'start' : x(mealsPerWeek) > width * 0.8 ? 'end' : 'middle'}
           fontSize={11} fontWeight={700} fill={ahead ? GOOD : BAD} {...HALO}
         >
-          You: {mealsPerWeek}/wk {ahead ? '✓' : '✕'}
+          {t.you(mealsPerWeek, ahead ? '✓' : '✕')}
         </text>
 
         {/* Hover crosshair */}
@@ -188,32 +191,28 @@ export default function BreakEvenChart({
 
       <p aria-live="polite" className="min-h-[2.5rem] text-xs text-slate-400 leading-relaxed mt-1">
         {hover ? (
-          <>
-            At <strong className="text-white">{hover.meals} meals</strong>, meals cover {usd(hover.value)} of {usd(fixedTotal)} a week —{' '}
+          t.hover(hover.meals, usd(hover.value), usd(fixedTotal), (
             <strong className={hover.gap >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-              {hover.gap >= 0 ? `${usd(hover.gap)} ahead` : `${usd(-hover.gap)} short`}
-            </strong>.
-          </>
+              {hover.gap >= 0 ? t.ahead(usd(hover.gap)) : t.short(usd(-hover.gap))}
+            </strong>
+          ))
         ) : (
-          'Hover or drag across the chart to see any volume.'
+          t.hint
         )}
       </p>
 
       <details className="mt-2 text-xs text-slate-400">
-        <summary className="cursor-pointer font-bold uppercase tracking-widest text-[10px] text-slate-500 hover:text-slate-300">Show as a table</summary>
+        <summary className="cursor-pointer font-bold uppercase tracking-widest text-[10px] text-slate-500 hover:text-slate-300">{t.showTable}</summary>
         <table id={tableId} className="mt-3 w-full text-left tabular-nums">
           <thead>
             <tr className="text-slate-500 border-b border-slate-800">
-              <th className="py-1.5 font-semibold">Meals/wk</th>
-              <th className="py-1.5 font-semibold">Meals cover</th>
-              <th className="py-1.5 font-semibold">Fixed costs</th>
-              <th className="py-1.5 font-semibold">Ahead / short</th>
+              {t.cols.map(col => <th key={col} className="py-1.5 font-semibold">{col}</th>)}
             </tr>
           </thead>
           <tbody>
             {tableRows.map(m => (
               <tr key={m} className="border-b border-slate-800/60">
-                <td className="py-1.5 text-slate-200">{m}{m === mealsPerWeek ? ' (you)' : ''}</td>
+                <td className="py-1.5 text-slate-200">{m}{m === mealsPerWeek ? t.youRow : ''}</td>
                 <td className="py-1.5">{usd(cm * m)}</td>
                 <td className="py-1.5">{usd(fixedTotal)}</td>
                 <td className="py-1.5">{usd(cm * m - fixedTotal)}</td>

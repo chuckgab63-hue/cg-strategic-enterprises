@@ -1,75 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import ContactModal from '../components/ContactModal';
+import { useLocalePath, useT } from '../i18n/useLang';
+import fluidDynamics from '../i18n/fluidDynamics';
 
-interface Project {
-  id: number;
-  title: string;
-  category: string;
-  desc: string;
-  color: string;
-  details: string;
-  capabilities: string[];
-}
-
-const projects: Project[] = [
-  { 
-    id: 1, 
-    title: 'Enterprise Lead Pipeline', 
-    category: 'WEB', 
-    desc: 'High-conversion lead generation architecture with automated CRM handoffs.', 
-    color: 'from-blue-500 to-cyan-400',
-    details: 'We engineer front-end landing pages that don’t just look good—they convert. By directly routing form submissions into your CRM via secure webhooks, we eliminate manual data entry and ensure your sales team responds to leads in seconds.',
-    capabilities: ['Real-time CRM Sync', 'A/B Tested Layouts', 'Zero-Latency Routing']
-  },
-  { 
-    id: 2, 
-    title: 'Field Service Sync Engine', 
-    category: 'AUTOMATION', 
-    desc: 'Event-driven data pipelines synchronizing field service workflows.', 
-    color: 'from-brand-orange to-amber-500',
-    details: 'Stop doing duplicate data entry. We build custom automation layers that listen for field service updates, automatically generating invoices, notifying customers, and updating your central dashboard without human intervention.',
-    capabilities: ['Webhook Listening', 'Automated Invoicing', 'Multi-App Sync']
-  },
-  { 
-    id: 3, 
-    title: 'Procurement Ops Widget', 
-    category: 'AI', 
-    desc: 'Intelligent dashboard interface for real-time asset tracking and forecasting.', 
-    color: 'from-emerald-500 to-teal-400',
-    details: 'An embedded AI module designed to sit inside your existing ERP. It analyzes historical purchasing data, flags supply chain bottlenecks before they happen, and generates automated procurement requests for approval.',
-    capabilities: ['ERP Integration', 'Predictive Analytics', 'Automated Purchasing']
-  },
-  { 
-    id: 4, 
-    title: 'AI Campaign Generator', 
-    category: 'AI', 
-    desc: 'Algorithmic video prompting matrix for scalable digital media deployment.', 
-    color: 'from-purple-600 to-pink-500',
-    details: 'Scale your social presence exponentially. We utilize generative AI models to programmatically generate and iterate high-quality promotional video content based on your brand guidelines and trending audio profiles.',
-    capabilities: ['Programmatic Rendering', 'Brand Guardrails', 'A/B Prompting']
-  },
-  { 
-    id: 5, 
-    title: 'Dynamic Lead Routing', 
-    category: 'AUTOMATION', 
-    desc: 'Logic-based form routing ensuring zero latency from capture to contact.', 
-    color: 'from-[#CCFF00] to-green-500',
-    details: 'Not all leads are created equal. Our routing engine scores incoming inquiries based on budget and urgency, instantly pinging the right closer via Slack or SMS while sending a personalized holding email to the prospect.',
-    capabilities: ['Lead Scoring', 'Instant SMS/Slack Pings', 'Conditional Logic']
-  },
-  { 
-    id: 6, 
-    title: 'CG Strategic Hub', 
-    category: 'WEB', 
-    desc: 'Interactive deployment center featuring high-fidelity frontend engineering.', 
-    color: 'from-slate-500 to-slate-400',
-    details: 'Your digital presence should be an experience. We utilize React, Tailwind, and GSAP/Framer Motion to build immersive, hardware-accelerated web applications that prove your technical competence before a client ever speaks to you.',
-    capabilities: ['State-Driven UI', 'Physics Animations', 'Component Architecture']
-  }
+// Visual settings per card; the text is in src/i18n/fluidDynamics.ts, same order.
+const PROJECT_STYLES = [
+  { id: 1, color: 'from-blue-500 to-cyan-400' },
+  { id: 2, color: 'from-brand-orange to-amber-500' },
+  { id: 3, color: 'from-emerald-500 to-teal-400' },
+  { id: 4, color: 'from-purple-600 to-pink-500' },
+  { id: 5, color: 'from-[#CCFF00] to-green-500' },
+  { id: 6, color: 'from-slate-500 to-slate-400' },
 ];
+
+type Project = (typeof PROJECT_STYLES)[number] & (typeof fluidDynamics.en.projects)[number];
 
 const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void }) => {
   const x = useMotionValue(0);
@@ -135,7 +82,12 @@ const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void 
 };
 
 export default function FluidDynamics() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const t = useT(fluidDynamics);
+  const lp = useLocalePath();
+  const projects: Project[] = PROJECT_STYLES.map((style, i) => ({ ...style, ...t.projects[i] }));
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const selectedProject = projects.find(p => p.id === selectedId) ?? null;
+  const setSelectedProject = (project: Project | null) => setSelectedId(project?.id ?? null);
   
   // Global Contact Modal State
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -149,17 +101,17 @@ export default function FluidDynamics() {
       <div className="pt-20 site-container flex flex-col items-center text-center relative z-10 min-h-[60vh]">
         
         <div className="w-full flex justify-center mb-10">
-          <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
-            &larr; BACK TO HUB
+          <Link to={lp('/')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
+            {t.backToHub}
           </Link>
         </div>
 
         <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">
-          Fluid <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-brand-orange to-amber-500">Dynamics.</span>
+          {t.heading.lead}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-brand-orange to-amber-500">{t.heading.accent}</span>
         </h1>
         
         <p className="text-xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed mb-16">
-          Interact with physics-based layout transitions. Click any module to evaluate architectural specifications and request integration.
+          {t.intro}
         </p>
 
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full perspective-[1000px] min-h-[400px]">
@@ -212,6 +164,7 @@ export default function FluidDynamics() {
 
                 <button 
                   onClick={() => setSelectedProject(null)}
+                  aria-label={t.close}
                   className="absolute top-4 right-4 md:top-5 md:right-5 w-8 h-8 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 transition-colors z-20"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -223,14 +176,14 @@ export default function FluidDynamics() {
                 className="p-5 md:p-6 flex flex-col gap-4 bg-[#020617]"
               >
                 <div>
-                  <h4 className="text-brand-orange font-bold uppercase tracking-widest text-[10px] mb-1.5">Architectural Overview</h4>
+                  <h4 className="text-brand-orange font-bold uppercase tracking-widest text-[10px] mb-1.5">{t.overview}</h4>
                   <p className="text-slate-300 leading-relaxed text-sm">
                     {selectedProject.details}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-brand-orange font-bold uppercase tracking-widest text-[10px] mb-1.5">Core Capabilities</h4>
+                  <h4 className="text-brand-orange font-bold uppercase tracking-widest text-[10px] mb-1.5">{t.capabilities}</h4>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {selectedProject.capabilities.map((cap, i) => (
                       <li key={i} className="flex items-center gap-2.5 text-slate-300 text-sm bg-slate-900/50 p-2 rounded-lg border border-slate-800">
@@ -244,13 +197,13 @@ export default function FluidDynamics() {
                 <div className="pt-3 border-t border-slate-800 flex justify-end">
                   <button 
                     onClick={() => {
-                      setContactMessage(`System Inquiry: Requesting integration details for the ${selectedProject.title} module.`);
+                      setContactMessage(t.inquiry(selectedProject.title));
                       setSelectedProject(null);
                       setTimeout(() => setIsContactModalOpen(true), 300); // Wait for card to close before opening comms
                     }}
                     className="bg-brand-orange hover:bg-white text-white hover:text-brand-orange px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
                   >
-                    Request Integration
+                    {t.requestIntegration}
                   </button>
                 </div>
               </motion.div>

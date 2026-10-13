@@ -7,11 +7,15 @@ import FramerPlayground from '../components/FramerPlayground';
 import AnimationShowcase from '../components/AnimationShowcase';
 import ContactModal from '../components/ContactModal';
 import MealPrepPreview from '../components/MealPrepPreview';
+import { useLocalePath, useT } from '../i18n/useLang';
+import home from '../i18n/home';
 
 
 // MAIN COMPONENT: CONTINUOUS SCROLL HOME
 // ==========================================
 export default function Home() {
+  const t = useT(home);
+  const lp = useLocalePath();
   
   // --- Global Form/Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -77,7 +81,7 @@ export default function Home() {
           >
             <motion.img
               src="/hero-live.webp"
-              alt="CG Strategic Enterprises"
+              alt={t.hero.imageAlt}
               className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
               initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
               animate={{ 
@@ -166,8 +170,8 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            <span className="text-white">Look established.</span><br />
-            <span className="text-brand-orange">Or BE established.</span>
+            <span className="text-white">{t.hero.titleA}</span><br />
+            <span className="text-brand-orange">{t.hero.titleB}</span>
           </motion.h1>
 
           <motion.div 
@@ -177,10 +181,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
             <p>
-              In an industry obsessed with "faking it," we operate differently. CG Strategic Enterprises is built on forty-five years of enterprise architecture experience. 
+              {t.hero.p1}
             </p>
             <p>
-              No smoke, mirrors, or marketing fluff. Just tested code, secure integrations, and relentless execution to streamline your operations so your team runs leaner and faster.
+              {t.hero.p2}
             </p>
           </motion.div>
 
@@ -194,11 +198,11 @@ export default function Home() {
               onClick={() => setIsModalOpen(true)}
               className="bg-brand-orange text-white px-8 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-all shadow-md cursor-pointer hover:scale-105"
             >
-              Start a Project
+              {t.hero.startProject}
             </button>
-            <Link to="/portfolio">
+            <Link to={lp('/portfolio')}>
               <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold tracking-wide hover:bg-white hover:text-slate-900 transition-all cursor-pointer hover:scale-105">
-                View Our Work
+                {t.hero.viewWork}
               </button>
             </Link>
           </motion.div>
@@ -216,10 +220,10 @@ export default function Home() {
           TRANSITION HEADER
           ========================================= */}
       <div className="w-full text-center py-32 relative z-10 border-t border-slate-900 mt-20">
-        <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6">Elevate Your Digital Presence</h2>
+        <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6">{t.banner.eyebrow}</h2>
         <div className="text-center w-full max-w-3xl mx-auto px-6">
           <p className="text-2xl md:text-3xl font-light text-slate-300 leading-relaxed bg-brand-orange text-white py-2 px-4 rounded-xl shadow-[0_0_30px_rgba(255,95,31,0.3)] inline-block">
-            We transform flat, static websites into dynamic digital experiences. Here is a live demonstration of our rendering capabilities.
+            {t.banner.body}
           </p>
         </div>
       </div>
@@ -239,15 +243,15 @@ export default function Home() {
           ========================================= */}
       <div className="site-container mt-16 mb-24 relative z-10">
         <Link 
-          to="/automations" 
+          to={lp('/automations')}
           className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/0 via-brand-orange/10 to-brand-orange/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
           <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-center md:text-left">
-              <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">Continue Exploring</h3>
+              <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">{t.runway.eyebrow}</h3>
               <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
-                Enter The Engine.
+                {t.runway.title}
               </h2>
             </div>
             <div className="w-16 h-16 rounded-full bg-slate-900 border border-slate-700 text-slate-400 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-[#020617] transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] shrink-0">

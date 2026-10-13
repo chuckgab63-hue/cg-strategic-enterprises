@@ -39,12 +39,12 @@ const EXPECTED_KEYS = [
   'owner_hours_per_week', 'owner_hourly_target', 'sourcing',
   'food_cost_pct', 'prime_cost_pct', 'contribution_margin',
   'break_even_meals', 'monthly_revenue', 'monthly_profit',
-  'results_url',
+  'results_url', 'language',
 ];
 
 describe('buildCalculatorSubmission', () => {
   it('sends exactly the keys the Make.com scenario maps', () => {
-    expect(EXPECTED_KEYS).toHaveLength(25);
+    expect(EXPECTED_KEYS).toHaveLength(26);
     expect(Object.keys(build()).sort()).toEqual([...EXPECTED_KEYS].sort());
   });
 
@@ -59,7 +59,7 @@ describe('buildCalculatorSubmission', () => {
   it('sends numbers as plain values with no currency or percent signs', () => {
     const body = build();
     for (const key of EXPECTED_KEYS.slice(6)) {
-      if (key === 'sourcing' || key === 'results_url') continue;
+      if (key === 'sourcing' || key === 'results_url' || key === 'language') continue;
       expect(typeof body[key as keyof typeof body], key).toBe('number');
     }
     const { results_url: _url, ...rest } = body;
@@ -111,5 +111,12 @@ describe('buildCalculatorSubmission', () => {
     expect(url.origin).toBe('https://www.cgstrategic.dev');
     expect(url.pathname).toBe('/meal-prep-calculator');
     expect(parseCalculatorParams(url.searchParams)).toEqual(inputs);
+  });
+
+  it('sends the page language, English unless told otherwise', () => {
+    expect(build().language).toBe('en');
+    const es = buildCalculatorSubmission(CONTACT, INPUTS, calculate(INPUTS), 'es');
+    expect(es.language).toBe('es');
+    expect(new URL(es.results_url).pathname).toBe('/es/meal-prep-calculator');
   });
 });

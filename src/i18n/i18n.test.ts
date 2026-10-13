@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+// ?raw: read as text through Vite, so the test needs no Node types.
+import vercelJson from '../../vercel.json?raw';
 import { langFromPath, localizePath, stripLang, SPANISH_PUBLIC } from './lang';
 import { headFor } from './head';
 import { SITE_ROUTES, findRoute } from './meta';
@@ -69,7 +70,7 @@ describe('pre-rendered pages', () => {
   });
 
   it('has a vercel.json rewrite for every pre-rendered page', () => {
-    const { rewrites } = JSON.parse(readFileSync('vercel.json', 'utf8')) as { rewrites: { source: string; destination: string }[] };
+    const { rewrites } = JSON.parse(vercelJson) as { rewrites: { source: string; destination: string }[] };
     const bySource = new Map(rewrites.map(r => [r.source, r.destination]));
     for (const { path, file } of prerenderTargets()) {
       if (path === '/') continue; // served straight from dist/index.html

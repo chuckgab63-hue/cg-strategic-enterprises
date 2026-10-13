@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { EMAIL, EMAIL_HREF } from '../config/site';
 import LetsTalkChooser from './LetsTalkChooser';
 import LangToggle from './LangToggle';
-import { useLocalePath, useT } from '../i18n/useLang';
+import { langToggleVisible } from '../i18n/lang';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import common from '../i18n/common';
 
 const NAV_LINKS = [
@@ -17,6 +18,7 @@ const NAV_LINKS = [
 export default function GlobalHeader() {
   const t = useT(common);
   const lp = useLocalePath();
+  const showToggle = langToggleVisible(useLang());
 
   return (
     <>
@@ -49,11 +51,13 @@ export default function GlobalHeader() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3 lg:justify-self-end">
-            {/* The main nav is desktop-only, so give small screens their own Contact link. */}
+            {/* The main nav is desktop-only, so give small screens their own Contact link.
+                On phones it gives way to the EN | ES toggle (the link under Let's Talk
+                also goes to /contact), or the header runs off the screen. */}
             <LangToggle />
             <Link
               to={lp('/contact')}
-              className="lg:hidden text-xs font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap"
+              className={`${showToggle ? 'hidden sm:inline' : ''} lg:hidden text-xs font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap`}
             >
               {t.nav.contact}
             </Link>

@@ -104,7 +104,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'A demo of large, cinematic, scroll-driven animation for websites.',
       },
       es: {
-        title: `Escala cinematográfica | ${NAME}`,
+        title: `Escala de cine | ${NAME}`,
         description: 'Una demostración de animaciones grandes y cinematográficas, controladas por el desplazamiento, para sitios web.',
       },
     },

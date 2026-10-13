@@ -1,20 +1,10 @@
 import type { ReactNode } from 'react';
-import ContactForm, { type ContactFormCopy } from '../components/ContactForm';
+import ContactForm from '../components/ContactForm';
 import MailingAddress from '../components/MailingAddress';
-import {
-  BUSINESS_NAME, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL, PHONE_DISPLAY, PHONE_HREF, CALL_ARIA_LABEL,
-} from '../config/site';
-
-const FORM_COPY: ContactFormCopy = {
-  firstNamePlaceholder: 'First name',
-  lastNamePlaceholder: 'Last name',
-  emailPlaceholder: 'Email Address',
-  messagePlaceholder: 'How can we help you?',
-  submitLabel: 'Send Message',
-  submittingLabel: 'Sending...',
-  successTitle: 'Message Sent',
-  successMessage: "Thanks for reaching out. We've received your message and will be in touch shortly.",
-};
+import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
+import { useT } from '../i18n/useLang';
+import common from '../i18n/common';
+import contactDict from '../i18n/contact';
 
 const ICON_PATHS = {
   phone: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
@@ -39,26 +29,27 @@ function ContactMethod({ icon, label, className = '', children }: { icon: keyof 
 const methodLinkClass = 'text-sm font-bold tracking-wide text-slate-200 hover:text-brand-orange transition-colors break-words';
 
 export default function Contact() {
+  const t = useT(contactDict).page;
+  const { callAriaLabel, emailAriaLabel } = useT(common);
 
   return (
     // text-left counters the global `#root { text-align: center }` in index.css.
     <section className="max-w-3xl mx-auto px-6 pt-32 pb-24 text-left">
-      <h1 className="text-4xl md:text-5xl font-black text-white">Contact {BUSINESS_NAME}</h1>
+      <h1 className="text-4xl md:text-5xl font-black text-white">{t.title}</h1>
       <p className="text-slate-300 text-base leading-relaxed mt-4 mb-10">
-        Tell us about your project or ask a question. Call, email, or send a message below and
-        we'll get back to you shortly.
+        {t.intro}
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-        <ContactMethod icon="phone" label="Phone">
-          <a href={PHONE_HREF} aria-label={CALL_ARIA_LABEL} className={methodLinkClass}>{PHONE_DISPLAY}</a>
+        <ContactMethod icon="phone" label={t.phone}>
+          <a href={PHONE_HREF} aria-label={callAriaLabel} className={methodLinkClass}>{PHONE_DISPLAY}</a>
         </ContactMethod>
-        <ContactMethod icon="email" label="Email">
-          <a href={EMAIL_HREF} aria-label={EMAIL_ARIA_LABEL} className={methodLinkClass}>
+        <ContactMethod icon="email" label={t.email}>
+          <a href={EMAIL_HREF} aria-label={emailAriaLabel} className={methodLinkClass}>
             {EMAIL.split('@')[0]}@<wbr />{EMAIL.split('@')[1]}
           </a>
         </ContactMethod>
-        <ContactMethod icon="location" label="Mailing Address" className="sm:col-span-2">
+        <ContactMethod icon="location" label={t.mailingAddress} className="sm:col-span-2">
           <MailingAddress className="text-sm font-bold tracking-wide leading-relaxed text-slate-200" />
         </ContactMethod>
       </div>
@@ -66,9 +57,9 @@ export default function Contact() {
       <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse shadow-[0_0_10px_rgba(255,95,31,0.8)]"></div>
-          <h2 className="text-white font-bold text-lg">Send Us a Message</h2>
+          <h2 className="text-white font-bold text-lg">{t.formTitle}</h2>
         </div>
-        <ContactForm source="Contact page" copy={FORM_COPY} />
+        <ContactForm source="Contact page" copy={t.form} />
       </div>
     </section>
   );

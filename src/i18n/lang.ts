@@ -7,7 +7,7 @@ export const LANGS: Lang[] = ['en', 'es'];
 
 // Spanish is merged but hidden until a native speaker reviews the copy (see
 // docs/SPANISH_REVIEW.md). While false: the header toggle only shows on /es
-// pages (or once a visitor has chosen Spanish), /es pages are noindex, and
+// pages (or once a visitor has used it), /es pages are noindex, and
 // neither hreflang links nor the sitemap mention them. Flip to true to launch.
 export const SPANISH_PUBLIC = false;
 
@@ -50,4 +50,12 @@ export function storeLang(lang: Lang) {
   } catch {
     // Not remembered; the toggle still works.
   }
+}
+
+/**
+ * Until Spanish launches, the EN | ES toggle only shows to people who've been
+ * on a Spanish page or used the toggle, so reviewers can always switch back.
+ */
+export function langToggleVisible(lang: Lang): boolean {
+  return SPANISH_PUBLIC || lang === 'es' || readStoredLang() !== null;
 }

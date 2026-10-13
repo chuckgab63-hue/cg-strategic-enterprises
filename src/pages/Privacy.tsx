@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import LegalPage, { LegalSection } from '../components/LegalPage';
 import MailingAddress from '../components/MailingAddress';
+import PrivacyEs from '../i18n/es/PrivacyEs';
+import { useLang } from '../i18n/useLang';
 import {
   BUSINESS_NAME, LEGAL_BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
 } from '../config/site';
@@ -8,6 +10,9 @@ import {
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
 
 export default function Privacy() {
+  // The English below is what carriers reviewed; Spanish is a separate, reviewed-later file.
+  if (useLang() === 'es') return <PrivacyEs />;
+
   return (
     <LegalPage title="Privacy Policy">
       <p>

@@ -13,7 +13,11 @@ export default async function handler(req: any, res: any) {
 
     const ai = new GoogleGenAI({ apiKey: apiKey });
 
-    const { issueDescription, fileData, mimeType } = req.body;
+    const { issueDescription, fileData, mimeType, language } = req.body;
+    // Spanish pages send language: 'es'. priority and category stay as the
+    // English enum values (the UI and Make rely on them); only the summary
+    // is written in Spanish.
+    const spanish = language === 'es';
 
     const parts: any[] = [{
       text: `A tenant or crew member reported the following property maintenance issue: "${issueDescription || '(no description provided, see photo)'}"`
@@ -29,7 +33,8 @@ export default async function handler(req: any, res: any) {
       model: 'gemini-3.6-flash',
       contents: [{ role: 'user', parts: parts }],
       config: {
-        systemInstruction: "You are a property maintenance triage assistant. Classify the reported issue's urgency and category. HIGH priority means it risks property damage, safety, or habitability if not addressed within hours (e.g. water leaks, gas smell, no heat/AC in extreme weather, electrical hazards, broken locks/security). LOW priority means it can reasonably wait for scheduled maintenance (e.g. filter replacement, cosmetic issues, minor appliance quirks). Category must be exactly one of: Plumbing, Electrical, HVAC, Appliance, Structural, General.",
+        systemInstruction: "You are a property maintenance triage assistant. Classify the reported issue's urgency and category. HIGH priority means it risks property damage, safety, or habitability if not addressed within hours (e.g. water leaks, gas smell, no heat/AC in extreme weather, electrical hazards, broken locks/security). LOW priority means it can reasonably wait for scheduled maintenance (e.g. filter replacement, cosmetic issues, minor appliance quirks). Category must be exactly one of: Plumbing, Electrical, HVAC, Appliance, Structural, General."
+          + (spanish ? " The reporter may write in Spanish. Write the summary in Latin American Spanish, but keep priority and category exactly as the English values listed." : ""),
         responseMimeType: 'application/json',
         responseSchema: {
           type: Type.OBJECT,

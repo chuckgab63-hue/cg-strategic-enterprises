@@ -1,41 +1,28 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocalePath, useT } from '../i18n/useLang';
+import uiPolish from '../i18n/uiPolish';
 
-// --- Data for the Hover Descriptions ---
-const hoverFeatures: Record<string, { title: string; desc: string }> = {
-  plasma: {
-    title: "Plasma Sweep",
-    desc: "Translates a hidden pseudo-element across the X-axis using group-hover states, creating a fluid, hardware-accelerated magnetic fill without JavaScript."
-  },
-  cyber: {
-    title: "Cyber Override",
-    desc: "Combines Tailwind's native animate-ping utility with delayed opacity transitions to render a high-frequency glitch effect on demand."
-  },
-  neon: {
-    title: "Neon Elevation",
-    desc: "Leverages complex drop-shadow utilities and negative Y-axis translations to simulate physical depth and volumetric light emission."
-  },
-  frosted: {
-    title: "Frosted Glass",
-    desc: "Applies backdrop-blur filters over a multi-stop gradient with an opacity toggle, mimicking modern glassmorphism architecture natively."
-  }
-};
+type FeatureKey = keyof typeof uiPolish.en.features;
 
 export default function UIPolish() {
+  const t = useT(uiPolish);
+  const lp = useLocalePath();
+  const hoverFeatures = t.features;
   const [securityKey, setSecurityKey] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   
   // State to track which button description is open
-  const [activeFeature, setActiveFeature] = useState<string | null>(null);
+  const [activeFeature, setActiveFeature] = useState<FeatureKey | null>(null);
 
   // Real-time validation logic
   const requirements = [
-    { id: 'length', text: 'At least 8 characters', met: securityKey.length >= 8 },
-    { id: 'number', text: 'Contains a number', met: /\d/.test(securityKey) },
-    { id: 'special', text: 'Special character (!@#$%)', met: /[!@#$%^&*(),.?":{}|<>]/.test(securityKey) }
+    { id: 'length', text: t.inputCard.requirements.length, met: securityKey.length >= 8 },
+    { id: 'number', text: t.inputCard.requirements.number, met: /\d/.test(securityKey) },
+    { id: 'special', text: t.inputCard.requirements.special, met: /[!@#$%^&*(),.?":{}|<>]/.test(securityKey) }
   ];
 
   const allMet = requirements.every(req => req.met);
@@ -59,22 +46,22 @@ export default function UIPolish() {
         
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">
-          <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm relative z-50">
-            &larr; BACK TO HUB
+          <Link to={lp('/')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm relative z-50">
+            {t.backToHub}
           </Link>
         </div>
 
         {/* Header */}
         <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">
-          Native <span className="text-brand-orange">UI Polish.</span>
+          {t.heading.lead}<span className="text-brand-orange">{t.heading.accent}</span>
         </h1>
         
         <h2 className="text-brand-orange font-bold tracking-widest uppercase text-lg mb-6">
-          Efficiency Engineered. Growth Automated.
+          {t.tagline}
         </h2>
         
         <p className="text-xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed mb-20">
-          Showcasing crisp, lightweight component interactions powered by Tailwind utility classes, combined with real-time, state-driven form validation.
+          {t.intro}
         </p>
 
         {/* Interactive Grid */}
@@ -87,8 +74,8 @@ export default function UIPolish() {
             <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-blue-600/20 group-hover:scale-150 transition-all duration-1000 ease-out"></div>
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-brand-orange/20 group-hover:scale-150 transition-all duration-1000 ease-out"></div>
             
-            <h3 className="text-2xl font-black text-white mb-2 relative z-10 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all duration-500">Hover State Mastery</h3>
-            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-8 relative z-10">Tailwind Utility Engine</p>
+            <h3 className="text-2xl font-black text-white mb-2 relative z-10 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all duration-500">{t.hoverCard.title}</h3>
+            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-8 relative z-10">{t.hoverCard.subtitle}</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10 h-auto">
               
@@ -98,7 +85,7 @@ export default function UIPolish() {
                 className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs overflow-hidden group/btn1 hover:border-brand-orange/50 hover:shadow-[0_0_30px_-5px_rgba(255,95,31,0.5)] transition-all duration-300 ${activeFeature === 'plasma' ? 'border-brand-orange bg-brand-orange/10 shadow-[0_0_30px_-5px_rgba(255,95,31,0.5)]' : 'bg-slate-950 border-slate-800'}`}
               >
                 <div className={`absolute inset-0 bg-gradient-to-r from-brand-orange to-amber-500 transition-transform duration-500 ease-out group-hover/btn1:translate-x-0 ${activeFeature === 'plasma' ? 'translate-x-0' : 'translate-x-[-100%]'}`}></div>
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'plasma' ? 'text-white' : 'text-slate-400 group-hover/btn1:text-white'}`}>Plasma Sweep</span>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'plasma' ? 'text-white' : 'text-slate-400 group-hover/btn1:text-white'}`}>{hoverFeatures.plasma.title}</span>
               </button>
 
               {/* Button 2: Cyber Override */}
@@ -107,7 +94,7 @@ export default function UIPolish() {
                 className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn2 overflow-hidden hover:bg-[#CCFF00] hover:shadow-[0_0_30px_-5px_rgba(204,255,0,0.6)] transition-all duration-300 ${activeFeature === 'cyber' ? 'border-[#CCFF00] bg-[#CCFF00] shadow-[0_0_30px_-5px_rgba(204,255,0,0.6)]' : 'bg-[#020617] border-[#CCFF00]/30'}`}
               >
                 <div className={`absolute inset-0 bg-white opacity-0 group-hover/btn2:animate-ping transition-opacity duration-300 ${activeFeature === 'cyber' ? 'animate-ping' : ''}`}></div>
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'cyber' ? 'text-black' : 'text-[#CCFF00] group-hover/btn2:text-black'}`}>Cyber Override</span>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'cyber' ? 'text-black' : 'text-[#CCFF00] group-hover/btn2:text-black'}`}>{hoverFeatures.cyber.title}</span>
               </button>
 
               {/* Button 3: Neon Elevation */}
@@ -115,7 +102,7 @@ export default function UIPolish() {
                 onClick={() => setActiveFeature(activeFeature === 'neon' ? null : 'neon')}
                 className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn3 hover:-translate-y-2 hover:bg-blue-600 hover:border-blue-400 hover:shadow-[0_15px_30px_-5px_rgba(37,99,235,0.6)] transition-all duration-300 ${activeFeature === 'neon' ? '-translate-y-2 bg-blue-600 border-blue-400 shadow-[0_15px_30px_-5px_rgba(37,99,235,0.6)]' : 'bg-slate-900 border-slate-700'}`}
               >
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'neon' ? 'text-white' : 'text-slate-300 group-hover/btn3:text-white'}`}>Neon Elevation</span>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'neon' ? 'text-white' : 'text-slate-300 group-hover/btn3:text-white'}`}>{hoverFeatures.neon.title}</span>
               </button>
 
               {/* Button 4: Frosted Glass */}
@@ -124,7 +111,7 @@ export default function UIPolish() {
                 className={`relative px-4 py-6 border rounded-xl font-bold tracking-widest uppercase text-xs group/btn4 overflow-hidden backdrop-blur-md hover:border-pink-500 hover:shadow-[0_0_30px_-5px_rgba(236,72,153,0.4)] transition-all duration-300 ${activeFeature === 'frosted' ? 'border-pink-500 bg-pink-500/10 shadow-[0_0_30px_-5px_rgba(236,72,153,0.4)]' : 'border-slate-700'}`}
               >
                 <div className={`absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-600/20 transition-opacity duration-500 group-hover/btn4:opacity-100 ${activeFeature === 'frosted' ? 'opacity-100' : 'opacity-0'}`}></div>
-                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'frosted' ? 'text-pink-300' : 'text-slate-400 group-hover/btn4:text-pink-300'}`}>Frosted Glass</span>
+                <span className={`relative z-10 transition-colors duration-300 ${activeFeature === 'frosted' ? 'text-pink-300' : 'text-slate-400 group-hover/btn4:text-pink-300'}`}>{hoverFeatures.frosted.title}</span>
               </button>
 
             </div>
@@ -158,7 +145,7 @@ export default function UIPolish() {
                     transition={{ duration: 0.2 }}
                     className="w-full h-full flex items-center justify-center border border-dashed border-slate-800 rounded-xl"
                   >
-                    <span className="text-slate-600 text-sm font-bold uppercase tracking-widest">Select a module for specs</span>
+                    <span className="text-slate-600 text-sm font-bold uppercase tracking-widest">{t.hoverCard.empty}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -166,7 +153,7 @@ export default function UIPolish() {
 
             {/* Interactive Hardware LEDs */}
             <div className="mt-8 pt-6 border-t border-slate-800/50 flex justify-between items-center relative z-10">
-              <span className="text-xs text-slate-500 font-bold uppercase tracking-widest">Compiler Ready</span>
+              <span className="text-xs text-slate-500 font-bold uppercase tracking-widest">{t.hoverCard.status}</span>
               <div className="flex gap-3">
                   <span className="w-2 h-2 rounded-full bg-slate-700 group-hover:bg-brand-orange group-hover:animate-pulse transition-colors duration-500 shadow-[0_0_10px_rgba(255,95,31,0)] group-hover:shadow-[0_0_10px_rgba(255,95,31,0.8)]"></span>
                   <span className="w-2 h-2 rounded-full bg-slate-700 group-hover:bg-blue-500 group-hover:animate-pulse delay-75 transition-colors duration-500 shadow-[0_0_10px_rgba(59,130,246,0)] group-hover:shadow-[0_0_10px_rgba(59,130,246,0.8)]"></span>
@@ -180,8 +167,8 @@ export default function UIPolish() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 rounded-full blur-[80px] pointer-events-none transition-colors duration-700"></div>
             
             <div>
-              <h3 className="text-2xl font-black text-white mb-2 relative z-10">Smart Input Architecture</h3>
-              <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-8 relative z-10">Real-Time Validation</p>
+              <h3 className="text-2xl font-black text-white mb-2 relative z-10">{t.inputCard.title}</h3>
+              <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-8 relative z-10">{t.inputCard.subtitle}</p>
             </div>
             
             <div className="relative z-10 w-full max-w-sm mx-auto">
@@ -202,17 +189,17 @@ export default function UIPolish() {
                     </div>
 
                     <h4 className="text-emerald-400 font-black tracking-wide text-lg mb-1">
-                      Sequence Initialized
+                      {t.inputCard.successTitle}
                     </h4>
                     <p className="text-slate-300 text-xs font-light leading-relaxed mb-6">
-                      Security parameters validated. Digital infrastructure ready for automated deployment.
+                      {t.inputCard.successBody}
                     </p>
 
                     <button
                       onClick={handleReset}
                       className="px-6 py-2 bg-slate-900 border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white rounded-lg font-bold tracking-widest uppercase text-xs transition-colors cursor-pointer"
                     >
-                      Reset Input
+                      {t.inputCard.reset}
                     </button>
                   </motion.div>
                 ) : (
@@ -225,7 +212,7 @@ export default function UIPolish() {
                         onChange={(e) => setSecurityKey(e.target.value)}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
-                        placeholder="Configure Security Key..."
+                        placeholder={t.inputCard.placeholder}
                         className={`w-full bg-slate-950 border-2 rounded-xl pl-6 pr-20 py-4 text-white placeholder:text-slate-600 focus:outline-none transition-all duration-300 relative z-20 ${allMet ? 'border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)]' : 'border-slate-800 focus:border-brand-orange focus:shadow-[0_0_20px_rgba(255,95,31,0.2)]'}`}
                       />
 
@@ -254,7 +241,7 @@ export default function UIPolish() {
                           tabIndex={-1}
                           onClick={() => setShowPassword(!showPassword)}
                           className="text-slate-500 hover:text-slate-300 transition-colors p-1 focus:outline-none"
-                          title={showPassword ? "Hide password" : "Show password"}
+                          title={showPassword ? t.inputCard.hidePassword : t.inputCard.showPassword}
                         >
                           {showPassword ? (
                             // Eye Off Icon
@@ -317,7 +304,7 @@ export default function UIPolish() {
                               }}
                               className={`mt-2 w-full py-3 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 ${allMet ? 'bg-brand-orange text-white shadow-[0_0_20px_rgba(255,95,31,0.4)] hover:bg-white hover:text-brand-orange cursor-pointer' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
                             >
-                              {allMet ? 'Initialize Sequence' : 'Awaiting Input'}
+                              {allMet ? t.inputCard.submitReady : t.inputCard.submitWaiting}
                             </motion.button>
                           </div>
                         </motion.div>

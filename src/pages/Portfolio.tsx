@@ -9,6 +9,8 @@ import MealPrepOrderWidget from '../components/MealPrepOrderWidget';
 import TaxWidget from '../components/TaxWidget';
 import MobileExpandWidget from '../components/MobileExpandWidget';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
+import { useLocalePath, useT } from '../i18n/useLang';
+import portfolio from '../i18n/portfolio';
 
 // --- Custom AI Video Player Component ---
 const VideoAd = ({ 
@@ -113,6 +115,9 @@ const VideoAd = ({
 
 export default function Portfolio() {
   const [activeVideoId, setActiveVideoId] = useState<number | null>(null);
+  const t = useT(portfolio);
+  const lp = useLocalePath();
+  const { whiteLabel: wl, mealPrep: mp, oneSource: os, property: pr, asset: at, tax: tx, ads } = t;
 
   return (
     <div className="portfolio-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
@@ -149,18 +154,18 @@ export default function Portfolio() {
         
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">
-          <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
-            &larr; BACK TO HUB
+          <Link to={lp('/')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
+            &larr; {t.backToHub}
           </Link>
         </div>
 
         {/* Page Header */}
         <div className="text-center mb-20">
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
-            Case <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-brand-orange to-amber-500">Studies.</span>
+            {t.title[0]}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-brand-orange to-amber-500">{t.title[1]}</span>
           </h1>
           <p className="text-lg text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
-            A selection of high-fidelity frontend engineering and automated infrastructure deployments.
+            {t.intro}
           </p>
         </div>
 
@@ -177,14 +182,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-teal-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    White-Label Platform
+                    {wl.tag}
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Runs in Your Browser
+                    {wl.sub}
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  Your Brand. <br className="hidden md:block" /> Your Storefront.
+                  {wl.heading[0]} <br className="hidden md:block" /> {wl.heading[1]}
                 </h2>
               </div>
 
@@ -194,20 +199,20 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-teal-500/10 border border-teal-500/30 rounded-lg flex items-center justify-center text-teal-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">See It With Your Name On It</h3>
+                    <h3 className="text-xl font-black text-white">{wl.subheading}</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Type in your business name, pick your colours, add a logo — about ten seconds later you're browsing your own storefront. Then keep going: the whole platform is there to click through.
+                    {wl.body[0]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Customers get a full storefront: a menu they can filter by diet and allergens, a cart, accounts and reviews. You get a real admin dashboard for meals, pricing, coupons, pickup locations and incoming orders.
+                    {wl.body[1]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Every meal photo is AI-generated in one consistent, on-brand style, and an existing WooCommerce catalogue can already be imported so the platform starts from your actual menu. Coming from Shopify, Square or a plain CSV or spreadsheet export instead? Those imports are straightforward to add, and which one fits is something we'd work out on the discovery call.
+                    {wl.body[2]}
                   </p>
                   <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-teal-400 pl-4 bg-teal-400/5 p-4 rounded-r-lg mt-2 mb-6">
-                    <strong className="text-teal-400 text-xs uppercase tracking-widest block mb-1">Private by Design</strong>
-                    The demo runs entirely in your browser. Nothing you enter leaves your machine, and nothing you change affects anyone else. Payments aren't processed in the demo.
+                    <strong className="text-teal-400 text-xs uppercase tracking-widest block mb-1">{wl.privateTitle}</strong>
+                    {wl.privateBody}
                   </div>
 
                   {/* Storefront first (primary), admin second (outline) with its demo sign-in underneath */}
@@ -216,11 +221,11 @@ export default function Portfolio() {
                       href="https://demo.cgstrategic.dev/menu"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-teal-400 text-[#020617] font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full border border-teal-400 hover:bg-teal-300 hover:border-teal-300 transition-colors shadow-[0_0_25px_rgba(45,212,191,0.3)]"
+                      className="inline-flex items-center justify-center text-center gap-2 bg-teal-400 text-[#020617] font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full border border-teal-400 hover:bg-teal-300 hover:border-teal-300 transition-colors shadow-[0_0_25px_rgba(45,212,191,0.3)]"
                     >
-                      Open the Storefront
+                      {wl.openStorefront}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
-                      <span className="sr-only">(opens in a new tab)</span>
+                      <span className="sr-only">{t.opensNewTab}</span>
                     </a>
 
                     <div className="flex flex-col items-stretch sm:items-start gap-2">
@@ -228,14 +233,14 @@ export default function Portfolio() {
                         href="https://demo.cgstrategic.dev/admin/login"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap border border-teal-400/40 text-teal-400 font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-teal-400/10 hover:border-teal-400 transition-colors"
+                        className="inline-flex items-center justify-center text-center gap-2 border border-teal-400/40 text-teal-400 font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-teal-400/10 hover:border-teal-400 transition-colors"
                       >
-                        Admin Dashboard
+                        {wl.adminDashboard}
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
-                        <span className="sr-only">(opens in a new tab)</span>
+                        <span className="sr-only">{t.opensNewTab}</span>
                       </a>
                       <p className="text-[11px] text-slate-500 leading-relaxed text-center sm:text-left">
-                        <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Demo login, resets on reload</span>
+                        <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">{wl.demoLogin}</span>
                         <span className="whitespace-nowrap"><code className="text-slate-300 select-all">admin@demo.example</code> / <code className="text-slate-300 select-all">demo-admin</code></span>
                       </p>
                     </div>
@@ -267,7 +272,7 @@ export default function Portfolio() {
                   height={1000}
                   loading="lazy"
                   decoding="async"
-                  alt="Demo storefront rebranded as Your Kitchen, with the branding panel open"
+                  alt={wl.storefrontAlt}
                   className="absolute top-0 left-0 w-[88%] rounded-xl border border-slate-700 shadow-2xl transition-transform duration-500 group-hover:-translate-y-1"
                 />
                 <img
@@ -278,7 +283,7 @@ export default function Portfolio() {
                   height={1000}
                   loading="lazy"
                   decoding="async"
-                  alt="Demo admin dashboard listing meals with prices and availability"
+                  alt={wl.adminAlt}
                   className="absolute bottom-0 right-0 w-[62%] rounded-xl border border-slate-700 shadow-[0_0_40px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:translate-y-1"
                 />
               </a>
@@ -286,17 +291,17 @@ export default function Portfolio() {
               {/* Related tool, deliberately not styled like the teal demo buttons: no pill,
                   no fill, an orange text link. It's a pointer elsewhere, not another demo. */}
               <Link
-                to="/meal-prep-calculator"
+                to={lp('/meal-prep-calculator')}
                 className="group lg:absolute lg:top-[3.05rem] lg:left-0 lg:right-0 block text-left border-l-2 border-brand-orange/50 hover:border-brand-orange pl-4 transition-colors"
               >
                 <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                  Related free tool
+                  {wl.relatedEyebrow}
                 </span>
                 <span className="block text-sm text-slate-300 leading-snug mt-1">
-                  Planning a meal-prep business? See how many meals a week it takes to cover your kitchen and pay yourself.
+                  {wl.relatedBody}
                 </span>
                 <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-brand-orange group-hover:text-white transition-colors">
-                  Try the meal-prep calculator
+                  {wl.relatedCta}
                   <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
@@ -313,14 +318,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-green-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    Full Ordering Platform
+                    {mp.tag}
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Meal Prep Concept
+                    {mp.sub}
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  Order Ahead, <br className="hidden md:block" /> Simplified.
+                  {mp.heading[0]} <br className="hidden md:block" /> {mp.heading[1]}
                 </h2>
               </div>
 
@@ -330,22 +335,22 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center justify-center text-green-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">A Complete Ordering Experience</h3>
+                    <h3 className="text-xl font-black text-white">{mp.subheading}</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    A complete custom ordering flow, built around a business's real menu and its weekly cutoff schedule. Customers browse meals, ask an AI assistant for picks that fit their goals, build a cart, and check out for delivery or pickup — all without leaving the page.
+                    {mp.body[0]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                    Instead of a generic storefront, the whole experience is shaped around one menu and one cutoff, with instant order confirmation to the customer and immediate notification to the kitchen. The menu here is a demo; no real food is prepared or delivered.
+                    {mp.body[1]}
                   </p>
                   <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-green-400 pl-4 bg-green-400/5 p-4 rounded-r-lg mb-6">
-                    <strong className="text-green-400 text-xs uppercase tracking-widest block mb-1">Planning One?</strong>
-                    Run your price, food cost, kitchen rent and delivery through our free calculator and see how many meals a week it takes to break even.
+                    <strong className="text-green-400 text-xs uppercase tracking-widest block mb-1">{mp.planningTitle}</strong>
+                    {mp.planningBody}
                     <Link
-                      to="/meal-prep-calculator"
+                      to={lp('/meal-prep-calculator')}
                       className="mt-3 flex w-fit items-center gap-2 text-green-400 font-black uppercase tracking-widest text-xs hover:text-white transition-colors"
                     >
-                      Run the Numbers &rarr;
+                      {mp.runNumbers} &rarr;
                     </Link>
                   </div>
 
@@ -356,7 +361,7 @@ export default function Portfolio() {
                       <svg className="w-4 h-4 text-green-400 block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </div>
                     <span className="text-green-400 font-black uppercase tracking-widest text-xs">
-                      Try it out! Interact with the live demo.
+                      {t.tryDemo}
                     </span>
                   </div>
                   {/* ------------------------- */}
@@ -366,7 +371,7 @@ export default function Portfolio() {
 
             {/* Right Column: Meal Prep Ordering Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <MobileExpandWidget label="Meal Prep Ordering Demo">
+               <MobileExpandWidget label={mp.widgetLabel}>
                  <MealPrepOrderWidget />
                </MobileExpandWidget>
             </div>
@@ -380,14 +385,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    Website Rebuild &amp; Automation
+                    {os.tag}
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
                     One Source Total Pest Control
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  A Pest Control Site <br className="hidden md:block" /> Rebuilt to Book Jobs.
+                  {os.heading[0]} <br className="hidden md:block" /> {os.heading[1]}
                 </h2>
               </div>
 
@@ -397,35 +402,35 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-brand-orange/10 border border-brand-orange/30 rounded-lg flex items-center justify-center text-brand-orange">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">Website, AI Tools &amp; Lead Automation</h3>
+                    <h3 className="text-xl font-black text-white">{os.subheading}</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    One Source is a licensed pest control company in Jacksonville, FL. Their old single-page site was hard for search engines to read, had broken contact buttons and open AI endpoints, and sent leads to their CRM in a mess.
+                    {os.body[0]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    We rebuilt it in Astro on Vercel with a page for every service and pest, a photo-based Pest Analyzer, a "Talk to Jess" AI voice assistant, a ZIP code checker, and one Make.com intake that routes every lead into GorillaDesk.
+                    {os.body[1]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Behind the site, a private admin area tracks staff licenses, supervised training and hiring, with applications from the new Careers page flowing straight in.
+                    {os.body[2]}
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-6 mb-6">
                     <Link
-                      to={ONE_SOURCE_CASE_STUDY.path}
-                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-brand-orange text-white font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_25px_rgba(255,95,31,0.3)]"
+                      to={lp(ONE_SOURCE_CASE_STUDY.path)}
+                      className="inline-flex items-center justify-center text-center gap-2 bg-brand-orange text-white font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_25px_rgba(255,95,31,0.3)]"
                     >
-                      Read the case study
+                      {os.readCaseStudy}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </Link>
                     <a
                       href={ONE_SOURCE_CASE_STUDY.liveSiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap border border-brand-orange/40 text-brand-orange font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-brand-orange/10 hover:border-brand-orange transition-colors"
+                      className="inline-flex items-center justify-center text-center gap-2 border border-brand-orange/40 text-brand-orange font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-brand-orange/10 hover:border-brand-orange transition-colors"
                     >
-                      Visit the site
+                      {os.visitSite}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5h5m0 0v5m0-5L10 14M19 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h5"></path></svg>
-                      <span className="sr-only">(opens in a new tab)</span>
+                      <span className="sr-only">{t.opensNewTab}</span>
                     </a>
                   </div>
 
@@ -436,7 +441,7 @@ export default function Portfolio() {
                       <svg className="w-4 h-4 text-[#CCFF00] block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </div>
                     <span className="text-[#CCFF00] font-black uppercase tracking-widest text-xs">
-                      Try a pest photo diagnosis demo.
+                      {os.tryDemo}
                     </span>
                   </div>
                   {/* ------------------------- */}
@@ -446,7 +451,7 @@ export default function Portfolio() {
             
             {/* Right Column: Analysis Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <MobileExpandWidget label="Pest Diagnostic Demo">
+               <MobileExpandWidget label={os.widgetLabel}>
                  <AnalysisWidget />
                </MobileExpandWidget>
             </div>
@@ -457,7 +462,7 @@ export default function Portfolio() {
             
             {/* Left Column: Property Widget (Drops to bottom on mobile) */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2 lg:order-1">
-               <MobileExpandWidget label="Property Ops Hub Demo">
+               <MobileExpandWidget label={pr.widgetLabel}>
                  <PropertyWidget />
                </MobileExpandWidget>
             </div>
@@ -467,14 +472,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-emerald-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    Time-Saving Automation
+                    {pr.tag}
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    3 Workflows, One Hub
+                    {pr.sub}
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  Property Ops <br className="hidden md:block" /> Intelligence.
+                  {pr.heading[0]} <br className="hidden md:block" /> {pr.heading[1]}
                 </h2>
               </div>
 
@@ -484,13 +489,13 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-emerald-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">Three Workflows. One Widget.</h3>
+                    <h3 className="text-xl font-black text-white">{pr.subheading}</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    This single widget handles three of the most common property management workflows: logging site progress with photos, triaging and routing maintenance requests, and letting prospective tenants book their own property showings.
+                    {pr.body[0]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                    Instead of juggling separate apps, text threads, and phone tag, property managers get one place where field updates, repair requests, and showing bookings all flow in — automatically organized, routed, and ready to act on.
+                    {pr.body[1]}
                   </p>
 
                   {/* --- INTERACTIVE CTA --- */}
@@ -500,7 +505,7 @@ export default function Portfolio() {
                       <svg className="w-4 h-4 text-emerald-400 block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </div>
                     <span className="text-emerald-400 font-black uppercase tracking-widest text-xs">
-                      Try it out! Interact with the live demo.
+                      {t.tryDemo}
                     </span>
                   </div>
                   {/* ------------------------- */}
@@ -518,14 +523,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-amber-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    Real-Time Tracking
+                    {at.tag}
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Logistics & Fleet Ops
+                    {at.sub}
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  Asset Tracking <br className="hidden md:block" /> Intelligence.
+                  {at.heading[0]} <br className="hidden md:block" /> {at.heading[1]}
                 </h2>
               </div>
 
@@ -535,13 +540,13 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center text-amber-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">See Every Dumpster, Instantly.</h3>
+                    <h3 className="text-xl font-black text-white">{at.subheading}</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Built for a dumpster rental operation serving demolition and remodeling contractors. A driver logs a drop-off with the job site address, and it instantly appears as a pin on a live, aggregated map — no separate app, no manual spreadsheet updates.
+                    {at.body[0]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                    Every drop-off and return triggers a real-time email, and a daily digest rolls up the day's activity automatically. When a unit heads back to the yard, one tap marks it returned and clears it from the active map.
+                    {at.body[1]}
                   </p>
 
                   {/* --- INTERACTIVE CTA --- */}
@@ -551,7 +556,7 @@ export default function Portfolio() {
                       <svg className="w-4 h-4 text-amber-400 block lg:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </div>
                     <span className="text-amber-400 font-black uppercase tracking-widest text-xs">
-                      Try it out! Interact with the live demo.
+                      {t.tryDemo}
                     </span>
                   </div>
                   {/* ------------------------- */}
@@ -561,7 +566,7 @@ export default function Portfolio() {
 
             {/* Right Column: Asset Tracker Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <MobileExpandWidget label="Asset Tracker Demo">
+               <MobileExpandWidget label={at.widgetLabel}>
                  <AssetTrackerWidget />
                </MobileExpandWidget>
             </div>
@@ -576,14 +581,14 @@ export default function Portfolio() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                    Financial Data
+                    {tx.tag}
                   </span>
                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    Automated Compliance
+                    {tx.sub}
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                  Algorithmic <br className="hidden md:block" /> Tax Routing.
+                  {tx.heading[0]} <br className="hidden md:block" /> {tx.heading[1]}
                 </h2>
               </div>
 
@@ -593,13 +598,13 @@ export default function Portfolio() {
                     <div className="w-8 h-8 bg-blue-500/10 border border-blue-500/30 rounded-lg flex items-center justify-center text-blue-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <h3 className="text-xl font-black text-white">Real-Time Liability Calculation</h3>
+                    <h3 className="text-xl font-black text-white">{tx.subheading}</h3>
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                    Eliminating the friction of quarterly corporate tax documentation. This component acts as a listener on central revenue streams, intercepting transaction data as it settles.
+                    {tx.body[0]}
                   </p>
                   <p className="text-sm text-slate-400 leading-relaxed">
-                    It calculates state and federal liabilities dynamically, updating a live dashboard so executives have total clarity on operational margins and tax reserves without waiting for end-of-month reconciliations.
+                    {tx.body[1]}
                   </p>
                 </div>
               </div>
@@ -607,7 +612,7 @@ export default function Portfolio() {
             
             {/* Right Column: Tax Widget */}
             <div className="relative w-full h-[500px] lg:h-[550px] flex items-center justify-center order-2">
-               <MobileExpandWidget label="Tax Engine Demo">
+               <MobileExpandWidget label={tx.widgetLabel}>
                  <TaxWidget />
                </MobileExpandWidget>
             </div>
@@ -620,19 +625,19 @@ export default function Portfolio() {
           
           <div className="text-center mb-12 w-full max-w-2xl mx-auto">
             <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6 inline-block shadow-[0_0_15px_rgba(204,255,0,0.2)]">
-              Full-Service Digital Presence
+              {ads.tag}
             </span>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-              Omni-Channel <br className="block sm:hidden" /> Acquisition.
+              {ads.heading[0]} <br className="block sm:hidden" /> {ads.heading[1]}
             </h2>
             <p className="text-lg text-slate-400 leading-relaxed mb-8 text-center">
-              We don't just build the infrastructure; we drive the traffic. CG Strategic executes aggressive, data-driven acquisition campaigns across <strong className="text-white">TikTok for Business</strong>, <strong className="text-white">Google Local Services Ads (LSA)</strong>, and <strong className="text-white">Facebook Ads</strong>, leveraging cognitive earworms as a high-retention hook to capture and hold consumer attention. 
+              {ads.body.lead}<strong className="text-white">TikTok for Business</strong>{ads.body.sep}<strong className="text-white">Google Local Services Ads (LSA)</strong>{ads.body.lastSep}<strong className="text-white">Facebook Ads</strong>{ads.body.tail}
             </p>
             
             {/* Centered Helper Text with Clean Separation Space */}
             <div className="w-full text-center mt-8 pt-2">
               <p className="text-sm text-slate-400 font-medium tracking-wide">
-                Below are three examples of AI-generated media (Google Veo) deployed successfully in recent ad cycles. <span className="text-brand-orange font-bold">Tap to play independently.</span>
+                {ads.helper}{' '}<span className="text-brand-orange font-bold">{ads.tapToPlay}</span>
               </p>
             </div>
           </div>
@@ -642,24 +647,24 @@ export default function Portfolio() {
             <VideoAd 
               id={1}
               src="/veo-live-1.mp4" 
-              title="Brand Awareness V1" 
-              tag="TikTok Ad"
+              title={ads.videos[0].title}
+              tag={ads.videos[0].tag}
               activeVideoId={activeVideoId}
               onActivate={setActiveVideoId}
             />
             <VideoAd 
               id={2}
               src="/veo-live-2.mp4" 
-              title="Service Retargeting" 
-              tag="FB Carousel"
+              title={ads.videos[1].title}
+              tag={ads.videos[1].tag}
               activeVideoId={activeVideoId}
               onActivate={setActiveVideoId}
             />
             <VideoAd 
               id={3}
               src="/veo-live-3.mp4" 
-              title="Direct Response AI" 
-              tag="Google LSA"
+              title={ads.videos[2].title}
+              tag={ads.videos[2].tag}
               activeVideoId={activeVideoId}
               onActivate={setActiveVideoId}
             />
@@ -670,7 +675,7 @@ export default function Portfolio() {
         {/* --- Next Page Runway CTA: Skunkworks --- */}
         <div className="w-full max-w-5xl mx-auto mt-12 mb-8 relative z-10">
           <Link 
-            to="/skunkworks" 
+            to={lp('/skunkworks')}
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             {/* Glowing Hover Background */}
@@ -680,10 +685,10 @@ export default function Portfolio() {
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
                 <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
-                  Next Frontier
+                  {t.next.eyebrow}
                 </h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
-                  Explore Skunkworks.
+                  {t.next.title}
                 </h2>
               </div>
               

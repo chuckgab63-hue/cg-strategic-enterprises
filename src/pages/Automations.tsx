@@ -2,67 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from '../components/ContactModal';
+import { useLocalePath, useT } from '../i18n/useLang';
+import automationsText from '../i18n/automations';
 
 // --- Automation Workflow Data ---
+// Ids and icons only; the text for each language is in src/i18n/automations.ts.
 const automations = [
   {
     id: 'lead-capture',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>,
-    title: 'Omni-Channel Lead Capture',
-    desc: 'Instantly catch leads from social forms, your website, or Google Local Services, and funnel them into one unified database.',
-    trigger: 'New Lead Submission (Any Source)',
-    actions: ['Normalize Data Payload', 'Check for Duplicates', 'Route to Central DB'],
-    outcome: '100% Lead Retention'
   },
   {
     id: 'sms-dispatch',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>,
-    title: 'Zero-Touch SMS Dispatch',
-    desc: 'Trigger an immediate, personalized text message to a new lead within 10 seconds of form submission. Never lose a lead to a competitor again.',
-    trigger: 'New Record Created in DB',
-    actions: ['Evaluate Lead Score', 'Select Template', 'Dispatch via SMS API'],
-    outcome: 'Instant Engagement'
   },
   {
     id: 'crm-sync',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
-    title: 'Enterprise CRM Syncing',
-    desc: 'Push data directly into industry-specific CRMs. Keep your sales, support, and field teams perfectly aligned in real-time.',
-    trigger: 'Lifecycle Stage Change',
-    actions: ['Format Payload for API', 'Push to Target CRM', 'Sync Unique IDs'],
-    outcome: 'Data Parity Across Stack'
   },
   {
     id: 'invoice-gen',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
-    title: 'Automated Invoicing',
-    desc: 'Generate and dispatch digital invoices the moment a job is marked complete in the field, accelerating cash flow.',
-    trigger: 'Job Status -> Complete',
-    actions: ['Calculate Line Items', 'Generate PDF Document', 'Email to Client'],
-    outcome: 'Zero-Day Billing'
   },
   {
     id: 'review-request',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>,
-    title: 'Reputation Management Loop',
-    desc: 'Automatically request reviews from satisfied clients while routing negative feedback to an internal escalation queue.',
-    trigger: 'Invoice Marked Paid',
-    actions: ['Send NPS Survey', 'Filter by Score', 'Request Review / Alert Manager'],
-    outcome: 'Organic Rating Growth'
   },
   {
     id: 'stale-nurture',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
-    title: 'Stale Lead Revival',
-    desc: 'Detect leads that have gone dark and automatically drop them into a long-term SMS and email nurture sequence.',
-    trigger: 'Inactivity > 30 Days',
-    actions: ['Tag as Stale in CRM', 'Add to Nurture Campaign', 'Monitor for Reply'],
-    outcome: 'Reactivated Revenue'
   }
 ];
 
 export default function Automations() {
-  const [selectedWorkflow, setSelectedWorkflow] = useState<typeof automations[0] | null>(null);
+  const t = useT(automationsText);
+  const lp = useLocalePath();
+  const workflows = automations.map(a => ({ ...a, ...t.workflows[a.id] }));
+  const [selectedWorkflow, setSelectedWorkflow] = useState<typeof workflows[0] | null>(null);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactMessage, setContactMessage] = useState('');
   
@@ -96,18 +72,18 @@ export default function Automations() {
         
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">
-          <Link to="/" className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
-            &larr; BACK TO HUB
+          <Link to={lp('/')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
+            &larr; {t.backToHub}
           </Link>
         </div>
 
         {/* Page Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
-            System <span className="text-brand-orange">Automations.</span>
+            {t.titleA}<span className="text-brand-orange">{t.titleB}</span>
           </h1>
           <p className="text-lg text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
-            Efficiency Engineered. Growth Automated. Fast integrations that save time and close deals.
+            {t.intro}
           </p>
         </div>
 
@@ -115,7 +91,7 @@ export default function Automations() {
         <div className="relative w-full h-[320px] md:h-[400px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 mb-20 group">
           <img 
             src="/automations-hero-live.webp" 
-            alt="Enterprise Infrastructure & Telemetry" 
+            alt={t.heroAlt}
             className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
@@ -167,15 +143,15 @@ export default function Automations() {
           <div className="absolute bottom-8 left-8 right-8 text-left z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
             <div>
               <span className="text-brand-orange text-xs font-bold uppercase tracking-widest bg-slate-900/80 px-3 py-1 rounded-full border border-slate-700 backdrop-blur-md">
-                Active Telemetry & Sync ({packetCount} {packetCount === 1 ? 'Cluster' : 'Clusters'})
+                {t.telemetryBadge(packetCount)}
               </span>
               <h2 className="text-3xl md:text-5xl font-black text-white mt-3 tracking-tight">
-                Real-Time Data Orchestration
+                {t.heroTitle}
               </h2>
             </div>
             <div className="hidden lg:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-xl backdrop-blur-md">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-              <span className="text-emerald-400 font-mono text-xs uppercase tracking-wider">Pipelines Online</span>
+              <span className="text-emerald-400 font-mono text-xs uppercase tracking-wider">{t.pipelinesOnline}</span>
             </div>
           </div>
         </div>
@@ -187,14 +163,14 @@ export default function Automations() {
               <div className="w-10 h-10 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center justify-center text-purple-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
               </div>
-              <h3 className="text-2xl font-black text-white">Cognitive Infrastructure Engineering</h3>
+              <h3 className="text-2xl font-black text-white">{t.cognitiveTitle}</h3>
             </div>
             <p className="text-slate-400 leading-relaxed text-sm">
-              Rigid, out-of-the-box software forces you to adapt your business to its limitations. We do the exact opposite. By integrating <strong className="text-white">Anthropic's Claude AI</strong> directly into our <strong className="text-white">Make.com</strong> deployment pipeline, we don't just use AI to run your workflows—we use it to <em>build</em> them. We dynamically translate your exact operational rules into live, executable API scenarios with zero templates and zero compromises.
+              {t.cognitive.a}<strong className="text-white">{t.cognitive.claude}</strong>{t.cognitive.b}<strong className="text-white">{t.cognitive.make}</strong>{t.cognitive.c}<em>{t.cognitive.build}</em>{t.cognitive.d}
             </p>
             <p className="text-slate-400 leading-relaxed text-sm border-l-2 border-purple-500 pl-4 bg-purple-500/5 p-4 rounded-r-lg">
-              <strong className="text-purple-400 block mb-1">Enterprise-Grade Deployment at AI Speed</strong>
-              Bespoke integrations that traditionally take months of development are mapped, tested, and deployed in a matter of days. You get flawless data routing engineered specifically for your operations. And when your business needs to pivot, your infrastructure pivots with it instantly.
+              <strong className="text-purple-400 block mb-1">{t.speedTitle}</strong>
+              {t.speedBody}
             </p>
           </div>
 
@@ -270,23 +246,23 @@ export default function Automations() {
             </div>
             
             <div className="flex justify-between w-full px-2 mt-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-              <span className="w-16 text-center">Webhook In</span>
-              <span className="w-16 text-center text-blue-400">Make Logic</span>
-              <span className="w-16 text-center">API Out</span>
+              <span className="w-16 text-center">{t.nodeWebhookIn}</span>
+              <span className="w-16 text-center text-blue-400">{t.nodeMakeLogic}</span>
+              <span className="w-16 text-center">{t.nodeApiOut}</span>
             </div>
           </div>
         </div>
         {/* ------------------------------------------- */}
 
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-black text-white mb-2">Pre-Engineered Workflows</h2>
-          <p className="text-sm text-slate-400 max-w-2xl mx-auto">Click any module to map its logical execution sequence.</p>
+          <h2 className="text-3xl font-black text-white mb-2">{t.workflowsTitle}</h2>
+          <p className="text-sm text-slate-400 max-w-2xl mx-auto">{t.workflowsIntro}</p>
         </div>
 
         {/* Automation Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           <AnimatePresence>
-            {automations.map((item) => (
+            {workflows.map((item) => (
               <motion.div
                 key={item.id}
                 layoutId={`card-${item.id}`}
@@ -310,7 +286,7 @@ export default function Automations() {
         {/* --- Next Page Runway CTA --- */}
         <div className="w-full mt-24 mb-8 relative z-10">
           <Link 
-            to="/portfolio" 
+            to={lp('/portfolio')}
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             {/* Glowing Hover Background */}
@@ -320,10 +296,10 @@ export default function Automations() {
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
                 <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
-                  See It In Action
+                  {t.runwayEyebrow}
                 </h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
-                  Explore Case Studies.
+                  {t.runwayTitle}
                 </h2>
               </div>
               
@@ -366,6 +342,7 @@ export default function Automations() {
                 </div>
                 <button 
                   onClick={() => setSelectedWorkflow(null)}
+                  aria-label={t.close}
                   className="w-8 h-8 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full flex items-center justify-center transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -378,7 +355,7 @@ export default function Automations() {
                 {/* Left Column: Context & CTA */}
                 <div className="flex-1 flex flex-col gap-6">
                   <div>
-                    <h4 className="text-brand-orange font-bold uppercase tracking-widest text-[10px] mb-2">Workflow Context</h4>
+                    <h4 className="text-brand-orange font-bold uppercase tracking-widest text-[10px] mb-2">{t.contextLabel}</h4>
                     <motion.p layoutId={`desc-${selectedWorkflow.id}`} className="text-slate-300 leading-relaxed text-sm">
                       {selectedWorkflow.desc}
                     </motion.p>
@@ -386,19 +363,19 @@ export default function Automations() {
                   <div className="mt-auto pt-6 border-t border-slate-800">
                     <button 
                       onClick={() => {
-                        setContactMessage(`System Inquiry: Requesting deployment protocols for the ${selectedWorkflow.title} engine.`);
+                        setContactMessage(t.contactMessage(selectedWorkflow.title));
                         setIsContactModalOpen(true);
                       }}
                       className="w-full bg-brand-orange hover:bg-white text-white hover:text-brand-orange py-3 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
                     >
-                      Deploy This Engine
+                      {t.deploy}
                     </button>
                   </div>
                 </div>
 
                 {/* Right Column: Logic Visualizer */}
                 <div className="flex-[1.5] bg-[#020617] border border-slate-800 rounded-2xl p-6 relative">
-                  <h4 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-6 absolute top-6 left-6">Execution Sequence</h4>
+                  <h4 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-6 absolute top-6 left-6">{t.sequenceLabel}</h4>
                   
                   <div className="flex flex-col gap-2 mt-8">
                     
@@ -408,7 +385,7 @@ export default function Automations() {
                       className="bg-blue-500/10 border border-blue-500/30 p-3 rounded-lg flex items-center gap-3 relative z-10"
                     >
                       <div className="w-2 h-2 bg-blue-500 rounded-full shrink-0"></div>
-                      <span className="text-blue-400 font-bold text-xs uppercase tracking-wider">Trigger:</span>
+                      <span className="text-blue-400 font-bold text-xs uppercase tracking-wider">{t.trigger}</span>
                       <span className="text-slate-200 text-sm">{selectedWorkflow.trigger}</span>
                     </motion.div>
 
@@ -421,7 +398,7 @@ export default function Automations() {
                           className="bg-slate-800/50 border border-slate-700 p-3 rounded-lg flex items-center gap-3 relative"
                         >
                           <div className="absolute -left-[26px] top-1/2 w-6 h-[2px] bg-slate-800"></div>
-                          <span className="text-slate-400 font-bold text-xs uppercase tracking-wider">Action:</span>
+                          <span className="text-slate-400 font-bold text-xs uppercase tracking-wider">{t.action}</span>
                           <span className="text-slate-300 text-sm">{action}</span>
                         </motion.div>
                       ))}
@@ -433,7 +410,7 @@ export default function Automations() {
                       className="bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-lg flex items-center gap-3 relative z-10"
                     >
                       <div className="w-2 h-2 bg-emerald-500 rounded-full shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div>
-                      <span className="text-emerald-400 font-bold text-xs uppercase tracking-wider">Outcome:</span>
+                      <span className="text-emerald-400 font-bold text-xs uppercase tracking-wider">{t.outcome}</span>
                       <span className="text-slate-100 text-sm font-bold">{selectedWorkflow.outcome}</span>
                     </motion.div>
                     

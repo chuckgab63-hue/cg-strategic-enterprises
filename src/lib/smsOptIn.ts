@@ -40,6 +40,7 @@ export interface OptInPayload {
   message: string;
   phone: string;
   source: string;
+  language: 'en';
   sms_consent: boolean;
   sms_consent_text: string;
   sms_consent_timestamp?: string;
@@ -98,6 +99,8 @@ export function processOptIn(body: Record<string, unknown>, now: Date = new Date
       message,
       phone,
       source: SMS_OPT_IN_SOURCE,
+      // The static A2P opt-in page is English-only (the reviewed wording).
+      language: 'en',
       sms_consent: smsConsent,
       sms_consent_text: SMS_CONSENT_TEXT,
       ...(smsConsent && { sms_consent_timestamp: now.toISOString() }),

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LANGS, SPANISH_PUBLIC, localizePath, readStoredLang, storeLang } from '../i18n/lang';
+import { LANGS, langToggleVisible, localizePath, storeLang } from '../i18n/lang';
 import { useLang, useT } from '../i18n/useLang';
 import common from '../i18n/common';
 
@@ -14,8 +14,7 @@ export default function LangToggle() {
   const { pathname, search, hash } = useLocation();
   const t = useT(common).langToggle;
 
-  // Until Spanish launches, only show the toggle to people already using it.
-  if (!SPANISH_PUBLIC && lang === 'en' && readStoredLang() !== 'es') return null;
+  if (!langToggleVisible(lang)) return null;
 
   return (
     <div role="group" aria-label={t.groupLabel} className="flex items-center text-xs font-bold tracking-widest">

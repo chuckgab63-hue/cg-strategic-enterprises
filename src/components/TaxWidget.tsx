@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useT } from '../i18n/useLang';
+import taxWidget from '../i18n/taxWidget';
 
 const TaxWidget: React.FC = () => {
+  const t = useT(taxWidget);
   const [zipCode, setZipCode] = useState('');
   const [isCalculating, setIsCalculating] = useState(false);
   const [taxData, setTaxData] = useState<{ rate: number; amount: number; location: string } | null>(null);
@@ -22,7 +25,7 @@ const TaxWidget: React.FC = () => {
     setTimeout(() => {
       // Fake logic for demo purposes
       let rate = 0.07;
-      let location = "Local Municipality";
+      let location = "";
       
       if (zipCode.startsWith('32')) {
         rate = 0.075; // FL rate simulation
@@ -56,11 +59,11 @@ const TaxWidget: React.FC = () => {
         </div>
         <div>
           <h3 className="text-white font-black text-sm uppercase tracking-wider leading-none mb-1">
-            Dynamic Tax Engine
+            {t.title}
           </h3>
           <span className="text-emerald-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            API Connected
+            {t.connected}
           </span>
         </div>
       </div>
@@ -70,9 +73,9 @@ const TaxWidget: React.FC = () => {
         
         {/* Order Summary */}
         <div className="space-y-3">
-          <h4 className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4 border-b border-slate-800 pb-2">Order Summary</h4>
+          <h4 className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4 border-b border-slate-800 pb-2">{t.orderSummary}</h4>
           <div className="flex justify-between text-sm">
-            <span className="text-slate-400">Premium Tech Bundle</span>
+            <span className="text-slate-400">{t.item}</span>
             <span className="text-white font-medium">${subtotal.toFixed(2)}</span>
           </div>
         </div>
@@ -80,7 +83,7 @@ const TaxWidget: React.FC = () => {
         {/* Tax Input */}
         <div className="bg-[#020617] p-4 rounded-xl border border-slate-800">
           <label className="block text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">
-            Calculate Local Tax
+            {t.calculateLabel}
           </label>
           <div className="flex gap-2">
             <input 
@@ -88,7 +91,7 @@ const TaxWidget: React.FC = () => {
               maxLength={5}
               value={zipCode}
               onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
-              placeholder="Zip Code (e.g. 32224)"
+              placeholder={t.zipPlaceholder}
               className={`flex-1 bg-slate-900 text-white placeholder:text-slate-600 border ${error ? 'border-red-500' : 'border-slate-700'} rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500 transition-colors`}
             />
             <button 
@@ -96,7 +99,7 @@ const TaxWidget: React.FC = () => {
               disabled={isCalculating || zipCode.length === 0}
               className="bg-emerald-500 hover:bg-emerald-400 text-[#020617] px-4 py-2 rounded-lg font-black uppercase tracking-widest text-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isCalculating ? '...' : 'Update'}
+              {isCalculating ? '...' : t.update}
             </button>
           </div>
         </div>
@@ -104,13 +107,13 @@ const TaxWidget: React.FC = () => {
         {/* Results Area */}
         <div className="border-t border-slate-800 pt-4 space-y-3">
           <div className="flex justify-between text-sm items-center">
-            <span className="text-slate-400">Sales Tax</span>
+            <span className="text-slate-400">{t.salesTax}</span>
             {isCalculating ? (
-              <span className="text-emerald-500 animate-pulse text-xs font-bold uppercase tracking-widest">Fetching...</span>
+              <span className="text-emerald-500 animate-pulse text-xs font-bold uppercase tracking-widest">{t.fetching}</span>
             ) : taxData ? (
               <span className="text-white font-medium">+ ${taxData.amount.toFixed(2)}</span>
             ) : (
-              <span className="text-slate-600 font-medium">Pending</span>
+              <span className="text-slate-600 font-medium">{t.pending}</span>
             )}
           </div>
           
@@ -118,13 +121,13 @@ const TaxWidget: React.FC = () => {
             <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 p-2 rounded-lg animate-in fade-in duration-300">
               <span className="text-emerald-400 text-[10px] uppercase font-bold tracking-widest flex items-center gap-1">
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
-                {taxData.location} ({(taxData.rate * 100).toFixed(3)}%)
+                {taxData.location || t.localMunicipality} ({(taxData.rate * 100).toFixed(3)}%)
               </span>
             </div>
           )}
 
           <div className="flex justify-between text-lg border-t border-slate-800 pt-3">
-            <span className="text-white font-black">Total</span>
+            <span className="text-white font-black">{t.total}</span>
             <span className="text-white font-black">
               ${taxData ? (subtotal + taxData.amount).toFixed(2) : subtotal.toFixed(2)}
             </span>

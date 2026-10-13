@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useT } from '../i18n/useLang';
+import home from '../i18n/home';
 
 export default function FramerPlayground() {
+  const t = useT(home).playground;
+
   // --- LEFT CARD: Sequencer State ---
   const [activeStep, setActiveStep] = useState(1);
 
@@ -64,7 +68,7 @@ export default function FramerPlayground() {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight"
           >
-            Advanced <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-400">Rendering.</span>
+            {t.titleA}<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-400">{t.titleB}</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -73,7 +77,7 @@ export default function FramerPlayground() {
             transition={{ delay: 0.1 }}
             className="text-lg text-slate-400 max-w-2xl mx-auto"
           >
-            Interact with our high-fidelity front-end engineering. Catch the node to test frame-rate physics, or watch the DOM orchestrate sequential rendering.
+            {t.intro}
           </motion.p>
         </header>
 
@@ -88,7 +92,7 @@ export default function FramerPlayground() {
           >
             <div className="absolute top-0 left-0 w-32 h-32 bg-brand-orange/10 rounded-full blur-[60px] pointer-events-none"></div>
             
-            <h3 className="text-2xl font-black text-white mb-8">Orchestrated Workflows</h3>
+            <h3 className="text-2xl font-black text-white mb-8">{t.workflowsTitle}</h3>
             
             <div className="flex flex-col gap-4">
               
@@ -114,7 +118,7 @@ export default function FramerPlayground() {
                   01
                 </motion.div>
                 <div className={`font-bold tracking-wide z-10 transition-colors duration-300 ${activeStep === 1 ? 'text-white' : 'text-slate-500'}`}>
-                  Audit Digital Infrastructure
+                  {t.steps[0]}
                 </div>
               </motion.div>
 
@@ -132,7 +136,7 @@ export default function FramerPlayground() {
                   02
                 </motion.div>
                 <div className={`font-bold tracking-wide z-10 transition-colors duration-300 ${activeStep === 2 ? 'text-white' : 'text-slate-500'}`}>
-                  Engineer Efficiency
+                  {t.steps[1]}
                 </div>
               </motion.div>
 
@@ -150,7 +154,7 @@ export default function FramerPlayground() {
                   03
                 </motion.div>
                 <div className={`font-bold tracking-wide z-10 transition-colors duration-300 ${activeStep === 3 ? 'text-white' : 'text-slate-500'}`}>
-                  Automate Growth
+                  {t.steps[2]}
                 </div>
               </motion.div>
 
@@ -167,8 +171,8 @@ export default function FramerPlayground() {
           >
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-40"></div>
             
-            <h3 className="text-2xl font-black text-white mb-2 relative z-10">State & Event Hooks</h3>
-            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-12 relative z-10">Catch it if you can</p>
+            <h3 className="text-2xl font-black text-white mb-2 relative z-10">{t.hooksTitle}</h3>
+            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-12 relative z-10">{t.hooksEyebrow}</p>
             
             <div className="flex-1 flex items-center justify-center relative z-10 w-full min-h-[220px]">
               
@@ -223,9 +227,9 @@ export default function FramerPlayground() {
                 >
                   <span className="text-white font-black uppercase tracking-widest text-sm drop-shadow-md text-center">
                     {isExploding ? (
-                      <span>CAUGHT!<br/><span className="text-[10px] font-normal tracking-normal text-emerald-200">Resetting...</span></span>
+                      <span>{t.caught}<br/><span className="text-[10px] font-normal tracking-normal text-emerald-200">{t.resetting}</span></span>
                     ) : (
-                      isEvading && hasStartedEvading ? "TOO SLOW!" : "CATCH ME"
+                      isEvading && hasStartedEvading ? t.tooSlow : t.catchMe
                     )}
                   </span>
                 </motion.div>
@@ -235,8 +239,8 @@ export default function FramerPlayground() {
             
             <p className="text-slate-500 text-sm mt-8 relative z-10 h-10">
               {isExploding 
-                ? "Got 'em. State updated, events fired, UI rendered." 
-                : "Hover to trigger evasion logic. It tires out after 3.5s."}
+                ? t.caughtNote
+                : t.idleNote}
             </p>
           </motion.div>
 

@@ -1,5 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { SITE_PROGRESS_WEBHOOK_URL, MAINTENANCE_WEBHOOK_URL, SHOWING_WEBHOOK_URL } from '../config/webhooks';
+import { useLang } from '../i18n/useLang';
+import { LOCALE, type Lang } from '../i18n/lang';
+import dict from '../i18n/propertyWidget';
 
 interface Message {
   id: string;
@@ -15,9 +18,16 @@ interface ShowingSlot {
   label: string;
 }
 
-function generateShowingSlots(): ShowingSlot[] {
+// Keys (sent to Make) are the same in both languages; only the labels change.
+const SLOT_TIMES: Record<Lang, [string, string]> = {
+  en: ['10:00 AM', '2:00 PM'],
+  es: ['10:00 a. m.', '2:00 p. m.'],
+};
+
+function generateShowingSlots(lang: Lang): ShowingSlot[] {
   const slots: ShowingSlot[] = [];
-  const dayFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  const dayFmt = new Intl.DateTimeFormat(LOCALE[lang], { weekday: 'short', month: 'short', day: 'numeric' });
+  const [morning, afternoon] = SLOT_TIMES[lang];
   const cursor = new Date();
   cursor.setDate(cursor.getDate() + 1); // start tomorrow
 
@@ -26,17 +36,18 @@ function generateShowingSlots(): ShowingSlot[] {
     if (day !== 0 && day !== 6) { // skip weekends
       const dateLabel = dayFmt.format(cursor);
       const dateKey = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}-${String(cursor.getDate()).padStart(2, '0')}`;
-      slots.push({ key: `${dateKey}-10AM`, label: `${dateLabel}, 10:00 AM` });
-      slots.push({ key: `${dateKey}-2PM`, label: `${dateLabel}, 2:00 PM` });
+      slots.push({ key: `${dateKey}-10AM`, label: `${dateLabel}, ${morning}` });
+      slots.push({ key: `${dateKey}-2PM`, label: `${dateLabel}, ${afternoon}` });
     }
     cursor.setDate(cursor.getDate() + 1);
   }
   return slots;
 }
 
-const SHOWING_SLOTS = generateShowingSlots();
-
 const PropertyWidget: React.FC = () => {
+  const lang = useLang();
+  const t = dict[lang];
+  const SHOWING_SLOTS = useMemo(() => generateShowingSlots(lang), [lang]);
   const [mode, setMode] = useState<Mode>('idle');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -60,7 +71,7 @@ const PropertyWidget: React.FC = () => {
     {
       id: 'welcome-msg',
       role: 'assistant',
-      text: 'Property Ops Hub online. Choose an action below to get started.'
+      text: t.welcome
     }
   ]);
 
@@ -147,7 +158,7 @@ const PropertyWidget: React.FC = () => {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'user',
-      text: comment.trim() ? `Site: ${siteLocation} \u00b7 Crew #${crewNumber}\n${comment}` : `Site: ${siteLocation} \u00b7 Crew #${crewNumber}`,
+      text: comment.trim() ? `${t.userProgress(siteLocation, crewNumber)}\n${comment}` : t.userProgress(siteLocation, crewNumber),
       imageUrl: selectedImage
     }]);
 
@@ -159,7 +170,7 @@ const PropertyWidget: React.FC = () => {
       const response = await fetch(SITE_PROGRESS_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ siteLocation, crewNumber, comment, clientEmail, fileData, mimeType }),
+        body: JSON.stringify({ siteLocation, crewNumber, comment, clientEmail, fileData, mimeType, language: lang }),
       });
 
       if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
@@ -170,13 +181,13 @@ const PropertyWidget: React.FC = () => {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: "You've reached today's usage limit for this demo (10 submissions). Check your email for details, or reach out to CG Strategic Enterprises directly to discuss your own embedded version."
+          text: t.limitReached
         }]);
       } else {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: "Logged. The photo is saved to the shared Drive folder, and this entry will roll up into tonight's digest email."
+          text: t.progressLogged
         }]);
       }
       resetToIdle();
@@ -185,7 +196,7 @@ const PropertyWidget: React.FC = () => {
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: 'Something went wrong uploading that \u2014 please try again.'
+        text: t.uploadFailed
       }]);
     } finally {
       setIsSubmitting(false);
@@ -199,7 +210,7 @@ const PropertyWidget: React.FC = () => {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'user',
-      text: `Property: ${maintenanceLocation}\n${issueDescription}`,
+      text: t.userMaintenance(maintenanceLocation, issueDescription),
       imageUrl: selectedImage
     }]);
 
@@ -212,7 +223,7 @@ const PropertyWidget: React.FC = () => {
       const triageResponse = await fetch('/api/triage-maintenance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ issueDescription, fileData, mimeType }),
+        body: JSON.stringify({ issueDescription, fileData, mimeType, language: lang }),
       });
 
       if (!triageResponse.ok) throw new Error(`Triage responded with ${triageResponse.status}`);
@@ -231,6 +242,7 @@ const PropertyWidget: React.FC = () => {
           summary: triage.summary,
           fileData,
           mimeType,
+          language: lang,
         }),
       });
 
@@ -241,19 +253,19 @@ const PropertyWidget: React.FC = () => {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: "You've reached today's usage limit for this demo (10 submissions). Check your email for details, or reach out to CG Strategic Enterprises directly to discuss your own embedded version."
+          text: t.limitReached
         }]);
       } else if (data.priority === 'high') {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: `Flagged as **HIGH priority** (${triage.category}). Your ${triage.category.toLowerCase()} contractor has been notified immediately.`
+          text: t.highPriority(triage.category)
         }]);
       } else {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: `Logged as **routine** (${triage.category}). This has been added to the maintenance queue for scheduled handling.`
+          text: t.routine(triage.category)
         }]);
       }
       resetToIdle();
@@ -262,7 +274,7 @@ const PropertyWidget: React.FC = () => {
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: 'Something went wrong submitting that \u2014 please try again.'
+        text: t.submitFailed
       }]);
     } finally {
       setIsSubmitting(false);
@@ -278,7 +290,7 @@ const PropertyWidget: React.FC = () => {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'user',
-      text: `Showing request: ${showingProperty}\n${selectedSlot.label}`
+      text: t.userShowing(showingProperty, selectedSlot.label)
     }]);
 
     try {
@@ -290,6 +302,7 @@ const PropertyWidget: React.FC = () => {
           propertyLocation: showingProperty,
           slotKey: selectedSlot.key,
           slotLabel: selectedSlot.label,
+          language: lang,
         }),
       });
 
@@ -300,21 +313,21 @@ const PropertyWidget: React.FC = () => {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: "You've reached today's usage limit for this demo (10 submissions). Check your email for details, or reach out to CG Strategic Enterprises directly to discuss your own embedded version."
+          text: t.limitReached
         }]);
         resetToIdle();
       } else if (data.slotTaken) {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: `Sorry, ${selectedSlot.label} was just booked by someone else. Please pick a different time.`
+          text: t.slotTaken(selectedSlot.label)
         }]);
         setSelectedSlot(null);
       } else {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: `Confirmed! Your showing for **${showingProperty}** is booked for **${selectedSlot.label}**. A confirmation has been sent to your email.`
+          text: t.showingConfirmed(showingProperty, selectedSlot.label)
         }]);
         resetToIdle();
       }
@@ -323,7 +336,7 @@ const PropertyWidget: React.FC = () => {
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: 'Something went wrong booking that \u2014 please try again.'
+        text: t.bookingFailed
       }]);
     } finally {
       setIsSubmitting(false);
@@ -343,12 +356,12 @@ const PropertyWidget: React.FC = () => {
           </div>
           <div>
             <h3 className="text-white font-black text-base uppercase tracking-wider leading-none mb-1">
-              Property Ops Hub
+              {t.title}
             </h3>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_#3b82f6]" />
               <span className="text-blue-400 text-[8px] font-black uppercase tracking-widest">
-                Live Demo
+                {t.liveDemo}
               </span>
             </div>
           </div>
@@ -366,12 +379,12 @@ const PropertyWidget: React.FC = () => {
             }`}>
               {msg.role === 'assistant' && (
                 <strong className="text-[#020617] font-black tracking-tight block mb-3 text-xs uppercase tracking-widest">
-                  PROPERTY OPS AI
+                  {t.assistantName}
                 </strong>
               )}
 
               {msg.imageUrl && (
-                <img src={msg.imageUrl} alt="Upload" className="w-40 h-40 rounded-xl mb-3 object-cover border border-slate-200 shadow-sm" />
+                <img src={msg.imageUrl} alt={t.uploadAlt} className="w-40 h-40 rounded-xl mb-3 object-cover border border-slate-200 shadow-sm" />
               )}
 
               <div className="text-sm font-medium leading-relaxed whitespace-pre-wrap">
@@ -394,7 +407,7 @@ const PropertyWidget: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
               <span className="text-xs font-black uppercase tracking-widest opacity-70">
-                {mode === 'report-maintenance' ? 'Analyzing & routing...' : 'Uploading...'}
+                {mode === 'report-maintenance' ? t.typing.analyzingRouting : t.typing.uploading}
               </span>
             </div>
           </div>
@@ -410,19 +423,19 @@ const PropertyWidget: React.FC = () => {
               onClick={() => setMode('log-progress')}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-blue-500 hover:text-[#020617] hover:shadow-md transition-all text-left"
             >
-              Log Site Progress
+              {t.actions.logProgress}
             </button>
             <button
               onClick={() => setMode('report-maintenance')}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-blue-500 hover:text-[#020617] hover:shadow-md transition-all text-left"
             >
-              Report Maintenance
+              {t.actions.reportMaintenance}
             </button>
             <button
               onClick={() => setMode('schedule-showing')}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-blue-500 hover:text-[#020617] hover:shadow-md transition-all text-left"
             >
-              Schedule Showing
+              {t.actions.scheduleShowing}
             </button>
           </div>
         )}
@@ -433,7 +446,7 @@ const PropertyWidget: React.FC = () => {
               type="email"
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
-              placeholder="Your email"
+              placeholder={t.placeholders.email}
               disabled={isSubmitting}
               className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
             />
@@ -442,7 +455,7 @@ const PropertyWidget: React.FC = () => {
               type="text"
               value={showingProperty}
               onChange={(e) => setShowingProperty(e.target.value)}
-              placeholder="Which property?"
+              placeholder={t.placeholders.property}
               disabled={isSubmitting}
               className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
             />
@@ -473,7 +486,7 @@ const PropertyWidget: React.FC = () => {
                   : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
               }`}
             >
-              {isSubmitting ? 'Booking...' : 'Book Showing'}
+              {isSubmitting ? t.buttons.booking : t.buttons.bookShowing}
             </button>
 
             <button
@@ -481,7 +494,7 @@ const PropertyWidget: React.FC = () => {
               disabled={isSubmitting}
               className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors self-start disabled:opacity-50"
             >
-              Cancel
+              {t.buttons.cancel}
             </button>
           </>
         )}
@@ -492,13 +505,13 @@ const PropertyWidget: React.FC = () => {
               <div className="relative w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="bg-[#020617] rounded-2xl p-2 shadow-xl border border-white/10 w-full flex items-center gap-3">
                   <div className="relative rounded-lg overflow-hidden h-14 w-14 bg-slate-800 shrink-0 border border-white/20">
-                    <img src={selectedImage} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={selectedImage} alt={t.previewAlt} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
-                    <span className="text-blue-400 text-[9px] font-black uppercase tracking-widest block mb-0.5">Photo attached</span>
-                    <span className="text-slate-400 text-xs">Ready to submit</span>
+                    <span className="text-blue-400 text-[9px] font-black uppercase tracking-widest block mb-0.5">{t.photoAttached}</span>
+                    <span className="text-slate-400 text-xs">{t.readyToSubmit}</span>
                   </div>
-                  <button onClick={handleRemoveImage} aria-label="Remove attached photo" className="bg-white/10 hover:bg-red-500/20 text-slate-300 hover:text-red-500 rounded-full p-2 transition-colors mr-1">
+                  <button onClick={handleRemoveImage} aria-label={t.removePhoto} className="bg-white/10 hover:bg-red-500/20 text-slate-300 hover:text-red-500 rounded-full p-2 transition-colors mr-1">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
                 </div>
@@ -509,7 +522,7 @@ const PropertyWidget: React.FC = () => {
               type="email"
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
-              placeholder="Your email"
+              placeholder={t.placeholders.email}
               disabled={isSubmitting}
               className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
             />
@@ -521,7 +534,7 @@ const PropertyWidget: React.FC = () => {
                     type="text"
                     value={siteLocation}
                     onChange={(e) => setSiteLocation(e.target.value)}
-                    placeholder="Site location"
+                    placeholder={t.placeholders.siteLocation}
                     disabled={isSubmitting}
                     className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
                   />
@@ -529,7 +542,7 @@ const PropertyWidget: React.FC = () => {
                     type="text"
                     value={crewNumber}
                     onChange={(e) => setCrewNumber(e.target.value)}
-                    placeholder="Crew #"
+                    placeholder={t.placeholders.crewNumber}
                     disabled={isSubmitting}
                     className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50"
                   />
@@ -538,7 +551,7 @@ const PropertyWidget: React.FC = () => {
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Add a comment (optional)"
+                  placeholder={t.placeholders.comment}
                   disabled={isSubmitting}
                   rows={2}
                   className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 resize-none"
@@ -552,7 +565,7 @@ const PropertyWidget: React.FC = () => {
                   type="text"
                   value={maintenanceLocation}
                   onChange={(e) => setMaintenanceLocation(e.target.value)}
-                  placeholder="Property / unit"
+                  placeholder={t.placeholders.propertyUnit}
                   disabled={isSubmitting}
                   className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
                 />
@@ -560,7 +573,7 @@ const PropertyWidget: React.FC = () => {
                 <textarea
                   value={issueDescription}
                   onChange={(e) => setIssueDescription(e.target.value)}
-                  placeholder='Describe the issue (e.g. "kitchen sink is leaking under the cabinet")'
+                  placeholder={t.placeholders.issue}
                   disabled={isSubmitting}
                   rows={3}
                   className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 resize-none"
@@ -570,7 +583,7 @@ const PropertyWidget: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
-              <button onClick={handleCameraClick} disabled={isSubmitting} aria-label="Upload a photo" className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50 shrink-0">
+              <button onClick={handleCameraClick} disabled={isSubmitting} aria-label={t.uploadPhoto} className="p-3 text-slate-400 hover:text-[#020617] transition-colors bg-slate-50 rounded-xl border border-slate-200 shadow-sm disabled:opacity-50 shrink-0">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /></svg>
               </button>
               {mode === 'log-progress' ? (
@@ -583,7 +596,7 @@ const PropertyWidget: React.FC = () => {
                       : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
                   }`}
                 >
-                  {isSubmitting ? 'Uploading...' : 'Submit Progress'}
+                  {isSubmitting ? t.buttons.uploading : t.buttons.submitProgress}
                 </button>
               ) : (
                 <button
@@ -595,7 +608,7 @@ const PropertyWidget: React.FC = () => {
                       : 'bg-[#020617] text-blue-400 hover:bg-slate-800 cursor-pointer'
                   }`}
                 >
-                  {isSubmitting ? 'Analyzing...' : 'Submit Report'}
+                  {isSubmitting ? t.buttons.analyzing : t.buttons.submitReport}
                 </button>
               )}
             </div>
@@ -605,7 +618,7 @@ const PropertyWidget: React.FC = () => {
               disabled={isSubmitting}
               className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors self-start disabled:opacity-50"
             >
-              Cancel
+              {t.buttons.cancel}
             </button>
           </>
         )}

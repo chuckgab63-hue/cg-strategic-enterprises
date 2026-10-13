@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import LegalPage, { LegalSection } from '../components/LegalPage';
 import MailingAddress from '../components/MailingAddress';
+import TermsEs from '../i18n/es/TermsEs';
+import { useLang } from '../i18n/useLang';
 import {
   BUSINESS_NAME, LEGAL_BUSINESS_NAME, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, LEGAL_LAST_UPDATED,
 } from '../config/site';
@@ -8,6 +10,9 @@ import {
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
 
 export default function Terms() {
+  // The English below is what carriers reviewed; Spanish is a separate, reviewed-later file.
+  if (useLang() === 'es') return <TermsEs />;
+
   return (
     <LegalPage title="Terms of Service">
       <p>

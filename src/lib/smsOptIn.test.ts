@@ -18,7 +18,7 @@ describe('processOptIn', () => {
       payload: {
         first_name: 'Ada', last_name: 'Lovelace', name: 'Ada Lovelace',
         email: 'ada@example.com', message: 'Hello', phone: '(904) 555-0100',
-        source: SMS_OPT_IN_SOURCE,
+        source: SMS_OPT_IN_SOURCE, language: 'en',
         sms_consent: true, sms_consent_text: SMS_CONSENT_TEXT,
         sms_consent_timestamp: '2026-10-06T12:00:00.000Z',
         sms_marketing_consent: false, email_marketing_consent: false,

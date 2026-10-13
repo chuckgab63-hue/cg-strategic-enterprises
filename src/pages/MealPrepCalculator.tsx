@@ -7,6 +7,9 @@ import {
   type MealPrepInputs, type RangePosition, type Sourcing,
 } from '../lib/mealPrepModel';
 import { calculatorUrl, parseCalculatorParams } from '../lib/mealPrepUrl';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
+import { localizePath } from '../i18n/lang';
+import mealPrepCalculator from '../i18n/mealPrepCalculator';
 
 // ---------------------------------------------------------------------------
 // Inputs: each has a realistic default and a note on where the default comes from.
@@ -16,51 +19,38 @@ type NumericField = Exclude<keyof MealPrepInputs, 'sourcing'>;
 
 interface FieldSpec {
   key: NumericField;
-  label: string;
   defaultValue: number;
   prefix?: string;
-  suffix?: string;
   step: number;
   max?: number;
-  note: string;
 }
 
-const FIELD_GROUPS: { title: string; fields: FieldSpec[] }[] = [
+// Labels, units and notes for each field live in src/i18n/mealPrepCalculator.tsx.
+const FIELD_GROUPS: { id: 'menu' | 'kitchen' | 'time'; fields: FieldSpec[] }[] = [
   {
-    title: 'Your menu',
+    id: 'menu',
     fields: [
-      { key: 'mealsPerWeek', label: 'Meals per week', defaultValue: DEFAULT_INPUTS.mealsPerWeek, suffix: 'meals', step: 1,
-        note: 'A starting point for a solo operator. Slide it and watch where you cross break-even on the chart.' },
-      { key: 'pricePerMeal', label: 'Price per meal', defaultValue: DEFAULT_INPUTS.pricePerMeal, prefix: '$', step: 0.25,
-        note: '$12 is the example price used throughout this page. Check what meal-prep sellers near you charge.' },
-      { key: 'foodCostPerMeal', label: 'Food cost per meal', defaultValue: DEFAULT_INPUTS.foodCostPerMeal, prefix: '$', step: 0.05,
-        note: '31% of a $12 meal before spoilage — inside the standard 28–32% food-cost band. Cost your real recipe, ingredient by ingredient, at broadline prices.' },
-      { key: 'packagingPerMeal', label: 'Packaging per meal', defaultValue: DEFAULT_INPUTS.packagingPerMeal, prefix: '$', step: 0.05,
-        note: 'Container, lid and label. A planning figure — swap in your supplier’s quote.' },
-      { key: 'spoilagePct', label: 'Spoilage and waste', defaultValue: DEFAULT_INPUTS.spoilagePct, suffix: '% of food', step: 1, max: 100,
-        note: 'Trim, over-production and meals that don’t sell. A planning allowance, not an industry benchmark — track your own.' },
+      { key: 'mealsPerWeek', defaultValue: DEFAULT_INPUTS.mealsPerWeek, step: 1 },
+      { key: 'pricePerMeal', defaultValue: DEFAULT_INPUTS.pricePerMeal, prefix: '$', step: 0.25 },
+      { key: 'foodCostPerMeal', defaultValue: DEFAULT_INPUTS.foodCostPerMeal, prefix: '$', step: 0.05 },
+      { key: 'packagingPerMeal', defaultValue: DEFAULT_INPUTS.packagingPerMeal, prefix: '$', step: 0.05 },
+      { key: 'spoilagePct', defaultValue: DEFAULT_INPUTS.spoilagePct, step: 1, max: 100 },
     ],
   },
   {
-    title: 'Kitchen and delivery',
+    id: 'kitchen',
     fields: [
-      { key: 'kitchenCostMonthly', label: 'Kitchen cost per month', defaultValue: DEFAULT_INPUTS.kitchenCostMonthly, prefix: '$', step: 25,
-        note: 'Commissary kitchens run $15–40 an hour or $300–1,200 a month; most small operators spend $400–800 a month all in. $600 is the middle of that.' },
-      { key: 'deliverySharePct', label: 'Share of orders delivered', defaultValue: DEFAULT_INPUTS.deliverySharePct, suffix: '%', step: 5, max: 100,
-        note: 'Half delivered, half picked up. Pickup-only? Set it to 0.' },
-      { key: 'deliveryCostPerDrop', label: 'Delivery cost per drop', defaultValue: DEFAULT_INPUTS.deliveryCostPerDrop, prefix: '$', step: 0.5,
-        note: 'Food delivery typically costs $5–8 a drop, whether that’s a courier or your own time, fuel and mileage.' },
-      { key: 'mealsPerOrder', label: 'Meals per order', defaultValue: DEFAULT_INPUTS.mealsPerOrder, suffix: 'meals', step: 1,
-        note: 'Delivery and the 30¢ card fee are charged per order, not per meal. Four $12 meals is a $48 order — inside the typical $35–60 average order value.' },
+      { key: 'kitchenCostMonthly', defaultValue: DEFAULT_INPUTS.kitchenCostMonthly, prefix: '$', step: 25 },
+      { key: 'deliverySharePct', defaultValue: DEFAULT_INPUTS.deliverySharePct, step: 5, max: 100 },
+      { key: 'deliveryCostPerDrop', defaultValue: DEFAULT_INPUTS.deliveryCostPerDrop, prefix: '$', step: 0.5 },
+      { key: 'mealsPerOrder', defaultValue: DEFAULT_INPUTS.mealsPerOrder, step: 1 },
     ],
   },
   {
-    title: 'Your own time',
+    id: 'time',
     fields: [
-      { key: 'ownerHoursPerWeek', label: 'Your hours per week', defaultValue: DEFAULT_INPUTS.ownerHoursPerWeek, suffix: 'hrs', step: 1,
-        note: 'Shopping, prep, cooking, packing, delivery, customer messages, social posts. Count all of it.' },
-      { key: 'ownerHourlyTarget', label: 'What you need to pay yourself', defaultValue: DEFAULT_INPUTS.ownerHourlyTarget, prefix: '$', suffix: '/hr', step: 1,
-        note: 'What you’d have to pay someone else to do this work. Put $0 and the business is quietly borrowing from you.' },
+      { key: 'ownerHoursPerWeek', defaultValue: DEFAULT_INPUTS.ownerHoursPerWeek, step: 1 },
+      { key: 'ownerHourlyTarget', defaultValue: DEFAULT_INPUTS.ownerHourlyTarget, prefix: '$', step: 1 },
     ],
   },
 ];
@@ -118,12 +108,14 @@ function MetricCard({ label, value, valueClass = 'text-white', status, className
 }
 
 function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string; onChange: (v: string) => void }) {
+  const t = useT(mealPrepCalculator);
+  const text = t.fields[spec.key];
   const id = useId();
   const noteId = useId();
   const isMeals = spec.key === 'mealsPerWeek';
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-bold text-slate-200">{spec.label}</label>
+      <label htmlFor={id} className="text-sm font-bold text-slate-200">{text.label}</label>
       <div className="flex items-center bg-slate-950 border border-slate-700 focus-within:border-brand-orange rounded-xl transition-colors">
         {spec.prefix && <span className="pl-4 text-slate-500 text-base sm:text-sm" aria-hidden="true">{spec.prefix}</span>}
         <input
@@ -134,18 +126,18 @@ function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string
           onChange={(e) => onChange(e.target.value)}
           className={`w-full min-w-0 bg-transparent focus:outline-none py-3 text-white text-base sm:text-sm tabular-nums ${spec.prefix ? 'pl-1.5' : 'pl-4'} pr-4`}
         />
-        {spec.suffix && <span className="pr-4 text-slate-500 text-xs whitespace-nowrap" aria-hidden="true">{spec.suffix}</span>}
+        {text.suffix && <span className="pr-4 text-slate-500 text-xs whitespace-nowrap" aria-hidden="true">{text.suffix}</span>}
       </div>
       {isMeals && (
         <input
           type="range" min={0} max={MEALS_SLIDER_MAX} step={1}
-          aria-label="Meals per week slider"
+          aria-label={t.mealsSlider}
           value={Math.min(Number(value) || 0, MEALS_SLIDER_MAX)}
           onChange={(e) => onChange(e.target.value)}
           className="w-full accent-brand-orange cursor-pointer my-1"
         />
       )}
-      <p id={noteId} className="text-[11px] text-slate-500 leading-relaxed">{spec.note}</p>
+      <p id={noteId} className="text-[11px] text-slate-500 leading-relaxed">{text.note}</p>
     </div>
   );
 }
@@ -153,8 +145,11 @@ function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string
 // The no-email way to keep a scenario: a link that reopens these exact inputs.
 // The page's own origin, so it works on whichever deployment you're looking at.
 function CopyLinkButton({ inputs }: { inputs: MealPrepInputs }) {
+  const t = useT(mealPrepCalculator).copyLink;
+  const lang = useLang();
   const [copied, setCopied] = useState<{ url: string; ok: boolean } | null>(null);
-  const url = calculatorUrl(inputs, window.location.origin);
+  // On Spanish pages the link reopens the Spanish calculator ('/' -> '' or '/es').
+  const url = calculatorUrl(inputs, window.location.origin + localizePath('/', lang).replace(/\/$/, ''));
   // Edit anything after copying and the old message no longer describes this link.
   const status = copied?.url === url ? copied : null;
 
@@ -170,18 +165,18 @@ function CopyLinkButton({ inputs }: { inputs: MealPrepInputs }) {
 
   return (
     <div className="mt-5 pt-4 border-t border-slate-800 text-xs text-slate-400 leading-relaxed">
-      Rather not give an email?{' '}
+      {t.lead}{' '}
       <button
         type="button" onClick={copy}
         className="font-bold text-brand-orange underline hover:text-white transition-colors cursor-pointer"
       >
-        Copy a link to these numbers
+        {t.button}
       </button>
-      {' '}to bookmark or share.
+      {' '}{t.tail}
       <p role="status" className="mt-2 empty:hidden">
-        {status?.ok && <span className="text-emerald-400 font-semibold">Link copied.</span>}
+        {status?.ok && <span className="text-emerald-400 font-semibold">{t.copied}</span>}
         {status && !status.ok && (
-          <>Couldn’t reach your clipboard. Here’s the link: <span className="text-slate-200 break-all select-all">{url}</span></>
+          <>{t.failed}<span className="text-slate-200 break-all select-all">{url}</span></>
         )}
       </p>
     </div>
@@ -193,6 +188,8 @@ function CopyLinkButton({ inputs }: { inputs: MealPrepInputs }) {
 // ---------------------------------------------------------------------------
 
 export default function MealPrepCalculator() {
+  const t = useT(mealPrepCalculator);
+  const lp = useLocalePath();
 
   // Links (the summary email, a copied link, the home-page preview) carry inputs
   // in the query string. Anything missing, malformed or out of range keeps its default.
@@ -245,7 +242,7 @@ export default function MealPrepCalculator() {
     : compareToRange(r.foodPackagingPct, BENCHMARKS.foodPackaging.low, BENCHMARKS.foodPackaging.high);
   const rangeChip = (pos: RangePosition | null, range: { low: number; high: number }, extra?: string | null) => pos && (
     <StatusChip tone={pos === 'within' ? 'good' : pos === 'above' ? 'warn' : 'neutral'}>
-      {pos === 'within' ? 'Inside' : pos === 'above' ? 'Above' : 'Below'} the {range.low}–{range.high}% range
+      {t.range(pos, range.low, range.high)}
       {extra && ` · ${extra}`}
     </StatusChip>
   );
@@ -260,15 +257,13 @@ export default function MealPrepCalculator() {
 
       {/* --- Intro --- */}
       <span className="inline-block px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full mb-5">
-        Free Planning Tool
+        {t.badge}
       </span>
       <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-[1.05]">
-        Does your meal-prep business <span className="text-brand-orange">actually work?</span>
+        {t.title(s => <span className="text-brand-orange">{s}</span>)}
       </h1>
       <p className="text-slate-300 text-base md:text-lg leading-relaxed mt-5 max-w-3xl">
-        Most new meal-prep businesses set prices from the grocery receipt and forget the kitchen,
-        the containers, the delivery runs and their own time. Put in your numbers and see how many
-        meals a week it takes to cover all of it. No sign-up, nothing to unlock — the results update as you type.
+        {t.intro}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12 items-start">
@@ -276,9 +271,9 @@ export default function MealPrepCalculator() {
         {/* ===== Inputs ===== */}
         <div ref={inputsRef} className="lg:col-span-5 min-w-0 flex flex-col gap-6">
           {FIELD_GROUPS.map(group => (
-            <fieldset key={group.title} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-6 flex flex-col gap-5">
-              <legend className="sr-only">{group.title}</legend>
-              <span className="text-white font-black text-sm uppercase tracking-widest" aria-hidden="true">{group.title}</span>
+            <fieldset key={group.id} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-6 flex flex-col gap-5">
+              <legend className="sr-only">{t.groups[group.id]}</legend>
+              <span className="text-white font-black text-sm uppercase tracking-widest" aria-hidden="true">{t.groups[group.id]}</span>
               {group.fields.map(spec => (
                 <NumberField
                   key={spec.key} spec={spec} value={values[spec.key]}
@@ -286,9 +281,9 @@ export default function MealPrepCalculator() {
                 />
               ))}
 
-              {group.title === 'Your menu' && (
-                <div className="flex flex-col gap-1.5" role="radiogroup" aria-label="Where you buy ingredients">
-                  <span className="text-sm font-bold text-slate-200" aria-hidden="true">Sourcing</span>
+              {group.id === 'menu' && (
+                <div className="flex flex-col gap-1.5" role="radiogroup" aria-label={t.sourcingGroup}>
+                  <span className="text-sm font-bold text-slate-200" aria-hidden="true">{t.sourcing}</span>
                   <div className="grid grid-cols-2 gap-2">
                     {(['broadline', 'local'] as const).map(option => (
                       <button
@@ -300,22 +295,19 @@ export default function MealPrepCalculator() {
                             : 'bg-slate-950 border-slate-700 text-slate-400 hover:border-slate-500'
                         }`}
                       >
-                        {option === 'broadline' ? 'Broadline' : 'Local'}
+                        {t.sourcingOptions[option]}
                       </button>
                     ))}
                   </div>
                   <p className="text-[11px] text-slate-500 leading-relaxed">
-                    Broadline means a foodservice distributor; local means farms, butchers and markets. Local
-                    protein and produce run meaningfully higher, so choosing Local adds {LOCAL_SOURCING_PREMIUM * 100}% to
-                    your food cost. That’s our planning assumption, not a published figure — your supplier quotes beat it.
+                    {t.sourcingNote(LOCAL_SOURCING_PREMIUM * 100)}
                   </p>
                 </div>
               )}
 
-              {group.title === 'Kitchen and delivery' && (
+              {group.id === 'kitchen' && (
                 <p className="text-[11px] text-slate-500 leading-relaxed border-t border-slate-800 pt-4">
-                  <strong className="text-slate-300">Card processing</strong> is included automatically at 2.9% + 30¢ per order,
-                  a common online card rate.
+                  <strong className="text-slate-300">{t.cardProcessing.strong}</strong>{t.cardProcessing.rest}
                 </p>
               )}
             </fieldset>
@@ -327,7 +319,7 @@ export default function MealPrepCalculator() {
               onClick={() => { setValues(DEFAULT_VALUES); setSourcing(DEFAULT_SOURCING); }}
               className="self-start text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors cursor-pointer"
             >
-              Reset to defaults
+              {t.reset}
             </button>
           )}
         </div>
@@ -337,39 +329,35 @@ export default function MealPrepCalculator() {
 
           {/* Headline: break-even */}
           <div ref={headlineRef} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-7">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Break-even volume — the number that matters most</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.headlineLabel}</span>
             {neverBreaksEven ? (
               <>
-                <p className="text-3xl md:text-4xl font-black text-red-400 mt-2 leading-tight">No volume breaks even.</p>
+                <p className="text-3xl md:text-4xl font-black text-red-400 mt-2 leading-tight">{t.neverTitle}</p>
                 <p className="text-sm text-slate-300 leading-relaxed mt-3">
-                  Each meal costs {usd(r.variableCostPerMeal, true)} to make, pack, deliver and charge for, and sells
-                  for {usd(inputs.pricePerMeal, true)}. Selling more only loses more. Raise the price or cut per-meal costs first.
+                  {t.neverBody(usd(r.variableCostPerMeal, true), usd(inputs.pricePerMeal, true))}
                 </p>
               </>
             ) : (
               <>
                 <p className="mt-2 leading-tight">
                   <span className="text-5xl md:text-6xl font-black text-white tabular-nums">{r.breakEvenMeals}</span>
-                  <span className="text-lg md:text-xl font-bold text-slate-400 ml-2">meals a week</span>
+                  <span className="text-lg md:text-xl font-bold text-slate-400 ml-2">{t.mealsAWeek}</span>
                 </p>
                 <p className="text-sm text-slate-300 leading-relaxed mt-3">
-                  to cover the kitchen <em>and</em> pay yourself {usd(inputs.ownerHourlyTarget)}/hr
-                  {r.breakEvenKitchenOnly !== null && r.ownerPayWeekly > 0 && (
-                    <> ({r.breakEvenKitchenOnly} meals covers the kitchen alone)</>
-                  )}.
+                  {t.covers(usd(inputs.ownerHourlyTarget), r.breakEvenKitchenOnly !== null && r.ownerPayWeekly > 0 ? r.breakEvenKitchenOnly : null)}
                 </p>
                 <div className="mt-4">
                   {pastBreakEven ? (
                     <StatusChip tone="good">
-                      At {meals} meals a week you’re past break-even by {meals - r.breakEvenMeals!} meals.
+                      {t.pastBreakEven(meals, meals - r.breakEvenMeals!)}
                     </StatusChip>
                   ) : coversKitchen ? (
                     <StatusChip tone="warn">
-                      At {meals} meals a week the kitchen’s covered, but you’re {r.breakEvenMeals! - meals} meals short of paying yourself.
+                      {t.kitchenCovered(meals, r.breakEvenMeals! - meals)}
                     </StatusChip>
                   ) : (
                     <StatusChip tone="bad">
-                      At {meals} meals a week you’re {r.breakEvenMeals! - meals} meals short of break-even.
+                      {t.shortOfBreakEven(meals, r.breakEvenMeals! - meals)}
                     </StatusChip>
                   )}
                 </div>
@@ -387,26 +375,20 @@ export default function MealPrepCalculator() {
               />
             </div>
             <p className="text-[11px] text-slate-500 leading-relaxed mt-3">
-              The orange line is what your meals bring in after their own costs. Where it crosses a dashed line,
-              that cost is covered. Your hours are treated as fixed at what you entered — in practice they grow with volume.
+              {t.chartCaption}
             </p>
           </div>
 
           {/* The insight everyone misses */}
           <div className="border-l-2 border-brand-orange bg-brand-orange/5 rounded-r-2xl p-5 md:p-6">
-            <strong className="text-brand-orange text-xs uppercase tracking-widest block mb-2">The kitchen everyone forgets</strong>
+            <strong className="text-brand-orange text-xs uppercase tracking-widest block mb-2">{t.forgottenKitchen}</strong>
             {shiftMeals !== null ? (
               <p className="text-sm md:text-base text-slate-200 leading-relaxed">
-                After food, packaging, delivery and card fees, each {usd(inputs.pricePerMeal, true)} meal leaves
-                you <strong className="text-white">{usd(r.contributionMargin, true)}</strong>. A single four-hour
-                kitchen shift at $25 an hour costs $100 — so it takes{' '}
-                <strong className="text-white">{shiftMeals} meals a week</strong> just to pay for the shift,
-                before you’ve paid yourself a cent. Grocery-receipt pricing never shows you that number.
+                {t.shiftInsight(usd(inputs.pricePerMeal, true), usd(r.contributionMargin, true), shiftMeals)}
               </p>
             ) : (
               <p className="text-sm md:text-base text-slate-200 leading-relaxed">
-                At these numbers each meal leaves <strong className="text-red-400">{usd(r.contributionMargin, true)}</strong> after
-                food, packaging, delivery and card fees — so not even a $100 four-hour kitchen shift ever gets paid for.
+                {t.shiftNever(usd(r.contributionMargin, true))}
               </p>
             )}
           </div>
@@ -415,121 +397,108 @@ export default function MealPrepCalculator() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Two food benchmarks, two denominators: keep them side by side and say which is which. */}
             <div className="sm:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-5">
-              <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Food cost, measured two ways</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.foodTwoWays}</span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 mt-3">
                 <div className="flex flex-col gap-3">
-                  <span className="text-xs font-bold text-slate-300">Food alone ÷ revenue</span>
+                  <span className="text-xs font-bold text-slate-300">{t.foodAlone}</span>
                   <span className="text-3xl font-black tabular-nums leading-none text-white">{r.foodCostPct === null ? '—' : pct(r.foodCostPct)}</span>
-                  {rangeChip(foodPos, BENCHMARKS.foodCost, tier && `${tier} band`)}
+                  {rangeChip(foodPos, BENCHMARKS.foodCost, tier && t.band(t.tiers[tier] ?? tier))}
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Food (with spoilage{sourcing === 'local' ? ' and the local premium' : ''}) against <strong className="text-slate-200">revenue</strong>:
-                    what your books record, including any delivery fees you charge and net of discounts.
-                    Budget 25–28%, standard 28–32%, premium or organic 35–40%.
-                    {foodPos === 'below' && ' Low isn’t automatically good — check every ingredient is costed.'}
+                    {t.foodAloneBody(sourcing === 'local', foodPos === 'below')}
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 border-t sm:border-t-0 sm:border-l border-slate-800 pt-5 sm:pt-0 sm:pl-6">
-                  <span className="text-xs font-bold text-slate-300">Food + packaging ÷ menu price</span>
+                  <span className="text-xs font-bold text-slate-300">{t.foodPackaging}</span>
                   <span className="text-3xl font-black tabular-nums leading-none text-white">{r.foodPackagingPct === null ? '—' : pct(r.foodPackagingPct)}</span>
                   {rangeChip(foodPackPos, BENCHMARKS.foodPackaging)}
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Food plus packaging against <strong className="text-slate-200">gross menu price</strong>: before
-                    discounts, without delivery fees. This range comes from guidance for small operators with
-                    simpler meals, so it’s the tighter target.
+                    {t.foodPackagingBody}
                   </p>
                 </div>
               </div>
               <p className="text-[11px] text-slate-500 leading-relaxed border-t border-slate-800 mt-5 pt-4">
-                The ranges overlap at 28–30%, but a figure in that band doesn’t mean the same thing in both.
-                This calculator doesn’t model delivery fees or discounts, so revenue and menu price are the
-                same here — in your own books they usually aren’t. Check which denominator your figure uses
-                before you compare it.
+                {t.overlapNote}
               </p>
             </div>
 
             <MetricCard
-              label="Prime cost"
+              label={t.primeCost}
               value={r.primeCostPct === null ? '—' : pct(r.primeCostPct)}
               status={
                 <StatusChip tone={primeTone}>
-                  {r.primeCostPct === null ? 'Needs at least one meal a week'
-                    : primeTone === 'good' ? `At or under the ${BENCHMARKS.primeCost.target}% target`
-                    : primeTone === 'warn' ? `Under ${BENCHMARKS.primeCost.max}%, above the ${BENCHMARKS.primeCost.target}% target`
-                    : `Over the ${BENCHMARKS.primeCost.max}% ceiling`}
+                  {r.primeCostPct === null ? t.primeNeedsMeal
+                    : primeTone === 'good' ? t.primeGood(BENCHMARKS.primeCost.target)
+                    : primeTone === 'warn' ? t.primeWarn(BENCHMARKS.primeCost.max, BENCHMARKS.primeCost.target)
+                    : t.primeBad(BENCHMARKS.primeCost.max)}
                 </StatusChip>
               }
             >
-              Food plus labour (your pay at your target rate) over revenue. The usual guide is under 65%,
-              aiming for 60%.
-              {r.labourPct !== null && ` Labour alone is ${pct(r.labourPct)} here; 25–35% is typical.`}
+              {t.primeBody}
+              {r.labourPct !== null && t.labourAlone(pct(r.labourPct))}
             </MetricCard>
 
             <MetricCard
-              label="Contribution per meal"
+              label={t.contribution}
               value={usd(r.contributionMargin, true)}
               valueClass={r.contributionMargin > 0 ? 'text-white' : 'text-red-400'}
             >
-              What each meal leaves toward the kitchen and your pay:
+              {t.contributionBody}
               <span className="block mt-2 tabular-nums text-slate-400">
-                {usd(inputs.pricePerMeal, true)} price<br />
-                − {usd(r.foodCostPerMeal, true)} food<br />
-                − {usd(r.packagingPerMeal, true)} packaging<br />
-                − {usd(r.deliveryPerMeal, true)} delivery<br />
-                − {usd(r.processingPerMeal, true)} card processing
+                {usd(inputs.pricePerMeal, true)} {t.breakdown.price}<br />
+                − {usd(r.foodCostPerMeal, true)} {t.breakdown.food}<br />
+                − {usd(r.packagingPerMeal, true)} {t.breakdown.packaging}<br />
+                − {usd(r.deliveryPerMeal, true)} {t.breakdown.delivery}<br />
+                − {usd(r.processingPerMeal, true)} {t.breakdown.processing}
               </span>
             </MetricCard>
 
             <MetricCard
-              label="Break-even volume"
-              value={neverBreaksEven ? 'Never' : `${r.breakEvenMeals}/wk`}
+              label={t.breakEvenVolume}
+              value={neverBreaksEven ? t.never : t.perWeek(r.breakEvenMeals!)}
               valueClass={neverBreaksEven ? 'text-red-400' : 'text-white'}
             >
               {neverBreaksEven
-                ? 'Each meal loses money before fixed costs, so more volume makes it worse.'
-                : `Meals a week to cover ${usd(r.kitchenCostWeekly)} of kitchen and ${usd(r.ownerPayWeekly)} of your pay each week. About ${Math.ceil(r.breakEvenMeals! / Math.max(1, inputs.mealsPerOrder || 1))} orders.`}
+                ? t.breakEvenNeverBody
+                : t.breakEvenBody(usd(r.kitchenCostWeekly), usd(r.ownerPayWeekly), Math.ceil(r.breakEvenMeals! / Math.max(1, inputs.mealsPerOrder || 1)))}
             </MetricCard>
 
-            <MetricCard label="Monthly revenue" value={usd(r.monthlyRevenue)}>
-              {meals} meals a week × {usd(inputs.pricePerMeal, true)} × 52 weeks ÷ 12.
-              Average order value here is {usd(inputs.pricePerMeal * Math.max(1, inputs.mealsPerOrder || 1))};
-              $35–60 is typical.
+            <MetricCard label={t.monthlyRevenue} value={usd(r.monthlyRevenue)}>
+              {t.monthlyRevenueBody(meals, usd(inputs.pricePerMeal, true), usd(inputs.pricePerMeal * Math.max(1, inputs.mealsPerOrder || 1)))}
             </MetricCard>
 
             <MetricCard
-              label="Monthly profit"
+              label={t.monthlyProfit}
               className="sm:col-span-2"
               value={usd(r.monthlyProfit)}
               valueClass={r.monthlyProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}
               status={r.netMarginPct !== null && (
                 <StatusChip tone={r.netMarginPct >= BENCHMARKS.netMargin.low ? 'good' : r.netMarginPct >= 0 ? 'warn' : 'bad'}>
-                  {pct(r.netMarginPct)} net margin · 10–20% is typical once established
+                  {t.netMargin(pct(r.netMarginPct))}
                 </StatusChip>
               )}
             >
-              After every cost <em>and</em> paying yourself {usd(inputs.ownerHourlyTarget)}/hr.
-              {r.ownerEffectiveHourly !== null && (
-                <> Before paying yourself, the business leaves you {usd(r.ownerTakeHomeMonthly)} a month —
-                  {' '}<strong className={r.ownerEffectiveHourly >= inputs.ownerHourlyTarget ? 'text-emerald-400' : 'text-red-400'}>
-                    {usd(r.ownerEffectiveHourly, true)} an hour
-                  </strong> for your {inputs.ownerHoursPerWeek} hours a week.</>
+              {t.profitBody(usd(inputs.ownerHourlyTarget))}
+              {r.ownerEffectiveHourly !== null && t.takeHome(
+                usd(r.ownerTakeHomeMonthly),
+                usd(r.ownerEffectiveHourly, true),
+                inputs.ownerHoursPerWeek,
+                r.ownerEffectiveHourly >= inputs.ownerHourlyTarget ? 'text-emerald-400' : 'text-red-400',
               )}
             </MetricCard>
           </div>
 
           {/* The COGS trap */}
           <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-7">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">The COGS trap</span>
-            <h2 className="text-xl md:text-2xl font-black text-white mt-2">Ingredients aren’t your cost of goods.</h2>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.cogsTrap}</span>
+            <h2 className="text-xl md:text-2xl font-black text-white mt-2">{t.cogsTitle}</h2>
             <p className="text-sm text-slate-400 leading-relaxed mt-3">
-              In meal prep, cost of goods sold has to include packaging, delivery, labour and spoilage — not just
-              what’s on the grocery receipt. Operators who leave them out routinely find their true COGS above 55%,
-              and sometimes over 100% on individual meals.
+              {t.cogsBody}
             </p>
             {r.receiptCogsPct !== null && r.trueCogsPct !== null ? (
               <div className="mt-5 flex flex-col gap-4">
                 {[
-                  { label: 'What the receipt says (food + packaging)', value: r.receiptCogsPct, bar: 'bg-slate-500' },
-                  { label: 'True COGS (+ spoilage, delivery, your labour)', value: r.trueCogsPct, bar: 'bg-[#EA580C]' },
+                  { label: t.receiptRow, value: r.receiptCogsPct, bar: 'bg-slate-500' },
+                  { label: t.trueRow, value: r.trueCogsPct, bar: 'bg-[#EA580C]' },
                 ].map(row => (
                   <div key={row.label}>
                     <div className="flex justify-between gap-3 text-xs mb-1.5">
@@ -542,17 +511,17 @@ export default function MealPrepCalculator() {
                     </div>
                   </div>
                 ))}
-                <p className="text-[11px] text-slate-500">White tick: {BENCHMARKS.trueCogsWarning}%.</p>
+                <p className="text-[11px] text-slate-500">{t.whiteTick(BENCHMARKS.trueCogsWarning)}</p>
                 {r.trueCogsPct > 100 ? (
-                  <StatusChip tone="bad">At {meals} meals a week, each meal costs more to make, pack, deliver and staff than it sells for.</StatusChip>
+                  <StatusChip tone="bad">{t.cogsOver100(meals)}</StatusChip>
                 ) : r.trueCogsPct > BENCHMARKS.trueCogsWarning ? (
-                  <StatusChip tone="warn">Your true COGS is above {BENCHMARKS.trueCogsWarning}% — the gap between the two bars is the money grocery-receipt pricing doesn’t see.</StatusChip>
+                  <StatusChip tone="warn">{t.cogsWarn(BENCHMARKS.trueCogsWarning)}</StatusChip>
                 ) : (
-                  <StatusChip tone="good">True COGS under {BENCHMARKS.trueCogsWarning}% with everything counted.</StatusChip>
+                  <StatusChip tone="good">{t.cogsGood(BENCHMARKS.trueCogsWarning)}</StatusChip>
                 )}
               </div>
             ) : (
-              <p className="text-xs text-slate-500 mt-4">Enter a price and at least one meal a week to compare.</p>
+              <p className="text-xs text-slate-500 mt-4">{t.cogsEmpty}</p>
             )}
           </div>
 
@@ -560,10 +529,10 @@ export default function MealPrepCalculator() {
           <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-7">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse shadow-[0_0_10px_rgba(255,95,31,0.8)]"></div>
-              <h2 className="text-white font-bold text-lg">Want a copy of these numbers?</h2>
+              <h2 className="text-white font-bold text-lg">{t.emailTitle}</h2>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed mb-5">
-              We’ll email you a summary of what you entered and what it works out to, so you can come back to it.
+              {t.emailBody}
             </p>
             <MealPrepSummaryForm inputs={inputs} results={r} />
             <CopyLinkButton inputs={inputs} />
@@ -573,33 +542,17 @@ export default function MealPrepCalculator() {
 
       {/* --- Benchmarks --- */}
       <div className="mt-16 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-8">
-        <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Benchmarks</span>
-        <h2 className="text-2xl md:text-3xl font-black text-white mt-2">Industry ranges, not rules.</h2>
+        <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.benchmarks}</span>
+        <h2 className="text-2xl md:text-3xl font-black text-white mt-2">{t.benchmarksTitle}</h2>
         <p className="text-sm text-slate-400 leading-relaxed mt-3 max-w-3xl">
-          These are ranges to measure your own numbers against. Treating “30% food cost” as a hard target
-          without checking your own costs does more harm than not knowing the benchmark at all. A
-          premium menu can run a higher food cost and still work; a budget menu at 25% can still lose
-          money on delivery.
+          {t.benchmarksBody}
         </p>
         <div className="text-sm text-slate-400 leading-relaxed border-l-2 border-brand-orange bg-brand-orange/5 p-4 rounded-r-lg mt-6 max-w-3xl">
-          <strong className="text-brand-orange text-xs uppercase tracking-widest block mb-1">Check the denominator</strong>
-          The two food ranges below measure different things against different bases. 28–35% is food alone
-          against revenue, which includes delivery fees and is net of discounts. 22–30% is food plus packaging
-          against gross menu price, before discounts and without delivery fees. They overlap at 28–30%, but a
-          number in that band doesn’t mean the same thing in both — so work out your own figure on the same
-          base as the range you compare it to.
+          <strong className="text-brand-orange text-xs uppercase tracking-widest block mb-1">{t.denominatorTitle}</strong>
+          {t.denominatorBody}
         </div>
         <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-5 mt-8">
-          {[
-            ['Food cost', '28–35% of revenue: food alone, against revenue including delivery fees and net of discounts. Budget 25–28%, standard 28–32%, premium or organic 35–40%.'],
-            ['Food + packaging', '22–30% of menu price: food plus packaging, against gross menu price before discounts and without delivery fees. Aimed at small operators with simpler meals, so it’s the tighter target.'],
-            ['Labour', '25–35% of revenue.'],
-            ['Prime cost (food + labour)', 'Under 65%, with 60% a common target.'],
-            ['Net margin', '10–20% once established. Expect less in the first months.'],
-            ['Average order value', '$35–60.'],
-            ['Commissary kitchen', '$15–40 an hour or $300–1,200 a month; most small operators spend $400–800 a month all in.'],
-            ['Delivery', '$5–8 per drop.'],
-          ].map(([term, detail]) => (
+          {t.benchmarkList.map(([term, detail]) => (
             <div key={term} className="border-t border-slate-800 pt-4">
               <dt className="text-xs font-black uppercase tracking-widest text-slate-200">{term}</dt>
               <dd className="text-sm text-slate-400 leading-relaxed mt-1.5">{detail}</dd>
@@ -611,13 +564,13 @@ export default function MealPrepCalculator() {
       {/* --- Soft CTA --- */}
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
         <p className="text-sm text-slate-300 leading-relaxed">
-          Running a meal-prep business already? We build ordering platforms around a weekly menu and cutoff.
+          {t.ctaBody}
         </p>
         <Link
-          to="/portfolio"
+          to={lp('/portfolio')}
           className="inline-flex items-center justify-center gap-2 whitespace-nowrap border border-brand-orange/40 text-brand-orange font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-brand-orange/10 hover:border-brand-orange transition-colors"
         >
-          See the Case Studies &rarr;
+          {t.ctaLink} &rarr;
         </Link>
       </div>
 
@@ -629,18 +582,18 @@ export default function MealPrepCalculator() {
         <a href="#results" tabIndex={showMobileBar ? 0 : -1} className="flex items-center justify-between gap-3">
           <span className="text-xs text-slate-300 leading-snug">
             {neverBreaksEven ? (
-              <strong className="text-red-400">No volume breaks even</strong>
+              <strong className="text-red-400">{t.mobileNever}</strong>
             ) : (
               <>
-                Break-even <strong className="text-white tabular-nums">{r.breakEvenMeals}/wk</strong>
+                {t.mobileBreakEven} <strong className="text-white tabular-nums">{t.perWeek(r.breakEvenMeals!)}</strong>
                 <span className="text-slate-500"> · </span>
-                You <strong className={`tabular-nums ${pastBreakEven ? 'text-emerald-400' : 'text-red-400'}`}>{meals}/wk {pastBreakEven ? '✓' : '✕'}</strong>
+                {t.mobileYou} <strong className={`tabular-nums ${pastBreakEven ? 'text-emerald-400' : 'text-red-400'}`}>{t.perWeek(meals)} {pastBreakEven ? '✓' : '✕'}</strong>
               </>
             )}
             <span className="text-slate-500"> · </span>
-            <span className="tabular-nums">{usd(r.contributionMargin, true)}/meal</span>
+            <span className="tabular-nums">{usd(r.contributionMargin, true)}{t.perMeal}</span>
           </span>
-          <span className="text-[10px] font-black uppercase tracking-widest text-brand-orange whitespace-nowrap">Results &darr;</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-brand-orange whitespace-nowrap">{t.results} &darr;</span>
         </a>
       </div>
     </section>

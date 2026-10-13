@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ASSET_DROP_OFF_WEBHOOK_URL, ASSET_RETURN_WEBHOOK_URL, ASSET_GET_LOCATIONS_WEBHOOK_URL } from '../config/webhooks';
+import { useLang } from '../i18n/useLang';
+import dict from '../i18n/assetTrackerWidget';
 
 interface ActiveLocation {
   address: string;
@@ -12,6 +14,8 @@ const DEPOTS = ['North Yard', 'South Yard', 'Main Depot'];
 type Mode = 'idle' | 'drop-off' | 'return';
 
 const AssetTrackerWidget: React.FC = () => {
+  const lang = useLang();
+  const t = dict[lang];
   const [mode, setMode] = useState<Mode>('idle');
   const [clientEmail, setClientEmail] = useState('');
   const [address, setAddress] = useState('');
@@ -53,8 +57,8 @@ const AssetTrackerWidget: React.FC = () => {
 
     const webhookUrl = mode === 'drop-off' ? ASSET_DROP_OFF_WEBHOOK_URL : ASSET_RETURN_WEBHOOK_URL;
     const payload = mode === 'drop-off'
-      ? { clientEmail, address }
-      : { clientEmail, address, depot };
+      ? { clientEmail, address, language: lang }
+      : { clientEmail, address, depot, language: lang };
 
     try {
       const response = await fetch(webhookUrl, {
@@ -66,17 +70,17 @@ const AssetTrackerWidget: React.FC = () => {
       const data = await response.json().catch(() => ({}));
 
       if (data.limitReached) {
-        setStatusMessage("You've reached today's usage limit for this demo (10 submissions). Check your email for details.");
+        setStatusMessage(t.limitReached);
       } else if (mode === 'drop-off') {
-        setStatusMessage(`Logged. A confirmation with a map link has been sent to ${clientEmail}.`);
+        setStatusMessage(t.dropOffLogged(clientEmail));
       } else {
-        setStatusMessage(`Logged as returned to ${depot}.`);
+        setStatusMessage(t.returnLogged(t.depots[depot] ?? depot));
       }
       setAddress('');
       await fetchLocations();
     } catch (error) {
       console.error('Asset Tracker submission failed:', error);
-      setStatusMessage('Something went wrong \u2014 please try again.');
+      setStatusMessage(t.failed);
     } finally {
       setIsSubmitting(false);
     }
@@ -105,12 +109,12 @@ const AssetTrackerWidget: React.FC = () => {
           </div>
           <div>
             <h3 className="text-white font-black text-base uppercase tracking-wider leading-none mb-1">
-              Asset Tracker
+              {t.title}
             </h3>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_8px_#f59e0b]" />
               <span className="text-amber-400 text-[8px] font-black uppercase tracking-widest">
-                Live Demo
+                {t.liveDemo}
               </span>
             </div>
           </div>
@@ -120,10 +124,10 @@ const AssetTrackerWidget: React.FC = () => {
       {/* Map */}
       <div className="bg-slate-200 w-full h-[200px] flex items-center justify-center shrink-0 overflow-hidden">
         {staticMapUrl ? (
-          <img src={staticMapUrl} alt="Map of active dumpster locations" className="w-full h-full object-cover" />
+          <img src={staticMapUrl} alt={t.mapAlt} className="w-full h-full object-cover" />
         ) : (
           <span className="text-slate-500 text-xs font-bold uppercase tracking-widest px-6 text-center">
-            {isLoadingLocations ? 'Loading map...' : locations.length === 0 ? 'No active locations yet' : 'Map unavailable (API key not configured)'}
+            {isLoadingLocations ? t.loadingMap : locations.length === 0 ? t.noLocations : t.mapUnavailable}
           </span>
         )}
       </div>
@@ -131,7 +135,7 @@ const AssetTrackerWidget: React.FC = () => {
       {/* Active locations list */}
       <div className="max-h-40 overflow-y-auto border-b border-slate-200 bg-white">
         {locations.length === 0 && !isLoadingLocations ? (
-          <p className="text-xs text-slate-400 text-center py-4">No dumpsters currently deployed.</p>
+          <p className="text-xs text-slate-400 text-center py-4">{t.noneDeployed}</p>
         ) : (
           locations.map((loc, i) => (
             <div key={i} className="flex items-center justify-between px-4 py-2 border-b border-slate-100 last:border-0">
@@ -145,7 +149,7 @@ const AssetTrackerWidget: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-amber-600 text-[10px] font-black uppercase tracking-widest shrink-0 ml-2 hover:underline"
               >
-                Open &rarr;
+                {t.open} &rarr;
               </a>
             </div>
           ))
@@ -167,13 +171,13 @@ const AssetTrackerWidget: React.FC = () => {
               onClick={() => { setMode('drop-off'); setStatusMessage(null); }}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-amber-500 hover:text-[#020617] hover:shadow-md transition-all"
             >
-              Drop Off
+              {t.dropOff}
             </button>
             <button
               onClick={() => { setMode('return'); setStatusMessage(null); }}
               className="bg-white border border-slate-200 p-3 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:border-amber-500 hover:text-[#020617] hover:shadow-md transition-all"
             >
-              Mark Returned
+              {t.markReturned}
             </button>
           </div>
         )}
@@ -184,7 +188,7 @@ const AssetTrackerWidget: React.FC = () => {
               type="email"
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
-              placeholder="Your email"
+              placeholder={t.emailPlaceholder}
               disabled={isSubmitting}
               className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
             />
@@ -193,7 +197,7 @@ const AssetTrackerWidget: React.FC = () => {
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="Job site address"
+              placeholder={t.addressPlaceholder}
               disabled={isSubmitting}
               className="bg-slate-50 text-[#020617] placeholder:text-slate-400 border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
             />
@@ -205,7 +209,7 @@ const AssetTrackerWidget: React.FC = () => {
                 disabled={isSubmitting}
                 className="bg-slate-50 text-[#020617] border border-slate-200 rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-[#020617] focus:ring-1 focus:ring-[#020617] transition-all shadow-sm disabled:opacity-50 w-full"
               >
-                {DEPOTS.map((d) => <option key={d} value={d}>{d}</option>)}
+                {DEPOTS.map((d) => <option key={d} value={d}>{t.depots[d] ?? d}</option>)}
               </select>
             )}
 
@@ -218,7 +222,7 @@ const AssetTrackerWidget: React.FC = () => {
                   : 'bg-[#020617] text-amber-400 hover:bg-slate-800 cursor-pointer'
               }`}
             >
-              {isSubmitting ? 'Submitting...' : mode === 'drop-off' ? 'Log Drop-off' : 'Log Return'}
+              {isSubmitting ? t.submitting : mode === 'drop-off' ? t.logDropOff : t.logReturn}
             </button>
 
             <button
@@ -226,7 +230,7 @@ const AssetTrackerWidget: React.FC = () => {
               disabled={isSubmitting}
               className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors self-start disabled:opacity-50"
             >
-              Cancel
+              {t.cancel}
             </button>
           </>
         )}
