@@ -1,4 +1,3 @@
-/// <reference types="vitest/config" />
 import { defineConfig, type Plugin } from 'vite'
 import { configDefaults } from 'vitest/config'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
