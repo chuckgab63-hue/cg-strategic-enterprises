@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PHONE_HREF, CALL_ARIA_LABEL, EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL } from '../config/site';
+import { EMAIL, EMAIL_HREF, EMAIL_ARIA_LABEL } from '../config/site';
+import LetsTalkChooser from './LetsTalkChooser';
 
 const NAV_LINKS = [
   { to: '/', label: 'Hub' },
@@ -60,13 +61,7 @@ export default function GlobalHeader() {
               </svg>
             </a>
             <div className="flex flex-col items-center gap-1">
-              <a
-                href={PHONE_HREF}
-                aria-label={CALL_ARIA_LABEL}
-                className="inline-block bg-brand-orange text-white px-4 sm:px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
-              >
-                Let's Talk
-              </a>
+              <LetsTalkChooser />
               <Link
                 to="/contact"
                 className="text-[10px] font-semibold tracking-wide text-slate-400 hover:text-brand-orange transition-colors whitespace-nowrap"
