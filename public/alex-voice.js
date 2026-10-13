@@ -4,7 +4,7 @@
 // Only call_started, call_ended and error are used: v3 calls don't send update,
 // metadata or agent_start/stop_talking.
 import { RetellWebClient } from "https://cdn.jsdelivr.net/npm/retell-client-js-sdk@3.0.2/+esm";
-import { startCallOptions } from "./alex-voice-options.js";
+import { startCallOptions, tokenRequestInit } from "./alex-voice-options.js";
 import { ALEX_STRINGS, pageLang } from "./alex-voice-strings.js";
 
 const TOKEN_URL = "https://hook.us2.make.com/xy2xgpmct2bxs6obfr4u9skvtg9j2gby";
@@ -76,9 +76,10 @@ async function startCall() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     stream.getTracks().forEach((t) => t.stop());
 
-    // Simple POST with no custom headers = no CORS preflight. The page language
-    // rides in the query string for the same reason (a JSON body would need one).
-    const res = await fetch(`${TOKEN_URL}?language=${pageLang()}`, { method: "POST" });
+    // The page language goes in the JSON body; ?language= stays too so the
+    // scenario's existing query-string mapping keeps working.
+    const lang = pageLang();
+    const res = await fetch(`${TOKEN_URL}?language=${lang}`, tokenRequestInit(lang));
     if (!res.ok) throw new Error(`token request failed (${res.status})`);
     const options = startCallOptions(await res.json());
 

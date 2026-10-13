@@ -1,8 +1,24 @@
 import { describe, it, expect } from 'vitest';
 // @ts-expect-error -- plain browser module served from public/, so it has no type declarations.
-import { startCallOptions as untyped } from '../../public/alex-voice-options.js';
+import { startCallOptions as untyped, tokenRequestInit as untypedInit } from '../../public/alex-voice-options.js';
 
 const startCallOptions = untyped as (data: unknown) => Record<string, unknown>;
+const tokenRequestInit = untypedInit as (lang: unknown) => RequestInit;
+
+describe('tokenRequestInit', () => {
+  it('POSTs the page language as JSON', () => {
+    expect(tokenRequestInit('es')).toEqual({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{"language":"es"}',
+    });
+    expect(JSON.parse(tokenRequestInit('en').body as string)).toEqual({ language: 'en' });
+  });
+
+  it('falls back to English for anything else', () => {
+    expect(JSON.parse(tokenRequestInit(undefined).body as string)).toEqual({ language: 'en' });
+  });
+});
 
 describe('startCallOptions', () => {
   it('passes only the token (and call id) from a v2 response', () => {

@@ -1,3 +1,14 @@
+// fetch() options for the Make token request: the page language ("en" or "es")
+// as a JSON body. The JSON content type means a CORS preflight, which Make's
+// webhooks answer (the site's forms post JSON to them the same way).
+export function tokenRequestInit(lang) {
+  return {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ language: lang === "es" ? "es" : "en" }),
+  };
+}
+
 // Maps the Make token response to RetellWebClient.startCall() options.
 // Today Make calls /v2/create-web-call, which returns only access_token (and call_id).
 // After Make switches to /v3/create-web-call the response also carries transport and
