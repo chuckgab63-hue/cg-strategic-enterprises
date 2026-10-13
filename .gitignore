@@ -27,3 +27,6 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+
+# Separate SEO plugin repo checked out locally, not part of the site
+claude-seo/
