@@ -10,7 +10,9 @@ export type AnalyticsEvent =
   | 'website_check_submitted'
   | 'lets_talk_opened'
   | 'alex_call_started'
-  | 'contact_form_submitted';
+  | 'contact_form_submitted'
+  | 'calculator_used'
+  | 'calculator_emailed';
 
 /** public/alex-voice.js dispatches this on window when a call connects (it can't import this module). */
 export const ALEX_CALL_STARTED_EVENT = 'cg:alex-call-started';

@@ -63,6 +63,8 @@ const en = {
     /** Pre-filled when the visitor comes from "Book a free intro call" on /website-check. */
     introCallTitle: 'Book a Free Intro Call',
     introCallMessage: "I just ran the free website check and I'd like to book a free intro call about the fixes. Good times to reach me:",
+    pilotTitle: 'Pilot Missed-Call Rescue',
+    pilotMessage: "I used the missed-call calculator and I'd like to talk about piloting Missed-Call Rescue. Roughly how many calls we get a week, and good times to reach me:",
     form: {
       firstNamePlaceholder: 'First name',
       lastNamePlaceholder: 'Last name',
@@ -131,6 +133,8 @@ const es: typeof en = {
     formTitle: 'Envíenos un mensaje',
     introCallTitle: 'Reserve una llamada introductoria gratuita',
     introCallMessage: 'Acabo de hacer la revisión gratuita de mi sitio web y me gustaría reservar una llamada introductoria gratuita sobre las mejoras. Buenos horarios para contactarme:',
+    pilotTitle: 'Pruebe Missed-Call Rescue',
+    pilotMessage: 'Usé la calculadora de llamadas perdidas y me gustaría hablar sobre una prueba de Missed-Call Rescue. Cuántas llamadas recibimos más o menos por semana y buenos horarios para contactarme:',
     form: {
       firstNamePlaceholder: 'Nombre',
       lastNamePlaceholder: 'Apellido',

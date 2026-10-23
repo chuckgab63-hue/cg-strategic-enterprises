@@ -162,6 +162,19 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
   },
   {
+    path: '/missed-call-calculator',
+    meta: {
+      en: {
+        title: `Missed-Call Cost Calculator | ${NAME}`,
+        description: 'Free calculator: enter your calls per week, how many you miss, how many of those callers never try again, and what a customer is worth to estimate the revenue missed calls could be costing you each month and year.',
+      },
+      es: {
+        title: `Calculadora del costo de las llamadas perdidas | ${NAME}`,
+        description: 'Calculadora gratuita: ingrese sus llamadas por semana, cuántas no contesta, cuántas de esas personas no vuelven a llamar y cuánto vale un cliente para estimar los ingresos que las llamadas perdidas podrían costarle cada mes y cada año.',
+      },
+    },
+  },
+  {
     path: '/contact',
     meta: {
       en: {

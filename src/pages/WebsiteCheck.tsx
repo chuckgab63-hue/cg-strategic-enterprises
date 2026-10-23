@@ -232,6 +232,14 @@ function Results({ result, onReset }: { result: ResultsResponse; onReset: () => 
                 <li key={reason} className="text-slate-400 text-sm leading-relaxed">{reason}</li>
               ))}
             </ul>
+            {(s.missed_call_risk === 'medium' || s.missed_call_risk === 'high') && (
+              <Link
+                to={lp('/missed-call-calculator')}
+                className="inline-block mt-5 text-sm font-bold text-brand-orange underline underline-offset-4 hover:text-white transition-colors"
+              >
+                {t.missedCallCost}
+              </Link>
+            )}
           </div>
         )}
       </div>
@@ -249,6 +257,12 @@ function Results({ result, onReset }: { result: ResultsResponse; onReset: () => 
           className="text-center border border-slate-600 text-slate-200 px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:border-brand-orange hover:text-brand-orange transition-colors"
         >
           {t.bookCall}
+        </Link>
+        <Link
+          to={lp('/missed-call-calculator')}
+          className="text-center text-xs font-bold tracking-widest uppercase text-slate-300 underline underline-offset-4 hover:text-brand-orange transition-colors py-3"
+        >
+          {t.missedCallCalculator}
         </Link>
         <button
           type="button"

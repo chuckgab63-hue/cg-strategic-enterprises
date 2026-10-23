@@ -22,6 +22,7 @@ import Terms from './pages/Terms';
 import Contact from './pages/Contact';
 import MealPrepCalculator from './pages/MealPrepCalculator';
 import WebsiteCheck from './pages/WebsiteCheck';
+import MissedCallCalculator from './pages/MissedCallCalculator';
 import NotFound from './pages/NotFound';
 import SeoHead from './i18n/SeoHead';
 import SpanishPrompt from './components/SpanishPrompt';
@@ -46,6 +47,7 @@ const PAGES: [string, React.ComponentType][] = [
   ['/contact', Contact],
   ['/meal-prep-calculator', MealPrepCalculator],
   ['/website-check', WebsiteCheck],
+  ['/missed-call-calculator', MissedCallCalculator],
 ];
 
 export default function App() {

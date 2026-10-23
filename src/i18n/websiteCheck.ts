@@ -76,6 +76,8 @@ const en = {
     disclaimer: 'These results describe what we measured today. They aren’t a guarantee of rankings, traffic or sales.',
     talkToAlex: 'Talk to Alex about these fixes',
     bookCall: 'Book a free intro call',
+    missedCallCalculator: 'Missed-call calculator',
+    missedCallCost: 'See what missed calls could be costing you',
     checkAnother: 'Check another site',
   },
   received: {
@@ -158,6 +160,8 @@ const es: typeof en = {
     disclaimer: 'Estos resultados describen lo que medimos hoy. No garantizan posiciones en buscadores, tráfico ni ventas.',
     talkToAlex: 'Hablar con Alex sobre estas mejoras',
     bookCall: 'Reservar una llamada introductoria gratuita',
+    missedCallCalculator: 'Calculadora de llamadas perdidas',
+    missedCallCost: 'Vea cuánto le podrían costar las llamadas perdidas',
     checkAnother: 'Revisar otro sitio',
   },
   received: {

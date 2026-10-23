@@ -63,6 +63,7 @@ Notes for the legal reviewer:
 | `src/i18n/mealPrepCalculator.tsx` | `/es/meal-prep-calculator` and its chart |
 | `src/i18n/websiteCheck.ts` | `/es/website-check` form, errors and results |
 | `src/lib/websiteCheck/reportCopy.ts` | Website Check report text written by the server: missed-call reasons, fallback fixes and summary (only the `es` halves) |
+| `src/i18n/missedCallCalculator.ts` | `/es/missed-call-calculator`: labels, breakdown, CTAs, the email form and the estimate summary sent with the lead |
 | `src/i18n/oneSourceCaseStudy.ts` | `/es/work/one-source-total-pest-control` |
 | `src/i18n/skunkworks.ts` | `/es/skunkworks` (voicebots, spatial viewer) |
 | `src/i18n/skunkworksProjects.ts` | "Lo que estamos construyendo" project cards |

@@ -14,7 +14,7 @@ export interface SkunkworksProject {
 }
 
 export const SKUNKWORKS_PROJECTS: SkunkworksProject[] = [
-  { slug: 'missed-call-rescue', status: 'prototype' },
+  { slug: 'missed-call-rescue', status: 'prototype', link: { to: '/missed-call-calculator' } },
   { slug: 'field-tech-voice-notes', status: 'concept' },
   { slug: 'ai-for-software-without-an-api', status: 'concept' },
   { slug: 'ask-your-business-anything', status: 'concept' },

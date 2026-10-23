@@ -20,4 +20,13 @@ describe('analytics privacy', () => {
     trackEvent('contact_form_submitted', 'es');
     expect(track).toHaveBeenCalledWith('contact_form_submitted', { language: 'es' });
   });
+
+  it('sends the calculator events with no values', () => {
+    trackEvent('calculator_used', 'en');
+    trackEvent('calculator_emailed', 'es');
+    expect(track.mock.calls).toEqual([
+      ['calculator_used', { language: 'en' }],
+      ['calculator_emailed', { language: 'es' }],
+    ]);
+  });
 });

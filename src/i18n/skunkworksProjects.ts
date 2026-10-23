@@ -37,6 +37,7 @@ const en = {
         'When a business misses a call, an AI assistant calls or texts the caller back within seconds. It finds out what they need and books them in, before they move on to the next company on the list.',
       builtOn: ['Retell AI', 'Twilio', 'Make.com'],
       note: 'Texting depends on carrier (A2P) approval.',
+      linkLabel: 'What are missed calls costing you?',
     },
     'field-tech-voice-notes': {
       title: 'Field Tech Voice Notes',
@@ -120,6 +121,7 @@ const es: typeof en = {
         'Cuando un negocio pierde una llamada, un asistente de IA le devuelve la llamada o le escribe a esa persona en cuestión de segundos. Averigua qué necesita y le agenda la cita, antes de que pase a la siguiente empresa de la lista.',
       builtOn: ['Retell AI', 'Twilio', 'Make.com'],
       note: 'El envío de mensajes de texto depende de la aprobación de los operadores (A2P).',
+      linkLabel: '¿Cuánto le cuestan las llamadas perdidas?',
     },
     'field-tech-voice-notes': {
       title: 'Notas de voz para técnicos de campo',
