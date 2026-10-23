@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  WebsiteCheckError, fetchPublicPage, isPublicIp, normalizeWebsiteUrl, siteDomain,
+  WebsiteCheckError, fetchPublicPage, isPublicIp, normalizeWebsiteUrl, pageLabel, siteDomain,
   type FetchDeps, type HopResponse,
 } from './url';
 
@@ -14,12 +14,13 @@ function codeOf(fn: () => unknown): string {
 }
 
 describe('normalizeWebsiteUrl', () => {
-  it('adds https and reduces any URL to its homepage', () => {
+  it('adds https, keeps the path and drops the query and fragment', () => {
     expect(normalizeWebsiteUrl('Example.com').href).toBe('https://example.com/');
-    expect(normalizeWebsiteUrl('  www.example.com/about?x=1#top ').href).toBe('https://www.example.com/');
+    expect(normalizeWebsiteUrl('  www.example.com/about?x=1#top ').href).toBe('https://www.example.com/about');
+    expect(normalizeWebsiteUrl('https://bythecjax.com/onesourcepest/').href).toBe('https://bythecjax.com/onesourcepest/');
     expect(normalizeWebsiteUrl('http://example.com').href).toBe('http://example.com/');
     expect(normalizeWebsiteUrl('example.com:443').href).toBe('https://example.com/');
-    expect(normalizeWebsiteUrl('//example.com/x').href).toBe('https://example.com/');
+    expect(normalizeWebsiteUrl('//example.com/x').href).toBe('https://example.com/x');
   });
 
   it('rejects other schemes', () => {
@@ -44,8 +45,10 @@ describe('normalizeWebsiteUrl', () => {
     expect(codeOf(() => normalizeWebsiteUrl('http://exa mple.com'))).toBe('invalid_url');
   });
 
-  it('keys the cache by hostname without www', () => {
-    expect(siteDomain(new URL('https://www.example.com/'))).toBe('example.com');
+  it('labels and caches pages by domain and path', () => {
+    expect(siteDomain(new URL('https://www.example.com/shop/'))).toBe('example.com');
+    expect(pageLabel(new URL('https://www.example.com/'))).toBe('example.com');
+    expect(pageLabel(new URL('https://bythecjax.com/onesourcepest/'))).toBe('bythecjax.com/onesourcepest');
   });
 });
 

@@ -90,6 +90,8 @@ const html = `<html><head><title>Bob's Plumbing</title><meta name="viewport" con
 
 const measurement: Measurement = {
   domain: 'bobsplumbing.com',
+  page: 'bobsplumbing.com',
+  htmlError: null,
   finalUrl: 'https://www.bobsplumbing.com/',
   checkedAt: '2026-10-23T14:00:00.000Z',
   htmlTruncated: false,
@@ -140,13 +142,43 @@ describe('buildReport', () => {
     expect(en.ai.summary).toContain(`scored ${en.scores.overall} out of 100`);
     const es = buildReport(measurement, 'es', null);
     expect(es.ai.fixes[0].title).toBe('Atienda a los visitantes cuando usted no puede');
-    expect(es.risk.reasonText[0]).toMatch(/^No hay reservas/);
+    expect(es.risk?.reasonText[0]).toMatch(/^No hay reservas/);
   });
 
   it('keeps the scores deterministic whatever the AI says', () => {
     const report = buildReport(measurement, 'en', goodAi);
     expect(report.scores).toEqual({ overall: report.scores.overall, speed: 81, mobile: 48, searchBasics: 60, missedCallRisk: 'medium' });
     expect(report.ai).toEqual({ ...goodAi, generatedBy: 'gemini' });
+    expect(report.status).toBe('complete');
+    expect(report.unavailable).toEqual([]);
+  });
+
+  it('is partial, not an error, when PageSpeed is down', () => {
+    const report = buildReport({ ...measurement, pagespeed: { mobile: null, desktop: null } }, 'en', null);
+    expect(report.status).toBe('partial');
+    expect(report.unavailable).toEqual(['pagespeed_mobile', 'pagespeed_desktop', 'ai_summary']);
+    expect(report.scores).toMatchObject({ speed: null, mobile: null, searchBasics: 60, missedCallRisk: 'medium' });
+    expect(report.scores.overall).toBe(Math.round((60 * 25 + 55 * 25) / 50));
+    expect(report.ai.summary).toContain('Google couldn’t measure the speed this time.');
+  });
+
+  it('is partial with speed scores only when the page HTML couldn’t be read', () => {
+    const report = buildReport({ ...measurement, checks: null, htmlError: 'unreachable' }, 'es', null);
+    expect(report.status).toBe('partial');
+    expect(report.unavailable).toEqual(['html_checks', 'ai_summary']);
+    expect(report.scores).toEqual({ overall: Math.round((48 * 30 + 81 * 20) / 50), speed: 81, mobile: 48, searchBasics: null, missedCallRisk: null });
+    expect(report.risk).toBeNull();
+    expect(report.search).toBeNull();
+    // Mobile 48 is under 50, so the speed fix is the one rule-based fix left.
+    expect(report.ai.fixes.map(f => f.title)).toEqual(['Acelere el sitio en celulares']);
+    expect(report.ai.summary).toMatch(/No pudimos leer la página/);
+    const summary = pageSummary(report);
+    expect(summary).toMatchObject({ search_missed: null, risk_reasons: [], content_limited: false });
+    const lead = (parseWebsiteCheckRequest(validBody) as { lead: Lead }).lead;
+    expect(makePayload(lead, report, { now: new Date(), cached: false })).toMatchObject({
+      status: 'partial', unavailable: ['html_checks', 'ai_summary'], checks: null, missed_call_risk: null, search_basics: null,
+      website: { html_error: 'unreachable' },
+    });
   });
 });
 

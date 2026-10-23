@@ -9,8 +9,13 @@ import type { ReportLang } from './reportCopy.js';
 
 export const WEBSITE_CHECK_SOURCE = 'website-check';
 
-/** Hidden field real visitors never see or fill in. Not "website": that's the real URL field here. */
-export const WEBSITE_CHECK_HONEYPOT = 'company_site';
+/**
+ * Hidden field real visitors never see or fill in. Deliberately meaningless:
+ * the first version was "company_site" and browser autofill filled it for
+ * real visitors, who then got the bot response instead of their results.
+ * The page also marks it readOnly, which autofill skips.
+ */
+export const WEBSITE_CHECK_HONEYPOT = 'cg_hp_7f3';
 
 export type LeadError = 'website_required' | 'first_name_required' | 'email_invalid' | 'phone_required';
 
@@ -92,11 +97,16 @@ export function makePayload(lead: Lead, report: Report, opts: { now: Date; cache
     ...(lead.smsMarketingConsent && { sms_marketing_consent_text: lead.smsMarketingConsentText }),
     email_marketing_consent: lead.emailMarketingConsent,
     ...((lead.smsMarketingConsent || lead.emailMarketingConsent) && { marketing_consent_timestamp: now }),
+    // 'partial' when a part couldn't be checked; `unavailable` says which.
+    status: report.status,
+    unavailable: report.unavailable,
     website: {
       domain: report.domain,
+      page: report.page,
       final_url: report.finalUrl,
       checked_at: report.checkedAt,
       from_cache: opts.cached,
+      html_error: report.htmlError,
     },
     scores: {
       overall: report.scores.overall,
@@ -109,7 +119,7 @@ export function makePayload(lead: Lead, report: Report, opts: { now: Date; cache
       mobile: psi(report.pagespeed.mobile),
       desktop: psi(report.pagespeed.desktop),
     },
-    checks: {
+    checks: c && {
       https: c.https,
       title: c.title.present,
       title_text: c.title.text,
@@ -131,11 +141,11 @@ export function makePayload(lead: Lead, report: Report, opts: { now: Date; cache
       content_limited: c.contentLimited,
       html_truncated: report.htmlTruncated,
     },
-    search_basics: {
+    search_basics: report.search && {
       passed: report.search.passed,
       missed: report.search.missed,
     },
-    missed_call_risk: {
+    missed_call_risk: report.risk && {
       level: report.risk.level,
       reasons: report.risk.reasons,
       reason_text: report.risk.reasonText,
@@ -155,6 +165,7 @@ export function pageSummary(report: Report) {
   const metrics = (r: Report['pagespeed']['mobile']) => r && { lcp_ms: r.lcpMs, cls: r.cls, inp_ms: r.inpMs, metrics_source: r.metricsSource };
   return {
     domain: report.domain,
+    page: report.page,
     scores: {
       overall: report.scores.overall,
       speed: report.scores.speed,
@@ -163,11 +174,11 @@ export function pageSummary(report: Report) {
       missed_call_risk: report.scores.missedCallRisk,
     },
     metrics: { mobile: metrics(report.pagespeed.mobile), desktop: metrics(report.pagespeed.desktop) },
-    search_missed: report.search.missed,
-    risk_reasons: report.risk.reasonText,
+    search_missed: report.search?.missed ?? null,
+    risk_reasons: report.risk?.reasonText ?? [],
     summary: report.ai.summary,
     fixes: report.ai.fixes,
-    content_limited: report.checks.contentLimited,
+    content_limited: report.checks?.contentLimited ?? false,
   };
 }
 

@@ -1,6 +1,10 @@
 // Puts a Website Check together: the measured data, the scores, and the plain-
 // language summary. Gemini only writes the summary and the fixes from the
 // measured data; scores always come from scoring.ts.
+//
+// Any one part can be missing (PageSpeed down, homepage unreadable, Gemini
+// down). The report then says which parts are unavailable and status is
+// 'partial'; the page shows what we have instead of an error.
 
 import type { HtmlChecks } from './htmlChecks.js';
 import type { PageSpeedResult } from './pagespeed.js';
@@ -9,43 +13,61 @@ import {
 } from './scoring.js';
 import { RISK_REASON_TEXT, fallbackFixes, fallbackSummary, type Fix, type ReportLang } from './reportCopy.js';
 
-/** What we measured about a site. Cached per domain for 24 hours, shared by both languages. */
+/** A part of the check that couldn't be done this time. */
+export type UnavailablePart = 'pagespeed_mobile' | 'pagespeed_desktop' | 'html_checks' | 'ai_summary';
+
+/** What we measured about a page. Cached for 24 hours when complete, shared by both languages. */
 export interface Measurement {
   domain: string;
+  /** Domain plus path, e.g. "bythecjax.com/onesourcepest". */
+  page: string;
   finalUrl: string;
   checkedAt: string;
   htmlTruncated: boolean;
-  checks: HtmlChecks;
+  /** Null when we couldn't read the page's HTML; htmlError says why. */
+  checks: HtmlChecks | null;
+  htmlError: string | null;
   pagespeed: { mobile: PageSpeedResult | null; desktop: PageSpeedResult | null };
 }
 
 export interface Scores {
-  overall: number;
+  overall: number | null;
   speed: number | null;
   mobile: number | null;
-  searchBasics: number;
-  missedCallRisk: MissedCallRisk['level'];
+  searchBasics: number | null;
+  missedCallRisk: MissedCallRisk['level'] | null;
 }
 
 export interface Report extends Measurement {
   language: ReportLang;
+  status: 'complete' | 'partial';
+  unavailable: UnavailablePart[];
   scores: Scores;
-  search: { passed: SearchCheck[]; missed: SearchCheck[] };
-  risk: MissedCallRisk & { reasonText: string[] };
+  search: { passed: SearchCheck[]; missed: SearchCheck[] } | null;
+  risk: (MissedCallRisk & { reasonText: string[] }) | null;
   ai: { summary: string; fixes: Fix[]; generatedBy: 'gemini' | 'rules' };
 }
 
+/** The parts of a measurement that are missing (before the AI step). */
+export function missingParts(m: Measurement): UnavailablePart[] {
+  const missing: UnavailablePart[] = [];
+  if (!m.pagespeed.mobile) missing.push('pagespeed_mobile');
+  if (!m.pagespeed.desktop) missing.push('pagespeed_desktop');
+  if (!m.checks) missing.push('html_checks');
+  return missing;
+}
+
 export function scoreMeasurement(m: Measurement) {
-  const risk = missedCallRisk(m.checks);
-  const search = searchBasics(m.checks);
+  const risk = m.checks ? missedCallRisk(m.checks) : null;
+  const search = m.checks ? searchBasics(m.checks) : null;
   const speed = m.pagespeed.desktop?.performance ?? null;
   const mobile = m.pagespeed.mobile?.performance ?? null;
   const scores: Scores = {
-    overall: overallScore({ speed, mobile, search: search.score, risk: risk.level }),
+    overall: overallScore({ speed, mobile, search: search?.score ?? null, risk: risk?.level ?? null }),
     speed,
     mobile,
-    searchBasics: search.score,
-    missedCallRisk: risk.level,
+    searchBasics: search?.score ?? null,
+    missedCallRisk: risk?.level ?? null,
   };
   return { scores, risk, search };
 }
@@ -60,21 +82,26 @@ export function aiInput(m: Measurement, scored: ReturnType<typeof scoreMeasureme
     metrics_source: r.metricsSource,
     top_opportunities: r.opportunities.map(o => ({ title: o.title, estimated_savings_ms: o.savingsMs })),
   };
+  const c = m.checks;
   return {
-    domain: m.domain,
-    overall_score: scored.scores.overall,
+    page: m.page,
+    overall_score: scored.scores.overall ?? 'not available',
     pagespeed_mobile: psi(m.pagespeed.mobile) ?? 'not available',
     pagespeed_desktop: psi(m.pagespeed.desktop) ?? 'not available',
-    search_basics: { score: scored.search.score, passed: scored.search.passed, missed: scored.search.missed, h1_count: m.checks.h1.count },
-    missed_call_risk: { level: scored.risk.level, reasons: scored.risk.reasons },
-    found_on_homepage: {
-      tap_to_call_link: m.checks.telLink,
-      contact_form: m.checks.contactForm,
-      booking_tools: m.checks.booking.tools,
-      chat_or_voice_tools: m.checks.chatWidget.tools,
-      after_hours_signs: m.checks.afterHours.evidence,
-    },
-    page_built_with_javascript_so_checks_may_miss_content: m.checks.contentLimited,
+    search_basics: scored.search && c
+      ? { score: scored.search.score, passed: scored.search.passed, missed: scored.search.missed, h1_count: c.h1.count }
+      : 'not available: we could not read the page',
+    missed_call_risk: scored.risk ? { level: scored.risk.level, reasons: scored.risk.reasons } : 'not available: we could not read the page',
+    found_on_homepage: c
+      ? {
+          tap_to_call_link: c.telLink,
+          contact_form: c.contactForm,
+          booking_tools: c.booking.tools,
+          chat_or_voice_tools: c.chatWidget.tools,
+          after_hours_signs: c.afterHours.evidence,
+        }
+      : 'not available',
+    page_built_with_javascript_so_checks_may_miss_content: c?.contentLimited ?? false,
   };
 }
 
@@ -88,6 +115,7 @@ export function aiPrompt(input: ReturnType<typeof aiInput>, lang: ReportLang): {
       'Use ONLY the measured data you are given. Do not invent numbers, percentages, rankings, revenue or lead figures, and do not estimate anything that was not measured.',
       'Never promise or guarantee results (no "will rank", "will double", "guaranteed").',
       'If a number appears in your text it must be copied exactly from the data.',
+      'If a part is "not available", say in a few words that it could not be checked this time; do not guess it.',
       'If page_built_with_javascript_so_checks_may_miss_content is true, say briefly that some items may exist but were not visible to the check.',
       'No jargon without a short plain explanation. No markdown.',
       language,
@@ -146,24 +174,29 @@ export function parseAiOutput(text: string | undefined, input: ReturnType<typeof
 
 export function buildReport(m: Measurement, lang: ReportLang, ai: { summary: string; fixes: Fix[] } | null): Report {
   const scored = scoreMeasurement(m);
+  const unavailable = missingParts(m);
+  if (!ai) unavailable.push('ai_summary');
   const fixes = ai?.fixes ?? fallbackFixes(lang, {
-    riskReasons: scored.risk.reasons,
+    riskReasons: scored.risk?.reasons ?? [],
     mobileScore: scored.scores.mobile,
-    searchMissed: scored.search.missed,
+    searchMissed: scored.search?.missed ?? [],
   });
   return {
     ...m,
     language: lang,
+    status: unavailable.length ? 'partial' : 'complete',
+    unavailable,
     scores: scored.scores,
-    search: { passed: scored.search.passed, missed: scored.search.missed },
-    risk: { ...scored.risk, reasonText: scored.risk.reasons.map(r => RISK_REASON_TEXT[lang][r]) },
+    search: scored.search && { passed: scored.search.passed, missed: scored.search.missed },
+    risk: scored.risk && { ...scored.risk, reasonText: scored.risk.reasons.map(r => RISK_REASON_TEXT[lang][r]) },
     ai: {
       summary: ai?.summary ?? fallbackSummary(lang, {
-        domain: m.domain,
+        page: m.page,
         overall: scored.scores.overall,
-        risk: scored.risk.level,
-        searchMissedCount: scored.search.missed.length,
-        contentLimited: m.checks.contentLimited,
+        risk: scored.risk?.level ?? null,
+        searchMissedCount: scored.search?.missed.length ?? null,
+        contentLimited: m.checks?.contentLimited ?? false,
+        pagespeedMissing: !m.pagespeed.mobile && !m.pagespeed.desktop,
       }),
       fixes,
       generatedBy: ai ? 'gemini' : 'rules',

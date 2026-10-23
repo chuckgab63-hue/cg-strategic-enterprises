@@ -5,13 +5,18 @@ import { OPEN_LETS_TALK_EVENT } from '../components/LetsTalkChooser';
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { smsPhoneError } from '../lib/smsPhone';
 import { WEBSITE_CHECK_HONEYPOT, WEBSITE_CHECK_SOURCE, type PageSummary } from '../lib/websiteCheck/lead';
+import { readCheckResponse, type ReadResponse } from '../lib/websiteCheck/response';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import consentDict from '../i18n/consent';
 import websiteCheckDict from '../i18n/websiteCheck';
 
 // The free Website Check lead magnet. The form posts to api/website-check.ts,
 // which checks the site, sends the full report to Make for the follow-up email,
-// and returns the short summary shown here.
+// and returns the short summary shown here. The response is read with
+// readCheckResponse (src/lib/websiteCheck/response.ts), the same contract the
+// API builds its answers with.
+
+type ResultsResponse = Extract<ReadResponse, { kind: 'results' }>;
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
@@ -110,11 +115,14 @@ function ScoreCard({ label, note, value, suffix, tone, children }: {
   );
 }
 
-function Results({ report, onReset }: { report: PageSummary; onReset: () => void }) {
+function Results({ result, onReset }: { result: ResultsResponse; onReset: () => void }) {
   const t = useT(websiteCheckDict).results;
   const lp = useLocalePath();
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const { report } = result;
   const s = report.scores;
+  // Missing parts are explained in the notice above the cards, not as an error.
+  const shown = result.unavailable.filter(part => part !== 'ai_summary' || report.fixes.length === 0);
 
   useEffect(() => {
     headingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -140,17 +148,26 @@ function Results({ report, onReset }: { report: PageSummary; onReset: () => void
     <div className="flex flex-col gap-8">
       <div className="flex flex-col sm:flex-row sm:items-center gap-6">
         <div className={`shrink-0 w-28 h-28 rounded-full border-4 flex flex-col items-center justify-center ${scoreTone(s.overall)}`}>
-          <span className="text-4xl font-black">{s.overall}</span>
+          <span className="text-4xl font-black">{s.overall ?? '—'}</span>
           <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{t.outOf}</span>
         </div>
         <div className="min-w-0">
           <h2 ref={headingRef} tabIndex={-1} className="text-2xl md:text-3xl font-black text-white scroll-mt-28 focus:outline-none break-words">
-            {t.title} <span className="text-brand-orange">{report.domain}</span>
+            {t.title} <span className="text-brand-orange">{report.page}</span>
           </h2>
           <p className="text-slate-300 text-sm leading-relaxed mt-3">{report.summary}</p>
-          <p className="text-slate-400 text-xs mt-2">{t.emailed}</p>
+          <p className="text-slate-400 text-xs mt-2">{result.emailed ? t.emailed : t.notEmailed}</p>
         </div>
       </div>
+
+      {result.status === 'partial' && shown.length > 0 && (
+        <div role="status" className="text-xs text-amber-200 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 leading-5">
+          <p className="font-bold">{t.partialTitle}</p>
+          <ul className="list-disc pl-5 mt-1">
+            {shown.map(part => <li key={part}>{t.unavailable[part]}</li>)}
+          </ul>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <ScoreCard
@@ -171,8 +188,20 @@ function Results({ report, onReset }: { report: PageSummary; onReset: () => void
         >
           {metricLine(report.metrics.mobile)}
         </ScoreCard>
-        <ScoreCard label={t.search} note={t.searchNote} value={String(s.search_basics)} tone={scoreTone(s.search_basics)} />
-        <ScoreCard label={t.risk} note={t.riskNote} value={t.riskLevels[s.missed_call_risk]} tone={RISK_TONE[s.missed_call_risk]} />
+        <ScoreCard
+          label={t.search}
+          note={s.search_basics === null ? t.notReadableNote : t.searchNote}
+          value={s.search_basics === null ? '—' : String(s.search_basics)}
+          suffix={s.search_basics === null ? t.notAvailable : undefined}
+          tone={scoreTone(s.search_basics)}
+        />
+        <ScoreCard
+          label={t.risk}
+          note={s.missed_call_risk === null ? t.notReadableNote : t.riskNote}
+          value={s.missed_call_risk === null ? '—' : t.riskLevels[s.missed_call_risk]}
+          suffix={s.missed_call_risk === null ? t.notAvailable : undefined}
+          tone={s.missed_call_risk === null ? scoreTone(null) : RISK_TONE[s.missed_call_risk]}
+        />
       </div>
 
       {report.content_limited && (
@@ -180,7 +209,7 @@ function Results({ report, onReset }: { report: PageSummary; onReset: () => void
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-3 bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+        {report.fixes.length > 0 && <div className="lg:col-span-3 bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
           <h3 className="text-white font-bold text-lg mb-4">{t.fixesTitle}</h3>
           <ol className="flex flex-col gap-4">
             {report.fixes.map((fix, i) => (
@@ -193,7 +222,7 @@ function Results({ report, onReset }: { report: PageSummary; onReset: () => void
               </li>
             ))}
           </ol>
-        </div>
+        </div>}
         {report.risk_reasons.length > 0 && (
           <div className="lg:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
             <h3 className="text-white font-bold text-lg mb-4">{t.whyRisk}</h3>
@@ -242,7 +271,7 @@ export default function WebsiteCheck() {
   const [fieldErrors, setFieldErrors] = useState<FieldError[]>([]);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'done'>('idle');
   const [error, setError] = useState<string>('');
-  const [report, setReport] = useState<PageSummary | null>(null);
+  const [outcome, setOutcome] = useState<ReadResponse | null>(null);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const turnstile = useTurnstile(turnstileRef, lang);
   const ids = { url: useId(), first: useId(), email: useId(), business: useId(), phone: useId() };
@@ -286,15 +315,15 @@ export default function WebsiteCheck() {
           turnstile_token: turnstile.token,
         }),
       });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok && data.report) {
-        setReport(data.report);
+      // A platform error page (e.g. a timeout) isn't JSON; readCheckResponse turns it into an error.
+      const read = readCheckResponse(response.status, await response.json().catch(() => null));
+      if (read.kind !== 'error') {
+        setOutcome(read);
         setStatus('done');
         return;
       }
-      if (Array.isArray(data.fields)) setFieldErrors(data.fields);
-      const code = typeof data.error === 'string' && data.error in t.errors ? data.error as keyof typeof t.errors : 'generic';
-      setError(data.fields ? '' : code);
+      if (read.fields.length) setFieldErrors(read.fields as FieldError[]);
+      setError(read.fields.length ? '' : read.code in t.errors ? read.code : 'generic');
     } catch (err) {
       console.error('Website check failed:', err);
       setError('generic');
@@ -304,7 +333,7 @@ export default function WebsiteCheck() {
   };
 
   const reset = () => {
-    setReport(null);
+    setOutcome(null);
     setStatus('idle');
     setForm(prev => ({ ...prev, websiteUrl: '' }));
     turnstile.reset();
@@ -325,8 +354,13 @@ export default function WebsiteCheck() {
       <p className="text-slate-400 text-sm leading-relaxed mt-2 max-w-3xl">{t.howItWorks}</p>
 
       <div className="mt-10">
-        {status === 'done' && report ? (
-          <Results report={report} onReset={reset} />
+        {status === 'done' && outcome?.kind === 'results' ? (
+          <Results result={outcome} onReset={reset} />
+        ) : status === 'done' && outcome?.kind === 'received' ? (
+          <div role="status" className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8 max-w-2xl">
+            <h2 className="text-white font-bold text-lg">{t.received.title}</h2>
+            <p className="text-slate-400 text-sm leading-relaxed mt-2">{t.received.body}</p>
+          </div>
         ) : (
           <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8 max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
@@ -408,12 +442,16 @@ export default function WebsiteCheck() {
                 {fieldError('phone_required', `${ids.phone}-e`)}
               </div>
 
-              {/* Honeypot: off-screen rather than display:none, which some bots skip. */}
+              {/* Honeypot: off-screen rather than display:none, which some bots skip.
+                  A meaningless name and label plus readOnly keep browser autofill and
+                  password managers out of it (they filled the first version, so real
+                  visitors were treated as bots); scripts that set values still fill it. */}
               <div aria-hidden="true" className="absolute -left-[10000px] top-auto w-px h-px overflow-hidden">
                 <label>
-                  Company website
+                  Leave this field empty
                   <input
-                    type="text" name={WEBSITE_CHECK_HONEYPOT} tabIndex={-1} autoComplete="off"
+                    type="text" name={WEBSITE_CHECK_HONEYPOT} tabIndex={-1} autoComplete="off" readOnly
+                    data-lpignore="true" data-1p-ignore="true" data-form-type="other"
                     value={form[WEBSITE_CHECK_HONEYPOT]} onChange={e => set(WEBSITE_CHECK_HONEYPOT, e.target.value)}
                   />
                 </label>

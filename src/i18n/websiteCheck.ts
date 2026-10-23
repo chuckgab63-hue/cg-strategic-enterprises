@@ -6,7 +6,7 @@ const en = {
   eyebrow: 'Free website check',
   title: 'How well does your website turn visitors into customers?',
   intro: "Get a free check of your website's speed, mobile experience, search basics and missed-call risk. We'll email you the report.",
-  howItWorks: 'We test your homepage with Google PageSpeed Insights and read it for the basics customers and search engines look for. It takes about a minute.',
+  howItWorks: 'We test the page you enter (usually your homepage) with Google PageSpeed Insights and read it for the basics customers and search engines look for. It takes about a minute.',
   form: {
     title: 'Check my website',
     websiteUrl: 'Website address',
@@ -41,6 +41,15 @@ const en = {
   results: {
     title: 'Your results for',
     emailed: 'We’ll email you the full report.',
+    notEmailed: 'We couldn’t send the report by email right now, so here are your results. Call or message us if you’d like a copy.',
+    partialTitle: 'Some parts couldn’t be checked this time:',
+    unavailable: {
+      pagespeed_mobile: 'Google’s mobile speed test didn’t respond.',
+      pagespeed_desktop: 'Google’s desktop speed test didn’t respond.',
+      html_checks: 'We couldn’t read the page itself (it may block automated visitors), so search basics and missed-call risk weren’t checked.',
+      ai_summary: 'Our plain-language summary isn’t available, so these are our standard recommendations.',
+    },
+    notReadableNote: 'We couldn’t read the page this time',
     overall: 'Overall',
     outOf: 'out of 100',
     speed: 'Speed',
@@ -69,13 +78,17 @@ const en = {
     bookCall: 'Book a free intro call',
     checkAnother: 'Check another site',
   },
+  received: {
+    title: 'Thanks, we’ve got it',
+    body: 'We’ll be in touch by email.',
+  },
 };
 
 const es: typeof en = {
   eyebrow: 'Revisión gratuita de su sitio web',
   title: '¿Qué tan bien convierte su sitio web a los visitantes en clientes?',
   intro: 'Reciba una revisión gratuita de la velocidad de su sitio, la experiencia en celulares, lo básico para buscadores y el riesgo de llamadas perdidas. Le enviaremos el informe por correo electrónico.',
-  howItWorks: 'Probamos su página de inicio con Google PageSpeed Insights y la revisamos en busca de lo básico que buscan los clientes y los buscadores. Tarda alrededor de un minuto.',
+  howItWorks: 'Probamos la página que ingrese (normalmente su página de inicio) con Google PageSpeed Insights y la revisamos en busca de lo básico que buscan los clientes y los buscadores. Tarda alrededor de un minuto.',
   form: {
     title: 'Revisar mi sitio web',
     websiteUrl: 'Dirección del sitio web',
@@ -110,6 +123,15 @@ const es: typeof en = {
   results: {
     title: 'Sus resultados para',
     emailed: 'Le enviaremos el informe completo por correo electrónico.',
+    notEmailed: 'No pudimos enviar el informe por correo electrónico en este momento, así que aquí tiene sus resultados. Llámenos o escríbanos si desea una copia.',
+    partialTitle: 'Algunas partes no se pudieron revisar esta vez:',
+    unavailable: {
+      pagespeed_mobile: 'La prueba de velocidad de Google para celulares no respondió.',
+      pagespeed_desktop: 'La prueba de velocidad de Google para computadoras no respondió.',
+      html_checks: 'No pudimos leer la página (puede que bloquee a visitantes automatizados), así que no revisamos los básicos de búsqueda ni el riesgo de llamadas perdidas.',
+      ai_summary: 'Nuestro resumen en lenguaje sencillo no está disponible, así que estas son nuestras recomendaciones estándar.',
+    },
+    notReadableNote: 'No pudimos leer la página esta vez',
     overall: 'General',
     outOf: 'de 100',
     speed: 'Velocidad',
@@ -137,6 +159,10 @@ const es: typeof en = {
     talkToAlex: 'Hablar con Alex sobre estas mejoras',
     bookCall: 'Reservar una llamada introductoria gratuita',
     checkAnother: 'Revisar otro sitio',
+  },
+  received: {
+    title: 'Gracias, lo recibimos',
+    body: 'Nos comunicaremos con usted por correo electrónico.',
   },
 };
 

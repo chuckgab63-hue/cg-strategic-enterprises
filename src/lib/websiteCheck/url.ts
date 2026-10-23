@@ -49,8 +49,10 @@ export function urlProblem(url: URL): string {
 }
 
 /**
- * Turns what the visitor typed into the site's homepage URL:
- * "Example.com/about" -> "https://example.com/". Throws invalid_url or blocked_url.
+ * Turns what the visitor typed into the page to check, keeping the path (a
+ * site can live in a folder, like example.com/shop/) but not the query or
+ * fragment: "Example.com/shop/?x=1" -> "https://example.com/shop/".
+ * Throws invalid_url or blocked_url.
  */
 export function normalizeWebsiteUrl(input: string): URL {
   let raw = input.trim();
@@ -70,12 +72,20 @@ export function normalizeWebsiteUrl(input: string): URL {
   const problem = urlProblem(url);
   if (problem) throw new WebsiteCheckError(url.protocol.startsWith('http') ? 'blocked_url' : 'invalid_url', problem);
   url.hostname = url.hostname.replace(/\.$/, '').toLowerCase();
-  return new URL(`${url.protocol}//${url.host}/`);
+  return new URL(`${url.protocol}//${url.host}${url.pathname}`);
 }
 
-/** The cache key for a site: hostname without "www.". */
+/** The site's domain without "www.". */
 export function siteDomain(url: URL): string {
   return url.hostname.replace(/^www\./, '');
+}
+
+/**
+ * The page as people say it, and the cache key: domain plus path, no
+ * trailing slash. "https://www.example.com/shop/" -> "example.com/shop".
+ */
+export function pageLabel(url: URL): string {
+  return siteDomain(url) + url.pathname.replace(/\/+$/, '');
 }
 
 function parseIPv4(ip: string): number[] | null {

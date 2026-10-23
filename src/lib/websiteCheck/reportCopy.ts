@@ -91,14 +91,34 @@ export function fallbackFixes(lang: ReportLang, input: { riskReasons: RiskReason
   return fixes.slice(0, 3);
 }
 
-export function fallbackSummary(lang: ReportLang, input: { domain: string; overall: number; risk: string; searchMissedCount: number; contentLimited: boolean }): string {
-  const riskWord = lang === 'es'
-    ? { low: 'bajo', medium: 'medio', high: 'alto' }[input.risk] ?? input.risk
-    : input.risk;
-  const limited = !input.contentLimited ? '' : lang === 'es'
-    ? ' Su página se arma con JavaScript, así que algunos elementos pueden existir aunque nuestra revisión no los haya visto.'
-    : ' Your page is built with JavaScript, so some items may be there even though our check couldn’t see them.';
-  return lang === 'es'
-    ? `Revisamos ${input.domain} y obtuvo ${input.overall} de 100 en general. El riesgo de llamadas perdidas es ${riskWord} y faltan ${input.searchMissedCount} de 6 aspectos básicos de búsqueda.${limited} Las mejoras de abajo son las que más ayudarían según lo que medimos.`
-    : `We checked ${input.domain} and it scored ${input.overall} out of 100 overall. Missed-call risk is ${riskWord}, and ${input.searchMissedCount} of 6 search basics are missing.${limited} The fixes below are the ones that would help most based on what we measured.`;
+export function fallbackSummary(lang: ReportLang, input: {
+  page: string; overall: number | null; risk: string | null; searchMissedCount: number | null;
+  contentLimited: boolean; pagespeedMissing: boolean;
+}): string {
+  const es = lang === 'es';
+  const parts: string[] = [];
+  parts.push(input.overall === null
+    ? (es ? `Revisamos ${input.page}.` : `We checked ${input.page}.`)
+    : (es ? `Revisamos ${input.page} y obtuvo ${input.overall} de 100 en general.` : `We checked ${input.page} and it scored ${input.overall} out of 100 overall.`));
+  if (input.risk !== null && input.searchMissedCount !== null) {
+    const riskWord = es ? ({ low: 'bajo', medium: 'medio', high: 'alto' }[input.risk] ?? input.risk) : input.risk;
+    parts.push(es
+      ? `El riesgo de llamadas perdidas es ${riskWord} y faltan ${input.searchMissedCount} de 6 aspectos básicos de búsqueda.`
+      : `Missed-call risk is ${riskWord}, and ${input.searchMissedCount} of 6 search basics are missing.`);
+  } else {
+    parts.push(es
+      ? 'No pudimos leer la página, así que esta vez no revisamos los aspectos básicos de búsqueda ni el riesgo de llamadas perdidas.'
+      : 'We couldn’t read the page itself, so search basics and missed-call risk weren’t checked this time.');
+  }
+  if (input.pagespeedMissing) {
+    parts.push(es
+      ? 'Google no pudo medir la velocidad esta vez.'
+      : 'Google couldn’t measure the speed this time.');
+  }
+  if (input.contentLimited) {
+    parts.push(es
+      ? 'Su página se arma con JavaScript, así que algunos elementos pueden existir aunque nuestra revisión no los haya visto.'
+      : 'Your page is built with JavaScript, so some items may be there even though our check couldn’t see them.');
+  }
+  return parts.join(' ');
 }

@@ -1,7 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import { nodeFetchDeps } from './_lib/nodeFetch.js';
 import {
-  WebsiteCheckError, fetchPublicPage, normalizeWebsiteUrl, siteDomain,
+  WebsiteCheckError, fetchPublicPage, normalizeWebsiteUrl, pageLabel, siteDomain,
 } from '../src/lib/websiteCheck/url.js';
 import { checkHtml } from '../src/lib/websiteCheck/htmlChecks.js';
 import { runPageSpeed, type PageSpeedRun } from '../src/lib/websiteCheck/pagespeed.js';
@@ -15,6 +15,7 @@ import {
 import {
   clientIp, createRateLimiter, createTtlCache, verifyTurnstile,
 } from '../src/lib/websiteCheck/limits.js';
+import { errorBody, receivedBody, resultsBody } from '../src/lib/websiteCheck/response.js';
 
 // The free Website Check on /website-check. Checks the visitor's homepage
 // (PageSpeed Insights plus our own HTML checks), has Gemini explain the result
@@ -23,15 +24,18 @@ import {
 //
 // Time budget, inside the 60 s maxDuration in vercel.json: the HTML fetch
 // (10 s) runs alongside both PageSpeed tests (45 s, in parallel), then Gemini
-// (8 s) and Make (5 s). Only a failed HTML fetch or bad input is an error for
-// the visitor; PageSpeed, Gemini and Make failures still return results.
+// (8 s) and Make (5 s). Responses follow src/lib/websiteCheck/response.ts.
+// Bad input, a blocked URL, or a page that neither we nor Google could load
+// is an error; any other failed step returns status 'partial' with the
+// results we do have and an `unavailable` list.
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const GEMINI_TIMEOUT_MS = 8_000;
 const MAKE_TIMEOUT_MS = 5_000;
 
 const rateLimiter = createRateLimiter(3, 60 * 60 * 1000);
-// Measurements are shared by both languages; the AI text is per language.
+// Keyed by page (domain + path). Measurements are shared by both languages;
+// the AI text is per language.
 const measurements = createTtlCache<Measurement>(DAY_MS);
 const aiTexts = createTtlCache<{ summary: string; fixes: Fix[] }>(DAY_MS);
 
@@ -48,34 +52,50 @@ function logFailure(stage: Stage, status: number | null, code: string) {
 const errorCode = (error: unknown) =>
   (error as Error)?.name === 'TimeoutError' || (error as Error)?.name === 'AbortError' ? 'timeout' : 'request_failed';
 
+// Errors where we must not show anything for the URL (SSRF guard, redirect loops).
+const FATAL_HTML_ERRORS = new Set(['invalid_url', 'blocked_url', 'too_many_redirects']);
+
+/** Measures the page. Throws only if the URL is blocked or nothing at all could be measured. */
 async function measure(url: URL): Promise<Measurement> {
   const key = process.env.PAGESPEED_API_KEY;
-  // PageSpeed starts right away (Google fetches the site itself and follows
-  // its redirects) so the slow part overlaps our own HTML fetch. If the HTML
-  // fetch fails, the PageSpeed requests are cancelled.
+  // PageSpeed starts right away (Google fetches the page itself and follows
+  // its redirects) so the slow part overlaps our own HTML fetch. If our fetch
+  // is blocked for safety, the PageSpeed requests are cancelled.
   const cancelPageSpeed = new AbortController();
   const pagespeed = Promise.all([
     runPageSpeed(url.href, 'mobile', key, { signal: cancelPageSpeed.signal }),
     runPageSpeed(url.href, 'desktop', key, { signal: cancelPageSpeed.signal }),
   ]);
-  let page;
+  let page: Awaited<ReturnType<typeof fetchPublicPage>> | null = null;
+  let htmlError: WebsiteCheckError | null = null;
   try {
     page = await fetchPublicPage(url, nodeFetchDeps);
   } catch (error) {
-    cancelPageSpeed.abort();
-    await pagespeed;
-    throw error;
+    htmlError = error instanceof WebsiteCheckError ? error : new WebsiteCheckError('unreachable');
+    const upstream = htmlError.upstreamStatus ? ` upstream=${htmlError.upstreamStatus}` : '';
+    logFailure('html-fetch', htmlError.upstreamStatus, htmlError.code + upstream);
+    if (FATAL_HTML_ERRORS.has(htmlError.code)) {
+      cancelPageSpeed.abort();
+      await pagespeed;
+      throw htmlError;
+    }
   }
   const [mobile, desktop] = await pagespeed;
   for (const [strategy, run] of [['mobile', mobile], ['desktop', desktop]] as [string, PageSpeedRun][]) {
     if (run.error) logFailure('pagespeed', run.error.status, `${strategy}:${run.error.code}`);
   }
+  // Nothing measured at all: report why our own fetch failed.
+  if (!page && !mobile.result && !desktop.result) throw htmlError;
+
+  const finalUrl = page ? page.finalUrl : url;
   return {
-    domain: siteDomain(page.finalUrl),
-    finalUrl: page.finalUrl.href,
+    domain: siteDomain(finalUrl),
+    page: pageLabel(finalUrl),
+    finalUrl: finalUrl.href,
     checkedAt: new Date().toISOString(),
-    htmlTruncated: page.truncated,
-    checks: checkHtml(page.html, page.finalUrl),
+    htmlTruncated: page ? page.truncated : false,
+    checks: page ? checkHtml(page.html, page.finalUrl) : null,
+    htmlError: htmlError ? htmlError.code : null,
     pagespeed: { mobile: mobile.result, desktop: desktop.result },
   };
 }
@@ -111,10 +131,13 @@ async function explain(m: Measurement, lang: ReportLang) {
   }
 }
 
-async function sendToMake(lead: Lead, report: ReturnType<typeof buildReport>, cached: boolean) {
+/** True if Make accepted the report. Never fatal: the visitor still gets their results. */
+async function sendToMake(lead: Lead, report: ReturnType<typeof buildReport>, cached: boolean): Promise<boolean> {
   const webhook = process.env.MAKE_WEBSITE_CHECK_WEBHOOK;
-  // Not fatal: the visitor still gets their results on the page.
-  if (!webhook) return logFailure('make', null, 'webhook_not_set');
+  if (!webhook) {
+    logFailure('make', null, 'webhook_not_set');
+    return false;
+  }
   try {
     const response = await fetch(webhook, {
       method: 'POST',
@@ -123,15 +146,17 @@ async function sendToMake(lead: Lead, report: ReturnType<typeof buildReport>, ca
       signal: AbortSignal.timeout(MAKE_TIMEOUT_MS),
     });
     if (!response.ok) logFailure('make', response.status, 'http_error');
+    return response.ok;
   } catch (error) {
     logFailure('make', null, errorCode(error));
+    return false;
   }
 }
 
 async function handle(req: any, res: any) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'method_not_allowed' });
+    return res.status(405).json(errorBody('method_not_allowed'));
   }
 
   const body = req.body && typeof req.body === 'object' ? req.body : {};
@@ -139,11 +164,11 @@ async function handle(req: any, res: any) {
   // Bots that filled the honeypot get an ordinary-looking answer and nothing is checked or sent.
   if (parsed.kind === 'spam') {
     logFailure('validate', 200, 'honeypot');
-    return res.status(200).json({ ok: true, report: null });
+    return res.status(200).json(receivedBody());
   }
   if (parsed.kind === 'invalid') {
     logFailure('validate', 400, `invalid_fields:${parsed.errors.join(',')}`);
-    return res.status(400).json({ error: 'invalid', fields: parsed.errors });
+    return res.status(400).json(errorBody('invalid', { fields: parsed.errors }));
   }
 
   let url: URL;
@@ -152,48 +177,49 @@ async function handle(req: any, res: any) {
   } catch (error) {
     const code = error instanceof WebsiteCheckError ? error.code : 'invalid_url';
     logFailure('validate', 400, code);
-    return res.status(400).json({ error: code });
+    return res.status(400).json(errorBody(code));
   }
 
   const ip = clientIp(req.headers ?? {});
   if (!(await verifyTurnstile(parsed.turnstileToken, ip, process.env.TURNSTILE_SECRET_KEY))) {
     logFailure('validate', 403, 'bot_check_failed');
-    return res.status(403).json({ error: 'bot_check_failed' });
+    return res.status(403).json(errorBody('bot_check_failed'));
   }
 
   const limit = rateLimiter.take(ip);
   if (!limit.ok) {
     logFailure('validate', 429, 'rate_limited');
     res.setHeader('Retry-After', String(limit.retryAfterSec));
-    return res.status(429).json({ error: 'rate_limited', retry_after_sec: limit.retryAfterSec });
+    return res.status(429).json(errorBody('rate_limited', { retry_after_sec: limit.retryAfterSec }));
   }
 
-  const domain = siteDomain(url);
-  let measurement = measurements.get(domain);
+  const cacheKey = pageLabel(url);
+  let measurement = measurements.get(cacheKey);
   const cached = Boolean(measurement);
   if (!measurement) {
     try {
       measurement = await measure(url);
     } catch (error) {
+      // Already logged in measure(): blocked, or neither we nor Google could load the page.
       const code = error instanceof WebsiteCheckError ? error.code : 'unreachable';
-      const upstream = error instanceof WebsiteCheckError && error.upstreamStatus ? ` upstream=${error.upstreamStatus}` : '';
-      logFailure('html-fetch', 422, code + upstream);
-      return res.status(422).json({ error: code });
+      return res.status(422).json(errorBody(code));
     }
-    // Don't keep a result for a day because PageSpeed happened to be down.
-    if (measurement.pagespeed.mobile && measurement.pagespeed.desktop) measurements.set(domain, measurement);
+    // Only complete results are kept, so one bad moment isn't cached for a day.
+    if (measurement.checks && measurement.pagespeed.mobile && measurement.pagespeed.desktop) {
+      measurements.set(cacheKey, measurement);
+    }
   }
 
-  const aiKey = `${domain}:${parsed.language}`;
+  const aiKey = `${cacheKey}:${parsed.language}`;
   let ai = aiTexts.get(aiKey) ?? null;
   if (!ai) {
     ai = await explain(measurement, parsed.language);
     if (ai) aiTexts.set(aiKey, ai);
   }
   const report = buildReport(measurement, parsed.language, ai);
-  await sendToMake(parsed.lead, report, cached);
+  const emailed = await sendToMake(parsed.lead, report, cached);
 
-  return res.status(200).json({ ok: true, report: pageSummary(report) });
+  return res.status(200).json(resultsBody(report, pageSummary(report), emailed));
 }
 
 export default async function handler(req: any, res: any) {
@@ -201,6 +227,6 @@ export default async function handler(req: any, res: any) {
     return await handle(req, res);
   } catch (error) {
     logFailure('internal', 500, (error as Error)?.name || 'unknown');
-    if (!res.headersSent) return res.status(500).json({ error: 'internal' });
+    if (!res.headersSent) return res.status(500).json(errorBody('internal'));
   }
 }

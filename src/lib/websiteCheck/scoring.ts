@@ -76,15 +76,16 @@ const RISK_SCORE: Record<RiskLevel, number> = { low: 100, medium: 55, high: 15 }
 
 /**
  * Weighted average of what we could measure: mobile speed 30, desktop speed 20,
- * search basics 25, missed-call risk 25. A PageSpeed score that failed to load
- * is left out and the rest are re-weighted.
+ * search basics 25, missed-call risk 25. A part that couldn't be measured
+ * (PageSpeed down, homepage unreadable) is left out and the rest are
+ * re-weighted. Null if nothing was measured.
  */
-export function overallScore(parts: { speed: number | null; mobile: number | null; search: number; risk: RiskLevel }): number {
+export function overallScore(parts: { speed: number | null; mobile: number | null; search: number | null; risk: RiskLevel | null }): number | null {
   const weighted: [number | null, number][] = [
     [parts.mobile, 30],
     [parts.speed, 20],
     [parts.search, 25],
-    [RISK_SCORE[parts.risk], 25],
+    [parts.risk === null ? null : RISK_SCORE[parts.risk], 25],
   ];
   let total = 0;
   let weights = 0;
@@ -93,5 +94,5 @@ export function overallScore(parts: { speed: number | null; mobile: number | nul
     total += score * weight;
     weights += weight;
   }
-  return Math.round(total / weights);
+  return weights ? Math.round(total / weights) : null;
 }
