@@ -22,8 +22,15 @@ export interface HeadData {
 
 const absolute = (path: string) => SITE_URL + path;
 
+/** Unlisted page that turns analytics off for the owner's browser (src/pages/IgnoreMe.tsx). */
+export const IGNORE_ME_PATH = '/ignore-me';
+
 export function headFor(pathname: string): HeadData {
   const lang = langFromPath(pathname);
+  // Unlisted owner page: a real title, but noindex and no canonical.
+  if (pathname.replace(/\/+$/, '') === IGNORE_ME_PATH) {
+    return { lang: 'en', htmlLang: 'en', title: 'Analytics opt-out', description: '', alternates: [], noindex: true };
+  }
   const route = findRoute(stripLang(pathname));
   if (!route) {
     return { lang, htmlLang: lang, ...NOT_FOUND_META[lang], alternates: [], noindex: true };

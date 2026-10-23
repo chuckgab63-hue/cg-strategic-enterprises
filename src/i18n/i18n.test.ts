@@ -52,6 +52,14 @@ describe('page meta', () => {
     expect(head.title).toMatch(/^Página no encontrada/);
   });
 
+  it('keeps /ignore-me out of search and the sitemap', () => {
+    const head = headFor('/ignore-me');
+    expect(head.noindex).toBe(true);
+    expect(head.canonical).toBeUndefined();
+    expect(head.title).toBe('Analytics opt-out');
+    expect(sitemapXml()).not.toContain('ignore-me');
+  });
+
   it('keeps Spanish out of search until it launches', () => {
     expect(headFor('/es/contact').noindex).toBe(!SPANISH_PUBLIC);
     expect(headFor('/contact').noindex).toBe(false);

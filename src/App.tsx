@@ -24,9 +24,10 @@ import MealPrepCalculator from './pages/MealPrepCalculator';
 import WebsiteCheck from './pages/WebsiteCheck';
 import MissedCallCalculator from './pages/MissedCallCalculator';
 import NotFound from './pages/NotFound';
+import IgnoreMe from './pages/IgnoreMe';
 import SeoHead from './i18n/SeoHead';
 import SpanishPrompt from './components/SpanishPrompt';
-import { listenForAlexCalls, stripQueryAndHash } from './lib/analytics';
+import { analyticsBeforeSend, listenForAlexCalls } from './lib/analytics';
 
 // [English path, page]. Aliases render the same page; SeoHead points their
 // canonical at the main path (src/i18n/meta.ts).
@@ -58,8 +59,9 @@ export default function App() {
       <ScrollToTop />
       <SeoHead />
       {/* Vercel Web Analytics: page views for every route, /es included, and
-          client-side navigation. URLs go without query strings (src/lib/analytics.ts). */}
-      <Analytics beforeSend={stripQueryAndHash} />
+          client-side navigation. URLs go without query strings, and nothing is sent
+          from a browser that opted out at /ignore-me (src/lib/analytics.ts). */}
+      <Analytics beforeSend={analyticsBeforeSend} />
       
       <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-white">
         {/* Fixed Navigation */}
@@ -75,6 +77,8 @@ export default function App() {
               )),
               <Route key={`${prefix}*`} path={`${prefix}/*`} element={<NotFound />} />,
             ])}
+            {/* Unlisted owner tool: not in SITE_ROUTES, so no sitemap, no prerender, noindex. */}
+            <Route path="/ignore-me" element={<IgnoreMe />} />
           </Routes>
         </main>
         
