@@ -6,6 +6,7 @@ import { smsPhoneError } from '../lib/smsPhone';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import consentDict from '../i18n/consent';
 import contactDict from '../i18n/contact';
+import { trackEvent } from '../lib/analytics';
 
 export interface ContactFormCopy {
   firstNamePlaceholder: string;
@@ -134,6 +135,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
       if (!response.ok) throw new Error(`Webhook responded with ${response.status}`);
       setFormStatus('success');
       setFormData(EMPTY_FORM);
+      trackEvent('contact_form_submitted', lang);
     } catch (error) {
       console.error('Webhook failed:', error);
       setFormStatus('error');

@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { PHONE_DISPLAY, PHONE_HREF } from '../config/site';
-import { useT } from '../i18n/useLang';
+import { useLang, useT } from '../i18n/useLang';
+import { trackEvent } from '../lib/analytics';
 import common from '../i18n/common';
 import alex from '../i18n/alex';
 
@@ -24,6 +25,11 @@ export default function LetsTalkChooser() {
   const t = useT(common);
   const c = t.chooser;
   const callButton = useT(alex).callButton;
+  const lang = useLang();
+
+  useEffect(() => {
+    if (open) trackEvent('lets_talk_opened', lang);
+  }, [open, lang]);
 
   const close = useCallback(() => {
     setOpen(false);

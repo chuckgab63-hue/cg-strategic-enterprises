@@ -107,6 +107,8 @@ client.on("call_started", () => {
   active = true;
   busy = false;
   setState("live", "connected");
+  // The app tracks this as the alex_call_started analytics event (src/lib/analytics.ts).
+  window.dispatchEvent(new Event("cg:alex-call-started"));
 });
 
 client.on("call_ended", () => {

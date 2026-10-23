@@ -9,6 +9,7 @@ import { readCheckResponse, type ReadResponse } from '../lib/websiteCheck/respon
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import consentDict from '../i18n/consent';
 import websiteCheckDict from '../i18n/websiteCheck';
+import { trackEvent } from '../lib/analytics';
 
 // The free Website Check lead magnet. The form posts to api/website-check.ts,
 // which checks the site, sends the full report to Make for the follow-up email,
@@ -294,6 +295,7 @@ export default function WebsiteCheck() {
     if (errors.length) return;
 
     setStatus('submitting');
+    trackEvent('website_check_submitted', lang);
     try {
       const response = await fetch('/api/website-check', {
         method: 'POST',

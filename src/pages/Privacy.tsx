@@ -99,6 +99,7 @@ export default function Privacy() {
         </p>
         <ul className="list-disc pl-6 flex flex-col gap-2">
           <li><strong className="text-white">Website hosting</strong> (Vercel) — hosts and delivers this website.</li>
+          <li><strong className="text-white">Vercel Web Analytics</strong> — we use Vercel Web Analytics, which collects anonymous, cookie-free usage data to improve the site.</li>
           <li><strong className="text-white">Make.com</strong> — automation platform that receives form submissions and routes them to our team.</li>
           <li><strong className="text-white">Twilio</strong> — phone and messaging platform we use to make and receive calls and texts.</li>
           <li><strong className="text-white">Google Workspace / Gmail</strong> — email, documents, and records we use to communicate with you and manage our work.</li>

@@ -104,6 +104,8 @@ export default function PrivacyEs() {
         </p>
         <ul className="list-disc pl-6 flex flex-col gap-2">
           <li><strong className="text-white">Alojamiento del sitio web</strong> (Vercel): aloja y entrega este sitio web.</li>
+          {/* NEEDS NATIVE REVIEW: Vercel Web Analytics line (docs/SPANISH_REVIEW.md). */}
+          <li><strong className="text-white">Vercel Web Analytics</strong>: usamos Vercel Web Analytics, que recopila datos de uso anónimos y sin cookies para mejorar el sitio.</li>
           <li><strong className="text-white">Make.com</strong>: plataforma de automatización que recibe los envíos de formularios y los dirige a nuestro equipo.</li>
           <li><strong className="text-white">Twilio</strong>: plataforma de telefonía y mensajería que usamos para hacer y recibir llamadas y mensajes de texto.</li>
           <li><strong className="text-white">Google Workspace / Gmail</strong>: correo electrónico, documentos y registros que usamos para comunicarnos con usted y administrar nuestro trabajo.</li>

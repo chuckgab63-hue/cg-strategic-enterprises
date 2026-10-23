@@ -1,4 +1,6 @@
 import type React from 'react';
+import { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Global Components
@@ -23,6 +25,7 @@ import WebsiteCheck from './pages/WebsiteCheck';
 import NotFound from './pages/NotFound';
 import SeoHead from './i18n/SeoHead';
 import SpanishPrompt from './components/SpanishPrompt';
+import { listenForAlexCalls, stripQueryAndHash } from './lib/analytics';
 
 // [English path, page]. Aliases render the same page; SeoHead points their
 // canonical at the main path (src/i18n/meta.ts).
@@ -46,10 +49,15 @@ const PAGES: [string, React.ComponentType][] = [
 ];
 
 export default function App() {
+  useEffect(listenForAlexCalls, []);
+
   return (
     <Router>
       <ScrollToTop />
       <SeoHead />
+      {/* Vercel Web Analytics: page views for every route, /es included, and
+          client-side navigation. URLs go without query strings (src/lib/analytics.ts). */}
+      <Analytics beforeSend={stripQueryAndHash} />
       
       <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-white">
         {/* Fixed Navigation */}
