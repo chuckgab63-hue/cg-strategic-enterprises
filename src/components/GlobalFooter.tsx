@@ -41,6 +41,7 @@ export default function GlobalFooter() {
             <Link to={lp('/portfolio')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.caseStudies}</Link>
             <Link to={lp('/skunkworks')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.skunkworks}</Link>
             <Link to={lp('/meal-prep-calculator')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.mealPrep}</Link>
+            <Link to={lp('/website-check')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.websiteCheck}</Link>
           </div>
 
           {/* Column 3: Legal */}

@@ -61,6 +61,8 @@ Notes for the legal reviewer:
 | `src/i18n/assetTrackerWidget.ts` | Asset tracker demo |
 | `src/i18n/mealPrepOrderWidget.ts` | Meal-prep ordering demo (dish names, checkout, dates) |
 | `src/i18n/mealPrepCalculator.tsx` | `/es/meal-prep-calculator` and its chart |
+| `src/i18n/websiteCheck.ts` | `/es/website-check` form, errors and results |
+| `src/lib/websiteCheck/reportCopy.ts` | Website Check report text written by the server: missed-call reasons, fallback fixes and summary (only the `es` halves) |
 | `src/i18n/oneSourceCaseStudy.ts` | `/es/work/one-source-total-pest-control` |
 | `src/i18n/skunkworks.ts` | `/es/skunkworks` (voicebots, spatial viewer) |
 | `src/i18n/skunkworksProjects.ts` | "Lo que estamos construyendo" project cards |

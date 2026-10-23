@@ -7,6 +7,9 @@ import alex from '../i18n/alex';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+/** Dispatch on window to open the chooser from elsewhere on the page (e.g. /website-check results). */
+export const OPEN_LETS_TALK_EVENT = 'cg:open-lets-talk';
+
 // The header's "Let's Talk" button. It opens a small chooser: talk to Alex in the
 // browser, or call us. A popover under the button from sm up, a bottom sheet on
 // phones. It's portaled to <body> because the header's backdrop-blur would
@@ -25,6 +28,12 @@ export default function LetsTalkChooser() {
   const close = useCallback(() => {
     setOpen(false);
     triggerRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const openChooser = () => setOpen(true);
+    window.addEventListener(OPEN_LETS_TALK_EVENT, openChooser);
+    return () => window.removeEventListener(OPEN_LETS_TALK_EVENT, openChooser);
   }, []);
 
   // Pin the desktop popover under the button. The header is fixed, so this only

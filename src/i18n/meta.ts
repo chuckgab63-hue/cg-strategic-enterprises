@@ -149,6 +149,19 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
   },
   {
+    path: '/website-check',
+    meta: {
+      en: {
+        title: `Free Website Check | ${NAME}`,
+        description: "Get a free check of your website's speed, mobile experience, search basics and missed-call risk, with the top fixes in plain language. We'll email you the report.",
+      },
+      es: {
+        title: `Revisión gratuita de su sitio web | ${NAME}`,
+        description: 'Reciba una revisión gratuita de la velocidad de su sitio, la experiencia en celulares, lo básico para buscadores y el riesgo de llamadas perdidas, con las mejoras principales en lenguaje sencillo. Le enviaremos el informe por correo electrónico.',
+      },
+    },
+  },
+  {
     path: '/contact',
     meta: {
       en: {

@@ -60,6 +60,9 @@ const en = {
     email: 'Email',
     mailingAddress: 'Mailing Address',
     formTitle: 'Send Us a Message',
+    /** Pre-filled when the visitor comes from "Book a free intro call" on /website-check. */
+    introCallTitle: 'Book a Free Intro Call',
+    introCallMessage: "I just ran the free website check and I'd like to book a free intro call about the fixes. Good times to reach me:",
     form: {
       firstNamePlaceholder: 'First name',
       lastNamePlaceholder: 'Last name',
@@ -126,6 +129,8 @@ const es: typeof en = {
     email: 'Correo electrónico',
     mailingAddress: 'Dirección postal',
     formTitle: 'Envíenos un mensaje',
+    introCallTitle: 'Reserve una llamada introductoria gratuita',
+    introCallMessage: 'Acabo de hacer la revisión gratuita de mi sitio web y me gustaría reservar una llamada introductoria gratuita sobre las mejoras. Buenos horarios para contactarme:',
     form: {
       firstNamePlaceholder: 'Nombre',
       lastNamePlaceholder: 'Apellido',

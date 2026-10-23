@@ -33,6 +33,10 @@
       "destination": "/meal-prep-calculator/index.html"
     },
     {
+      "source": "/website-check",
+      "destination": "/website-check/index.html"
+    },
+    {
       "source": "/contact",
       "destination": "/contact/index.html"
     },
@@ -79,6 +83,10 @@
     {
       "source": "/es/meal-prep-calculator",
       "destination": "/es/meal-prep-calculator/index.html"
+    },
+    {
+      "source": "/es/website-check",
+      "destination": "/es/website-check/index.html"
     },
     {
       "source": "/es/contact",

@@ -43,7 +43,7 @@ const linkClass = 'text-brand-orange underline hover:text-white transition-color
 // Render consent labels straight from the shared text (src/i18n/consent.ts) so
 // the on-screen wording and the consent text sent to Make.com can never drift
 // apart. The "Privacy Policy" / "SMS Terms" phrases become links wherever they appear.
-function ConsentText({ text }: { text: string }) {
+export function ConsentText({ text }: { text: string }) {
   const c = useT(consentDict);
   const lp = useLocalePath();
   return text.split(new RegExp(`(${c.privacyLinkText}|${c.smsTermsLinkText})`)).map((part, i) => {

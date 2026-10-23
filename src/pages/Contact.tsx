@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
 import MailingAddress from '../components/MailingAddress';
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { useT } from '../i18n/useLang';
 import common from '../i18n/common';
 import contactDict from '../i18n/contact';
+import { WEBSITE_CHECK_SOURCE } from '../lib/websiteCheck/lead';
 
 const ICON_PATHS = {
   phone: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
@@ -31,6 +33,9 @@ const methodLinkClass = 'text-sm font-bold tracking-wide text-slate-200 hover:te
 export default function Contact() {
   const t = useT(contactDict).page;
   const { callAriaLabel, emailAriaLabel } = useT(common);
+  // "Book a free intro call" on /website-check links here with ?source=website-check,
+  // so the lead is tagged with where it came from and the message is started for them.
+  const fromWebsiteCheck = useSearchParams()[0].get('source') === WEBSITE_CHECK_SOURCE;
 
   return (
     // text-left counters the global `#root { text-align: center }` in index.css.
@@ -57,9 +62,13 @@ export default function Contact() {
       <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse shadow-[0_0_10px_rgba(255,95,31,0.8)]"></div>
-          <h2 className="text-white font-bold text-lg">{t.formTitle}</h2>
+          <h2 className="text-white font-bold text-lg">{fromWebsiteCheck ? t.introCallTitle : t.formTitle}</h2>
         </div>
-        <ContactForm source="Contact page" copy={t.form} />
+        <ContactForm
+          source={fromWebsiteCheck ? WEBSITE_CHECK_SOURCE : 'Contact page'}
+          copy={t.form}
+          initialMessage={fromWebsiteCheck ? t.introCallMessage : ''}
+        />
       </div>
     </section>
   );
