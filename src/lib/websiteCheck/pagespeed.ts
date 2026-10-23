@@ -21,7 +21,8 @@ export interface PageSpeedResult {
 }
 
 const PSI_ENDPOINT = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
-export const PSI_TIMEOUT_MS = 60_000;
+// Two of these run in parallel; api/website-check.ts budgets its 60 s maxDuration around it.
+export const PSI_TIMEOUT_MS = 45_000;
 
 const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
@@ -69,20 +70,36 @@ export function parsePageSpeed(json: any, strategy: Strategy): PageSpeedResult {
   };
 }
 
-/** Runs one PageSpeed test. Resolves to null if Google can't test the site in time. */
-export async function runPageSpeed(url: string, strategy: Strategy, apiKey: string | undefined, fetchImpl: typeof fetch = fetch): Promise<PageSpeedResult | null> {
+export interface PageSpeedRun {
+  result: PageSpeedResult | null;
+  /** Why result is null: Google's HTTP status (null if no response) and error code. Never includes the URL or key. */
+  error: { status: number | null; code: string } | null;
+}
+
+/**
+ * Runs one PageSpeed test. Never throws: if Google can't test the site in
+ * time, result is null and error says why. `signal` cancels it early.
+ */
+export async function runPageSpeed(
+  url: string, strategy: Strategy, apiKey: string | undefined,
+  opts: { signal?: AbortSignal; timeoutMs?: number; fetchImpl?: typeof fetch } = {},
+): Promise<PageSpeedRun> {
   const params = new URLSearchParams({ url, strategy, category: 'performance' });
   // Works without a key too, at a much lower quota (handy locally).
   if (apiKey) params.set('key', apiKey);
+  const timeout = AbortSignal.timeout(opts.timeoutMs ?? PSI_TIMEOUT_MS);
+  const signal = opts.signal ? AbortSignal.any([timeout, opts.signal]) : timeout;
   try {
-    const res = await fetchImpl(`${PSI_ENDPOINT}?${params}`, { signal: AbortSignal.timeout(PSI_TIMEOUT_MS) });
+    const res = await (opts.fetchImpl ?? fetch)(`${PSI_ENDPOINT}?${params}`, { signal });
     if (!res.ok) {
-      console.error(`PageSpeed ${strategy} failed with ${res.status}`);
-      return null;
+      // Google's error body: { error: { status: 'RESOURCE_EXHAUSTED', errors: [{ reason }] } }
+      const body = await res.json().catch(() => null) as { error?: { status?: string; errors?: { reason?: string }[] } } | null;
+      const code = body?.error?.status || body?.error?.errors?.[0]?.reason || 'http_error';
+      return { result: null, error: { status: res.status, code } };
     }
-    return parsePageSpeed(await res.json(), strategy);
-  } catch (error) {
-    console.error(`PageSpeed ${strategy} failed:`, (error as Error).message);
-    return null;
+    return { result: parsePageSpeed(await res.json(), strategy), error: null };
+  } catch {
+    const code = timeout.aborted ? 'timeout' : opts.signal?.aborted ? 'cancelled' : 'network_error';
+    return { result: null, error: { status: null, code } };
   }
 }

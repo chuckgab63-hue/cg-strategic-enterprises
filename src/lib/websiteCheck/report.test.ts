@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { checkHtml } from './htmlChecks';
-import { parsePageSpeed } from './pagespeed';
+import { parsePageSpeed, runPageSpeed } from './pagespeed';
 import { aiInput, buildReport, parseAiOutput, scoreMeasurement, type Measurement } from './report';
 import {
   WEBSITE_CHECK_HONEYPOT, makePayload, pageSummary, parseWebsiteCheckRequest, type Lead,
@@ -51,6 +51,36 @@ describe('parsePageSpeed', () => {
     const lab = parsePageSpeed({ lighthouseResult: psiJson.lighthouseResult }, 'desktop');
     expect(lab).toMatchObject({ lcpMs: 5100, cls: 0.051, inpMs: null, metricsSource: 'lab' });
     expect(parsePageSpeed({}, 'mobile')).toMatchObject({ performance: null, lcpMs: null, opportunities: [] });
+  });
+});
+
+describe('runPageSpeed', () => {
+  const respond = (status: number, body: unknown) => (async () => new Response(JSON.stringify(body), { status })) as unknown as typeof fetch;
+
+  it('returns the parsed result on success', async () => {
+    const run = await runPageSpeed('https://example.com/', 'mobile', 'k', { fetchImpl: respond(200, psiJson) });
+    expect(run.error).toBeNull();
+    expect(run.result?.performance).toBe(48);
+  });
+
+  it('reports Google’s status and error code instead of throwing', async () => {
+    const quota = { error: { code: 429, status: 'RESOURCE_EXHAUSTED', errors: [{ reason: 'rateLimitExceeded' }] } };
+    expect(await runPageSpeed('https://example.com/', 'mobile', 'k', { fetchImpl: respond(429, quota) }))
+      .toEqual({ result: null, error: { status: 429, code: 'RESOURCE_EXHAUSTED' } });
+    expect(await runPageSpeed('https://example.com/', 'desktop', undefined, { fetchImpl: respond(500, 'oops') }))
+      .toEqual({ result: null, error: { status: 500, code: 'http_error' } });
+  });
+
+  it('times out, and can be cancelled', async () => {
+    const hang = ((_url: string, init: RequestInit) => new Promise((_, reject) => {
+      init.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
+    })) as unknown as typeof fetch;
+    expect(await runPageSpeed('https://example.com/', 'mobile', 'k', { fetchImpl: hang, timeoutMs: 20 }))
+      .toEqual({ result: null, error: { status: null, code: 'timeout' } });
+    const cancel = new AbortController();
+    const run = runPageSpeed('https://example.com/', 'mobile', 'k', { fetchImpl: hang, signal: cancel.signal });
+    cancel.abort();
+    expect((await run).error).toEqual({ status: null, code: 'cancelled' });
   });
 });
 
@@ -204,7 +234,7 @@ describe('limits', () => {
     const t = 1_000_000;
     expect([1, 2, 3].map(i => limiter.take('1.2.3.4', t + i).ok)).toEqual([true, true, true]);
     expect(limiter.take('1.2.3.4', t + 10)).toEqual({ ok: false, retryAfterSec: 3600 });
-    expect(limiter.take('5.6.7.8', t + 10).ok).toBe(true);
+    expect(limiter.take('5.6.7.8', t + 10)).toEqual({ ok: true, retryAfterSec: 0 });
     expect(limiter.take('1.2.3.4', t + 3_600_002).ok).toBe(true);
   });
 

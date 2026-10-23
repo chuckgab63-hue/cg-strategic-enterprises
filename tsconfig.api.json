@@ -1,0 +1,22 @@
+{
+  // The Vercel functions in api/ (and the src/lib code they import). Vercel
+  // type-checks these without strict mode, where some narrowing that strict
+  // mode allows doesn't work, so this mirrors that: `npm run build` (tsc -b)
+  // then fails locally on anything that would fail the Vercel build.
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.api.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "strict": false,
+
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["api"]
+}

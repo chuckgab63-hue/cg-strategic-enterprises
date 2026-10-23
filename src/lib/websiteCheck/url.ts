@@ -13,9 +13,12 @@ export type CheckErrorCode =
 
 export class WebsiteCheckError extends Error {
   readonly code: CheckErrorCode;
-  constructor(code: CheckErrorCode, message: string = code) {
+  /** The site's own HTTP status, when it answered with an error. */
+  readonly upstreamStatus: number | null;
+  constructor(code: CheckErrorCode, message: string = code, upstreamStatus: number | null = null) {
     super(message);
     this.code = code;
+    this.upstreamStatus = upstreamStatus;
   }
 }
 
@@ -209,7 +212,7 @@ export async function fetchPublicPage(start: URL, deps: FetchDeps, opts: { timeo
       }
       continue;
     }
-    if (res.status >= 400) throw new WebsiteCheckError('unreachable', `The site responded with ${res.status}`);
+    if (res.status >= 400) throw new WebsiteCheckError('unreachable', `The site responded with ${res.status}`, res.status);
     if (res.contentType && !/html|xml/i.test(res.contentType)) throw new WebsiteCheckError('not_html', 'That address isn’t a web page');
     return { finalUrl: url, status: res.status, html: res.body, truncated: res.truncated, redirects: hop };
   }

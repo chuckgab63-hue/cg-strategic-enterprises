@@ -6,8 +6,12 @@
 // put a shared store (e.g. Upstash Redis) behind the same two interfaces.
 
 export interface RateLimiter {
-  /** Counts a hit. ok:false once the key has used its limit in the window. */
-  take(key: string, now?: number): { ok: true } | { ok: false; retryAfterSec: number };
+  /**
+   * Counts a hit. ok:false once the key has used its limit in the window.
+   * One flat shape rather than a { ok: true } | { ok: false } union: Vercel
+   * type-checks api/ without strictNullChecks, where `!limit.ok` doesn't narrow.
+   */
+  take(key: string, now?: number): { ok: boolean; retryAfterSec: number };
 }
 
 export function createRateLimiter(limit: number, windowMs: number): RateLimiter {
@@ -25,7 +29,7 @@ export function createRateLimiter(limit: number, windowMs: number): RateLimiter 
       if (hits.size > 5000) {
         for (const [k, times] of hits) if (times.every(t => now - t >= windowMs)) hits.delete(k);
       }
-      return { ok: true };
+      return { ok: true, retryAfterSec: 0 };
     },
   };
 }
