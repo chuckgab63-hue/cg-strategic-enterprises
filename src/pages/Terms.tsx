@@ -4,7 +4,7 @@ import MailingAddress from '../components/MailingAddress';
 import TermsEs from '../i18n/es/TermsEs';
 import { useLang } from '../i18n/useLang';
 import {
-  BUSINESS_NAME, LEGAL_BUSINESS_NAME, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, LEGAL_LAST_UPDATED,
+  BUSINESS_NAME, LEGAL_BUSINESS_NAME, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, TERMS_LAST_UPDATED,
 } from '../config/site';
 
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
@@ -14,7 +14,7 @@ export default function Terms() {
   if (useLang() === 'es') return <TermsEs />;
 
   return (
-    <LegalPage title="Terms of Service">
+    <LegalPage title="Terms of Service" lastUpdated={TERMS_LAST_UPDATED}>
       <p>
         These Terms of Service ("Terms") govern your use of cgstrategic.dev and the services provided
         by {LEGAL_BUSINESS_NAME} ("Company," "we," "our," or "us"). By using this website or our
@@ -116,7 +116,7 @@ export default function Terms() {
           For details on how we handle your mobile number and consent, see our{' '}
           <Link to="/privacy" className={linkClass}>Privacy Policy</Link>.
         </p>
-        <p className="text-sm text-slate-400">SMS Terms last updated: {LEGAL_LAST_UPDATED}</p>
+        <p className="text-sm text-slate-400">SMS Terms last updated: {TERMS_LAST_UPDATED}</p>
       </LegalSection>
 
       <LegalSection title="Contact Us">

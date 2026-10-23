@@ -1,24 +1,25 @@
 import { useEffect, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LEGAL_LAST_UPDATED } from '../config/site';
 import { LOCALE, localizePath } from '../i18n/lang';
 import { useLang, useT } from '../i18n/useLang';
 import legal from '../i18n/legal';
 
 interface LegalPageProps {
   title: string;
+  /** English date, e.g. PRIVACY_LAST_UPDATED from src/config/site.ts; formatted per language here. */
+  lastUpdated: string;
   children: ReactNode;
 }
 
 // Shared shell for /privacy and /terms. Carrier (A2P 10DLC) reviewers read
 // these pages directly, so they're plain, left-aligned and high contrast.
-export default function LegalPage({ title, children }: LegalPageProps) {
+export default function LegalPage({ title, lastUpdated, children }: LegalPageProps) {
   const { hash, pathname } = useLocation();
   const lang = useLang();
   const t = useT(legal);
   const updated = lang === 'en'
-    ? LEGAL_LAST_UPDATED
-    : new Date(LEGAL_LAST_UPDATED).toLocaleDateString(LOCALE[lang], { day: 'numeric', month: 'long', year: 'numeric' });
+    ? lastUpdated
+    : new Date(lastUpdated).toLocaleDateString(LOCALE[lang], { day: 'numeric', month: 'long', year: 'numeric' });
 
 
   // ScrollToTop sends every route change to the top, so deep links like

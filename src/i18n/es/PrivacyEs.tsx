@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 import LegalPage, { LegalSection } from '../../components/LegalPage';
 import MailingAddress from '../../components/MailingAddress';
 import {
-  BUSINESS_NAME, LEGAL_BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
+  BUSINESS_NAME, LEGAL_BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, PRIVACY_LAST_UPDATED,
 } from '../../config/site';
 
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
 
 export default function PrivacyEs() {
   return (
-    <LegalPage title="Política de privacidad">
+    <LegalPage title="Política de privacidad" lastUpdated={PRIVACY_LAST_UPDATED}>
       <p>
         {LEGAL_BUSINESS_NAME} ("{BUSINESS_NAME}", "nosotros" o "nuestro") es una empresa de consultoría
         tecnológica con sede en {BUSINESS_LOCATION}. Esta Política de privacidad explica, en lenguaje

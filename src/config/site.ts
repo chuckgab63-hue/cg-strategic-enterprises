@@ -30,8 +30,12 @@ export const MAILING_ADDRESS_LINES = [
   `${ADDRESS.city}, ${ADDRESS.region} ${ADDRESS.postalCode}`,
 ];
 
-// Shown on /privacy and /terms. Bump it whenever either page's wording changes.
-export const LEGAL_LAST_UPDATED = 'October 2, 2026';
+// "Last updated" dates for the legal pages, in both languages. Bump a page's
+// date whenever its wording changes, and only that page's: carrier (A2P)
+// reviewers read the Terms and SMS Terms, so their date shouldn't move when
+// only the Privacy Policy does.
+export const PRIVACY_LAST_UPDATED = 'October 23, 2026';
+export const TERMS_LAST_UPDATED = 'October 2, 2026';
 
 // A2P 10DLC opt-in language. Carrier reviewers check this against the live
 // site word for word, and the exact text is sent with every contact-form

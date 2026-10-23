@@ -7,17 +7,17 @@ import { Link } from 'react-router-dom';
 import LegalPage, { LegalSection } from '../../components/LegalPage';
 import MailingAddress from '../../components/MailingAddress';
 import {
-  BUSINESS_NAME, LEGAL_BUSINESS_NAME, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, LEGAL_LAST_UPDATED,
+  BUSINESS_NAME, LEGAL_BUSINESS_NAME, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, TERMS_LAST_UPDATED,
 } from '../../config/site';
 import { LOCALE } from '../lang';
 
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
 
 export default function TermsEs() {
-  const updated = new Date(LEGAL_LAST_UPDATED).toLocaleDateString(LOCALE.es, { day: 'numeric', month: 'long', year: 'numeric' });
+  const updated = new Date(TERMS_LAST_UPDATED).toLocaleDateString(LOCALE.es, { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <LegalPage title="Términos del servicio">
+    <LegalPage title="Términos del servicio" lastUpdated={TERMS_LAST_UPDATED}>
       <p>
         Estos Términos del servicio ("Términos") rigen su uso de cgstrategic.dev y de los servicios que
         presta {LEGAL_BUSINESS_NAME} ("la Compañía", "nosotros" o "nuestro"). Al usar este sitio web o

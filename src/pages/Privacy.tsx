@@ -4,7 +4,7 @@ import MailingAddress from '../components/MailingAddress';
 import PrivacyEs from '../i18n/es/PrivacyEs';
 import { useLang } from '../i18n/useLang';
 import {
-  BUSINESS_NAME, LEGAL_BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF,
+  BUSINESS_NAME, LEGAL_BUSINESS_NAME, BUSINESS_LOCATION, EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF, PRIVACY_LAST_UPDATED,
 } from '../config/site';
 
 const linkClass = 'text-brand-orange underline hover:text-white transition-colors';
@@ -14,7 +14,7 @@ export default function Privacy() {
   if (useLang() === 'es') return <PrivacyEs />;
 
   return (
-    <LegalPage title="Privacy Policy">
+    <LegalPage title="Privacy Policy" lastUpdated={PRIVACY_LAST_UPDATED}>
       <p>
         {LEGAL_BUSINESS_NAME} ("{BUSINESS_NAME}," "we," "our," or "us") is a technology consulting
         business based in {BUSINESS_LOCATION}. This Privacy Policy explains, in plain language, what
