@@ -30,7 +30,7 @@ const en = {
     {
       id: 'who-we-work-with',
       question: 'Who do you work with?',
-      answer: 'Small and growing businesses in Jacksonville, Northeast Florida and beyond, especially service businesses like home services and pest control, and food businesses like meal prep and catering.',
+      answer: 'Small and growing businesses across Florida, from Miami to Pensacola, especially service businesses like home services and pest control, and food businesses like meal prep, catering and commissary kitchens.',
     },
     {
       id: 'how-projects-start',
@@ -79,8 +79,8 @@ const en = {
     },
     {
       id: 'local',
-      question: 'Are you local?',
-      answer: "Yes, we're based in Northeast Florida and work with businesses across the state and beyond.",
+      question: 'Do you work with businesses outside Jacksonville?',
+      answer: "Yes. We're based in Northeast Florida and work with businesses all over the state. Intro calls, audits and walkthroughs happen over video, so it doesn't matter whether you're in Miami, Tampa, Orlando or the Panhandle. For businesses in Northeast Florida, we're happy to meet in person too.",
     },
   ] as FaqItem[],
   cta: {
@@ -103,7 +103,7 @@ const es: typeof en = {
     {
       id: 'who-we-work-with',
       question: '¿Con quién trabajan?',
-      answer: 'Con negocios pequeños y en crecimiento de Jacksonville, el noreste de Florida y otros lugares, sobre todo empresas de servicios, como servicios para el hogar y control de plagas, y negocios de comida, como comidas preparadas y catering.',
+      answer: 'Con negocios pequeños y en crecimiento de todo Florida, desde Miami hasta Pensacola, sobre todo empresas de servicios, como servicios para el hogar y control de plagas, y negocios de comida, como comidas preparadas, catering y cocinas comerciales compartidas.',
     },
     {
       id: 'how-projects-start',
@@ -152,8 +152,8 @@ const es: typeof en = {
     },
     {
       id: 'local',
-      question: '¿Son de la zona?',
-      answer: 'Sí, estamos en el noreste de Florida y trabajamos con negocios de todo el estado y de otros lugares.',
+      question: '¿Trabajan con negocios fuera de Jacksonville?',
+      answer: 'Sí. Estamos en el noreste de Florida y trabajamos con negocios de todo el estado. Las llamadas introductorias, las evaluaciones y los recorridos se hacen por videollamada, así que no importa si está en Miami, Tampa, Orlando o el Panhandle. Si su negocio está en el noreste de Florida, con gusto también podemos reunirnos en persona.',
     },
   ],
   cta: {
