@@ -46,6 +46,10 @@
       "destination": "/missed-call-calculator/index.html"
     },
     {
+      "source": "/faq",
+      "destination": "/faq/index.html"
+    },
+    {
       "source": "/contact",
       "destination": "/contact/index.html"
     },
@@ -100,6 +104,10 @@
     {
       "source": "/es/missed-call-calculator",
       "destination": "/es/missed-call-calculator/index.html"
+    },
+    {
+      "source": "/es/faq",
+      "destination": "/es/faq/index.html"
     },
     {
       "source": "/es/contact",

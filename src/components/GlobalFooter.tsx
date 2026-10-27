@@ -50,6 +50,7 @@ export default function GlobalFooter() {
             <h4 className="text-white font-black tracking-widest uppercase text-xs mb-2">{t.footer.legal}</h4>
             <Link to={lp('/privacy')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.privacy}</Link>
             <Link to={lp('/terms')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.terms}</Link>
+            <Link to={lp('/faq')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.faq}</Link>
             <Link to={lp('/contact')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.contact}</Link>
           </div>
 

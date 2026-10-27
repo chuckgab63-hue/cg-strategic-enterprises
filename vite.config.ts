@@ -8,7 +8,7 @@ import {
   LEGAL_BUSINESS_NAME, SITE_URL, PHONE_INTL, EMAIL, ADDRESS,
 } from './src/config/site.ts'
 import {
-  FALLBACK_FILE, applyFallbackHead, applyHead, headFor, prerenderTargets, sitemapXml,
+  FALLBACK_FILE, applyFallbackHead, applyHead, applyStaticBody, headFor, prerenderTargets, sitemapXml,
 } from './src/i18n/prerender.ts'
 
 // Writes Organization structured data into index.html at build time, straight
@@ -48,7 +48,8 @@ function organizationJsonLd(): Plugin {
 // both languages, write a copy of the built index.html with that page's
 // <html lang>, title, description, canonical, hreflang and Open Graph tags
 // (src/i18n/prerender.ts), plus a noindex shell for every other URL and the
-// sitemap. vercel.json routes each URL to its file; the React app then boots
+// sitemap. The FAQ also gets its answers and JSON-LD in the body, readable
+// without JavaScript. vercel.json routes each URL to its file; the React app then boots
 // as usual and SeoHead keeps the head current as the visitor navigates.
 function prerenderedPages(): Plugin {
   let outDir = 'dist'
@@ -61,7 +62,7 @@ function prerenderedPages(): Plugin {
       for (const { path, file } of prerenderTargets()) {
         const target = join(outDir, file)
         mkdirSync(dirname(target), { recursive: true })
-        writeFileSync(target, applyHead(html, headFor(path)))
+        writeFileSync(target, applyStaticBody(applyHead(html, headFor(path)), path))
       }
       writeFileSync(join(outDir, FALLBACK_FILE), applyFallbackHead(html))
       writeFileSync(join(outDir, 'sitemap.xml'), sitemapXml())

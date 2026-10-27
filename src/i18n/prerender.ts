@@ -5,7 +5,8 @@
 
 import { SITE_URL, BUSINESS_NAME } from '../config/site.ts';
 import { headFor, type HeadData } from './head.ts';
-import { LANGS, SPANISH_PUBLIC, localizePath } from './lang.ts';
+import { LANGS, SPANISH_PUBLIC, langFromPath, localizePath, stripLang } from './lang.ts';
+import faq, { FAQ_PATH, faqJsonLdText } from './faq.ts';
 import { SITE_ROUTES } from './meta.ts';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -38,6 +39,43 @@ export function applyHead(indexHtml: string, head: HeadData): string {
   return indexHtml
     .replace(/<html lang="[^"]*"/, `<html lang="${head.htmlLang}"`)
     .replace(/<title>[^<]*<\/title>/, renderHeadTags(head));
+}
+
+/**
+ * Page content for visitors and crawlers that don't run JavaScript, written
+ * inside #root; React replaces it when the app loads. Only the FAQ has any:
+ * its answers and FAQPage JSON-LD must be readable without the app
+ * (src/pages/Faq.tsx renders the same thing once it boots).
+ */
+export function staticBodyFor(path: string): string {
+  if (stripLang(path) !== FAQ_PATH) return '';
+  const lang = langFromPath(path);
+  const t = faq[lang];
+  // Every answer starts open: there's no script to open the one a link like /faq#ownership points at.
+  const items = t.items.map(item => [
+    `<details id="${item.id}" open class="scroll-mt-28 bg-slate-900/50 border border-slate-800 rounded-2xl">`,
+    `<summary class="p-5 md:p-6 cursor-pointer text-white font-bold text-lg">${esc(item.question)}</summary>`,
+    `<div class="px-5 md:px-6 pb-5 md:pb-6 text-slate-300 text-base leading-relaxed"><p>${esc(item.answer)}</p></div>`,
+    '</details>',
+  ].join(''));
+  return [
+    `<script type="application/ld+json">${faqJsonLdText(lang)}</script>`,
+    '<div class="flex-grow bg-slate-950 font-sans">',
+    '<section class="max-w-3xl mx-auto px-6 pt-16 pb-24 text-left">',
+    `<p class="text-brand-orange font-bold uppercase tracking-widest text-xs">${esc(t.eyebrow)}</p>`,
+    `<h1 class="text-4xl md:text-5xl font-black text-white mt-3 mb-0">${esc(t.title)}</h1>`,
+    `<p class="text-slate-300 text-base leading-relaxed mt-4 mb-10">${esc(t.intro)}</p>`,
+    `<div class="flex flex-col gap-3">${items.join('')}</div>`,
+    `<p class="mt-12"><a href="${localizePath('/contact', lang)}" class="text-brand-orange underline">${esc(t.cta.button)}</a></p>`,
+    '</section>',
+    '</div>',
+  ].join('');
+}
+
+/** Puts a page's static content (if it has any) inside the built index.html's empty #root. */
+export function applyStaticBody(indexHtml: string, path: string): string {
+  const body = staticBodyFor(path);
+  return body ? indexHtml.replace('<div id="root"></div>', `<div id="root">${body}</div>`) : indexHtml;
 }
 
 /** Every page in every language: its URL path and the HTML file that serves it. */

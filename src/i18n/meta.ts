@@ -175,6 +175,19 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
   },
   {
+    path: '/faq',
+    meta: {
+      en: {
+        title: `FAQ | ${NAME}`,
+        description: 'Answers about our websites, AI assistants and automations: how projects start, pricing, timelines, hosting and care, who owns your website and data, Alex our AI assistant, and working in Spanish.',
+      },
+      es: {
+        title: `Preguntas frecuentes | ${NAME}`,
+        description: 'Respuestas sobre nuestros sitios web, asistentes de IA y automatizaciones: cómo empieza un proyecto, precios, plazos, alojamiento y mantenimiento, quién es dueño de su sitio web y sus datos, Alex, nuestro asistente de IA, y nuestro trabajo en español.',
+      },
+    },
+  },
+  {
     path: '/contact',
     meta: {
       en: {
