@@ -49,7 +49,7 @@ Notes for the legal reviewer:
 | `src/i18n/meta.ts` | Page titles and meta descriptions (search results, browser tabs) |
 | `src/i18n/common.ts` | Header, footer, "Hablemos" chooser, 404 page |
 | `src/i18n/contact.ts` | Contact form, contact pop-up, `/es/contact` |
-| `public/alex-voice-strings.js` | Alex call button and status messages (they say Alex speaks English) |
+| `public/alex-voice-strings.js` | Alex call button and status messages. **Updated, not yet reviewed:** they no longer say Alex speaks only English |
 | `src/i18n/alex.ts` | Alex call button's first label (must match the file above; a test checks) |
 | `src/i18n/home.ts` | Home page, animation playground and cards |
 | `src/i18n/mealPrepPreview.ts` | Meal-prep teaser on the home page |

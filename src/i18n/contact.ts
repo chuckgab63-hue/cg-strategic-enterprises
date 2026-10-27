@@ -93,8 +93,8 @@ const es: typeof en = {
   },
   modal: {
     close: 'Cerrar',
-    voiceTitle: 'Asistente de voz con IA (en inglés)',
-    voiceBody: 'Sin formularios: hable de inmediato con nuestro agente de voz con IA para hacer preguntas y enviar su consulta directamente al ingeniero indicado. Por ahora, el agente solo habla inglés.',
+    voiceTitle: 'Asistente de voz con IA',
+    voiceBody: 'Sin formularios: hable de inmediato con nuestro agente de voz con IA para hacer preguntas y enviar su consulta directamente al ingeniero indicado.',
     variants: {
       default: {
         title: 'Conectemos',

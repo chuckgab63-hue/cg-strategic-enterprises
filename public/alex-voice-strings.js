@@ -1,5 +1,5 @@
 // Button labels and status messages for alex-voice.js, per page language
-// (<html lang>). Alex itself only speaks English, so the Spanish strings say so.
+// (<html lang>). Alex speaks English and Spanish.
 // The React components render the idle label before alex-voice.js takes over;
 // src/i18n/alex.ts mirrors it and a test keeps the two in step.
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
@@ -16,12 +16,12 @@ export const ALEX_STRINGS = {
     },
   },
   es: {
-    labels: { idle: "Hablar con Alex (en inglés)", connecting: "Conectando…", live: "Terminar llamada" },
+    labels: { idle: "Hablar con Alex", connecting: "Conectando…", live: "Terminar llamada" },
     messages: {
-      micPrompt: "Permita el acceso al micrófono para hablar con Alex. Alex habla solo en inglés.",
+      micPrompt: "Permita el acceso al micrófono para hablar con Alex.",
       unavailable: "Alex no está disponible en este momento. Use el formulario de mensaje o llame al (904) 822-8929.",
       micBlocked: "El acceso al micrófono está bloqueado. Permítalo en la configuración de su navegador o use el formulario de mensaje.",
-      connected: "Ya está conectado con Alex. Hable con normalidad; Alex responde en inglés.",
+      connected: "Ya está conectado con Alex. Hable con normalidad.",
       ended: "Llamada finalizada. Gracias; nos comunicaremos con usted pronto.",
       dropped: "Se cortó la llamada. Inténtelo de nuevo o use el formulario de mensaje.",
     },

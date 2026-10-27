@@ -3,5 +3,5 @@
 // in public/alex-voice-strings.js; src/i18n/alex.test.ts keeps them equal.
 export default {
   en: { callButton: 'Initiate call' },
-  es: { callButton: 'Hablar con Alex (en inglés)' },
+  es: { callButton: 'Hablar con Alex' },
 };

@@ -80,9 +80,8 @@ const es: typeof en = {
   chooser: {
     title: 'Hablemos',
     close: 'Cerrar',
-    // The button below says "(en inglés)"; no need to repeat it here.
     alexTitle: 'Alex, nuestro asistente de IA',
-    alexSubtext: 'Directamente en su navegador. Usa su micrófono. Por ahora, Alex solo habla inglés.',
+    alexSubtext: 'Directamente en su navegador. Usa su micrófono. Alex habla español e inglés.',
     fallbackNote: '¿No logra conectarse o no tiene micrófono? Llámenos.',
     call: 'Llamar al',
     tapToCall: '¿Prefiere hablar por teléfono? Toque para llamar.',

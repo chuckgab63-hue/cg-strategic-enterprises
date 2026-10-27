@@ -13,8 +13,4 @@ describe('Alex call button label', () => {
     expect(Object.keys(ALEX_STRINGS.es.messages).sort()).toEqual(Object.keys(ALEX_STRINGS.en.messages).sort());
     expect(Object.keys(ALEX_STRINGS.es.labels).sort()).toEqual(Object.keys(ALEX_STRINGS.en.labels).sort());
   });
-
-  it('never implies Alex speaks Spanish', () => {
-    expect(ALEX_STRINGS.es.labels.idle).toContain('en inglés');
-  });
 });
