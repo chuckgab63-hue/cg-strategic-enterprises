@@ -1,4 +1,3 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // --- Top-Level Widgets ---
@@ -12,112 +11,21 @@ import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 import { useLocalePath, useT } from '../i18n/useLang';
 import portfolio from '../i18n/portfolio';
 
-// --- Custom AI Video Player Component ---
-const VideoAd = ({ 
-  id, src, title, tag, activeVideoId, onActivate 
-}: { 
-  id: number; src: string; title: string; tag: string; activeVideoId: number | null; onActivate: (id: number | null) => void 
-}) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  // Check if this specific video is the one currently playing
-  const isActive = activeVideoId === id;
-  // Check if another video in the grid is playing
-  const isOtherPlaying = activeVideoId !== null && activeVideoId !== id;
-
-  // React to the activeVideoId changing from the parent container
-  useEffect(() => {
-    if (isActive) {
-      if (videoRef.current) {
-        videoRef.current.muted = false; // Auto-unmute when activated
-        setIsMuted(false);
-        videoRef.current.play().catch(e => console.log("Playback prevented by browser: ", e));
-      }
-    } else {
-      if (videoRef.current) {
-        videoRef.current.pause();
-        videoRef.current.currentTime = 0; // Reset to the beginning when paused
-        videoRef.current.muted = true; // Mute when deactivated
-        setIsMuted(true);
-      }
-    }
-  }, [isActive]);
-
-  const togglePlay = () => {
-    if (isActive) {
-      onActivate(null); // Pause and reset if it's already playing
-    } else {
-      onActivate(id); // Play this one, reset/pause others, and auto-unmute
-    }
-  };
-
-  const toggleMute = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering the background play/pause click
-    if (isOtherPlaying) return; // Strictly prevent unmuting if disabled
-    
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  return (
-    <div 
-      className="relative w-full aspect-[9/16] md:aspect-[4/5] bg-[#020617] rounded-3xl overflow-hidden border border-slate-800 shadow-[0_0_30px_rgba(0,0,0,0.5)] group cursor-pointer"
-      onClick={togglePlay}
-    >
-      <video 
-        ref={videoRef} 
-        src={src} 
-        loop 
-        playsInline 
-        muted={isMuted}
-        className={`w-full h-full object-cover transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'}`}
-      />
-      
-      {/* Top Overlay: Tag & Mute Button */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start bg-gradient-to-b from-black/80 to-transparent z-10">
-        <span className="bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
-          {tag}
-        </span>
-        <button 
-          onClick={toggleMute}
-          disabled={isOtherPlaying}
-          className={`w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition-colors ${
-            isOtherPlaying 
-              ? 'bg-black/30 border border-white/10 text-white/20 cursor-not-allowed' // Disabled State
-              : 'bg-black/50 border border-white/20 text-white hover:bg-white hover:text-black' // Active State
-          }`}
-        >
-          {isMuted ? (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
-          ) : (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
-          )}
-        </button>
-      </div>
-
-      {/* Center Play Button Overlay */}
-      <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100'}`}>
-        <div className="w-16 h-16 rounded-full bg-brand-orange/90 text-white flex items-center justify-center pl-1 shadow-[0_0_30px_rgba(255,95,31,0.6)] group-hover:scale-110 transition-transform duration-300">
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z" /></svg>
-        </div>
-      </div>
-
-      {/* Bottom Overlay: Title */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10">
-        <h4 className="text-white font-bold text-sm uppercase tracking-wider">{title}</h4>
-      </div>
-    </div>
-  );
-};
+// Icons for the Search & AI Visibility cards, in the same order as
+// searchVisibility.cards in src/i18n/portfolio.ts.
+const SEARCH_CARD_ICONS = [
+  { tone: 'bg-teal-500/10 border-teal-500/30 text-teal-400', d: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+  { tone: 'bg-blue-500/10 border-blue-500/30 text-blue-400', d: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z' },
+  { tone: 'bg-amber-500/10 border-amber-500/30 text-amber-400', d: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+  { tone: 'bg-purple-500/10 border-purple-500/30 text-purple-400', d: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z' },
+  { tone: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400', d: 'M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129' },
+  { tone: 'bg-brand-orange/10 border-brand-orange/30 text-brand-orange', d: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+];
 
 export default function Portfolio() {
-  const [activeVideoId, setActiveVideoId] = useState<number | null>(null);
   const t = useT(portfolio);
   const lp = useLocalePath();
-  const { whiteLabel: wl, mealPrep: mp, oneSource: os, property: pr, asset: at, tax: tx, ads } = t;
+  const { whiteLabel: wl, mealPrep: mp, oneSource: os, property: pr, asset: at, tax: tx, searchVisibility: sv } = t;
 
   return (
     <div className="portfolio-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
@@ -620,54 +528,41 @@ export default function Portfolio() {
 
         </div>
 
-        {/* --- FULL SERVICE / AI ADS SECTION --- */}
+        {/* --- SEARCH & AI VISIBILITY --- */}
         <div className="w-full max-w-5xl mx-auto border-t border-slate-800 pt-24 mb-16 relative z-20 flex flex-col items-center">
-          
+
           <div className="text-center mb-12 w-full max-w-2xl mx-auto">
             <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6 inline-block shadow-[0_0_15px_rgba(204,255,0,0.2)]">
-              {ads.tag}
+              {sv.tag}
             </span>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-              {ads.heading[0]} <br className="block sm:hidden" /> {ads.heading[1]}
+              {sv.heading[0]} <br className="block sm:hidden" /> {sv.heading[1]}
             </h2>
-            <p className="text-lg text-slate-400 leading-relaxed mb-8 text-center">
-              {ads.body.lead}<strong className="text-white">TikTok for Business</strong>{ads.body.sep}<strong className="text-white">Google Local Services Ads (LSA)</strong>{ads.body.lastSep}<strong className="text-white">Facebook Ads</strong>{ads.body.tail}
+            <p className="text-lg text-slate-400 leading-relaxed text-center">
+              {sv.intro}
             </p>
-            
-            {/* Centered Helper Text with Clean Separation Space */}
-            <div className="w-full text-center mt-8 pt-2">
-              <p className="text-sm text-slate-400 font-medium tracking-wide">
-                {ads.helper}{' '}<span className="text-brand-orange font-bold">{ads.tapToPlay}</span>
-              </p>
-            </div>
           </div>
 
-          {/* Responsive Video Ad Grid with Centralized State */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 w-full">
-            <VideoAd 
-              id={1}
-              src="/veo-live-1.mp4" 
-              title={ads.videos[0].title}
-              tag={ads.videos[0].tag}
-              activeVideoId={activeVideoId}
-              onActivate={setActiveVideoId}
-            />
-            <VideoAd 
-              id={2}
-              src="/veo-live-2.mp4" 
-              title={ads.videos[1].title}
-              tag={ads.videos[1].tag}
-              activeVideoId={activeVideoId}
-              onActivate={setActiveVideoId}
-            />
-            <VideoAd 
-              id={3}
-              src="/veo-live-3.mp4" 
-              title={ads.videos[2].title}
-              tag={ads.videos[2].tag}
-              activeVideoId={activeVideoId}
-              onActivate={setActiveVideoId}
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            {sv.cards.map((card, i) => (
+              <div key={card.title} className="text-left bg-slate-900/50 p-6 md:p-8 rounded-3xl border border-slate-800 shadow-2xl flex flex-col gap-4">
+                <div className={`w-10 h-10 border rounded-lg flex items-center justify-center ${SEARCH_CARD_ICONS[i].tone}`}>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={SEARCH_CARD_ICONS[i].d}></path></svg>
+                </div>
+                <h3 className="text-xl font-black text-white">{card.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{card.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-center">
+            <p className="text-slate-300 leading-relaxed">{sv.closing}</p>
+            <Link
+              to={lp('/website-check')}
+              className="inline-flex items-center justify-center bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs text-center hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)]"
+            >
+              {sv.button} &rarr;
+            </Link>
           </div>
 
         </div>

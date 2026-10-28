@@ -54,7 +54,7 @@ Notes for the legal reviewer:
 | `src/i18n/home.ts` | Home page, animation playground and cards |
 | `src/i18n/mealPrepPreview.ts` | Meal-prep teaser on the home page |
 | `src/i18n/automations.ts` | `/es/automations` |
-| `src/i18n/portfolio.ts` | `/es/portfolio` |
+| `src/i18n/portfolio.ts` | `/es/portfolio`. **New, not yet reviewed:** the Search & AI Visibility section (`searchVisibility`) |
 | `src/i18n/analysisWidget.ts` | Pest photo diagnosis demo |
 | `src/i18n/taxWidget.ts` | Sales-tax demo |
 | `src/i18n/propertyWidget.ts` | Property operations demo |
