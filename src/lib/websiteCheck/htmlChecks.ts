@@ -65,7 +65,11 @@ const CHAT_TOOLS: [string, RegExp][] = [
   ['Facebook Messenger', /connect\.facebook\.net\/[^"']*\/sdk\/xfbml\.customerchat/i],
   ['WhatsApp', /wa\.me\/|api\.whatsapp\.com\/send/i],
   ['Vapi voice agent', /vapi\.ai/i],
-  ['Retell voice agent', /retellai\.com/i],
+  // Retell's web SDK is often loaded straight from a CDN, with no retellai.com URL in the page.
+  ['Retell voice agent', /retellai\.com|retell-client-js-sdk/i],
+  // Our own voice assistant (public/alex-voice.js): the script that loads it, or a
+  // Talk-to-Alex button. Comments are stripped first, so a mention alone doesn't count.
+  ['Alex voice agent (CG Strategic)', /alex-voice\.js|\bdata-alex-call\b/i],
   ['ElevenLabs voice agent', /elevenlabs\.io\/convai|elevenlabs-convai/i],
   ['Bland voice agent', /bland\.ai/i],
   ['Chatbase', /chatbase\.co/i],

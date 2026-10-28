@@ -108,6 +108,21 @@ describe('checkHtml', () => {
     expect(c.afterHours.present).toBe(true);
   });
 
+  it('finds voice agents loaded by script, including Retell from a CDN and Alex', () => {
+    const retell = checkHtml(`<script type="module">import { RetellWebClient } from "https://cdn.jsdelivr.net/npm/retell-client-js-sdk@3.0.2/+esm";</script>`, HTTPS);
+    expect(retell.chatWidget.tools).toEqual(['Retell voice agent']);
+    // How cgstrategic.dev loads Alex: an inline loader, plus a button once a chooser opens.
+    const loader = checkHtml(`<body><script>function load() { return import('/alex-voice.js'); }</script></body>`, HTTPS);
+    expect(loader.chatWidget.tools).toEqual(['Alex voice agent (CG Strategic)']);
+    const button = checkHtml(`<button type="button" data-alex-call>Talk to Alex</button>`, HTTPS);
+    expect(button.chatWidget.tools).toEqual(['Alex voice agent (CG Strategic)']);
+  });
+
+  it("doesn't count a voice agent that's only mentioned in a comment", () => {
+    const c = checkHtml(`<body><!-- Alex (public/alex-voice.js) pulls in the Retell SDK --><p>Hello</p></body>`, HTTPS);
+    expect(c.chatWidget.present).toBe(false);
+  });
+
   it('flags pages built with JavaScript', () => {
     expect(checkHtml(SPA, HTTPS).contentLimited).toBe(true);
   });
