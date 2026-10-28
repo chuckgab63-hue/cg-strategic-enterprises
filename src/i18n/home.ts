@@ -1,4 +1,4 @@
-// Home page strings: hero, transition banner, Advanced Rendering playground
+// Home page strings: hero, services cards, transition banner, Advanced Rendering playground
 // (FramerPlayground), the three animation cards (AnimationShowcase) and the
 // runway CTA. The meal-prep slice has its own file (mealPrepPreview.ts).
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
@@ -12,6 +12,22 @@ const en = {
     p2: 'No smoke, mirrors, or marketing fluff. Just tested code, secure integrations, and relentless execution to streamline your operations so your team runs leaner and faster.',
     startProject: 'Start a Project',
     viewWork: 'View Our Work',
+  },
+  services: {
+    title: 'Services',
+    learnMore: 'Learn more',
+    cards: [
+      {
+        path: '/answering-service',
+        title: 'AI Answering Service',
+        body: 'A virtual receptionist that answers every call 24/7 in English or Spanish, captures the lead and books the follow-up.',
+      },
+      {
+        path: '/meal-prep-ordering',
+        title: 'Meal Prep Ordering System',
+        body: 'Online ordering built for meal prep businesses: weekly menus, cutoffs, prep lists and customer accounts.',
+      },
+    ],
   },
   banner: {
     eyebrow: 'Elevate Your Digital Presence',
@@ -55,6 +71,22 @@ const es: typeof en = {
     p2: 'Sin humo, sin espejos y sin relleno de marketing. Solo código probado, integraciones seguras y una ejecución incansable para optimizar sus operaciones, de modo que su equipo sea más ágil y rápido.',
     startProject: 'Iniciar un proyecto',
     viewWork: 'Ver nuestro trabajo',
+  },
+  services: {
+    title: 'Servicios',
+    learnMore: 'Más información',
+    cards: [
+      {
+        path: '/answering-service',
+        title: 'Servicio de atención telefónica con IA',
+        body: 'Una recepcionista virtual que contesta cada llamada 24/7 en inglés o español, toma los datos del cliente y agenda el seguimiento.',
+      },
+      {
+        path: '/meal-prep-ordering',
+        title: 'Sistema de pedidos para comidas preparadas',
+        body: 'Pedidos en línea hechos para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes.',
+      },
+    ],
   },
   banner: {
     eyebrow: 'Eleve su presencia digital',

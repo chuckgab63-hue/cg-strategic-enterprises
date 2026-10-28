@@ -48,8 +48,8 @@ function organizationJsonLd(): Plugin {
 // both languages, write a copy of the built index.html with that page's
 // <html lang>, title, description, canonical, hreflang and Open Graph tags
 // (src/i18n/prerender.ts), plus a noindex shell for every other URL and the
-// sitemap. The FAQ also gets its answers and JSON-LD in the body, readable
-// without JavaScript. vercel.json routes each URL to its file; the React app then boots
+// sitemap. The FAQ and service pages also get their answers and JSON-LD in
+// the body, readable without JavaScript. vercel.json routes each URL to its file; the React app then boots
 // as usual and SeoHead keeps the head current as the visitor navigates.
 function prerenderedPages(): Plugin {
   let outDir = 'dist'

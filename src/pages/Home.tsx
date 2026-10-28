@@ -210,6 +210,28 @@ export default function Home() {
       </header>
 
       {/* =========================================
+          SERVICES: one card per service page
+          ========================================= */}
+      <section className="site-container relative z-10 pb-12">
+        <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6 text-center">{t.services.title}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {t.services.cards.map(card => (
+            <Link
+              key={card.path}
+              to={lp(card.path)}
+              className="group block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors"
+            >
+              <h3 className="text-xl md:text-2xl font-black text-white">{card.title}</h3>
+              <p className="text-slate-400 leading-relaxed mt-3">{card.body}</p>
+              <span className="inline-block mt-5 text-xs font-bold tracking-widest uppercase text-brand-orange">
+                {t.services.learnMore} <span aria-hidden="true" className="inline-block group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================
           SECTION 2: MEAL-PREP CALCULATOR (LIVE SLICE)
           Sits above the transition banner: the banner's "Here is a live
           demonstration" introduces the rendering demos, so the two stay together.

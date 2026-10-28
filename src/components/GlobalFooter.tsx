@@ -39,6 +39,8 @@ export default function GlobalFooter() {
             <Link to={lp('/')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.hub}</Link>
             <Link to={lp('/automations')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.engine}</Link>
             <Link to={lp('/portfolio')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.caseStudies}</Link>
+            <Link to={lp('/answering-service')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.answeringService}</Link>
+            <Link to={lp('/meal-prep-ordering')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.mealPrepOrdering}</Link>
             <Link to={lp('/skunkworks')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.skunkworks}</Link>
             <Link to={lp('/meal-prep-calculator')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.mealPrep}</Link>
             <Link to={lp('/website-check')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.websiteCheck}</Link>

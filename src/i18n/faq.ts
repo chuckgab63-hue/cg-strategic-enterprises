@@ -15,6 +15,8 @@ export interface FaqItem {
   id: string;
   question: string;
   answer: string;
+  /** A "learn more" link shown under the answer (English site path); not part of the structured data. */
+  more?: { label: string; path: string };
 }
 
 const en = {
@@ -66,6 +68,7 @@ const en = {
       id: 'alex',
       question: 'Who is Alex?',
       answer: 'Alex is our AI assistant. Alex answers calls and website chats anytime, in English or Spanish, learns what you need, and sets up a free intro call with our founder, Chuck. Calls are recorded so we can follow up accurately.',
+      more: { label: 'See how an AI answering service works for your business', path: '/answering-service' },
     },
     {
       id: 'spanish',
@@ -139,6 +142,7 @@ const es: typeof en = {
       id: 'alex',
       question: '¿Quién es Alex?',
       answer: 'Alex es nuestro asistente de IA. Alex contesta llamadas y chats del sitio web a cualquier hora, en inglés o en español, averigua qué necesita usted y le programa una llamada introductoria gratuita con nuestro fundador, Chuck. Las llamadas se graban para que podamos darle un seguimiento preciso.',
+      more: { label: 'Vea cómo funciona un servicio de atención telefónica con IA para su negocio', path: '/answering-service' },
     },
     {
       id: 'spanish',
@@ -166,14 +170,17 @@ const es: typeof en = {
 const faq = { en, es };
 export default faq;
 
-/** schema.org FAQPage for one language: every question with its answer. */
-export function faqJsonLd(lang: Lang) {
+/**
+ * schema.org FAQPage: every question with its answer, for the page at the
+ * given English path in the given language. The service pages use it too.
+ */
+export function faqPageJsonLd(items: FaqItem[], path: string, lang: Lang) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    url: SITE_URL + localizePath(FAQ_PATH, lang),
+    url: SITE_URL + localizePath(path, lang),
     inLanguage: lang,
-    mainEntity: faq[lang].items.map(item => ({
+    mainEntity: items.map(item => ({
       '@type': 'Question',
       name: item.question,
       acceptedAnswer: { '@type': 'Answer', text: item.answer },
@@ -181,7 +188,12 @@ export function faqJsonLd(lang: Lang) {
   };
 }
 
-/** The JSON-LD as text that's safe inside a <script> element. */
+/** FAQPage JSON-LD as text that's safe inside a <script> element. */
+export function faqPageJsonLdText(items: FaqItem[], path: string, lang: Lang): string {
+  return JSON.stringify(faqPageJsonLd(items, path, lang)).replace(/</g, '\\u003c');
+}
+
+/** The /faq page's own JSON-LD. */
 export function faqJsonLdText(lang: Lang): string {
-  return JSON.stringify(faqJsonLd(lang)).replace(/</g, '\\u003c');
+  return faqPageJsonLdText(faq[lang].items, FAQ_PATH, lang);
 }

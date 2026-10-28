@@ -6,7 +6,9 @@
 import { SITE_URL, BUSINESS_NAME } from '../config/site.ts';
 import { headFor, type HeadData } from './head.ts';
 import { LANGS, SPANISH_PUBLIC, langFromPath, localizePath, stripLang } from './lang.ts';
-import faq, { FAQ_PATH, faqJsonLdText } from './faq.ts';
+import faq, { FAQ_PATH, faqJsonLdText, faqPageJsonLdText, type FaqItem } from './faq.ts';
+import answeringService, { ANSWERING_SERVICE_PATH } from './answeringService.ts';
+import mealPrepOrdering, { MEAL_PREP_ORDERING_PATH } from './mealPrepOrdering.ts';
 import { SITE_ROUTES } from './meta.ts';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -41,32 +43,67 @@ export function applyHead(indexHtml: string, head: HeadData): string {
     .replace(/<title>[^<]*<\/title>/, renderHeadTags(head));
 }
 
+interface StaticFaqPage {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  /** Heading over the questions, when they're one section of a longer page. */
+  faqTitle?: string;
+  items: FaqItem[];
+  jsonLd: string;
+  contactLabel: string;
+}
+
+/** The pages with questions and answers that must be readable without JavaScript. */
+function staticFaqPage(path: string): StaticFaqPage | null {
+  const lang = langFromPath(path);
+  const contactLabel = faq[lang].cta.button;
+  switch (stripLang(path)) {
+    case FAQ_PATH: {
+      const t = faq[lang];
+      return { eyebrow: t.eyebrow, title: t.title, intro: t.intro, items: t.items, jsonLd: faqJsonLdText(lang), contactLabel };
+    }
+    case ANSWERING_SERVICE_PATH: {
+      const t = answeringService[lang];
+      return { eyebrow: t.eyebrow, title: t.title, intro: t.intro, faqTitle: t.faqTitle, items: t.faq, jsonLd: faqPageJsonLdText(t.faq, ANSWERING_SERVICE_PATH, lang), contactLabel };
+    }
+    case MEAL_PREP_ORDERING_PATH: {
+      const t = mealPrepOrdering[lang];
+      return { eyebrow: t.eyebrow, title: t.title, intro: t.intro, faqTitle: t.faqTitle, items: t.faq, jsonLd: faqPageJsonLdText(t.faq, MEAL_PREP_ORDERING_PATH, lang), contactLabel };
+    }
+    default:
+      return null;
+  }
+}
+
 /**
  * Page content for visitors and crawlers that don't run JavaScript, written
- * inside #root; React replaces it when the app loads. Only the FAQ has any:
- * its answers and FAQPage JSON-LD must be readable without the app
- * (src/pages/Faq.tsx renders the same thing once it boots).
+ * inside #root; React replaces it when the app loads. Only the FAQ and the
+ * service pages have any: their answers and FAQPage JSON-LD must be readable
+ * without the app (the pages render the same questions once it boots).
  */
 export function staticBodyFor(path: string): string {
-  if (stripLang(path) !== FAQ_PATH) return '';
+  const page = staticFaqPage(path);
+  if (!page) return '';
   const lang = langFromPath(path);
-  const t = faq[lang];
   // Every answer starts open: there's no script to open the one a link like /faq#ownership points at.
-  const items = t.items.map(item => [
+  const items = page.items.map(item => [
     `<details id="${item.id}" open class="scroll-mt-28 bg-slate-900/50 border border-slate-800 rounded-2xl">`,
     `<summary class="p-5 md:p-6 cursor-pointer text-white font-bold text-lg">${esc(item.question)}</summary>`,
-    `<div class="px-5 md:px-6 pb-5 md:pb-6 text-slate-300 text-base leading-relaxed"><p>${esc(item.answer)}</p></div>`,
-    '</details>',
+    `<div class="px-5 md:px-6 pb-5 md:pb-6 text-slate-300 text-base leading-relaxed"><p>${esc(item.answer)}</p>`,
+    item.more ? `<p class="mt-3"><a href="${localizePath(item.more.path, lang)}" class="text-brand-orange underline">${esc(item.more.label)}</a></p>` : '',
+    '</div></details>',
   ].join(''));
   return [
-    `<script type="application/ld+json">${faqJsonLdText(lang)}</script>`,
+    `<script type="application/ld+json">${page.jsonLd}</script>`,
     '<div class="flex-grow bg-slate-950 font-sans">',
     '<section class="max-w-3xl mx-auto px-6 pt-16 pb-24 text-left">',
-    `<p class="text-brand-orange font-bold uppercase tracking-widest text-xs">${esc(t.eyebrow)}</p>`,
-    `<h1 class="text-4xl md:text-5xl font-black text-white mt-3 mb-0">${esc(t.title)}</h1>`,
-    `<p class="text-slate-300 text-base leading-relaxed mt-4 mb-10">${esc(t.intro)}</p>`,
+    `<p class="text-brand-orange font-bold uppercase tracking-widest text-xs">${esc(page.eyebrow)}</p>`,
+    `<h1 class="text-4xl md:text-5xl font-black text-white mt-3 mb-0">${esc(page.title)}</h1>`,
+    `<p class="text-slate-300 text-base leading-relaxed mt-4 mb-10">${esc(page.intro)}</p>`,
+    page.faqTitle ? `<h2 class="text-white font-bold text-xl mb-6">${esc(page.faqTitle)}</h2>` : '',
     `<div class="flex flex-col gap-3">${items.join('')}</div>`,
-    `<p class="mt-12"><a href="${localizePath('/contact', lang)}" class="text-brand-orange underline">${esc(t.cta.button)}</a></p>`,
+    `<p class="mt-12"><a href="${localizePath('/contact', lang)}" class="text-brand-orange underline">${esc(page.contactLabel)}</a></p>`,
     '</section>',
     '</div>',
   ].join('');

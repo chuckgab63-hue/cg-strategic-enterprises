@@ -175,6 +175,32 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
   },
   {
+    path: '/answering-service',
+    meta: {
+      en: {
+        title: `AI Answering Service & Virtual Receptionist | ${NAME}`,
+        description: 'An AI answering service for Florida small businesses. Answers every call 24/7 in English or Spanish, captures leads and books follow-ups. Talk to Alex.',
+      },
+      es: {
+        title: `Servicio de atención telefónica con IA y recepcionista virtual | ${NAME}`,
+        description: 'Servicio de atención telefónica con IA para pequeños negocios de Florida: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda seguimientos.',
+      },
+    },
+  },
+  {
+    path: '/meal-prep-ordering',
+    meta: {
+      en: {
+        title: `Meal Prep Ordering System & Website for Meal Prep Businesses | ${NAME}`,
+        description: 'An online ordering system built for meal prep businesses: weekly menus, cutoffs, prep lists and customer accounts. See the live demo.',
+      },
+      es: {
+        title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
+        description: 'Pedidos en línea para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes. Vea la demo en vivo.',
+      },
+    },
+  },
+  {
     path: '/faq',
     meta: {
       en: {

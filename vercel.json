@@ -46,6 +46,14 @@
       "destination": "/missed-call-calculator/index.html"
     },
     {
+      "source": "/answering-service",
+      "destination": "/answering-service/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering",
+      "destination": "/meal-prep-ordering/index.html"
+    },
+    {
       "source": "/faq",
       "destination": "/faq/index.html"
     },
@@ -104,6 +112,14 @@
     {
       "source": "/es/missed-call-calculator",
       "destination": "/es/missed-call-calculator/index.html"
+    },
+    {
+      "source": "/es/answering-service",
+      "destination": "/es/answering-service/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering",
+      "destination": "/es/meal-prep-ordering/index.html"
     },
     {
       "source": "/es/faq",

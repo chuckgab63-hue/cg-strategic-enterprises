@@ -150,6 +150,7 @@ const en = {
 
   ctaBody: 'Running a meal-prep business already? We build ordering platforms around a weekly menu and cutoff.',
   ctaLink: 'See the Case Studies',
+  ctaOrderingLink: 'See the meal prep ordering system',
 
   mobileNever: 'No volume breaks even',
   mobileBreakEven: 'Break-even',
@@ -320,6 +321,7 @@ const es: typeof en = {
 
   ctaBody: '¿Ya tiene un negocio de comidas preparadas? Creamos plataformas de pedidos basadas en un menú semanal con fecha límite para ordenar.',
   ctaLink: 'Ver los casos de estudio',
+  ctaOrderingLink: 'Ver el sistema de pedidos',
 
   mobileNever: 'Ningún volumen alcanza el equilibrio',
   mobileBreakEven: 'Equilibrio',
