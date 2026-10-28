@@ -1,15 +1,14 @@
-// Build-time output for SEO: one HTML file per page and language with that
-// page's <head> already filled in (the body still renders in the browser),
-// and the sitemap. vite.config.ts writes the files; vercel.json routes each
-// URL to its file. Plain TypeScript so it runs in the build and in tests.
+// Build-time output: one HTML file per page and language with that page's
+// <head> filled in and the app's HTML already in #root (rendered by
+// src/entry-server.tsx), plus the sitemap. vite.config.ts writes the files;
+// vercel.json routes each URL to its file. Plain TypeScript so it runs in the
+// build and in tests.
 
 import { SITE_URL, BUSINESS_NAME } from '../config/site.ts';
 import { headFor, type HeadData } from './head.ts';
-import { LANGS, SPANISH_PUBLIC, langFromPath, localizePath, stripLang } from './lang.ts';
-import faq, { FAQ_PATH, faqJsonLdText, faqPageJsonLdText, type FaqItem } from './faq.ts';
-import answeringService, { ANSWERING_SERVICE_PATH } from './answeringService.ts';
-import mealPrepOrdering, { MEAL_PREP_ORDERING_PATH } from './mealPrepOrdering.ts';
+import { LANGS, SPANISH_PUBLIC, localizePath, stripLang } from './lang.ts';
 import { SITE_ROUTES } from './meta.ts';
+import { pageFileFor } from '../pageFiles.ts';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
@@ -43,76 +42,39 @@ export function applyHead(indexHtml: string, head: HeadData): string {
     .replace(/<title>[^<]*<\/title>/, renderHeadTags(head));
 }
 
-interface StaticFaqPage {
-  eyebrow: string;
-  title: string;
-  intro: string;
-  /** Heading over the questions, when they're one section of a longer page. */
-  faqTitle?: string;
-  items: FaqItem[];
-  jsonLd: string;
-  contactLabel: string;
+/** Puts the app's pre-rendered HTML inside the built index.html's empty #root. */
+export function applyBody(indexHtml: string, appHtml: string): string {
+  return indexHtml.replace('<div id="root"></div>', () => `<div id="root">${appHtml}</div>`);
 }
 
-/** The pages with questions and answers that must be readable without JavaScript. */
-function staticFaqPage(path: string): StaticFaqPage | null {
-  const lang = langFromPath(path);
-  const contactLabel = faq[lang].cta.button;
-  switch (stripLang(path)) {
-    case FAQ_PATH: {
-      const t = faq[lang];
-      return { eyebrow: t.eyebrow, title: t.title, intro: t.intro, items: t.items, jsonLd: faqJsonLdText(lang), contactLabel };
-    }
-    case ANSWERING_SERVICE_PATH: {
-      const t = answeringService[lang];
-      return { eyebrow: t.eyebrow, title: t.title, intro: t.intro, faqTitle: t.faqTitle, items: t.faq, jsonLd: faqPageJsonLdText(t.faq, ANSWERING_SERVICE_PATH, lang), contactLabel };
-    }
-    case MEAL_PREP_ORDERING_PATH: {
-      const t = mealPrepOrdering[lang];
-      return { eyebrow: t.eyebrow, title: t.title, intro: t.intro, faqTitle: t.faqTitle, items: t.faq, jsonLd: faqPageJsonLdText(t.faq, MEAL_PREP_ORDERING_PATH, lang), contactLabel };
-    }
-    default:
-      return null;
-  }
+/** Adds tags at the end of <head>. */
+export function addToHead(indexHtml: string, tags: string[]): string {
+  return tags.length ? indexHtml.replace('</head>', () => `  ${tags.join('\n    ')}\n  </head>`) : indexHtml;
 }
+
+/** The parts of Vite's build manifest (build.manifest) used here. */
+export type BuildManifest = Record<string, { file: string; imports?: string[]; isEntry?: boolean }>;
 
 /**
- * Page content for visitors and crawlers that don't run JavaScript, written
- * inside #root; React replaces it when the app loads. Only the FAQ and the
- * service pages have any: their answers and FAQPage JSON-LD must be readable
- * without the app (the pages render the same questions once it boots).
+ * <link rel="modulepreload"> for a page's own chunk and the chunks it imports,
+ * so the browser fetches them alongside the main bundle instead of after it.
+ * Chunks index.html already preloads are left out.
  */
-export function staticBodyFor(path: string): string {
-  const page = staticFaqPage(path);
-  if (!page) return '';
-  const lang = langFromPath(path);
-  // Every answer starts open: there's no script to open the one a link like /faq#ownership points at.
-  const items = page.items.map(item => [
-    `<details id="${item.id}" open class="scroll-mt-28 bg-slate-900/50 border border-slate-800 rounded-2xl">`,
-    `<summary class="p-5 md:p-6 cursor-pointer text-white font-bold text-lg">${esc(item.question)}</summary>`,
-    `<div class="px-5 md:px-6 pb-5 md:pb-6 text-slate-300 text-base leading-relaxed"><p>${esc(item.answer)}</p>`,
-    item.more ? `<p class="mt-3"><a href="${localizePath(item.more.path, lang)}" class="text-brand-orange underline">${esc(item.more.label)}</a></p>` : '',
-    '</div></details>',
-  ].join(''));
-  return [
-    `<script type="application/ld+json">${page.jsonLd}</script>`,
-    '<div class="flex-grow bg-slate-950 font-sans">',
-    '<section class="max-w-3xl mx-auto px-6 pt-16 pb-24 text-left">',
-    `<p class="text-brand-orange font-bold uppercase tracking-widest text-xs">${esc(page.eyebrow)}</p>`,
-    `<h1 class="text-4xl md:text-5xl font-black text-white mt-3 mb-0">${esc(page.title)}</h1>`,
-    `<p class="text-slate-300 text-base leading-relaxed mt-4 mb-10">${esc(page.intro)}</p>`,
-    page.faqTitle ? `<h2 class="text-white font-bold text-xl mb-6">${esc(page.faqTitle)}</h2>` : '',
-    `<div class="flex flex-col gap-3">${items.join('')}</div>`,
-    `<p class="mt-12"><a href="${localizePath('/contact', lang)}" class="text-brand-orange underline">${esc(page.contactLabel)}</a></p>`,
-    '</section>',
-    '</div>',
-  ].join('');
-}
-
-/** Puts a page's static content (if it has any) inside the built index.html's empty #root. */
-export function applyStaticBody(indexHtml: string, path: string): string {
-  const body = staticBodyFor(path);
-  return body ? indexHtml.replace('<div id="root"></div>', `<div id="root">${body}</div>`) : indexHtml;
+export function pagePreloadTags(manifest: BuildManifest, path: string): string[] {
+  const file = pageFileFor(stripLang(path));
+  const page = file && manifest[`src/pages/${file}.tsx`];
+  if (!page) return [];
+  const already = new Set<string>();
+  const collect = (key: string, into: Set<string>) => {
+    const chunk = manifest[key];
+    if (!chunk || into.has(chunk.file)) return;
+    into.add(chunk.file);
+    chunk.imports?.forEach(k => collect(k, into));
+  };
+  for (const [key, chunk] of Object.entries(manifest)) if (chunk.isEntry) collect(key, already);
+  const wanted = new Set<string>();
+  collect(`src/pages/${file}.tsx`, wanted);
+  return [...wanted].filter(f => !already.has(f)).map(f => `<link rel="modulepreload" crossorigin href="/${f}">`);
 }
 
 /** Every page in every language: its URL path and the HTML file that serves it. */

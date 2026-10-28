@@ -9,6 +9,31 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script type="module" src="/alex-voice.js"></script>
+    <!-- Alex (public/alex-voice.js) pulls in the Retell SDK, which no page needs
+         until someone talks to Alex. Load it once the page is idle, or straight
+         away if a Talk-to-Alex button is pressed first; that click is replayed
+         as soon as Alex is ready. -->
+    <script>
+      (function () {
+        var ready = false, loading = null;
+        function load() {
+          return loading || (loading = import('/alex-voice.js').then(
+            function () { ready = true; },
+            function (err) { loading = null; throw err; }
+          ));
+        }
+        document.addEventListener('click', function (e) {
+          var button = !ready && e.target.closest && e.target.closest('[data-alex-call]');
+          if (!button) return;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          load().then(function () { button.click(); });
+        }, true);
+        addEventListener('load', function () {
+          if (window.requestIdleCallback) requestIdleCallback(load, { timeout: 5000 });
+          else setTimeout(load, 2000);
+        });
+      })();
+    </script>
   </body>
 </html>

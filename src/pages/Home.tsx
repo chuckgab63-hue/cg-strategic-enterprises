@@ -9,6 +9,21 @@ import ContactModal from '../components/ContactModal';
 import MealPrepPreview from '../components/MealPrepPreview';
 import { useLocalePath, useT } from '../i18n/useLang';
 import home from '../i18n/home';
+import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
+import { HERO_IMAGE } from '../config/heroImage';
+
+// LocalBusiness structured data for the home page. No street address: the
+// business serves all of Florida rather than customers at an office. (The
+// site-wide Organization JSON-LD from vite.config.ts carries the mailing address.)
+const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: BUSINESS_NAME,
+  url: SITE_URL,
+  telephone: PHONE_INTL,
+  email: EMAIL,
+  areaServed: 'Florida',
+}).replace(/</g, '\\u003c');
 
 
 // MAIN COMPONENT: CONTINUOUS SCROLL HOME
@@ -32,6 +47,7 @@ export default function Home() {
 
   return (
     <div className="home-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white relative">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: LOCAL_BUSINESS_JSON_LD }} />
 
       {/* The bare `h1`, `h2` and `p` rules in index.css (fixed sizes, weight 500, their
           own colour and margins; `p { margin: 0 }`) are unlayered, so they beat every
@@ -66,8 +82,11 @@ export default function Home() {
         
         {/* Left Column: Visual Hook */}
         <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:ml-8">
+          {/* The wrapper takes the image's own width limits (the img is w-full of it).
+              Shrink-wrapped, it had no width until the image downloaded, so on a slow
+              connection the hero painted at zero height and the text below jumped. */}
           <motion.div
-            className="rounded-3xl relative"
+            className="rounded-3xl relative w-full max-w-sm md:max-w-md lg:max-w-lg"
             initial={{ y: 0 }}
             animate={{ 
               y: [0, -15, 0],
@@ -79,8 +98,14 @@ export default function Home() {
             }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
+            {/* width/height give the box its square shape before the image arrives. */}
             <motion.img
-              src="/hero-live.webp"
+              src={HERO_IMAGE.src}
+              srcSet={HERO_IMAGE.srcSet}
+              sizes={HERO_IMAGE.sizes}
+              width={HERO_IMAGE.width}
+              height={HERO_IMAGE.height}
+              fetchPriority="high"
               alt={t.hero.imageAlt}
               className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
               initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}

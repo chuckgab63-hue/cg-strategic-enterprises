@@ -1,12 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PHONE_HREF, PHONE_DISPLAY, EMAIL, EMAIL_HREF, LEGAL_BUSINESS_NAME } from '../config/site';
 import MailingAddress from './MailingAddress';
+import ContactForm from './ContactForm';
+import { stripLang } from '../i18n/lang';
 import { useLocalePath, useT } from '../i18n/useLang';
 import common from '../i18n/common';
+import contactDict from '../i18n/contact';
 
 export default function GlobalFooter() {
   const t = useT(common);
+  const contact = useT(contactDict).page;
   const lp = useLocalePath();
+  // /contact has the full form already; one is enough on that page.
+  const onContactPage = stripLang(useLocation().pathname).replace(/\/+$/, '') === '/contact';
 
   return (
     <footer className="bg-[#020617] border-t border-slate-900 pt-16 pb-8 relative z-10">
@@ -88,6 +94,15 @@ export default function GlobalFooter() {
             </Link>
           </div>
         </div>
+
+        {/* A short message form on every page, in the pre-rendered HTML. Same form,
+            labels and Make.com webhook as /contact, tagged "Footer" in the leads sheet. */}
+        {!onContactPage && (
+          <div className="border-t border-slate-900 pt-12 mb-12 max-w-2xl mx-auto md:mx-0 text-left">
+            <h4 className="text-white font-black tracking-widest uppercase text-xs mb-6 text-center md:text-left">{contact.formTitle}</h4>
+            <ContactForm source="Footer" copy={contact.form} />
+          </div>
+        )}
 
         <div className="border-t border-slate-900 pt-8 flex justify-center md:justify-start">
           <p className="text-xs text-slate-600 font-bold tracking-widest uppercase">&copy; {new Date().getFullYear()} {LEGAL_BUSINESS_NAME}. {t.footer.rights}</p>

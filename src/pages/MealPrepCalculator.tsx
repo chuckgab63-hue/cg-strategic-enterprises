@@ -149,7 +149,10 @@ function CopyLinkButton({ inputs }: { inputs: MealPrepInputs }) {
   const lang = useLang();
   const [copied, setCopied] = useState<{ url: string; ok: boolean } | null>(null);
   // On Spanish pages the link reopens the Spanish calculator ('/' -> '' or '/es').
-  const url = calculatorUrl(inputs, window.location.origin + localizePath('/', lang).replace(/\/$/, ''));
+  // The build pre-renders this page without a window; the link is only shown
+  // or copied after a click, by which point it's running in the browser.
+  const origin = typeof window === 'undefined' ? '' : window.location.origin;
+  const url = calculatorUrl(inputs, origin + localizePath('/', lang).replace(/\/$/, ''));
   // Edit anything after copying and the old message no longer describes this link.
   const status = copied?.url === url ? copied : null;
 
