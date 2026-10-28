@@ -3,7 +3,7 @@ import { checkHtml } from './htmlChecks';
 import { parsePageSpeed, runPageSpeed } from './pagespeed';
 import { aiInput, buildReport, parseAiOutput, scoreMeasurement, type Measurement } from './report';
 import {
-  WEBSITE_CHECK_HONEYPOT, makePayload, pageSummary, parseWebsiteCheckRequest, type Lead,
+  WEBSITE_CHECK_HONEYPOT, contactIntakePayload, pageSummary, parseWebsiteCheckRequest, reportMessage, type Lead,
 } from './lead';
 import { createRateLimiter, createTtlCache, clientIp, verifyTurnstile } from './limits';
 
@@ -174,11 +174,11 @@ describe('buildReport', () => {
     expect(report.ai.summary).toMatch(/No pudimos leer la página/);
     const summary = pageSummary(report);
     expect(summary).toMatchObject({ search_missed: null, risk_reasons: [], content_limited: false });
-    const lead = (parseWebsiteCheckRequest(validBody) as { lead: Lead }).lead;
-    expect(makePayload(lead, report, { now: new Date(), cached: false })).toMatchObject({
-      status: 'partial', unavailable: ['html_checks', 'ai_summary'], checks: null, missed_call_risk: null, search_basics: null,
-      website: { html_error: 'unreachable' },
-    });
+    // The emailed report says what's missing instead of a score.
+    const message = reportMessage(report);
+    expect(message).toContain('Básicos de búsqueda: no disponible esta vez');
+    expect(message).toContain('Riesgo de llamadas perdidas: no disponible esta vez');
+    expect(message).toContain('Algunas partes no se pudieron revisar esta vez');
   });
 });
 
@@ -223,17 +223,18 @@ describe('parseWebsiteCheckRequest', () => {
   });
 });
 
-describe('makePayload', () => {
-  it('sends the lead, consent and full report to Make', () => {
+describe('contactIntakePayload', () => {
+  it('sends the lead and consent with the contact form\'s field names, and the report as text', () => {
     const parsed = parseWebsiteCheckRequest(validBody);
     const lead = (parsed as { lead: Lead }).lead;
     const report = buildReport(measurement, 'es', goodAi);
-    const payload = makePayload(lead, report, { now: new Date('2026-10-23T14:05:00.000Z'), cached: false });
+    const payload = contactIntakePayload(lead, report, { now: new Date('2026-10-23T14:05:00.000Z') });
     expect(payload).toMatchObject({
       source: 'website-check',
       language: 'es',
-      submitted_at: '2026-10-23T14:05:00.000Z',
       first_name: 'Bob',
+      last_name: '',
+      name: 'Bob',
       email: 'bob@bobsplumbing.com',
       business_name: "Bob's Plumbing",
       phone: '(904) 555-0100',
@@ -242,14 +243,24 @@ describe('makePayload', () => {
       sms_marketing_consent: false,
       email_marketing_consent: true,
       marketing_consent_timestamp: '2026-10-23T14:05:00.000Z',
-      website: { domain: 'bobsplumbing.com', final_url: 'https://www.bobsplumbing.com/', from_cache: false },
-      scores: { speed: 81, mobile: 48, search_basics: 60, missed_call_risk: 'medium' },
-      pagespeed: { mobile: { performance_score: 48, lcp_ms: 3200, cls: 0.12, inp_ms: 240, metrics_source: 'field' } },
-      checks: { https: true, tel_link: true, contact_form: true, booking: false, h1_count: 1 },
-      missed_call_risk: { level: 'medium', reasons: ['no_booking', 'no_chat', 'no_after_hours', 'phone_only'] },
-      ai: { summary: goodAi.summary, fixes: goodAi.fixes, generated_by: 'gemini' },
     });
     expect(payload).not.toHaveProperty('sms_marketing_consent_text');
+    expect(payload.message).toBe(reportMessage(report));
+  });
+
+  it('writes the URL, overall score, four sub-scores and top fixes as plain text', () => {
+    const report = buildReport(measurement, 'en', goodAi);
+    const message = reportMessage(report);
+    const lines = message.split('\n');
+    expect(lines[0]).toBe('Website check for https://www.bobsplumbing.com/');
+    expect(lines).toContain(`Overall score: ${report.scores.overall}/100`);
+    expect(lines).toContain('Mobile speed: 48/100');
+    expect(lines).toContain('Desktop speed: 81/100');
+    expect(lines).toContain('Search basics: 60/100');
+    expect(lines).toContain('Missed-call risk: Medium');
+    expect(message).toContain(`Summary:\n${goodAi.summary}`);
+    goodAi.fixes.forEach((fix, i) => expect(lines).toContain(`${i + 1}. ${fix.title}: ${fix.detail}`));
+    expect(message).not.toContain('bob@');
   });
 
   it('keeps lead details out of the page summary', () => {

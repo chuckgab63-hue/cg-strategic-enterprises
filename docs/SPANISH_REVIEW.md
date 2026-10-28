@@ -63,6 +63,7 @@ Notes for the legal reviewer:
 | `src/i18n/mealPrepCalculator.tsx` | `/es/meal-prep-calculator` and its chart |
 | `src/i18n/websiteCheck.ts` | `/es/website-check` form, errors and results |
 | `src/lib/websiteCheck/reportCopy.ts` | Website Check report text written by the server: missed-call reasons, fallback fixes and summary (only the `es` halves) |
+| `src/lib/websiteCheck/lead.ts` | Website Check report email: the score labels in the plain-text report (`MESSAGE_LABELS.es`). **New, not yet reviewed.** |
 | `src/i18n/missedCallCalculator.ts` | `/es/missed-call-calculator`: labels, breakdown, CTAs, the email form and the estimate summary sent with the lead |
 | `src/i18n/faq.ts` | `/es/faq`: every question and answer (also used for the FAQPage structured data). **New, not yet reviewed.** |
 | `src/i18n/answeringService.ts` | `/es/answering-service`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |

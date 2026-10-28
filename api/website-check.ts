@@ -10,8 +10,9 @@ import {
 } from '../src/lib/websiteCheck/report.js';
 import type { Fix, ReportLang } from '../src/lib/websiteCheck/reportCopy.js';
 import {
-  makePayload, pageSummary, parseWebsiteCheckRequest, type Lead,
+  contactIntakePayload, pageSummary, parseWebsiteCheckRequest, type Lead,
 } from '../src/lib/websiteCheck/lead.js';
+import { CONTACT_WEBHOOK_URL } from '../src/config/webhooks.js';
 import {
   clientIp, createRateLimiter, createTtlCache, verifyTurnstile,
 } from '../src/lib/websiteCheck/limits.js';
@@ -19,8 +20,9 @@ import { errorBody, receivedBody, resultsBody } from '../src/lib/websiteCheck/re
 
 // The free Website Check on /website-check. Checks the visitor's homepage
 // (PageSpeed Insights plus our own HTML checks), has Gemini explain the result
-// in plain language, sends the full report to Make for the follow-up email,
-// and returns a short summary for the page. See src/lib/websiteCheck/.
+// in plain language, sends the report to Make (the contact webhook, which
+// emails it to the visitor), and returns a short summary for the page.
+// See src/lib/websiteCheck/.
 //
 // Time budget, inside the 60 s maxDuration in vercel.json: the HTML fetch
 // (10 s) runs alongside both PageSpeed tests (45 s, in parallel), then Gemini
@@ -132,17 +134,12 @@ async function explain(m: Measurement, lang: ReportLang) {
 }
 
 /** True if Make accepted the report. Never fatal: the visitor still gets their results. */
-async function sendToMake(lead: Lead, report: ReturnType<typeof buildReport>, cached: boolean): Promise<boolean> {
-  const webhook = process.env.MAKE_WEBSITE_CHECK_WEBHOOK;
-  if (!webhook) {
-    logFailure('make', null, 'webhook_not_set');
-    return false;
-  }
+async function sendToMake(lead: Lead, report: ReturnType<typeof buildReport>): Promise<boolean> {
   try {
-    const response = await fetch(webhook, {
+    const response = await fetch(CONTACT_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(makePayload(lead, report, { now: new Date(), cached })),
+      body: JSON.stringify(contactIntakePayload(lead, report, { now: new Date() })),
       signal: AbortSignal.timeout(MAKE_TIMEOUT_MS),
     });
     if (!response.ok) logFailure('make', response.status, 'http_error');
@@ -195,7 +192,6 @@ async function handle(req: any, res: any) {
 
   const cacheKey = pageLabel(url);
   let measurement = measurements.get(cacheKey);
-  const cached = Boolean(measurement);
   if (!measurement) {
     try {
       measurement = await measure(url);
@@ -217,7 +213,7 @@ async function handle(req: any, res: any) {
     if (ai) aiTexts.set(aiKey, ai);
   }
   const report = buildReport(measurement, parsed.language, ai);
-  const emailed = await sendToMake(parsed.lead, report, cached);
+  const emailed = await sendToMake(parsed.lead, report);
 
   return res.status(200).json(resultsBody(report, pageSummary(report), emailed));
 }

@@ -1,7 +1,11 @@
 // The Website Check form as the server sees it: validation, the honeypot, and
-// the JSON sent to Make (MAKE_WEBSITE_CHECK_WEBHOOK). The page posts JSON
-// (src/pages/WebsiteCheck.tsx); the lead fields and consent fields use the same
-// names ContactForm sends, so existing Make mappings carry over.
+// the lead sent to Make. The page posts JSON (src/pages/WebsiteCheck.tsx).
+// The report goes to the same Make webhook as the contact form and the
+// missed-call calculator (CONTACT_WEBHOOK_URL, scenario "Website Contact
+// Intake"), with the same field names, so it lands in the Leads sheet; that
+// scenario emails the visitor their report when source is "website-check".
+//
+// Spanish report labels: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 import { smsPhoneError } from '../smsPhone.js';
 import type { Report } from './report.js';
@@ -70,26 +74,81 @@ export function parseWebsiteCheckRequest(body: Record<string, unknown>): ParsedR
   return { kind: 'ok', lead, websiteUrl, language, turnstileToken: str(body, 'turnstile_token', 4096) };
 }
 
-/** The full report as posted to Make. Field names are snake_case like the other Make webhooks. */
-export function makePayload(lead: Lead, report: Report, opts: { now: Date; cached: boolean }) {
+// Labels for the plain-text report, worded like the results page (src/i18n/websiteCheck.ts).
+const MESSAGE_LABELS = {
+  en: {
+    heading: 'Website check for',
+    overall: 'Overall score',
+    mobile: 'Mobile speed',
+    speed: 'Desktop speed',
+    search: 'Search basics',
+    risk: 'Missed-call risk',
+    riskLevels: { low: 'Low', medium: 'Medium', high: 'High' },
+    notMeasured: 'not available this time',
+    partial: "Some parts couldn't be checked this time, so their scores are missing.",
+    summary: 'Summary',
+    fixes: 'Top fixes',
+  },
+  es: {
+    heading: 'Revisión del sitio web',
+    overall: 'Puntuación general',
+    mobile: 'Velocidad en celulares',
+    speed: 'Velocidad en computadora',
+    search: 'Básicos de búsqueda',
+    risk: 'Riesgo de llamadas perdidas',
+    riskLevels: { low: 'Bajo', medium: 'Medio', high: 'Alto' },
+    notMeasured: 'no disponible esta vez',
+    partial: 'Algunas partes no se pudieron revisar esta vez, así que falta su puntuación.',
+    summary: 'Resumen',
+    fixes: 'Mejoras principales',
+  },
+} satisfies Record<ReportLang, unknown>;
+
+/**
+ * The report as plain text for the "message" field: the checked URL, the
+ * overall score, the four sub-scores and the top fixes. Make puts it in the
+ * Leads sheet, the lead email to us and the report email to the visitor.
+ */
+export function reportMessage(report: Report): string {
+  const t = MESSAGE_LABELS[report.language];
+  const score = (n: number | null) => (n === null ? t.notMeasured : `${n}/100`);
+  const s = report.scores;
+  const lines = [
+    `${t.heading} ${report.finalUrl}`,
+    '',
+    `${t.overall}: ${score(s.overall)}`,
+    `${t.mobile}: ${score(s.mobile)}`,
+    `${t.speed}: ${score(s.speed)}`,
+    `${t.search}: ${score(s.searchBasics)}`,
+    `${t.risk}: ${s.missedCallRisk ? t.riskLevels[s.missedCallRisk] : t.notMeasured}`,
+  ];
+  if (report.status === 'partial') lines.push('', t.partial);
+  lines.push('', `${t.summary}:`, report.ai.summary);
+  if (report.ai.fixes.length) {
+    lines.push('', `${t.fixes}:`);
+    report.ai.fixes.forEach((fix, i) => lines.push(`${i + 1}. ${fix.title}: ${fix.detail}`));
+  }
+  return lines.join('\n');
+}
+
+/**
+ * The lead and report as posted to the contact webhook. Same fields as the
+ * contact form and the missed-call calculator, so the Leads sheet columns and
+ * the scenario's mappings line up.
+ */
+export function contactIntakePayload(lead: Lead, report: Report, opts: { now: Date }) {
   const now = opts.now.toISOString();
-  const psi = (r: Report['pagespeed']['mobile']) => r && {
-    performance_score: r.performance,
-    lcp_ms: r.lcpMs,
-    cls: r.cls,
-    inp_ms: r.inpMs,
-    metrics_source: r.metricsSource,
-    opportunities: r.opportunities.map(o => ({ id: o.id, title: o.title, savings_ms: o.savingsMs })),
-  };
-  const c = report.checks;
   return {
+    first_name: lead.firstName,
+    // The form only asks for a first name; kept so the sheet's columns line up.
+    last_name: '',
+    name: lead.firstName,
+    email: lead.email,
+    phone: lead.phone,
+    business_name: lead.businessName,
+    message: reportMessage(report),
     source: WEBSITE_CHECK_SOURCE,
     language: report.language,
-    submitted_at: now,
-    first_name: lead.firstName,
-    email: lead.email,
-    business_name: lead.businessName,
-    phone: lead.phone,
     sms_consent: lead.smsConsent,
     sms_consent_text: lead.smsConsentText,
     ...(lead.smsConsent && { sms_consent_timestamp: now }),
@@ -97,68 +156,10 @@ export function makePayload(lead: Lead, report: Report, opts: { now: Date; cache
     ...(lead.smsMarketingConsent && { sms_marketing_consent_text: lead.smsMarketingConsentText }),
     email_marketing_consent: lead.emailMarketingConsent,
     ...((lead.smsMarketingConsent || lead.emailMarketingConsent) && { marketing_consent_timestamp: now }),
-    // 'partial' when a part couldn't be checked; `unavailable` says which.
-    status: report.status,
-    unavailable: report.unavailable,
-    website: {
-      domain: report.domain,
-      page: report.page,
-      final_url: report.finalUrl,
-      checked_at: report.checkedAt,
-      from_cache: opts.cached,
-      html_error: report.htmlError,
-    },
-    scores: {
-      overall: report.scores.overall,
-      speed: report.scores.speed,
-      mobile: report.scores.mobile,
-      search_basics: report.scores.searchBasics,
-      missed_call_risk: report.scores.missedCallRisk,
-    },
-    pagespeed: {
-      mobile: psi(report.pagespeed.mobile),
-      desktop: psi(report.pagespeed.desktop),
-    },
-    checks: c && {
-      https: c.https,
-      title: c.title.present,
-      title_text: c.title.text,
-      meta_description: c.metaDescription.present,
-      meta_description_length: c.metaDescription.length,
-      h1_count: c.h1.count,
-      single_h1: c.h1.single,
-      viewport: c.viewport,
-      structured_data: c.structuredData.present,
-      structured_data_types: c.structuredData.types,
-      tel_link: c.telLink,
-      contact_form: c.contactForm,
-      booking: c.booking.present,
-      booking_tools: c.booking.tools,
-      chat_widget: c.chatWidget.present,
-      chat_tools: c.chatWidget.tools,
-      after_hours: c.afterHours.present,
-      after_hours_evidence: c.afterHours.evidence,
-      content_limited: c.contentLimited,
-      html_truncated: report.htmlTruncated,
-    },
-    search_basics: report.search && {
-      passed: report.search.passed,
-      missed: report.search.missed,
-    },
-    missed_call_risk: report.risk && {
-      level: report.risk.level,
-      reasons: report.risk.reasons,
-      reason_text: report.risk.reasonText,
-    },
-    ai: {
-      summary: report.ai.summary,
-      fixes: report.ai.fixes,
-      generated_by: report.ai.generatedBy,
-    },
   };
 }
 
-export type MakePayload = ReturnType<typeof makePayload>;
+export type ContactIntakePayload = ReturnType<typeof contactIntakePayload>;
 
 /** The short version the page shows right away: no lead details, no raw checks. */
 export function pageSummary(report: Report) {
