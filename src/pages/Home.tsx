@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
+import { Suspense, lazy, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
-// --- Restored Components ---
-import FramerPlayground from '../components/FramerPlayground';
-import AnimationShowcase from '../components/AnimationShowcase';
-import ContactModal from '../components/ContactModal';
-import MealPrepPreview from '../components/MealPrepPreview';
+import { deferredSection, useAfterPageLoad } from '../lib/deferred';
 import { useLocalePath, useT } from '../i18n/useLang';
 import home from '../i18n/home';
 import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
+
+// Everything below the hero, and the contact modal, uses framer-motion or
+// GSAP. Their code loads after the page (src/lib/deferred.tsx), so a phone
+// spends its first seconds on the HTML and the hero image. The hero itself
+// animates with CSS (the keyframes in the <style> below) for the same reason.
+const MealPrepPreview = deferredSection(() => import('../components/MealPrepPreview'));
+const AnimationShowcase = deferredSection(() => import('../components/AnimationShowcase'));
+const FramerPlayground = deferredSection(() => import('../components/FramerPlayground'));
+const ContactModal = lazy(() => import('../components/ContactModal'));
 
 // LocalBusiness structured data for the home page. No street address: the
 // business serves all of Florida rather than customers at an office. (The
@@ -34,6 +38,7 @@ export default function Home() {
   
   // --- Global Form/Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalReady = useAfterPageLoad() || isModalOpen;
 
   // Lock body scroll when the modal is open
   useEffect(() => {
@@ -70,6 +75,50 @@ export default function Home() {
           color: revert-layer;
           margin: revert-layer;
         }
+
+        /* The hero's motion, as CSS so it runs without waiting for any JavaScript.
+           Same movement, timing and easing it had as framer-motion animations
+           (CSS ease-out and ease-in-out are framer's easeOut and easeInOut). */
+        .home-hero-float {
+          animation: home-hero-float 3s ease-in-out infinite;
+        }
+        @keyframes home-hero-float {
+          0%, 100% { transform: translateY(0); box-shadow: 0 10px 40px rgba(255, 95, 31, 0.3); }
+          50% { transform: translateY(-15px); box-shadow: 0 20px 80px rgba(255, 95, 31, 0.7); }
+        }
+        /* Settles in from slightly smaller; the hue shift starts at 1.2s. */
+        .home-hero-img {
+          animation: home-hero-settle 1.2s ease-out, home-hero-hue 5s ease-in-out 1.2s infinite backwards;
+          transition: scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .home-hero-img:hover {
+          scale: 1.05;
+        }
+        @keyframes home-hero-settle {
+          from { scale: 0.96; }
+          to { scale: 1; }
+        }
+        @keyframes home-hero-hue {
+          0%, 100% { filter: blur(0px) hue-rotate(0deg); }
+          50% { filter: blur(0px) hue-rotate(45deg); }
+        }
+        @keyframes home-glow-pulse {
+          0%, 100% { box-shadow: 0 0 28px 8px rgba(59, 130, 246, 0.55); }
+          50% { box-shadow: 0 0 48px 18px rgba(59, 130, 246, 0.9); }
+        }
+        @keyframes home-hue-spin {
+          from { filter: hue-rotate(0deg); }
+          to { filter: hue-rotate(360deg); }
+        }
+        @keyframes home-spin {
+          to { rotate: 360deg; }
+        }
+        .home-rise {
+          animation: home-rise 0.8s ease-out both;
+        }
+        @keyframes home-rise {
+          from { opacity: 0; transform: translateY(20px); }
+        }
       `}</style>
 
       {/* Global Background Wireframe */}
@@ -85,29 +134,17 @@ export default function Home() {
           {/* The wrapper takes the image's own width limits (the img is w-full of it).
               Shrink-wrapped, it had no width until the image downloaded, so on a slow
               connection the hero painted at zero height and the text below jumped. */}
-          <motion.div
-            className="rounded-3xl relative w-full max-w-sm md:max-w-md lg:max-w-lg"
-            initial={{ y: 0 }}
-            animate={{ 
-              y: [0, -15, 0],
-              boxShadow: [
-                '0 10px 40px rgba(255, 95, 31, 0.3)',
-                '0 20px 80px rgba(255, 95, 31, 0.7)',
-                '0 10px 40px rgba(255, 95, 31, 0.3)'
-              ] 
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <div className="home-hero-float rounded-3xl relative w-full max-w-sm md:max-w-md lg:max-w-lg">
             {/* The page's largest paint, so: AVIF/WebP/JPEG at 480/768/1024px (phones get a
                 small one), preloaded in the pre-rendered HTML (src/i18n/prerender.ts), and
                 width/height give the box its square shape before it arrives. It starts fully
                 opaque: an opacity-0 start meant it didn't count as painted until the
                 JavaScript loaded and the fade began. It still settles in from slightly
-                smaller and blurred. */}
+                smaller. */}
             <picture>
               <source type="image/avif" srcSet={HERO_IMAGE.avif} sizes={HERO_IMAGE.sizes} />
               <source type="image/webp" srcSet={HERO_IMAGE.webp} sizes={HERO_IMAGE.sizes} />
-              <motion.img
+              <img
                 src={HERO_IMAGE.src}
                 srcSet={HERO_IMAGE.jpeg}
                 sizes={HERO_IMAGE.sizes}
@@ -117,102 +154,69 @@ export default function Home() {
                 loading="eager"
                 decoding="async"
                 alt={t.hero.imageAlt}
-                className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
-                initial={{ scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
-                animate={{
-                  scale: 1,
-                  filter: [
-                    "blur(0px) hue-rotate(0deg)",
-                    "blur(0px) hue-rotate(45deg)",
-                    "blur(0px) hue-rotate(0deg)"
-                  ]
-                }}
-                transition={{
-                  scale: { duration: 1.2, ease: "easeOut" },
-                  filter: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
-                }}
-                whileHover={{ scale: 1.05 }}
+                className="home-hero-img w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
               />
             </picture>
 
             {/* Breathing glow over the medallion's outer ring \u2014 the image itself is untouched; this is a separate pulsing, hue-cycling glow layered on top */}
-            <motion.div
+            <div
               className="absolute rounded-full pointer-events-none z-20"
-              style={{ top: '13%', left: '18%', right: '18%', bottom: '26%' }}
-              animate={{
-                boxShadow: [
-                  '0 0 28px 8px rgba(59,130,246,0.55)',
-                  '0 0 48px 18px rgba(59,130,246,0.9)',
-                  '0 0 28px 8px rgba(59,130,246,0.55)',
-                ],
-                filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'],
-              }}
-              transition={{
-                boxShadow: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-                filter: { duration: 9, repeat: Infinity, ease: 'linear' },
+              style={{
+                top: '13%', left: '18%', right: '18%', bottom: '26%',
+                animation: 'home-glow-pulse 6s ease-in-out infinite, home-hue-spin 9s linear infinite',
               }}
             />
 
             {/* Slow-turning gears, layered over the mechanical side of the lion's head \u2014 three shapes: large magenta, small teal, small dark-pink. Each cycles hue as it spins. */}
-            <motion.div
+            <div
               className="absolute pointer-events-none z-20"
-              style={{ top: '48%', left: '37%', width: '9%', aspectRatio: '1 / 1' }}
-              animate={{ rotate: 360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
-              transition={{
-                rotate: { duration: 7, repeat: Infinity, ease: 'linear' },
-                filter: { duration: 5, repeat: Infinity, ease: 'linear' },
+              style={{
+                top: '48%', left: '37%', width: '9%', aspectRatio: '1 / 1',
+                animation: 'home-spin 7s linear infinite, home-hue-spin 5s linear infinite',
               }}
             >
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-85">
                 <path fill="#d946a8" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
-            </motion.div>
-            <motion.div
+            </div>
+            <div
               className="absolute pointer-events-none z-20"
-              style={{ top: '53%', left: '42%', width: '5.5%', aspectRatio: '1 / 1' }}
-              animate={{ rotate: -360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
-              transition={{
-                rotate: { duration: 6, repeat: Infinity, ease: 'linear' },
-                filter: { duration: 4, repeat: Infinity, ease: 'linear' },
+              style={{
+                top: '53%', left: '42%', width: '5.5%', aspectRatio: '1 / 1',
+                animation: 'home-spin 6s linear infinite reverse, home-hue-spin 4s linear infinite',
               }}
             >
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-85">
                 <path fill="#2dd4bf" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
-            </motion.div>
-            <motion.div
+            </div>
+            <div
               className="absolute pointer-events-none z-20"
-              style={{ top: '60%', left: '49%', width: '4.5%', aspectRatio: '1 / 1' }}
-              animate={{ rotate: 360, filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'] }}
-              transition={{
-                rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
-                filter: { duration: 6, repeat: Infinity, ease: 'linear' },
+              style={{
+                top: '60%', left: '49%', width: '4.5%', aspectRatio: '1 / 1',
+                animation: 'home-spin 8s linear infinite, home-hue-spin 6s linear infinite',
               }}
             >
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-85">
                 <path fill="#be185d" d="M50 8 l6 12 13-4 2 13 13 2-4 13 12 6-8 11 8 11-12 6 4 13-13 2-2 13-13-4-6 12-6-12-13 4-2-13-13-2 4-13-12-6 8-11-8-11 12-6-4-13 13-2 2-13 13 4z M50 33a17 17 0 100 34 17 17 0 000-34z" />
               </svg>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
 
         {/* Right Column: High-Impact Abbreviated Copy */}
         <div className="flex-1 w-full flex flex-col items-start text-left z-20">
-          <motion.h1 
-            className="text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          <h1
+            className="home-rise text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-tight"
+            style={{ animationDelay: '0.2s' }}
           >
             <span className="text-white">{t.hero.titleA}</span><br />
             <span className="text-brand-orange">{t.hero.titleB}</span>
-          </motion.h1>
+          </h1>
 
-          <motion.div 
-            className="space-y-4 text-base md:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          <div
+            className="home-rise space-y-4 text-base md:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed"
+            style={{ animationDelay: '0.4s' }}
           >
             <p>
               {t.hero.p1}
@@ -220,13 +224,11 @@ export default function Home() {
             <p>
               {t.hero.p2}
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="flex flex-wrap gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          <div
+            className="home-rise flex flex-wrap gap-4"
+            style={{ animationDelay: '0.6s' }}
           >
             <button 
               onClick={() => setIsModalOpen(true)}
@@ -239,7 +241,7 @@ export default function Home() {
                 {t.hero.viewWork}
               </button>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </header>
 
@@ -325,7 +327,11 @@ export default function Home() {
           ========================================= */}
       
       {/* 2. Global Communication Webhook Modal */}
-      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} source="Home Page" />
+      {modalReady && (
+        <Suspense fallback={null}>
+          <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} source="Home Page" />
+        </Suspense>
+      )}
 
     </div>
   );
