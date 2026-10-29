@@ -1,16 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useId, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { EMAIL, EMAIL_HREF } from '../config/site';
 import LetsTalkChooser from './LetsTalkChooser';
 import LangToggle from './LangToggle';
-import { langToggleVisible } from '../i18n/lang';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import common from '../i18n/common';
 
 // Services goes to the homepage's services grid (ScrollToTop scrolls to #services);
-// the Engine page (/automations) is one of its cards, and is in the footer.
+// the Engine page (/automations) is one of its cards, and is in the footer. The
+// logo goes home, so there's no separate Home link.
 const NAV_LINKS = [
-  { to: '/', key: 'hub' },
   { to: '/#services', key: 'services' },
   { to: '/portfolio', key: 'caseStudies' },
   { to: '/skunkworks', key: 'skunkworks' },
@@ -21,7 +20,19 @@ export default function GlobalHeader() {
   const t = useT(common);
   const lp = useLocalePath();
   const lang = useLang();
-  const showToggle = langToggleVisible(lang);
+  const { key: locationKey } = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuId = useId();
+
+  // The phone menu closes on every navigation (including "Services" on the
+  // homepage, which only changes the #hash) and with Escape.
+  useEffect(() => setMenuOpen(false), [locationKey]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
 
   return (
     <>
@@ -57,16 +68,7 @@ export default function GlobalHeader() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3 lg:justify-self-end">
-            {/* The main nav is desktop-only, so give small screens their own Contact link.
-                On phones it gives way to the EN | ES toggle (the link under Let's Talk
-                also goes to /contact), or the header runs off the screen. */}
             <LangToggle />
-            <Link
-              to={lp('/contact')}
-              className={`${showToggle ? 'hidden sm:inline' : ''} lg:hidden text-xs font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap`}
-            >
-              {t.nav.contact}
-            </Link>
             <a
               href={EMAIL_HREF}
               aria-label={t.emailAriaLabel}
@@ -86,9 +88,40 @@ export default function GlobalHeader() {
                 {t.orSendMessage}
               </Link>
             </div>
+            {/* Below lg the main nav is hidden, so its links sit behind this button. */}
+            <button
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls={menuId}
+              aria-label={t.menu}
+              onClick={() => setMenuOpen(open => !open)}
+              className="lg:hidden flex items-center justify-center w-10 h-10 shrink-0 rounded-lg border border-slate-700 text-slate-300 hover:text-brand-orange hover:border-brand-orange transition-colors cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={menuOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'} />
+              </svg>
+            </button>
           </div>
-          
+
         </div>
+
+        {menuOpen && (
+          <nav id={menuId} aria-label={t.mainNavLabel} className="lg:hidden border-t border-slate-900 bg-slate-950">
+            <ul className="site-container py-2 text-left">
+              {NAV_LINKS.map(link => (
+                <li key={link.to}>
+                  <Link
+                    to={lp(link.to)}
+                    onClick={() => setMenuOpen(false)}
+                    className="block py-3 text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors"
+                  >
+                    {t.nav[link.key]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </header>
     </>
   );

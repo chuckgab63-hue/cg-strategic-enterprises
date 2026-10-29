@@ -47,19 +47,15 @@ Notes for the legal reviewer:
 | File | Page or feature |
 | --- | --- |
 | `src/i18n/meta.ts` | Page titles and meta descriptions (search results, browser tabs) |
-| `src/i18n/common.ts` | Header, footer, "Hablemos" chooser, 404 page. "Servicios" (header link and footer heading) and "Automatización y flujos de trabajo" (footer link to `/es/automations`) are **new, not yet reviewed.** |
+| `src/i18n/common.ts` | Header, footer, "Hablemos" chooser, 404 page. **New, not yet reviewed:** "Servicios", "Menú", and the footer's headings and labels ("Herramientas gratuitas", "Empresa", "Atendemos a negocios en todo Florida", "Visibilidad en buscadores e IA", "Sitios web", ...) |
 | `src/i18n/contact.ts` | Contact form, contact pop-up, `/es/contact` |
 | `public/alex-voice-strings.js` | Alex call button and status messages. **Updated, not yet reviewed:** they no longer say Alex speaks only English |
 | `src/i18n/alex.ts` | Alex call button's first label (must match the file above; a test checks) |
-| `src/i18n/home.ts` | Home page, animation playground and cards. The services grid, the featured case study card (`caseStudy`) and the Free Website Check section (`websiteCheck`) in `es` are **new, not yet reviewed.** |
-| `src/i18n/mealPrepPreview.ts` | Meal-prep teaser on the home page |
+| `src/i18n/home.ts` | Home page hero. The services grid and the Free Website Check section (`websiteCheck`) in `es` are **new, not yet reviewed.** |
+| `src/i18n/caseStudyCard.ts` | The pest control case study card on the home page and `/es/portfolio`. **New, not yet reviewed.** |
+| `src/i18n/searchAiVisibility.ts` | `/es/search-ai-visibility` (moved from `/es/portfolio`). **New, not yet reviewed:** the whole page, including the closing "Hablar con Alex" box |
 | `src/i18n/automations.ts` | `/es/automations` |
-| `src/i18n/portfolio.ts` | `/es/portfolio`. **New, not yet reviewed:** the Search & AI Visibility section (`searchVisibility`) |
-| `src/i18n/analysisWidget.ts` | Pest photo diagnosis demo |
-| `src/i18n/taxWidget.ts` | Sales-tax demo |
-| `src/i18n/propertyWidget.ts` | Property operations demo |
-| `src/i18n/assetTrackerWidget.ts` | Asset tracker demo |
-| `src/i18n/mealPrepOrderWidget.ts` | Meal-prep ordering demo (dish names, checkout, dates) |
+| `src/i18n/portfolio.ts` | `/es/portfolio` (the case studies index). **New, not yet reviewed:** `backToHome` and `comingSoon` |
 | `src/i18n/mealPrepCalculator.tsx` | `/es/meal-prep-calculator` and its chart |
 | `src/i18n/websiteCheck.ts` | `/es/website-check` form, errors and results. The "Más información" panels under the score cards and the missed-call estimator (`learnMore` in `es`) are **new, not yet reviewed.** |
 | `src/lib/websiteCheck/reportCopy.ts` | Website Check report text written by the server: missed-call reasons, fallback fixes and summary (only the `es` halves) |
@@ -77,30 +73,23 @@ Notes for the legal reviewer:
 
 ### AI answers
 
-These server files tell Gemini to answer in Spanish when the page is Spanish. The instructions
+This server file tells Gemini to answer in Spanish when the page is Spanish. The instructions
 themselves are short; the answers are generated live and can't be pre-reviewed. Worth trying one
-of each on the Spanish site.
+on the Spanish site.
 
-- `api/analyze.ts`: pest photo diagnosis
-- `api/recommend-meal.ts`: meal recommendations in the ordering demo
-- `api/triage-maintenance.ts`: maintenance request summary
+- `api/website-check.ts`: the Website Check's plain-language summary and top fixes
 
 ## Words and choices worth a second look
 
 - **Terms:** "clientes potenciales" for *leads*, "El Motor" for *The Engine*, "Casos de estudio" for *Case Studies*, "Hablemos" for *Let's Talk*.
 - **Meal-prep:** "costo primo" (*prime cost*), "costo de ventas" (*COGS*), "merma" (*spoilage*), "cocina comercial compartida" (*commissary kitchen*).
-- **Regional food words:** "camote" vs "batata", "ejotes" vs "habichuelas".
 - **Home hero wordplay:** "Parezca una empresa sólida. / O SEA una empresa sólida."
-- **Property demo:** "Cuadrilla n.º", "Patio Norte/Sur" (*North/South Yard*), "Entregar" (*Drop Off*).
-- **Pest demo:** "cucarachas palmetto" (*palmetto bugs*).
 - **Demo-page headings:** "ESCALA DE CINE." and "Interfaz con acabado nativo".
 
 ## Intentionally left in English on Spanish pages
 
 - Brand, product, people and technology names (see the top of this file), and the "EN" link in the language toggle.
 - Text quoted from One Source's own English website in the case study's screenshots and alt text (for example "Talk to Jess", "Book Online", "My status").
-- The pest demo's report field names (`DUVAL HUB REPORT`, `PRIORITY`, ...) inside the AI response, because the widget parses them. Visitors see translated labels.
-- Data the demos send to or receive from Make (depot names, `fulfillmentType`, report ids), where Make expects English values.
 - The A2P SMS opt-in pages, `public/sms-opt-in.html` and `sms-opt-in-thanks.html`.
 
 ## Launching

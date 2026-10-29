@@ -55,11 +55,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Case Studies | ${NAME}`,
-        description: 'Selected website, AI and automation projects, including the One Source Total Pest Control rebuild and interactive demos you can try.',
+        description: 'Case studies of our website, AI and automation work, starting with a full rebuild for a Florida pest control company.',
       },
       es: {
         title: `Casos de estudio | ${NAME}`,
-        description: 'Proyectos seleccionados de sitios web, IA y automatización, incluida la renovación del sitio de One Source Total Pest Control y demostraciones interactivas que puede probar.',
+        description: 'Casos de estudio de nuestro trabajo en sitios web, IA y automatización, empezando por una renovación completa para una empresa de control de plagas en Florida.',
       },
     },
   },
@@ -197,6 +197,19 @@ export const SITE_ROUTES: SiteRoute[] = [
       es: {
         title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
         description: 'Pedidos en línea para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes. Vea la demo en vivo.',
+      },
+    },
+  },
+  {
+    path: '/search-ai-visibility',
+    meta: {
+      en: {
+        title: `Search & AI Visibility for Florida Small Businesses | ${NAME}`,
+        description: 'Get found on Google, Bing, Maps and AI assistants: technical SEO, Google Business Profile, keyword-driven service pages, AI search visibility and Spanish versions.',
+      },
+      es: {
+        title: `Visibilidad en buscadores e IA para pequeños negocios de Florida | ${NAME}`,
+        description: 'Que lo encuentren en Google, Bing, Maps y los asistentes de IA: SEO técnico, Perfil de Empresa en Google, páginas de servicios por palabras clave, búsqueda con IA y versiones en español.',
       },
     },
   },

@@ -26,6 +26,7 @@ export const PAGE_FILES: [path: string, file: string][] = [
   ['/faq', 'Faq'],
   ['/answering-service', 'AnsweringService'],
   ['/meal-prep-ordering', 'MealPrepOrdering'],
+  ['/search-ai-visibility', 'SearchAiVisibility'],
 ];
 
 /** The page file for an English path ("/" for the home page), if it has one. */

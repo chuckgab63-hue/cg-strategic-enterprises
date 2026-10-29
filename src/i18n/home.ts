@@ -1,6 +1,5 @@
-// Home page strings: hero, services cards, transition banner, Advanced Rendering playground
-// (FramerPlayground), the three animation cards (AnimationShowcase) and the
-// runway CTA. The meal-prep slice has its own file (mealPrepPreview.ts).
+// Home page strings: hero, services cards and the Free Website Check section.
+// The case study card under the services has its own file (caseStudyCard.ts).
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 /** Picks the card's icon in Home.tsx. */
@@ -8,7 +7,7 @@ export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'webs
 
 interface ServiceCard {
   icon: ServiceIcon;
-  /** Site path, with a #section where the card points into a page. */
+  /** Site path. */
   path: string;
   title: string;
   body: string;
@@ -51,7 +50,7 @@ const en = {
       },
       {
         icon: 'search',
-        path: '/portfolio#search-visibility',
+        path: '/search-ai-visibility',
         title: 'Search & AI Visibility',
         body: 'Get found on Google, Bing and Apple Maps: business profiles, search-friendly pages and Spanish versions.',
       },
@@ -70,16 +69,6 @@ const en = {
       },
     ] as ServiceCard[],
   },
-  // The featured case study card under the services grid. No client name,
-  // logo or results claims: the site hasn't launched yet.
-  caseStudy: {
-    badge: 'Case study · Pest control',
-    title: 'A Full Rebuild for a Florida Pest Control Company',
-    body: 'A fast new website, an AI phone assistant, a photo-based pest identifier that turns uploads into leads, automated lead handling, and a private admin area for staff licensing, training and hiring.',
-    chips: ['AI phone assistant', 'Photo pest ID', 'Lead automation', 'Admin portal'],
-    cta: 'Read the case study',
-    imageAlt: 'The private admin area from the build: a dashboard of staff credentials that are expired or expiring soon (demo data).',
-  },
   // The Free Website Check section right after the hero (src/components/HomeWebsiteCheck.tsx).
   websiteCheck: {
     badge: 'Free website check',
@@ -91,37 +80,6 @@ const en = {
     error: 'Enter your website address, like yourbusiness.com.',
     checks: ['Speed', 'Mobile', 'Search basics', 'Missed-call risk'],
     note: 'Free. No sign-up needed to see your results.',
-  },
-  banner: {
-    eyebrow: 'Elevate Your Digital Presence',
-    body: 'We transform flat, static websites into dynamic digital experiences. Here is a live demonstration of our rendering capabilities.',
-  },
-  runway: {
-    eyebrow: 'Continue Exploring',
-    title: 'Enter The Engine.',
-  },
-  playground: {
-    titleA: 'Advanced ',
-    titleB: 'Rendering.',
-    intro: 'Interact with our high-fidelity front-end engineering. Catch the node to test frame-rate physics, or watch the DOM orchestrate sequential rendering.',
-    workflowsTitle: 'Orchestrated Workflows',
-    steps: ['Audit Digital Infrastructure', 'Engineer Efficiency', 'Automate Growth'],
-    hooksTitle: 'State & Event Hooks',
-    hooksEyebrow: 'Catch it if you can',
-    caught: 'CAUGHT!',
-    resetting: 'Resetting...',
-    tooSlow: 'TOO SLOW!',
-    catchMe: 'CATCH ME',
-    caughtNote: "Got 'em. State updated, events fired, UI rendered.",
-    idleNote: 'Hover to trigger evasion logic. It tires out after 3.5s.',
-  },
-  showcase: {
-    uiPolishTitle: 'UI Polish',
-    uiPolishBody: 'Powered natively by Tailwind. Perfect for crisp, lightweight hover states, button interactions, and fast-loading micro-animations.',
-    fluidTitle: 'Fluid Dynamics',
-    fluidBody: 'Powered by Framer Motion. Ideal for modern web portals, physics-based scaling, smooth page transitions, and continuous looping elements.',
-    cinematicTitle: 'Cinematic Sequences',
-    cinematicBody: 'Powered by GSAP. The industry standard for complex timeline scrubbing, scroll-driven narratives, and high-end interactive brand work.',
   },
 };
 
@@ -161,7 +119,7 @@ const es: typeof en = {
       },
       {
         icon: 'search',
-        path: '/portfolio#search-visibility',
+        path: '/search-ai-visibility',
         title: 'Visibilidad en buscadores e IA',
         body: 'Que lo encuentren en Google, Bing y Apple Maps: perfiles de negocio, páginas pensadas para los buscadores y versiones en español.',
       },
@@ -181,14 +139,6 @@ const es: typeof en = {
       },
     ],
   },
-  caseStudy: {
-    badge: 'Caso de estudio · Control de plagas',
-    title: 'Una renovación completa para una empresa de control de plagas en Florida',
-    body: 'Un sitio web nuevo y rápido, un asistente telefónico con IA, un identificador de plagas por foto que convierte cada imagen en un cliente potencial, manejo automatizado de clientes potenciales y un área privada de administración para las licencias, la capacitación y la contratación del personal.',
-    chips: ['Asistente telefónico con IA', 'Identificación de plagas por foto', 'Automatización de clientes potenciales', 'Portal de administración'],
-    cta: 'Leer el caso de estudio',
-    imageAlt: 'El área privada de administración del proyecto: un panel con las credenciales del personal vencidas o por vencer (datos de demostración).',
-  },
   websiteCheck: {
     badge: 'Revisión gratuita del sitio web',
     title: '¿Su sitio web le está costando clientes?',
@@ -199,37 +149,6 @@ const es: typeof en = {
     error: 'Ingrese la dirección de su sitio web, por ejemplo sunegocio.com.',
     checks: ['Velocidad', 'Celulares', 'Básicos de búsqueda', 'Riesgo de llamadas perdidas'],
     note: 'Gratis. No necesita registrarse para ver sus resultados.',
-  },
-  banner: {
-    eyebrow: 'Eleve su presencia digital',
-    body: 'Transformamos sitios web planos y estáticos en experiencias digitales dinámicas. Esta es una demostración en vivo de nuestras capacidades de renderizado.',
-  },
-  runway: {
-    eyebrow: 'Siga explorando',
-    title: 'Conozca El Motor.',
-  },
-  playground: {
-    titleA: 'Renderizado ',
-    titleB: 'avanzado.',
-    intro: 'Interactúe con nuestra ingeniería front-end de alta fidelidad. Atrape el nodo para poner a prueba la física cuadro por cuadro, u observe cómo el DOM orquesta un renderizado secuencial.',
-    workflowsTitle: 'Flujos de trabajo orquestados',
-    steps: ['Auditar la infraestructura digital', 'Diseñar la eficiencia', 'Automatizar el crecimiento'],
-    hooksTitle: 'Hooks de estado y eventos',
-    hooksEyebrow: 'Atrápelo si puede',
-    caught: '¡ATRAPADO!',
-    resetting: 'Reiniciando...',
-    tooSlow: '¡MUY LENTO!',
-    catchMe: 'ATRÁPEME',
-    caughtNote: '¡Lo atrapó! Estado actualizado, eventos disparados, interfaz renderizada.',
-    idleNote: 'Pase el cursor para activar la lógica de evasión. Se cansa después de 3.5 s.',
-  },
-  showcase: {
-    uiPolishTitle: 'Acabado de interfaz',
-    uiPolishBody: 'Con tecnología nativa de Tailwind. Perfecto para estados hover nítidos y ligeros, interacciones de botones y microanimaciones de carga rápida.',
-    fluidTitle: 'Dinámica de fluidos',
-    fluidBody: 'Con tecnología de Framer Motion. Ideal para portales web modernos, escalado basado en física, transiciones de página suaves y elementos en bucle continuo.',
-    cinematicTitle: 'Secuencias cinematográficas',
-    cinematicBody: 'Con tecnología de GSAP. El estándar de la industria para controlar líneas de tiempo complejas, narrativas guiadas por el desplazamiento y trabajos de marca interactivos de alto nivel.',
   },
 };
 

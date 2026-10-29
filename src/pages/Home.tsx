@@ -1,23 +1,20 @@
 import { Suspense, lazy, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { deferredSection, useAfterPageLoad } from '../lib/deferred';
+import { useAfterPageLoad } from '../lib/deferred';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import home from '../i18n/home';
 import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
 import { trackEvent } from '../lib/analytics';
 import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
-import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
+import PestCaseStudyCard from '../components/PestCaseStudyCard';
 import type { ServiceIcon } from '../i18n/home';
 
-// Everything below the hero, and the contact modal, uses framer-motion or
-// GSAP. Their code loads after the page (src/lib/deferred.tsx), so a phone
-// spends its first seconds on the HTML and the hero image. The hero itself
-// animates with CSS (the keyframes in the <style> below) for the same reason.
-const MealPrepPreview = deferredSection(() => import('../components/MealPrepPreview'));
-const AnimationShowcase = deferredSection(() => import('../components/AnimationShowcase'));
-const FramerPlayground = deferredSection(() => import('../components/FramerPlayground'));
+// The contact modal uses framer-motion, so its code loads after the page
+// (src/lib/deferred.tsx) and a phone spends its first seconds on the HTML and
+// the hero image. The hero animates with CSS (the keyframes in the <style>
+// below) for the same reason.
 const ContactModal = lazy(() => import('../components/ContactModal'));
 
 // One small outline icon per service card (the card's `icon` in src/i18n/home.ts).
@@ -34,9 +31,6 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
   check: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-4 9 3 3 5-6',
 };
 
-// The case study card's screenshot: the build's admin dashboard (demo data), 27 KB, lazy-loaded.
-const CASE_STUDY_IMAGE = '/portfolio/onesource/onesource-admin-dashboard-mock-800w.webp';
-
 // LocalBusiness structured data for the home page. No street address: the
 // business serves all of Florida rather than customers at an office. (The
 // site-wide Organization JSON-LD from vite.config.ts carries the mailing address.)
@@ -51,7 +45,7 @@ const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
 }).replace(/</g, '\\u003c');
 
 
-// MAIN COMPONENT: CONTINUOUS SCROLL HOME
+// MAIN COMPONENT: HOME
 // ==========================================
 export default function Home() {
   const t = useT(home);
@@ -276,7 +270,7 @@ export default function Home() {
           SERVICES: one card per service (the header's "Services" link lands
           here), then the featured case study
           ========================================= */}
-      <section id="services" className="site-container relative z-10 pb-12 scroll-mt-28">
+      <section id="services" className="site-container relative z-10 pb-24 scroll-mt-28">
         <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6 text-center">{t.services.title}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {t.services.cards.map(card => (
@@ -300,94 +294,8 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Featured case study. The screenshot is cropped (object-bottom) to leave
-            out the admin's sidebar logo: the card doesn't name the client. */}
-        <Link
-          to={lp(ONE_SOURCE_CASE_STUDY.path)}
-          onClick={() => trackEvent('home_case_study_click', lang)}
-          className="group mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center text-left bg-gradient-to-br from-slate-900 to-[#020617] border border-brand-orange/30 hover:border-brand-orange/60 rounded-3xl p-6 md:p-10 transition-colors shadow-[0_0_30px_rgba(255,95,31,0.08)]"
-        >
-          <div>
-            <span className="inline-block px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
-              {t.caseStudy.badge}
-            </span>
-            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight mt-5">{t.caseStudy.title}</h3>
-            <p className="text-slate-400 leading-relaxed mt-4">{t.caseStudy.body}</p>
-            <ul className="flex flex-wrap gap-2 mt-5">
-              {t.caseStudy.chips.map(chip => (
-                <li key={chip} className="px-3 py-1 rounded-full border border-slate-700 bg-slate-950/60 text-xs font-semibold text-slate-300">{chip}</li>
-              ))}
-            </ul>
-            <span className="inline-block mt-6 bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs group-hover:bg-white group-hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)]">
-              {t.caseStudy.cta} <span aria-hidden="true">&rarr;</span>
-            </span>
-          </div>
-          <div className="rounded-2xl overflow-hidden border border-slate-800 aspect-[800/464] bg-[#fdfaf3]">
-            <img
-              src={CASE_STUDY_IMAGE}
-              alt={t.caseStudy.imageAlt}
-              width={800} height={500}
-              loading="lazy" decoding="async"
-              className="w-full h-full object-cover object-bottom"
-            />
-          </div>
-        </Link>
+        <PestCaseStudyCard className="mt-6" onClick={() => trackEvent('home_case_study_click', lang)} />
       </section>
-
-      {/* =========================================
-          SECTION 2: MEAL-PREP CALCULATOR (LIVE SLICE)
-          Sits above the transition banner: the banner's "Here is a live
-          demonstration" introduces the rendering demos, so the two stay together.
-          ========================================= */}
-      <MealPrepPreview />
-
-      {/* =========================================
-          TRANSITION HEADER
-          ========================================= */}
-      <div className="w-full text-center py-32 relative z-10 border-t border-slate-900 mt-20">
-        <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6">{t.banner.eyebrow}</h2>
-        <div className="text-center w-full max-w-3xl mx-auto px-6">
-          <p className="text-2xl md:text-3xl font-light text-slate-300 leading-relaxed bg-brand-orange text-white py-2 px-4 rounded-xl shadow-[0_0_30px_rgba(255,95,31,0.3)] inline-block">
-            {t.banner.body}
-          </p>
-        </div>
-      </div>
-
-      <AnimationShowcase />
-
-      {/* =========================================
-          SECTION 5: FRAMER PLAYGROUND (GAMIFIED)
-          ========================================= */}
-      <div className="relative z-10 w-full border-t border-slate-900 bg-slate-950">
-        <FramerPlayground />
-      </div>
-
-
-      {/* =========================================
-          NEXT PAGE RUNWAY CTA (The Engine)
-          ========================================= */}
-      <div className="site-container mt-16 mb-24 relative z-10">
-        <Link 
-          to={lp('/automations')}
-          className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/0 via-brand-orange/10 to-brand-orange/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
-          <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-center md:text-left">
-              <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">{t.runway.eyebrow}</h3>
-              <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
-                {t.runway.title}
-              </h2>
-            </div>
-            <div className="w-16 h-16 rounded-full bg-slate-900 border border-slate-700 text-slate-400 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-[#020617] transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] shrink-0">
-              <svg className="w-6 h-6 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-              </svg>
-            </div>
-          </div>
-        </Link>
-      </div>
-
 
       {/* =========================================
           GLOBAL OVERLAYS & MODALS

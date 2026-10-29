@@ -13,11 +13,10 @@ export default function ScrollToTop() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Links to a section (the header's "Services" -> /#services, the homepage's
-  // /portfolio#search-visibility) jump to it, as the browser would on a full
-  // page load. Runs on every navigation (key), so clicking "Services" again
-  // works when the URL already ends in #services. Targets use scroll-mt-* to
-  // clear the fixed header.
+  // Links to a section (the header's "Services" -> /#services) jump to it, as
+  // the browser would on a full page load. Runs on every navigation (key), so
+  // clicking "Services" again works when the URL already ends in #services.
+  // Targets use scroll-mt-* to clear the fixed header.
   useEffect(() => {
     if (!hash) return;
     let frame = 0;

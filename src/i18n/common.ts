@@ -4,24 +4,25 @@
 import { BUSINESS_NAME, EMAIL, PHONE_DISPLAY } from '../config/site';
 
 const en = {
-  tagline: ['Efficiency Engineered.', 'Growth Automated.'],
   nav: {
-    hub: 'Hub',
     services: 'Services',
     engine: 'Automation & Workflows',
     caseStudies: 'Case Studies',
     skunkworks: 'Skunkworks',
     contact: 'Contact',
     mealPrep: 'Meal Prep Calculator',
-    websiteCheck: 'Free Website Check',
+    websiteCheck: 'Website Check',
     missedCallCalculator: 'Missed-Call Calculator',
     faq: 'FAQ',
     answeringService: 'AI Answering Service',
-    mealPrepOrdering: 'Meal Prep Ordering',
+    mealPrepOrdering: 'Online Ordering for Meal Prep',
+    searchAi: 'Search & AI Visibility',
+    websites: 'Websites',
     privacy: 'Privacy Policy',
     terms: 'Terms',
   },
   mainNavLabel: 'Main',
+  menu: 'Menu',
   callAriaLabel: `Call ${BUSINESS_NAME} at ${PHONE_DISPLAY}`,
   emailAriaLabel: `Email ${BUSINESS_NAME} at ${EMAIL}`,
   letsTalk: "Let's Talk",
@@ -37,11 +38,11 @@ const en = {
     dialFromPhone: 'Prefer the phone? Dial it from your phone.',
   },
   footer: {
-    explore: 'Explore',
     services: 'Services',
-    legal: 'Legal',
-    initiate: 'Initiate',
-    pitch: "Ready to upgrade your digital infrastructure? Let's build.",
+    freeTools: 'Free tools',
+    company: 'Company',
+    contact: 'Contact',
+    serving: 'Serving businesses across Florida',
     rights: 'All rights reserved.',
   },
   langToggle: {
@@ -62,25 +63,26 @@ const en = {
 };
 
 const es: typeof en = {
-  tagline: ['Eficiencia diseñada.', 'Crecimiento automatizado.'],
   nav: {
-    hub: 'Inicio',
-    // "Services" nav link and footer heading, "Automation & Workflows" footer link: NEW, not yet reviewed.
+    // Services link and the footer's new labels and headings: NEW, not yet reviewed.
     services: 'Servicios',
     engine: 'Automatización y flujos de trabajo',
     caseStudies: 'Casos de estudio',
     skunkworks: 'Skunkworks',
     contact: 'Contacto',
     mealPrep: 'Calculadora de comidas preparadas',
-    websiteCheck: 'Revisión gratuita de su sitio',
+    websiteCheck: 'Revisión del sitio web',
     missedCallCalculator: 'Calculadora de llamadas perdidas',
     faq: 'Preguntas frecuentes',
     answeringService: 'Atención telefónica con IA',
-    mealPrepOrdering: 'Pedidos para comidas preparadas',
+    mealPrepOrdering: 'Pedidos en línea para comidas preparadas',
+    searchAi: 'Visibilidad en buscadores e IA',
+    websites: 'Sitios web',
     privacy: 'Política de privacidad',
     terms: 'Términos',
   },
   mainNavLabel: 'Principal',
+  menu: 'Menú',
   callAriaLabel: `Llamar a ${BUSINESS_NAME} al ${PHONE_DISPLAY}`,
   emailAriaLabel: `Enviar un correo electrónico a ${BUSINESS_NAME} a ${EMAIL}`,
   letsTalk: 'Hablemos',
@@ -96,11 +98,11 @@ const es: typeof en = {
     dialFromPhone: '¿Prefiere hablar por teléfono? Marque este número desde su celular.',
   },
   footer: {
-    explore: 'Explorar',
     services: 'Servicios',
-    legal: 'Legal',
-    initiate: 'Comience',
-    pitch: '¿Listo para mejorar su infraestructura digital? Manos a la obra.',
+    freeTools: 'Herramientas gratuitas',
+    company: 'Empresa',
+    contact: 'Contacto',
+    serving: 'Atendemos a negocios en todo Florida',
     rights: 'Todos los derechos reservados.',
   },
   langToggle: {
