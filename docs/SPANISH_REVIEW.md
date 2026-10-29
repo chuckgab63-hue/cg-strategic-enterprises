@@ -51,7 +51,7 @@ Notes for the legal reviewer:
 | `src/i18n/contact.ts` | Contact form, contact pop-up, `/es/contact` |
 | `public/alex-voice-strings.js` | Alex call button and status messages. **Updated, not yet reviewed:** they no longer say Alex speaks only English |
 | `src/i18n/alex.ts` | Alex call button's first label (must match the file above; a test checks) |
-| `src/i18n/home.ts` | Home page, animation playground and cards |
+| `src/i18n/home.ts` | Home page, animation playground and cards. The Free Website Check service card and section (`websiteCheck` and the third services card in `es`) are **new, not yet reviewed.** |
 | `src/i18n/mealPrepPreview.ts` | Meal-prep teaser on the home page |
 | `src/i18n/automations.ts` | `/es/automations` |
 | `src/i18n/portfolio.ts` | `/es/portfolio`. **New, not yet reviewed:** the Search & AI Visibility section (`searchVisibility`) |

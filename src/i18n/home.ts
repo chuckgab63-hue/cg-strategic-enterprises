@@ -3,6 +3,14 @@
 // runway CTA. The meal-prep slice has its own file (mealPrepPreview.ts).
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
+interface ServiceCard {
+  path: string;
+  title: string;
+  body: string;
+  /** The card's link text, when it isn't "Learn more". */
+  cta?: string;
+}
+
 const en = {
   hero: {
     imageAlt: 'CG Strategic Enterprises',
@@ -27,7 +35,25 @@ const en = {
         title: 'Meal Prep Ordering System',
         body: 'Online ordering built for meal prep businesses: weekly menus, cutoffs, prep lists and customer accounts.',
       },
-    ],
+      {
+        path: '/website-check',
+        title: 'Free Website Check',
+        body: 'See how your site scores on speed, mobile, search basics and missed-call risk in about a minute, with the top fixes in plain language.',
+        cta: 'Check my site',
+      },
+    ] as ServiceCard[],
+  },
+  // The Free Website Check section under the services (src/components/HomeWebsiteCheck.tsx).
+  websiteCheck: {
+    badge: 'Free website check',
+    title: 'Is your website costing you customers?',
+    body: 'Enter your website and get a score out of 100 in about a minute: speed on desktop and mobile, search basics, and your missed-call risk, with the top fixes and an estimate of what missed calls could be costing you.',
+    label: 'Your website address',
+    placeholder: 'yourbusiness.com',
+    submit: 'Check my site',
+    error: 'Enter your website address, like yourbusiness.com.',
+    checks: ['Speed', 'Mobile', 'Search basics', 'Missed-call risk'],
+    note: 'Free. No sign-up needed to see your results.',
   },
   banner: {
     eyebrow: 'Elevate Your Digital Presence',
@@ -86,7 +112,25 @@ const es: typeof en = {
         title: 'Sistema de pedidos para comidas preparadas',
         body: 'Pedidos en línea hechos para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes.',
       },
+      // Website Check card and section: NEW, not yet reviewed by a native speaker.
+      {
+        path: '/website-check',
+        title: 'Revisión gratuita de su sitio web',
+        body: 'Vea cómo califica su sitio en velocidad, celulares, básicos de búsqueda y riesgo de llamadas perdidas en alrededor de un minuto, con las mejoras principales explicadas en lenguaje sencillo.',
+        cta: 'Revisar mi sitio',
+      },
     ],
+  },
+  websiteCheck: {
+    badge: 'Revisión gratuita del sitio web',
+    title: '¿Su sitio web le está costando clientes?',
+    body: 'Ingrese su sitio web y reciba una puntuación de 0 a 100 en alrededor de un minuto: velocidad en computadora y en celulares, básicos de búsqueda y su riesgo de llamadas perdidas, con las mejoras principales y una estimación de cuánto le podrían estar costando las llamadas perdidas.',
+    label: 'La dirección de su sitio web',
+    placeholder: 'sunegocio.com',
+    submit: 'Revisar mi sitio',
+    error: 'Ingrese la dirección de su sitio web, por ejemplo sunegocio.com.',
+    checks: ['Velocidad', 'Celulares', 'Básicos de búsqueda', 'Riesgo de llamadas perdidas'],
+    note: 'Gratis. No necesita registrarse para ver sus resultados.',
   },
   banner: {
     eyebrow: 'Eleve su presencia digital',

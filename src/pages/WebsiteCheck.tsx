@@ -1,11 +1,12 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ConsentText } from '../components/ContactForm';
 import { OPEN_LETS_TALK_EVENT } from '../components/LetsTalkChooser';
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { smsPhoneError } from '../lib/smsPhone';
 import { WEBSITE_CHECK_HONEYPOT, WEBSITE_CHECK_SOURCE, type PageSummary } from '../lib/websiteCheck/lead';
 import { readCheckResponse, type ReadResponse } from '../lib/websiteCheck/response';
+import { prefillFromSearch } from '../lib/websiteCheck/prefill';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import consentDict from '../i18n/consent';
 import websiteCheckDict from '../i18n/websiteCheck';
@@ -350,6 +351,18 @@ export default function WebsiteCheck() {
   const turnstileRef = useRef<HTMLDivElement>(null);
   const turnstile = useTurnstile(turnstileRef, lang);
   const ids = { url: useId(), first: useId(), email: useId(), business: useId(), phone: useId() };
+
+  // ?url= from the homepage section fills in the website. The check still
+  // needs a name and email (and the bot check), so it never starts by itself:
+  // focus moves to the first name instead. Read after the first render so the
+  // pre-rendered HTML (always empty) hydrates cleanly.
+  const [searchParams] = useSearchParams();
+  const prefill = prefillFromSearch(searchParams);
+  useEffect(() => {
+    if (!prefill) return;
+    setForm(prev => ({ ...prev, websiteUrl: prefill }));
+    document.getElementById(ids.first)?.focus();
+  }, [prefill, ids.first]);
 
   const wantsTexts = form.smsConsent || form.smsMarketingConsent;
   const set = (field: keyof typeof EMPTY_FORM, value: string | boolean) => {

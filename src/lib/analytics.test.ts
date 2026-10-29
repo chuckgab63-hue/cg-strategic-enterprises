@@ -39,6 +39,11 @@ describe('analytics privacy', () => {
     ]);
   });
 
+  it('sends the homepage website check clicks with only where they came from', () => {
+    trackEvent('home_website_check_click', 'es', { placement: 'section' });
+    expect(track).toHaveBeenCalledWith('home_website_check_click', { language: 'es', placement: 'section' });
+  });
+
   describe('opt-out flag', () => {
     const store = new Map<string, string>();
     const memoryStorage = {

@@ -2,10 +2,12 @@ import { Suspense, lazy, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { deferredSection, useAfterPageLoad } from '../lib/deferred';
-import { useLocalePath, useT } from '../i18n/useLang';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import home from '../i18n/home';
 import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
+import { trackEvent } from '../lib/analytics';
+import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
 
 // Everything below the hero, and the contact modal, uses framer-motion or
 // GSAP. Their code loads after the page (src/lib/deferred.tsx), so a phone
@@ -34,6 +36,7 @@ const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
 // ==========================================
 export default function Home() {
   const t = useT(home);
+  const lang = useLang();
   const lp = useLocalePath();
   
   // --- Global Form/Modal State ---
@@ -251,21 +254,28 @@ export default function Home() {
       <section className="site-container relative z-10 pb-12">
         <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6 text-center">{t.services.title}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {t.services.cards.map(card => (
+          {t.services.cards.map((card, i, cards) => (
             <Link
               key={card.path}
               to={lp(card.path)}
-              className="group block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors"
+              onClick={card.path === '/website-check' ? () => trackEvent('home_website_check_click', lang, { placement: 'card' }) : undefined}
+              // An odd last card spans both columns, so the row doesn't end with a gap.
+              className={`group block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors ${cards.length % 2 && i === cards.length - 1 ? 'md:col-span-2' : ''}`}
             >
               <h3 className="text-xl md:text-2xl font-black text-white">{card.title}</h3>
               <p className="text-slate-400 leading-relaxed mt-3">{card.body}</p>
               <span className="inline-block mt-5 text-xs font-bold tracking-widest uppercase text-brand-orange">
-                {t.services.learnMore} <span aria-hidden="true" className="inline-block group-hover:translate-x-1 transition-transform">&rarr;</span>
+                {card.cta ?? t.services.learnMore} <span aria-hidden="true" className="inline-block group-hover:translate-x-1 transition-transform">&rarr;</span>
               </span>
             </Link>
           ))}
         </div>
       </section>
+
+      {/* =========================================
+          FREE WEBSITE CHECK: type a website, continue on /website-check
+          ========================================= */}
+      <HomeWebsiteCheck />
 
       {/* =========================================
           SECTION 2: MEAL-PREP CALCULATOR (LIVE SLICE)
