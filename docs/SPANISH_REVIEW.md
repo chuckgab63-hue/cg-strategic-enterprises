@@ -61,7 +61,7 @@ Notes for the legal reviewer:
 | `src/i18n/assetTrackerWidget.ts` | Asset tracker demo |
 | `src/i18n/mealPrepOrderWidget.ts` | Meal-prep ordering demo (dish names, checkout, dates) |
 | `src/i18n/mealPrepCalculator.tsx` | `/es/meal-prep-calculator` and its chart |
-| `src/i18n/websiteCheck.ts` | `/es/website-check` form, errors and results |
+| `src/i18n/websiteCheck.ts` | `/es/website-check` form, errors and results. The "Más información" panels under the score cards and the missed-call estimator (`learnMore` in `es`) are **new, not yet reviewed.** |
 | `src/lib/websiteCheck/reportCopy.ts` | Website Check report text written by the server: missed-call reasons, fallback fixes and summary (only the `es` halves) |
 | `src/lib/websiteCheck/lead.ts` | Website Check report email: the score labels in the plain-text report (`MESSAGE_LABELS.es`). **New, not yet reviewed.** |
 | `src/i18n/missedCallCalculator.ts` | `/es/missed-call-calculator`: labels, breakdown, CTAs, the email form and the estimate summary sent with the lead |

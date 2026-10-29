@@ -9,7 +9,8 @@ import { readCheckResponse, type ReadResponse } from '../lib/websiteCheck/respon
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import consentDict from '../i18n/consent';
 import websiteCheckDict from '../i18n/websiteCheck';
-import { trackEvent } from '../lib/analytics';
+import { trackEvent, type CheckCard } from '../lib/analytics';
+import { DetailsPanel, RiskDetails, SearchDetails, SpeedDetails } from '../components/WebsiteCheckDetails';
 
 // The free Website Check lead magnet. The form posts to api/website-check.ts,
 // which checks the site, sends the full report to Make for the follow-up email,
@@ -101,9 +102,13 @@ function scoreTone(score: number | null) {
 }
 const RISK_TONE = { low: scoreTone(100), medium: scoreTone(70), high: scoreTone(0) };
 
-function ScoreCard({ label, note, value, suffix, tone, children }: {
-  label: string; note: string; value: string; suffix?: string; tone: string; children?: React.ReactNode;
+/** A card's "Learn more" button and the panel it opens (WebsiteCheckDetails.tsx). */
+interface LearnMore { id: string; controls: string; open: boolean; onToggle: () => void }
+
+function ScoreCard({ label, note, value, suffix, tone, learnMore, children }: {
+  label: string; note: string; value: string; suffix?: string; tone: string; learnMore?: LearnMore; children?: React.ReactNode;
 }) {
+  const t = useT(websiteCheckDict).learnMore;
   return (
     <div className={`bg-slate-900/50 border rounded-2xl p-5 flex flex-col gap-2 ${tone.split(' ')[1]}`}>
       <h3 className="text-xs font-bold tracking-widest uppercase text-slate-400">{label}</h3>
@@ -112,14 +117,55 @@ function ScoreCard({ label, note, value, suffix, tone, children }: {
       </p>
       <p className="text-xs text-slate-400 leading-5">{note}</p>
       {children}
+      {learnMore && (
+        <button
+          type="button"
+          id={learnMore.id}
+          aria-expanded={learnMore.open}
+          aria-controls={learnMore.controls}
+          onClick={learnMore.onToggle}
+          className="mt-auto self-start inline-flex items-center gap-1.5 pt-2 text-xs font-bold text-brand-orange hover:text-white transition-colors cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+        >
+          {learnMore.open ? t.close : t.open}
+          <svg aria-hidden="true" viewBox="0 0 12 12" className={`w-3 h-3 transition-transform ${learnMore.open ? 'rotate-180' : ''}`}>
+            <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }
 
 function Results({ result, onReset }: { result: ResultsResponse; onReset: () => void }) {
-  const t = useT(websiteCheckDict).results;
+  const lang = useLang();
+  const all = useT(websiteCheckDict);
+  const t = all.results;
   const lp = useLocalePath();
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const [openCard, setOpenCard] = useState<CheckCard | null>(null);
+  const cardsId = useId();
+  const buttonId = (card: CheckCard) => `${cardsId}-${card}`;
+  const panelId = (card: CheckCard) => `${cardsId}-${card}-panel`;
+  const learnMore = (card: CheckCard): LearnMore => ({
+    id: buttonId(card),
+    controls: panelId(card),
+    open: openCard === card,
+    onToggle: () => {
+      const opening = openCard !== card;
+      setOpenCard(opening ? card : null);
+      if (opening) trackEvent('check_learn_more', lang, { card });
+    },
+  });
+  // Escape in a panel closes it and puts focus back on its button.
+  const closePanel = (card: CheckCard) => {
+    setOpenCard(null);
+    document.getElementById(buttonId(card))?.focus();
+  };
+  const panel = (card: CheckCard, title: string, children: React.ReactNode) => (
+    <DetailsPanel id={panelId(card)} title={title} open={openCard === card} onClose={() => closePanel(card)}>
+      {children}
+    </DetailsPanel>
+  );
   const { report } = result;
   const s = report.scores;
   // Missing parts are explained in the notice above the cards, not as an error.
@@ -170,39 +216,53 @@ function Results({ result, onReset }: { result: ResultsResponse; onReset: () => 
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Each card's panel comes right after it and spans the whole row. Dense
+          packing lets the cards after it fill the row first, so the panel
+          sits under its own card on phones and under the row of cards on
+          wider screens, and the cards never move. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-flow-row-dense gap-4">
         <ScoreCard
           label={t.speed}
           note={s.speed === null ? t.notAvailableNote : t.speedNote}
           value={s.speed === null ? '—' : String(s.speed)}
           suffix={s.speed === null ? t.notAvailable : undefined}
           tone={scoreTone(s.speed)}
+          learnMore={s.speed === null ? undefined : learnMore('speed')}
         >
           {metricLine(report.metrics.desktop)}
         </ScoreCard>
+        {s.speed !== null && panel('speed', all.learnMore.speedTitle, <SpeedDetails strategy="desktop" metrics={report.metrics.desktop} />)}
         <ScoreCard
           label={t.mobile}
           note={s.mobile === null ? t.notAvailableNote : t.mobileNote}
           value={s.mobile === null ? '—' : String(s.mobile)}
           suffix={s.mobile === null ? t.notAvailable : undefined}
           tone={scoreTone(s.mobile)}
+          learnMore={s.mobile === null ? undefined : learnMore('mobile')}
         >
           {metricLine(report.metrics.mobile)}
         </ScoreCard>
+        {s.mobile !== null && panel('mobile', all.learnMore.mobileTitle, <SpeedDetails strategy="mobile" metrics={report.metrics.mobile} />)}
         <ScoreCard
           label={t.search}
           note={s.search_basics === null ? t.notReadableNote : t.searchNote}
           value={s.search_basics === null ? '—' : String(s.search_basics)}
           suffix={s.search_basics === null ? t.notAvailable : undefined}
           tone={scoreTone(s.search_basics)}
+          learnMore={report.search_missed === null ? undefined : learnMore('search')}
         />
+        {report.search_missed !== null && panel('search', all.learnMore.searchTitle, <SearchDetails missed={report.search_missed} />)}
         <ScoreCard
           label={t.risk}
           note={s.missed_call_risk === null ? t.notReadableNote : t.riskNote}
           value={s.missed_call_risk === null ? '—' : t.riskLevels[s.missed_call_risk]}
           suffix={s.missed_call_risk === null ? t.notAvailable : undefined}
           tone={s.missed_call_risk === null ? scoreTone(null) : RISK_TONE[s.missed_call_risk]}
+          learnMore={s.missed_call_risk === null ? undefined : learnMore('missed_call')}
         />
+        {s.missed_call_risk !== null && panel('missed_call', all.learnMore.riskPanelTitle, (
+          <RiskDetails missed={report.risk_missed ?? null} idPrefix={panelId('missed_call')} />
+        ))}
       </div>
 
       {report.content_limited && (

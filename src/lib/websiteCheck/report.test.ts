@@ -173,7 +173,7 @@ describe('buildReport', () => {
     expect(report.ai.fixes.map(f => f.title)).toEqual(['Acelere el sitio en celulares']);
     expect(report.ai.summary).toMatch(/No pudimos leer la página/);
     const summary = pageSummary(report);
-    expect(summary).toMatchObject({ search_missed: null, risk_reasons: [], content_limited: false });
+    expect(summary).toMatchObject({ search_missed: null, risk_reasons: [], risk_missed: null, content_limited: false });
     // The emailed report says what's missing instead of a score.
     const message = reportMessage(report);
     expect(message).toContain('Básicos de búsqueda: no disponible esta vez');
@@ -267,6 +267,9 @@ describe('contactIntakePayload', () => {
     const summary = pageSummary(buildReport(measurement, 'en', goodAi));
     expect(JSON.stringify(summary)).not.toContain('bob@');
     expect(summary.scores.missed_call_risk).toBe('medium');
+    // The page's checklist gets the same reasons the risk level was scored from.
+    expect(summary.risk_missed).toEqual(buildReport(measurement, 'en', goodAi).risk?.reasons);
+    expect(summary.risk_missed?.length).toBeGreaterThan(0);
     expect(summary.fixes).toHaveLength(3);
   });
 });

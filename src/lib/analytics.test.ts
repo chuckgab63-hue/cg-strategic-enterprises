@@ -30,6 +30,15 @@ describe('analytics privacy', () => {
     ]);
   });
 
+  it('sends the website check events with only the card name', () => {
+    trackEvent('check_learn_more', 'en', { card: 'missed_call' });
+    trackEvent('check_estimator_used', 'es');
+    expect(track.mock.calls).toEqual([
+      ['check_learn_more', { language: 'en', card: 'missed_call' }],
+      ['check_estimator_used', { language: 'es' }],
+    ]);
+  });
+
   describe('opt-out flag', () => {
     const store = new Map<string, string>();
     const memoryStorage = {

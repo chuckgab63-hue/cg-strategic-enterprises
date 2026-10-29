@@ -1,7 +1,8 @@
 // Vercel Web Analytics: page views (the <Analytics /> in App.tsx) and a few
 // custom events. Privacy rules: URLs are sent without their query string or
 // fragment (calculator inputs, ?source= tags, ref codes), and custom events
-// carry only their name and the page language, never anything typed into a form.
+// carry only their name, the page language and (for check_learn_more) which
+// card was opened, never anything typed into a form.
 // The owner's own visits are dropped entirely: /ignore-me sets a flag in this
 // browser's localStorage that analyticsBeforeSend checks on every event.
 
@@ -14,7 +15,9 @@ export type AnalyticsEvent =
   | 'alex_call_started'
   | 'contact_form_submitted'
   | 'calculator_used'
-  | 'calculator_emailed';
+  | 'calculator_emailed'
+  | 'check_learn_more'
+  | 'check_estimator_used';
 
 /** public/alex-voice.js dispatches this on window when a call connects (it can't import this module). */
 export const ALEX_CALL_STARTED_EVENT = 'cg:alex-call-started';
@@ -58,8 +61,11 @@ export function analyticsBeforeSend(event: BeforeSendEvent): BeforeSendEvent | n
   return isAnalyticsIgnored() ? null : stripQueryAndHash(event);
 }
 
-export function trackEvent(name: AnalyticsEvent, language: Lang) {
-  track(name, { language });
+/** Website Check score cards, as sent with check_learn_more. */
+export type CheckCard = 'speed' | 'mobile' | 'search' | 'missed_call';
+
+export function trackEvent(name: AnalyticsEvent, language: Lang, extra: { card?: CheckCard } = {}) {
+  track(name, { language, ...extra });
 }
 
 /** Tracks alex_call_started from alex-voice.js's window event. Returns the cleanup. */

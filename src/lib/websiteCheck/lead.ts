@@ -177,6 +177,8 @@ export function pageSummary(report: Report) {
     metrics: { mobile: metrics(report.pagespeed.mobile), desktop: metrics(report.pagespeed.desktop) },
     search_missed: report.search?.missed ?? null,
     risk_reasons: report.risk?.reasonText ?? [],
+    // Which ways to reach the business were missing, for the page's "Learn more" checklist.
+    risk_missed: report.risk?.reasons ?? null,
     summary: report.ai.summary,
     fixes: report.ai.fixes,
     content_limited: report.checks?.contentLimited ?? false,
