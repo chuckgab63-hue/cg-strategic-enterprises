@@ -4,7 +4,7 @@
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 const en = {
-  backToHub: '← BACK TO HUB',
+  backToHome: '← BACK TO HOME',
   heading: { lead: 'Native ', accent: 'UI Polish.' },
   tagline: 'Efficiency Engineered. Growth Automated.',
   intro: 'Showcasing crisp, lightweight component interactions powered by Tailwind utility classes, combined with real-time, state-driven form validation.',
@@ -52,7 +52,7 @@ const en = {
 };
 
 const es: typeof en = {
-  backToHub: '← VOLVER AL INICIO',
+  backToHome: '← VOLVER AL INICIO',
   heading: { lead: 'Interfaz con ', accent: 'acabado nativo.' },
   tagline: 'Eficiencia diseñada. Crecimiento automatizado.',
   intro: 'Interacciones de componentes nítidas y ligeras, impulsadas por clases de utilidad de Tailwind, junto con validación de formularios en tiempo real basada en el estado.',

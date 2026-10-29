@@ -3,7 +3,7 @@
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 const en = {
-  backToHub: '← BACK TO HUB',
+  backToHome: '← BACK TO HOME',
   heading: { lead: 'Fluid ', accent: 'Dynamics.' },
   intro: 'Interact with physics-based layout transitions. Click any module to evaluate architectural specifications and request integration.',
   overview: 'Architectural Overview',
@@ -58,7 +58,7 @@ const en = {
 };
 
 const es: typeof en = {
-  backToHub: '← VOLVER AL INICIO',
+  backToHome: '← VOLVER AL INICIO',
   heading: { lead: 'Dinámica ', accent: 'de fluidos.' },
   intro: 'Interactúe con transiciones de diseño basadas en física. Haga clic en cualquier módulo para ver sus especificaciones de arquitectura y solicitar la integración.',
   overview: 'Resumen de arquitectura',

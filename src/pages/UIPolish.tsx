@@ -47,7 +47,7 @@ export default function UIPolish() {
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">
           <Link to={lp('/')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm relative z-50">
-            {t.backToHub}
+            {t.backToHome}
           </Link>
         </div>
 

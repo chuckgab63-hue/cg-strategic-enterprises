@@ -73,7 +73,7 @@ export default function Automations() {
         {/* Navigation */}
         <div className="w-full flex justify-center mb-10">
           <Link to={lp('/')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm">
-            &larr; {t.backToHub}
+            &larr; {t.backToHome}
           </Link>
         </div>
 

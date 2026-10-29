@@ -11,7 +11,7 @@ interface Workflow {
 }
 
 const en = {
-  backToHub: 'BACK TO HUB',
+  backToHome: 'BACK TO HOME',
   titleA: 'System ',
   titleB: 'Automations.',
   intro: 'Efficiency Engineered. Growth Automated. Fast integrations that save time and close deals.',
@@ -93,7 +93,7 @@ const en = {
 };
 
 const es: typeof en = {
-  backToHub: 'VOLVER AL INICIO',
+  backToHome: 'VOLVER AL INICIO',
   titleA: 'Automatización de ',
   titleB: 'sistemas.',
   intro: 'Eficiencia diseñada. Crecimiento automatizado. Integraciones rápidas que ahorran tiempo y cierran ventas.',

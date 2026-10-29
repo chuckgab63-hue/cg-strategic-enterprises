@@ -2,7 +2,7 @@
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 const en = {
-  backToHub: '← BACK TO HUB',
+  backToHome: '← BACK TO HOME',
   heading: { lead: 'CINEMATIC ', accent: 'SCALE.' },
   tagline: 'Efficiency Engineered. Growth Automated.',
   scrollHint: 'Scroll down to see how it works.',
@@ -31,7 +31,7 @@ const en = {
 };
 
 const es: typeof en = {
-  backToHub: '← VOLVER AL INICIO',
+  backToHome: '← VOLVER AL INICIO',
   heading: { lead: 'ESCALA ', accent: 'DE CINE.' },
   tagline: 'Eficiencia diseñada. Crecimiento automatizado.',
   scrollHint: 'Desplácese hacia abajo para ver cómo funciona.',
