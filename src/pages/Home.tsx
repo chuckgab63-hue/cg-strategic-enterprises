@@ -8,6 +8,8 @@ import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
 import { trackEvent } from '../lib/analytics';
 import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
+import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
+import type { ServiceIcon } from '../i18n/home';
 
 // Everything below the hero, and the contact modal, uses framer-motion or
 // GSAP. Their code loads after the page (src/lib/deferred.tsx), so a phone
@@ -17,6 +19,23 @@ const MealPrepPreview = deferredSection(() => import('../components/MealPrepPrev
 const AnimationShowcase = deferredSection(() => import('../components/AnimationShowcase'));
 const FramerPlayground = deferredSection(() => import('../components/FramerPlayground'));
 const ContactModal = lazy(() => import('../components/ContactModal'));
+
+// One small outline icon per service card (the card's `icon` in src/i18n/home.ts).
+const SERVICE_ICONS: Record<ServiceIcon, string> = {
+  // Two steps joined by a line: a workflow.
+  automation: 'M4 4h6v5H4zM14 15h6v5h-6zM7 9v4a2 2 0 0 0 2 2h5',
+  phone: 'M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
+  // A shopping bag.
+  ordering: 'M6 8h12l-1 12H7L6 8zm3 0V6a3 3 0 0 1 6 0v2',
+  search: 'M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm5 12 5 5',
+  // A browser window.
+  website: 'M3 5h18v14H3zM3 9h18',
+  // A tick in a circle.
+  check: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-4 9 3 3 5-6',
+};
+
+// The case study card's screenshot: the build's admin dashboard (demo data), 27 KB, lazy-loaded.
+const CASE_STUDY_IMAGE = '/portfolio/onesource/onesource-admin-dashboard-mock-800w.webp';
 
 // LocalBusiness structured data for the home page. No street address: the
 // business serves all of Florida rather than customers at an office. (The
@@ -249,19 +268,29 @@ export default function Home() {
       </header>
 
       {/* =========================================
-          SERVICES: one card per service page
+          FREE WEBSITE CHECK: type a website, continue on /website-check
           ========================================= */}
-      <section className="site-container relative z-10 pb-12">
+      <HomeWebsiteCheck />
+
+      {/* =========================================
+          SERVICES: one card per service (the header's "Services" link lands
+          here), then the featured case study
+          ========================================= */}
+      <section id="services" className="site-container relative z-10 pb-12 scroll-mt-28">
         <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6 text-center">{t.services.title}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {t.services.cards.map((card, i, cards) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {t.services.cards.map(card => (
             <Link
               key={card.path}
               to={lp(card.path)}
               onClick={card.path === '/website-check' ? () => trackEvent('home_website_check_click', lang, { placement: 'card' }) : undefined}
-              // An odd last card spans both columns, so the row doesn't end with a gap.
-              className={`group block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors ${cards.length % 2 && i === cards.length - 1 ? 'md:col-span-2' : ''}`}
+              className="group block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors"
             >
+              <span className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 text-brand-orange flex items-center justify-center mb-5">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d={SERVICE_ICONS[card.icon]} />
+                </svg>
+              </span>
               <h3 className="text-xl md:text-2xl font-black text-white">{card.title}</h3>
               <p className="text-slate-400 leading-relaxed mt-3">{card.body}</p>
               <span className="inline-block mt-5 text-xs font-bold tracking-widest uppercase text-brand-orange">
@@ -270,12 +299,40 @@ export default function Home() {
             </Link>
           ))}
         </div>
-      </section>
 
-      {/* =========================================
-          FREE WEBSITE CHECK: type a website, continue on /website-check
-          ========================================= */}
-      <HomeWebsiteCheck />
+        {/* Featured case study. The screenshot is cropped (object-bottom) to leave
+            out the admin's sidebar logo: the card doesn't name the client. */}
+        <Link
+          to={lp(ONE_SOURCE_CASE_STUDY.path)}
+          onClick={() => trackEvent('home_case_study_click', lang)}
+          className="group mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center text-left bg-gradient-to-br from-slate-900 to-[#020617] border border-brand-orange/30 hover:border-brand-orange/60 rounded-3xl p-6 md:p-10 transition-colors shadow-[0_0_30px_rgba(255,95,31,0.08)]"
+        >
+          <div>
+            <span className="inline-block px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
+              {t.caseStudy.badge}
+            </span>
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight mt-5">{t.caseStudy.title}</h3>
+            <p className="text-slate-400 leading-relaxed mt-4">{t.caseStudy.body}</p>
+            <ul className="flex flex-wrap gap-2 mt-5">
+              {t.caseStudy.chips.map(chip => (
+                <li key={chip} className="px-3 py-1 rounded-full border border-slate-700 bg-slate-950/60 text-xs font-semibold text-slate-300">{chip}</li>
+              ))}
+            </ul>
+            <span className="inline-block mt-6 bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs group-hover:bg-white group-hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)]">
+              {t.caseStudy.cta} <span aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-slate-800 aspect-[800/464] bg-[#fdfaf3]">
+            <img
+              src={CASE_STUDY_IMAGE}
+              alt={t.caseStudy.imageAlt}
+              width={800} height={500}
+              loading="lazy" decoding="async"
+              className="w-full h-full object-cover object-bottom"
+            />
+          </div>
+        </Link>
+      </section>
 
       {/* =========================================
           SECTION 2: MEAL-PREP CALCULATOR (LIVE SLICE)

@@ -19,7 +19,8 @@ export type AnalyticsEvent =
   | 'calculator_emailed'
   | 'check_learn_more'
   | 'check_estimator_used'
-  | 'home_website_check_click';
+  | 'home_website_check_click'
+  | 'home_case_study_click';
 
 /** public/alex-voice.js dispatches this on window when a call connects (it can't import this module). */
 export const ALEX_CALL_STARTED_EVENT = 'cg:alex-call-started';

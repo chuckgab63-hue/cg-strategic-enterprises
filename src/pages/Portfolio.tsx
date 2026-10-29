@@ -529,7 +529,8 @@ export default function Portfolio() {
         </div>
 
         {/* --- SEARCH & AI VISIBILITY --- */}
-        <div className="w-full max-w-5xl mx-auto border-t border-slate-800 pt-24 mb-16 relative z-20 flex flex-col items-center">
+        {/* #search-visibility: the homepage's Search & AI Visibility card links here. */}
+        <div id="search-visibility" className="w-full max-w-5xl mx-auto border-t border-slate-800 pt-24 mb-16 relative z-20 flex flex-col items-center scroll-mt-4">
 
           <div className="text-center mb-12 w-full max-w-2xl mx-auto">
             <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6 inline-block shadow-[0_0_15px_rgba(204,255,0,0.2)]">

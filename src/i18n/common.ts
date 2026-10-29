@@ -7,7 +7,8 @@ const en = {
   tagline: ['Efficiency Engineered.', 'Growth Automated.'],
   nav: {
     hub: 'Hub',
-    engine: 'The Engine',
+    services: 'Services',
+    engine: 'Automation & Workflows',
     caseStudies: 'Case Studies',
     skunkworks: 'Skunkworks',
     contact: 'Contact',
@@ -37,6 +38,7 @@ const en = {
   },
   footer: {
     explore: 'Explore',
+    services: 'Services',
     legal: 'Legal',
     initiate: 'Initiate',
     pitch: "Ready to upgrade your digital infrastructure? Let's build.",
@@ -63,7 +65,9 @@ const es: typeof en = {
   tagline: ['Eficiencia diseñada.', 'Crecimiento automatizado.'],
   nav: {
     hub: 'Inicio',
-    engine: 'El Motor',
+    // "Services" nav link and footer heading, "Automation & Workflows" footer link: NEW, not yet reviewed.
+    services: 'Servicios',
+    engine: 'Automatización y flujos de trabajo',
     caseStudies: 'Casos de estudio',
     skunkworks: 'Skunkworks',
     contact: 'Contacto',
@@ -93,6 +97,7 @@ const es: typeof en = {
   },
   footer: {
     explore: 'Explorar',
+    services: 'Servicios',
     legal: 'Legal',
     initiate: 'Comience',
     pitch: '¿Listo para mejorar su infraestructura digital? Manos a la obra.',

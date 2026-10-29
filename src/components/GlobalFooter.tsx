@@ -43,14 +43,18 @@ export default function GlobalFooter() {
           <div className="flex flex-col items-center md:items-start gap-4">
             <h4 className="text-white font-black tracking-widest uppercase text-xs mb-2">{t.footer.explore}</h4>
             <Link to={lp('/')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.hub}</Link>
-            <Link to={lp('/automations')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.engine}</Link>
             <Link to={lp('/portfolio')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.caseStudies}</Link>
-            <Link to={lp('/answering-service')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.answeringService}</Link>
-            <Link to={lp('/meal-prep-ordering')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.mealPrepOrdering}</Link>
             <Link to={lp('/skunkworks')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.skunkworks}</Link>
             <Link to={lp('/meal-prep-calculator')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.mealPrep}</Link>
-            <Link to={lp('/website-check')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.websiteCheck}</Link>
             <Link to={lp('/missed-call-calculator')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.missedCallCalculator}</Link>
+
+            {/* The services, under their own heading in the same column. The Engine
+                page lives here now that the header's Services link replaced it. */}
+            <h4 className="text-white font-black tracking-widest uppercase text-xs mt-4 mb-2">{t.footer.services}</h4>
+            <Link to={lp('/automations')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.engine}</Link>
+            <Link to={lp('/answering-service')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.answeringService}</Link>
+            <Link to={lp('/meal-prep-ordering')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.mealPrepOrdering}</Link>
+            <Link to={lp('/website-check')} className="text-sm font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors">{t.nav.websiteCheck}</Link>
           </div>
 
           {/* Column 3: Legal */}

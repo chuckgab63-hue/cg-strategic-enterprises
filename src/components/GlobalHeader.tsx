@@ -7,9 +7,11 @@ import { langToggleVisible } from '../i18n/lang';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import common from '../i18n/common';
 
+// Services goes to the homepage's services grid (ScrollToTop scrolls to #services);
+// the Engine page (/automations) is one of its cards, and is in the footer.
 const NAV_LINKS = [
   { to: '/', key: 'hub' },
-  { to: '/automations', key: 'engine' },
+  { to: '/#services', key: 'services' },
   { to: '/portfolio', key: 'caseStudies' },
   { to: '/skunkworks', key: 'skunkworks' },
   { to: '/contact', key: 'contact' },

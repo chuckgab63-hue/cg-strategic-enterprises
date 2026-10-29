@@ -3,7 +3,12 @@
 // runway CTA. The meal-prep slice has its own file (mealPrepPreview.ts).
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
+/** Picks the card's icon in Home.tsx. */
+export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check';
+
 interface ServiceCard {
+  icon: ServiceIcon;
+  /** Site path, with a #section where the card points into a page. */
   path: string;
   title: string;
   body: string;
@@ -26,16 +31,38 @@ const en = {
     learnMore: 'Learn more',
     cards: [
       {
+        icon: 'automation',
+        path: '/automations',
+        title: 'Automation & Workflows',
+        body: 'Lead capture, follow-up, CRM syncing, invoicing and review requests, running on their own.',
+        cta: 'See how it works',
+      },
+      {
+        icon: 'phone',
         path: '/answering-service',
         title: 'AI Answering Service',
         body: 'A virtual receptionist that answers every call 24/7 in English or Spanish, captures the lead and books the follow-up.',
       },
       {
+        icon: 'ordering',
         path: '/meal-prep-ordering',
-        title: 'Meal Prep Ordering System',
+        title: 'Online Ordering for Meal Prep',
         body: 'Online ordering built for meal prep businesses: weekly menus, cutoffs, prep lists and customer accounts.',
       },
       {
+        icon: 'search',
+        path: '/portfolio#search-visibility',
+        title: 'Search & AI Visibility',
+        body: 'Get found on Google, Bing and Apple Maps: business profiles, search-friendly pages and Spanish versions.',
+      },
+      {
+        icon: 'website',
+        path: '/portfolio',
+        title: 'Websites',
+        body: 'Fast, mobile-first sites built to turn visitors into calls and bookings.',
+      },
+      {
+        icon: 'check',
         path: '/website-check',
         title: 'Free Website Check',
         body: 'See how your site scores on speed, mobile, search basics and missed-call risk in about a minute, with the top fixes in plain language.',
@@ -43,7 +70,17 @@ const en = {
       },
     ] as ServiceCard[],
   },
-  // The Free Website Check section under the services (src/components/HomeWebsiteCheck.tsx).
+  // The featured case study card under the services grid. No client name,
+  // logo or results claims: the site hasn't launched yet.
+  caseStudy: {
+    badge: 'Case study · Pest control',
+    title: 'A Full Rebuild for a Florida Pest Control Company',
+    body: 'A fast new website, an AI phone assistant, a photo-based pest identifier that turns uploads into leads, automated lead handling, and a private admin area for staff licensing, training and hiring.',
+    chips: ['AI phone assistant', 'Photo pest ID', 'Lead automation', 'Admin portal'],
+    cta: 'Read the case study',
+    imageAlt: 'The private admin area from the build: a dashboard of staff credentials that are expired or expiring soon (demo data).',
+  },
+  // The Free Website Check section right after the hero (src/components/HomeWebsiteCheck.tsx).
   websiteCheck: {
     badge: 'Free website check',
     title: 'Is your website costing you customers?',
@@ -101,25 +138,56 @@ const es: typeof en = {
   services: {
     title: 'Servicios',
     learnMore: 'Más información',
+    // Services grid and case study card: NEW, not yet reviewed by a native speaker.
     cards: [
       {
+        icon: 'automation',
+        path: '/automations',
+        title: 'Automatización y flujos de trabajo',
+        body: 'Captura de clientes potenciales, seguimiento, sincronización con su CRM, facturación y solicitudes de reseñas, funcionando por sí solos.',
+        cta: 'Vea cómo funciona',
+      },
+      {
+        icon: 'phone',
         path: '/answering-service',
         title: 'Servicio de atención telefónica con IA',
         body: 'Una recepcionista virtual que contesta cada llamada 24/7 en inglés o español, toma los datos del cliente y agenda el seguimiento.',
       },
       {
+        icon: 'ordering',
         path: '/meal-prep-ordering',
-        title: 'Sistema de pedidos para comidas preparadas',
+        title: 'Pedidos en línea para comidas preparadas',
         body: 'Pedidos en línea hechos para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes.',
+      },
+      {
+        icon: 'search',
+        path: '/portfolio#search-visibility',
+        title: 'Visibilidad en buscadores e IA',
+        body: 'Que lo encuentren en Google, Bing y Apple Maps: perfiles de negocio, páginas pensadas para los buscadores y versiones en español.',
+      },
+      {
+        icon: 'website',
+        path: '/portfolio',
+        title: 'Sitios web',
+        body: 'Sitios rápidos, pensados primero para celulares y hechos para convertir visitas en llamadas y reservas.',
       },
       // Website Check card and section: NEW, not yet reviewed by a native speaker.
       {
+        icon: 'check',
         path: '/website-check',
         title: 'Revisión gratuita de su sitio web',
         body: 'Vea cómo califica su sitio en velocidad, celulares, básicos de búsqueda y riesgo de llamadas perdidas en alrededor de un minuto, con las mejoras principales explicadas en lenguaje sencillo.',
         cta: 'Revisar mi sitio',
       },
     ],
+  },
+  caseStudy: {
+    badge: 'Caso de estudio · Control de plagas',
+    title: 'Una renovación completa para una empresa de control de plagas en Florida',
+    body: 'Un sitio web nuevo y rápido, un asistente telefónico con IA, un identificador de plagas por foto que convierte cada imagen en un cliente potencial, manejo automatizado de clientes potenciales y un área privada de administración para las licencias, la capacitación y la contratación del personal.',
+    chips: ['Asistente telefónico con IA', 'Identificación de plagas por foto', 'Automatización de clientes potenciales', 'Portal de administración'],
+    cta: 'Leer el caso de estudio',
+    imageAlt: 'El área privada de administración del proyecto: un panel con las credenciales del personal vencidas o por vencer (datos de demostración).',
   },
   websiteCheck: {
     badge: 'Revisión gratuita del sitio web',

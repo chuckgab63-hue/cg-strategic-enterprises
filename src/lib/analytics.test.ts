@@ -42,6 +42,8 @@ describe('analytics privacy', () => {
   it('sends the homepage website check clicks with only where they came from', () => {
     trackEvent('home_website_check_click', 'es', { placement: 'section' });
     expect(track).toHaveBeenCalledWith('home_website_check_click', { language: 'es', placement: 'section' });
+    trackEvent('home_case_study_click', 'en');
+    expect(track).toHaveBeenLastCalledWith('home_case_study_click', { language: 'en' });
   });
 
   describe('opt-out flag', () => {
