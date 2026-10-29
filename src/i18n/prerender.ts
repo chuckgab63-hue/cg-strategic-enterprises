@@ -9,6 +9,7 @@ import { headFor, type HeadData } from './head.ts';
 import { LANGS, SPANISH_PUBLIC, localizePath, stripLang } from './lang.ts';
 import { SITE_ROUTES } from './meta.ts';
 import { pageFileFor } from '../pageFiles.ts';
+import { HERO_IMAGE } from '../config/heroImage.ts';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
@@ -75,6 +76,17 @@ export function pagePreloadTags(manifest: BuildManifest, path: string): string[]
   const wanted = new Set<string>();
   collect(`src/pages/${file}.tsx`, wanted);
   return [...wanted].filter(f => !already.has(f)).map(f => `<link rel="modulepreload" crossorigin href="/${f}">`);
+}
+
+/**
+ * The home page's hero image is its largest paint, so it downloads with the
+ * HTML instead of waiting for the <picture> to be parsed. AVIF only, marked
+ * with its type: a browser without AVIF skips this and uses the WebP or JPEG
+ * <source> as usual, rather than downloading a file it can't show.
+ */
+export function heroPreloadTags(path: string): string[] {
+  if (stripLang(path) !== '/') return [];
+  return [`<link rel="preload" as="image" type="image/avif" imagesrcset="${HERO_IMAGE.avif}" imagesizes="${HERO_IMAGE.sizes}" fetchpriority="high">`];
 }
 
 /** Every page in every language: its URL path and the HTML file that serves it. */

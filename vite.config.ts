@@ -9,7 +9,7 @@ import {
   LEGAL_BUSINESS_NAME, SITE_URL, PHONE_INTL, EMAIL, ADDRESS,
 } from './src/config/site.ts'
 import {
-  FALLBACK_FILE, addToHead, applyBody, applyFallbackHead, applyHead, headFor, pagePreloadTags, prerenderTargets, sitemapXml, type BuildManifest,
+  FALLBACK_FILE, addToHead, applyBody, applyFallbackHead, applyHead, headFor, heroPreloadTags, pagePreloadTags, prerenderTargets, sitemapXml, type BuildManifest,
 } from './src/i18n/prerender.ts'
 
 // Writes Organization structured data into index.html at build time, straight
@@ -83,7 +83,7 @@ function prerenderedPages(): Plugin {
         const target = join(outDir, file)
         mkdirSync(dirname(target), { recursive: true })
         const page = applyBody(applyHead(html, headFor(path)), await render(path))
-        writeFileSync(target, addToHead(page, pagePreloadTags(manifest, path)))
+        writeFileSync(target, addToHead(page, [...heroPreloadTags(path), ...pagePreloadTags(manifest, path)]))
       }
       writeFileSync(join(outDir, FALLBACK_FILE), applyFallbackHead(html))
       writeFileSync(join(outDir, 'sitemap.xml'), sitemapXml())

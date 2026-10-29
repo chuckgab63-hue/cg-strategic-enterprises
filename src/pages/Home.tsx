@@ -98,33 +98,42 @@ export default function Home() {
             }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            {/* width/height give the box its square shape before the image arrives. */}
-            <motion.img
-              src={HERO_IMAGE.src}
-              srcSet={HERO_IMAGE.srcSet}
-              sizes={HERO_IMAGE.sizes}
-              width={HERO_IMAGE.width}
-              height={HERO_IMAGE.height}
-              fetchPriority="high"
-              alt={t.hero.imageAlt}
-              className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
-              initial={{ opacity: 0, scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1, 
-                filter: [
-                  "blur(0px) hue-rotate(0deg)", 
-                  "blur(0px) hue-rotate(45deg)",
-                  "blur(0px) hue-rotate(0deg)"
-                ]
-              }}
-              transition={{ 
-                opacity: { duration: 1.2, ease: "easeOut" },
-                scale: { duration: 1.2, ease: "easeOut" },
-                filter: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 } 
-              }}
-              whileHover={{ scale: 1.05 }}
-            />
+            {/* The page's largest paint, so: AVIF/WebP/JPEG at 480/768/1024px (phones get a
+                small one), preloaded in the pre-rendered HTML (src/i18n/prerender.ts), and
+                width/height give the box its square shape before it arrives. It starts fully
+                opaque: an opacity-0 start meant it didn't count as painted until the
+                JavaScript loaded and the fade began. It still settles in from slightly
+                smaller and blurred. */}
+            <picture>
+              <source type="image/avif" srcSet={HERO_IMAGE.avif} sizes={HERO_IMAGE.sizes} />
+              <source type="image/webp" srcSet={HERO_IMAGE.webp} sizes={HERO_IMAGE.sizes} />
+              <motion.img
+                src={HERO_IMAGE.src}
+                srcSet={HERO_IMAGE.jpeg}
+                sizes={HERO_IMAGE.sizes}
+                width={HERO_IMAGE.width}
+                height={HERO_IMAGE.height}
+                fetchPriority="high"
+                loading="eager"
+                decoding="async"
+                alt={t.hero.imageAlt}
+                className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
+                initial={{ scale: 0.96, filter: "blur(8px) hue-rotate(0deg)" }}
+                animate={{
+                  scale: 1,
+                  filter: [
+                    "blur(0px) hue-rotate(0deg)",
+                    "blur(0px) hue-rotate(45deg)",
+                    "blur(0px) hue-rotate(0deg)"
+                  ]
+                }}
+                transition={{
+                  scale: { duration: 1.2, ease: "easeOut" },
+                  filter: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
+                }}
+                whileHover={{ scale: 1.05 }}
+              />
+            </picture>
 
             {/* Breathing glow over the medallion's outer ring \u2014 the image itself is untouched; this is a separate pulsing, hue-cycling glow layered on top */}
             <motion.div
