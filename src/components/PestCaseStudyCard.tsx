@@ -3,9 +3,23 @@ import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 import { useLocalePath, useT } from '../i18n/useLang';
 import caseStudyCard from '../i18n/caseStudyCard';
 
-// The build's admin dashboard (demo data), 27 KB, lazy-loaded. Cropped from the
-// top (object-bottom) to leave out the sidebar logo: the card doesn't name the client.
-const IMAGE = '/portfolio/onesource/onesource-admin-dashboard-mock-800w.webp';
+// A generic pest photo, lazy-loaded (it's below the fold): the card doesn't name
+// the client. "German cockroach feeding on sugar" by Erik Karits on Pexels
+// (https://www.pexels.com/photo/german-cockroach-feeding-on-sugar-27033323/),
+// Pexels License: free for commercial use, credit not required. Cropped to the
+// card's 800:464 box; AVIF first, WebP next, JPEG for anything else.
+const srcset = (ext: string) => [480, 800, 1200].map(w => `/portfolio/pest-control-card-${w}.${ext} ${w}w`).join(', ');
+const IMAGE = {
+  avif: srcset('avif'),
+  webp: srcset('webp'),
+  jpeg: srcset('jpg'),
+  src: '/portfolio/pest-control-card-800.jpg',
+  /**
+   * The rendered width: half the site container from lg (less the card's
+   * padding and gap), otherwise the container less the card's padding.
+   */
+  sizes: '(min-width: 1520px) 624px, (min-width: 1024px) calc(50vw - 125px), calc(100vw - 100px)',
+};
 
 /**
  * The featured pest control case study, linking to its full write-up. Shown
@@ -41,13 +55,19 @@ export default function PestCaseStudyCard({ heading: Heading = 'h3', onClick, cl
         </span>
       </div>
       <div className="rounded-2xl overflow-hidden border border-slate-800 aspect-[800/464] bg-[#fdfaf3]">
-        <img
-          src={IMAGE}
-          alt={t.imageAlt}
-          width={800} height={500}
-          loading="lazy" decoding="async"
-          className="w-full h-full object-cover object-bottom"
-        />
+        <picture>
+          <source type="image/avif" srcSet={IMAGE.avif} sizes={IMAGE.sizes} />
+          <source type="image/webp" srcSet={IMAGE.webp} sizes={IMAGE.sizes} />
+          <img
+            src={IMAGE.src}
+            srcSet={IMAGE.jpeg}
+            sizes={IMAGE.sizes}
+            alt={t.imageAlt}
+            width={800} height={464}
+            loading="lazy" decoding="async"
+            className="w-full h-full object-cover"
+          />
+        </picture>
       </div>
     </Link>
   );

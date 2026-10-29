@@ -9,7 +9,7 @@ const en = {
   body: 'A fast new website, an AI phone assistant, a photo-based pest identifier that turns uploads into leads, automated lead handling, and a private admin area for staff licensing, training and hiring.',
   chips: ['AI phone assistant', 'Photo pest ID', 'Lead automation', 'Admin portal'],
   cta: 'Read the case study',
-  imageAlt: 'The private admin area from the build: a dashboard of staff credentials that are expired or expiring soon (demo data).',
+  imageAlt: 'Close-up of a German cockroach on spilled sugar',
 };
 
 const es: typeof en = {
@@ -18,7 +18,7 @@ const es: typeof en = {
   body: 'Un sitio web nuevo y rápido, un asistente telefónico con IA, un identificador de plagas por foto que convierte cada imagen en un cliente potencial, manejo automatizado de clientes potenciales y un área privada de administración para las licencias, la capacitación y la contratación del personal.',
   chips: ['Asistente telefónico con IA', 'Identificación de plagas por foto', 'Automatización de clientes potenciales', 'Portal de administración'],
   cta: 'Leer el caso de estudio',
-  imageAlt: 'El área privada de administración del proyecto: un panel con las credenciales del personal vencidas o por vencer (datos de demostración).',
+  imageAlt: 'Primer plano de una cucaracha alemana sobre azúcar derramada',
 };
 
 export default { en, es };
