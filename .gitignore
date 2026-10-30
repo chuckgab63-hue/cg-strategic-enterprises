@@ -30,3 +30,6 @@ dist-ssr
 
 # Separate SEO plugin repo checked out locally, not part of the site
 claude-seo/
+
+# Supabase CLI's local cache
+supabase/.temp

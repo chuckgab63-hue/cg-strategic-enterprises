@@ -1,6 +1,8 @@
 // Vercel Web Analytics: page views (the <Analytics /> in App.tsx) and a few
-// custom events. Privacy rules: URLs are sent without their query string or
-// fragment (calculator inputs, ?source= tags, ref codes), and custom events
+// custom events. Privacy rules: URLs are sent without their fragment or query
+// string (calculator inputs, ?source= tags, ref codes), except the campaign
+// tags utm_source, utm_medium, utm_campaign and utm_content, kept so visits
+// from emails and ads are attributed; custom events
 // carry only their name, the page language and (for check_learn_more and
 // home_website_check_click) which card or button was used, never anything
 // typed into a form.
@@ -25,11 +27,20 @@ export type AnalyticsEvent =
 /** public/alex-voice.js dispatches this on window when a call connects (it can't import this module). */
 export const ALEX_CALL_STARTED_EVENT = 'cg:alex-call-started';
 
-/** beforeSend for <Analytics />: keep only origin + path. */
+/** The query parameters sent with a URL: campaign tags only. */
+export const KEPT_QUERY_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+
+/** beforeSend for <Analytics />: keep only origin + path, plus any campaign tags. */
 export function stripQueryAndHash(event: BeforeSendEvent): BeforeSendEvent {
   try {
     const url = new URL(event.url);
-    return { ...event, url: url.origin + url.pathname };
+    const kept = new URLSearchParams();
+    for (const name of KEPT_QUERY_PARAMS) {
+      const value = url.searchParams.get(name);
+      if (value !== null) kept.set(name, value);
+    }
+    const query = kept.toString();
+    return { ...event, url: url.origin + url.pathname + (query ? `?${query}` : '') };
   } catch {
     // Not a URL we can parse: don't risk sending it.
     return { ...event, url: '' };

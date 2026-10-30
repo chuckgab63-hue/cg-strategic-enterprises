@@ -35,7 +35,8 @@ export default function App() {
       <ScrollToTop />
       <SeoHead />
       {/* Vercel Web Analytics: page views for every route, /es included, and
-          client-side navigation. URLs go without query strings, and nothing is sent
+          client-side navigation. URLs go without query strings (campaign utm_ tags
+          excepted), and nothing is sent
           from a browser that opted out at /ignore-me (src/lib/analytics.ts). */}
       <Analytics beforeSend={analyticsBeforeSend} />
 

@@ -16,6 +16,21 @@ describe('analytics privacy', () => {
     expect(stripQueryAndHash({ type: 'pageview', url: 'not a url?email=a@b.com' }).url).toBe('');
   });
 
+  it('keeps the campaign tags, and only those, so campaign visits are attributed', () => {
+    expect(
+      stripQueryAndHash({
+        type: 'pageview',
+        url: 'https://www.cgstrategic.dev/demo-guide?ref=abc&utm_content=guide&utm_source=email&email=a@b.com&utm_campaign=follow-up&utm_medium=email&utm_term=x#top',
+      })
+    ).toEqual({
+      type: 'pageview',
+      // Always in the same order; anything else, utm_term included, is dropped.
+      url: 'https://www.cgstrategic.dev/demo-guide?utm_source=email&utm_medium=email&utm_campaign=follow-up&utm_content=guide',
+    });
+    expect(stripQueryAndHash({ type: 'event', url: 'https://www.cgstrategic.dev/es/demo-guide?utm_campaign=otoño 2026' }).url)
+      .toBe('https://www.cgstrategic.dev/es/demo-guide?utm_campaign=oto%C3%B1o+2026');
+  });
+
   it('sends only the event name and language', () => {
     trackEvent('contact_form_submitted', 'es');
     expect(track).toHaveBeenCalledWith('contact_form_submitted', { language: 'es' });
