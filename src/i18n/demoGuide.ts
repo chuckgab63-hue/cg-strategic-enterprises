@@ -23,7 +23,7 @@ const en = {
   previewTitle: 'Preview of the demo walkthrough guide (PDF)',
   previewFallback: "Your browser can't show the guide here.",
   inside:
-    "What's inside: every storefront page your customers use, the full ordering flow from menu to checkout, each tab of the admin area your staff works in, and Trend Finder, which turns trending dishes into draft meals for you to review.",
+    "What's inside: every storefront page your customers use, the full ordering flow from menu to checkout, weekly subscriptions customers can skip, pause or change, delivery zones with route sheets, printable meal labels, each tab of the admin area your staff works in, and Trend Finder, which turns trending dishes into draft meals for you to review.",
   closing: {
     title: 'Want us to walk you through it?',
     body: "Call (904) 822-8929. If Chuck can't pick up, Alex, our AI assistant, answers. Or click Let's Talk to start a call from your browser.",
@@ -43,7 +43,7 @@ const es: typeof en = {
   previewTitle: 'Vista previa de la guía de la demo (PDF)',
   previewFallback: 'Su navegador no puede mostrar la guía aquí.',
   inside:
-    'Qué incluye: cada página de la tienda que usan sus clientes, el proceso completo de pedido desde el menú hasta el pago, cada sección del área de administración donde trabaja su personal y Trend Finder, que convierte platillos en tendencia en borradores de comidas para que usted los revise.',
+    'Qué incluye: cada página de la tienda que usan sus clientes, el proceso completo de pedido desde el menú hasta el pago, suscripciones semanales que sus clientes pueden saltar, pausar o cambiar, zonas de entrega con hojas de ruta, etiquetas imprimibles para cada comida, cada sección del área de administración donde trabaja su personal y Trend Finder, que convierte platillos en tendencia en borradores de comidas para que usted los revise.',
   closing: {
     title: '¿Quiere que se la mostremos?',
     body: 'Llame al (904) 822-8929. Si Chuck no puede contestar, le atiende Alex, nuestro asistente de IA. O haga clic en Hablemos para llamar desde su navegador.',
