@@ -5,6 +5,7 @@ import {
 } from '../components/ServicePage';
 import { useLocalePath, useT } from '../i18n/useLang';
 import mealPrepOrdering, { DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH } from '../i18n/mealPrepOrdering';
+import { DEMO_GUIDE_PATH } from '../i18n/demoGuide';
 
 export default function MealPrepOrdering() {
   const t = useT(mealPrepOrdering);
@@ -34,6 +35,9 @@ export default function MealPrepOrdering() {
           {demoLink(DEMO_ADMIN_URL, t.live.adminDemo, primaryButtonClass)}
         </div>
         <p className="text-slate-400 text-sm leading-relaxed mt-4">{t.live.brandNote}</p>
+        <Link to={lp(DEMO_GUIDE_PATH)} className="inline-block mt-4 text-brand-orange font-bold underline underline-offset-4 hover:text-white transition-colors">
+          {t.live.guide} &rarr;
+        </Link>
       </section>
 
       <ServiceSection title={t.admin.title}>

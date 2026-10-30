@@ -64,6 +64,7 @@ Notes for the legal reviewer:
 | `src/i18n/faq.ts` | `/es/faq`: every question and answer (also used for the FAQPage structured data). **New, not yet reviewed.** |
 | `src/i18n/answeringService.ts` | `/es/answering-service`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
 | `src/i18n/mealPrepOrdering.ts` | `/es/meal-prep-ordering`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
+| `src/i18n/demoGuide.ts` | `/es/demo-guide`: the demo walkthrough guide page. The Spanish PDF (`public/guides/meal-prep-demo-guide-es.pdf`) is marked for native review on its cover. **New, not yet reviewed.** |
 | `src/i18n/oneSourceCaseStudy.ts` | `/es/work/one-source-total-pest-control` |
 | `src/i18n/skunkworks.ts` | `/es/skunkworks` (voicebots, spatial viewer) |
 | `src/i18n/skunkworksProjects.ts` | "Lo que estamos construyendo" project cards |

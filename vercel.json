@@ -58,6 +58,10 @@
       "destination": "/search-ai-visibility/index.html"
     },
     {
+      "source": "/demo-guide",
+      "destination": "/demo-guide/index.html"
+    },
+    {
       "source": "/faq",
       "destination": "/faq/index.html"
     },
@@ -128,6 +132,10 @@
     {
       "source": "/es/search-ai-visibility",
       "destination": "/es/search-ai-visibility/index.html"
+    },
+    {
+      "source": "/es/demo-guide",
+      "destination": "/es/demo-guide/index.html"
     },
     {
       "source": "/es/faq",

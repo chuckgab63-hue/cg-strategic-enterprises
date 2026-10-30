@@ -201,6 +201,29 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
   },
   {
+    path: '/demo-guide',
+    meta: {
+      en: {
+        title: `Meal-Prep Ordering Demo: Walkthrough Guide | ${NAME}`,
+        description: 'A page-by-page tour of the live meal-prep ordering demo, storefront and admin area, as a free PDF guide. Download it or open the demo.',
+      },
+      es: {
+        title: `Demo de pedidos para meal prep: guía paso a paso | ${NAME}`,
+        description: 'Un recorrido, página por página, por la demo en vivo del sistema de pedidos para comidas preparadas: la tienda y el área de administración, en una guía PDF gratuita.',
+      },
+    },
+    og: {
+      image: '/og/meal-prep-demo-guide.jpg',
+      width: 1200,
+      height: 630,
+      type: 'website',
+      alt: {
+        en: 'Meal-Prep Ordering Demo walkthrough guide: a page of the demo admin area with numbered steps',
+        es: 'Guía paso a paso de la demo de pedidos para meal prep: una página del área de administración con pasos numerados',
+      },
+    },
+  },
+  {
     path: '/search-ai-visibility',
     meta: {
       en: {

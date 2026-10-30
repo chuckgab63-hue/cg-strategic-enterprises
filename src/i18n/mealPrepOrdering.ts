@@ -23,6 +23,7 @@ const en = {
     adminDemo: 'Admin demo',
     newTab: '(opens in a new tab)',
     brandNote: 'In the demo, open the "Try it with your brand" panel to add your own logo and colors.',
+    guide: 'Download the demo guide',
   },
   admin: {
     title: 'What the admin area does',
@@ -107,6 +108,7 @@ const es: typeof en = {
     newTab: '(se abre en una pestaña nueva)',
     // The panel's name stays in English: that's what the demo shows.
     brandNote: 'En la demo, abra el panel "Try it with your brand" para agregar su propio logotipo y colores.',
+    guide: 'Descargar la guía de la demo',
   },
   admin: {
     title: 'Lo que hace el área de administración',
