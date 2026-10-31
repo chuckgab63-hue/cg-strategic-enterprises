@@ -52,6 +52,15 @@ const en = {
       ],
     },
   },
+  screens: {
+    title: 'A look inside the demo',
+    items: [
+      { src: '/guides/screens/n10_subscriptions.webp', alt: 'The demo admin Subscriptions page: every subscriber with their plan and whether they are delivering, skipping or paused this week' },
+      { src: '/guides/screens/n12_zones.webp', alt: 'The demo admin Delivery page: delivery zones by ZIP code, each with its own delivery day, fee, minimum order and free-delivery amount' },
+      { src: '/guides/screens/n13_routes.webp', alt: "The demo admin Routes page: a delivery day's stops grouped by zone, with print, CSV and Google Maps buttons" },
+      { src: '/guides/screens/t4_accepted.webp', alt: 'Trend Finder in the demo admin: an accepted idea saved as a draft meal, with its sources, nutrition and ingredient costs' },
+    ],
+  },
   setup: {
     title: 'Done for you',
     body: 'We set it up for you, with your menu, plans, delivery zones and branding, and move your existing customers over. Built for small and mid-sized meal prep businesses in Florida, with support in English and Spanish.',
@@ -103,6 +112,15 @@ const es: typeof en = {
         'Usar Trend Finder para convertir un platillo en tendencia en un borrador de comida oculto, con su receta, nutrición y precio, para que usted lo revise y lo publique',
       ],
     },
+  },
+  screens: {
+    title: 'Un vistazo a la demo',
+    items: [
+      { src: '/guides/screens/n10_subscriptions.webp', alt: 'La página de suscripciones del área de administración de la demo: cada suscriptor con su plan y si esta semana recibe su entrega, la salta o tiene el plan en pausa' },
+      { src: '/guides/screens/n12_zones.webp', alt: 'La página de entregas del área de administración de la demo: zonas de entrega por código postal, cada una con su día de entrega, tarifa, pedido mínimo y monto para entrega gratis' },
+      { src: '/guides/screens/n13_routes.webp', alt: 'La página de rutas del área de administración de la demo: las paradas de un día de entrega agrupadas por zona, con botones para imprimir, descargar CSV y abrir Google Maps' },
+      { src: '/guides/screens/t4_accepted.webp', alt: 'Trend Finder en el área de administración de la demo: una idea aceptada guardada como borrador de comida, con sus fuentes, nutrición y costos de ingredientes' },
+    ],
   },
   setup: {
     title: 'Nosotros lo configuramos',

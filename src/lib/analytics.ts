@@ -6,8 +6,9 @@
 // carry only their name, the page language and (for check_learn_more and
 // home_website_check_click) which card or button was used, never anything
 // typed into a form.
-// The owner's own visits are dropped entirely: /ignore-me sets a flag in this
-// browser's localStorage that analyticsBeforeSend checks on every event.
+// The owner's own visits are dropped entirely: /analytics-optout (or the older
+// /ignore-me) sets a flag in this browser's localStorage that
+// analyticsBeforeSend checks on every event.
 
 import { track, type BeforeSendEvent } from '@vercel/analytics/react';
 import { langFromPath, type Lang } from '../i18n/lang';
@@ -48,22 +49,30 @@ export function stripQueryAndHash(event: BeforeSendEvent): BeforeSendEvent {
 }
 
 /** localStorage key; "1" means don't send anything from this browser. */
-export const IGNORE_ANALYTICS_KEY = 'cg_ignore_analytics';
+export const IGNORE_ANALYTICS_KEY = 'cg-ignore-analytics';
+/** The key /ignore-me used before; still honoured, so a browser that opted out stays out. */
+export const LEGACY_IGNORE_ANALYTICS_KEY = 'cg_ignore_analytics';
 
 /** True when this browser has opted out. Storage can be blocked or missing (private mode, previews): then false. */
 export function isAnalyticsIgnored(): boolean {
   try {
-    return window.localStorage.getItem(IGNORE_ANALYTICS_KEY) === '1';
+    const storage = window.localStorage;
+    return storage.getItem(IGNORE_ANALYTICS_KEY) === '1' || storage.getItem(LEGACY_IGNORE_ANALYTICS_KEY) === '1';
   } catch {
     return false;
   }
 }
 
-/** Sets or clears the opt-out flag. Returns false if storage isn't available. */
+/** Sets or clears the opt-out flag (clearing removes the legacy key too). Returns false if storage isn't available. */
 export function setAnalyticsIgnored(ignored: boolean): boolean {
   try {
-    if (ignored) window.localStorage.setItem(IGNORE_ANALYTICS_KEY, '1');
-    else window.localStorage.removeItem(IGNORE_ANALYTICS_KEY);
+    const storage = window.localStorage;
+    if (ignored) {
+      storage.setItem(IGNORE_ANALYTICS_KEY, '1');
+    } else {
+      storage.removeItem(IGNORE_ANALYTICS_KEY);
+      storage.removeItem(LEGACY_IGNORE_ANALYTICS_KEY);
+    }
     return true;
   } catch {
     return false;

@@ -55,15 +55,21 @@ describe('page meta', () => {
   it('gives a page its lastmod in the sitemap, only when it has one', () => {
     const xml = sitemapXml();
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/demo-guide</loc>\n    <lastmod>2026-10-31</lastmod>');
-    expect(xml).toMatch(/<loc>https:\/\/www\.cgstrategic\.dev\/<\/loc>\n    <xhtml|<loc>https:\/\/www\.cgstrategic\.dev\/<\/loc>\n  <\/url>/);
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-10-31</lastmod>');
+    // A page without one (Contact): no lastmod line after its loc.
+    expect(xml).not.toMatch(/<loc>https:\/\/www\.cgstrategic\.dev\/contact<\/loc>\n    <lastmod>/);
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>');
   });
 
-  it('keeps /ignore-me out of search and the sitemap', () => {
-    const head = headFor('/ignore-me');
-    expect(head.noindex).toBe(true);
-    expect(head.canonical).toBeUndefined();
-    expect(head.title).toBe('Analytics opt-out');
+  it('keeps /analytics-optout and /ignore-me out of search and the sitemap', () => {
+    for (const path of ['/analytics-optout', '/ignore-me', '/analytics-optout/']) {
+      const head = headFor(path);
+      expect(head.noindex).toBe(true);
+      expect(head.canonical).toBeUndefined();
+      expect(head.title).toBe('Analytics opt-out');
+    }
     expect(sitemapXml()).not.toContain('ignore-me');
+    expect(sitemapXml()).not.toContain('analytics-optout');
   });
 
   it('keeps Spanish out of search until it launches', () => {

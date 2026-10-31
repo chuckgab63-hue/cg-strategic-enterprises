@@ -31,13 +31,14 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `${NAME} | Web, AI and Automation in Jacksonville, FL`,
-        description: `${NAME} builds websites, AI assistants and business automations for local businesses in Jacksonville, FL and beyond.`,
+        description: `${NAME} builds websites, AI assistants, business automations and meal prep ordering systems for local businesses in Jacksonville, FL and beyond.`,
       },
       es: {
         title: `${NAME} | Sitios web, IA y automatización en Jacksonville, FL`,
-        description: `${NAME} crea sitios web, asistentes de IA y automatizaciones para negocios locales en Jacksonville, FL y otras ciudades.`,
+        description: `${NAME} crea sitios web, asistentes de IA, automatizaciones y sistemas de pedidos para comidas preparadas para negocios locales en Jacksonville, FL y otras ciudades.`,
       },
     },
+    lastmod: '2026-10-31',
   },
   {
     path: '/automations',

@@ -37,7 +37,7 @@ export default function App() {
       {/* Vercel Web Analytics: page views for every route, /es included, and
           client-side navigation. URLs go without query strings (campaign utm_ tags
           excepted), and nothing is sent
-          from a browser that opted out at /ignore-me (src/lib/analytics.ts). */}
+          from a browser that opted out at /analytics-optout (src/lib/analytics.ts). */}
       <Analytics beforeSend={analyticsBeforeSend} />
 
       <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-white">
@@ -57,6 +57,7 @@ export default function App() {
                 <Route key={`${prefix}*`} path={`${prefix}/*`} element={<NotFound />} />,
               ])}
               {/* Unlisted owner tool: not in SITE_ROUTES, so no sitemap, no prerender, noindex. */}
+              <Route path="/analytics-optout" element={<IgnoreMe />} />
               <Route path="/ignore-me" element={<IgnoreMe />} />
             </Routes>
           </Suspense>

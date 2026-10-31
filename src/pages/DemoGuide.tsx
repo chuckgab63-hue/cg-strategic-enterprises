@@ -66,6 +66,24 @@ export default function DemoGuide() {
         </div>
       </ServiceSection>
 
+      <ServiceSection title={t.screens.title}>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {t.screens.items.map(shot => (
+            <li key={shot.src}>
+              <img
+                src={shot.src}
+                alt={shot.alt}
+                width={1200}
+                height={750}
+                loading="lazy"
+                decoding="async"
+                className="block w-full h-auto rounded-2xl border border-slate-800"
+              />
+            </li>
+          ))}
+        </ul>
+      </ServiceSection>
+
       <ServiceSection title={t.setup.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl">{t.setup.body}</p>
       </ServiceSection>
