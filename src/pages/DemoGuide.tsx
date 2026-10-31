@@ -1,7 +1,8 @@
 import { useSyncExternalStore } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ServiceClosing, ServiceHero, ServicePage, TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
+  CheckList, ServiceClosing, ServiceHero, ServicePage, ServiceSection, TalkToAlexButton, primaryButtonClass,
+  secondaryButtonClass,
 } from '../components/ServicePage';
 import { PHONE_HREF } from '../config/site';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
@@ -52,6 +53,22 @@ export default function DemoGuide() {
       )}
 
       <p className="mt-12 text-slate-300 text-lg leading-relaxed max-w-3xl">{t.inside}</p>
+
+      <ServiceSection title={t.try.title}>
+        <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mb-8">{t.try.brand}</p>
+        <div className="space-y-10">
+          {[t.try.customer, t.try.owner].map(group => (
+            <div key={group.title}>
+              <h3 className="text-xl font-bold text-white mb-4">{group.title}</h3>
+              <CheckList items={group.items} />
+            </div>
+          ))}
+        </div>
+      </ServiceSection>
+
+      <ServiceSection title={t.setup.title}>
+        <p className="text-slate-300 text-lg leading-relaxed max-w-3xl">{t.setup.body}</p>
+      </ServiceSection>
 
       <ServiceClosing title={t.closing.title} body={t.closing.body}>
         <div className="flex flex-wrap gap-3">

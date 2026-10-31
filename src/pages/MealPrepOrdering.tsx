@@ -40,6 +40,10 @@ export default function MealPrepOrdering() {
         </Link>
       </section>
 
+      <ServiceSection title={t.customers.title}>
+        <CheckList items={t.customers.items} />
+      </ServiceSection>
+
       <ServiceSection title={t.admin.title}>
         <CheckList items={t.admin.items} />
       </ServiceSection>

@@ -19,6 +19,8 @@ export interface SiteRoute {
   meta: Record<Lang, PageMeta>;
   /** Open Graph image for link previews, if the page has one. */
   og?: { image: string; width: number; height: number; alt: Record<Lang, string>; type: 'article' | 'website' };
+  /** The sitemap's lastmod (YYYY-MM-DD): the day the page's content last changed. */
+  lastmod?: string;
 }
 
 const NAME = 'CG Strategic Enterprises';
@@ -192,26 +194,28 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Meal Prep Ordering System & Website for Meal Prep Businesses | ${NAME}`,
-        description: 'An online ordering system built for meal prep businesses: weekly menus, cutoffs, prep lists and customer accounts. See the live demo.',
+        description: 'Online ordering for Florida meal prep businesses, set up for you: weekly menus and plans, delivery zones and routes, labels and gift cards. See the live demo.',
       },
       es: {
         title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
-        description: 'Pedidos en línea para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes. Vea la demo en vivo.',
+        description: 'Pedidos en línea para negocios de comidas preparadas en Florida, configurados por nosotros: planes semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
       },
     },
+    lastmod: '2026-10-31',
   },
   {
     path: '/demo-guide',
     meta: {
       en: {
         title: `Meal-Prep Ordering Demo: Walkthrough Guide | ${NAME}`,
-        description: 'A page-by-page tour of the live meal-prep ordering demo, storefront and admin area, as a free PDF guide. Download it or open the demo.',
+        description: 'A free PDF tour of the live meal-prep ordering demo: weekly plans, delivery and pickup, labels, gift cards, photo styling and Trend Finder.',
       },
       es: {
         title: `Demo de pedidos para meal prep: guía paso a paso | ${NAME}`,
-        description: 'Un recorrido, página por página, por la demo en vivo del sistema de pedidos para comidas preparadas: la tienda y el área de administración, en una guía PDF gratuita.',
+        description: 'Una guía PDF gratuita de la demo en vivo de pedidos para comidas preparadas: planes semanales, entregas y recogida, etiquetas, tarjetas de regalo y Trend Finder.',
       },
     },
+    lastmod: '2026-10-31',
     og: {
       image: '/og/meal-prep-demo-guide.jpg',
       width: 1200,

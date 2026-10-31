@@ -52,6 +52,12 @@ describe('page meta', () => {
     expect(head.title).toMatch(/^Página no encontrada/);
   });
 
+  it('gives a page its lastmod in the sitemap, only when it has one', () => {
+    const xml = sitemapXml();
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/demo-guide</loc>\n    <lastmod>2026-10-31</lastmod>');
+    expect(xml).toMatch(/<loc>https:\/\/www\.cgstrategic\.dev\/<\/loc>\n    <xhtml|<loc>https:\/\/www\.cgstrategic\.dev\/<\/loc>\n  <\/url>/);
+  });
+
   it('keeps /ignore-me out of search and the sitemap', () => {
     const head = headFor('/ignore-me');
     expect(head.noindex).toBe(true);

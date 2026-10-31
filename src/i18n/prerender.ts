@@ -121,7 +121,8 @@ export function sitemapXml(): string {
             .map(([hreflang, href]) => `\n    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}" />`)
             .join('')
         : '';
-      return `  <url>\n    <loc>${loc}</loc>${alternates}\n  </url>`;
+      const lastmod = route.lastmod ? `\n    <lastmod>${route.lastmod}</lastmod>` : '';
+      return `  <url>\n    <loc>${loc}</loc>${lastmod}${alternates}\n  </url>`;
     }),
   );
   return [

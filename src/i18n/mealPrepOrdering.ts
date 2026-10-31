@@ -13,37 +13,53 @@ export const DEMO_ADMIN_URL = 'https://demo.cgstrategic.dev/admin';
 const en = {
   eyebrow: 'Meal Prep Ordering System',
   title: 'Online Ordering System for Meal Prep Businesses',
-  intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order on their own while your week organizes itself.",
+  intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida, in English and Spanish.",
   ctaDemo: 'Try the demo',
   ctaAlex: 'Talk to Alex',
   live: {
     title: 'See it live',
-    body: 'Order as a customer, then see the same week from the kitchen side.',
+    body: 'Order as a customer and manage a weekly plan, then see the same week from the kitchen side: subscribers, delivery routes, labels and what to cook.',
     customerDemo: 'Customer demo',
     adminDemo: 'Admin demo',
     newTab: '(opens in a new tab)',
     brandNote: 'In the demo, open the "Try it with your brand" panel to add your own logo and colors.',
     guide: 'Download the demo guide',
   },
+  customers: {
+    title: 'What your customers get',
+    items: [
+      'A weekly menu they can filter by allergens, category and calories',
+      'Weekly plans they can skip, pause, change or cancel from their account before your deadline',
+      'Delivery priced by their ZIP code, or pickup at one of your spots',
+      'Gift cards for any amount, sent on the date they choose',
+      "Your store on their phone's home screen, opening like an app",
+      "An AI assistant that helps them choose meals and shows you what they ask for that the menu doesn't have yet",
+    ],
+  },
   admin: {
     title: 'What the admin area does',
     items: [
-      'Weekly menu with cutoff and delivery-day settings',
-      'Every order in one place',
+      'Weekly menu with your ordering deadline and delivery days',
+      'Every order and every subscriber in one place, with who is delivering, skipping or paused this week',
+      'Delivery zones by ZIP code, each with its own fee, minimum order and free-delivery amount',
+      'Route sheets for each delivery day, grouped by zone and in stop order',
+      'Pickup spots, and more than one kitchen when you grow',
       'A weekly production plan with combined prep and shopping lists, ready to print',
+      'Printable meal labels generated from your own meal data, for you to review before use',
       'Ingredient costs and suppliers',
       'Analytics, including repeat rate and churn',
-      "An AI assistant that helps customers choose meals and shows you what they ask for that the menu doesn't have yet",
-      'Coupons and review approval',
+      'Coupons, gift cards and review approval',
+      'Food photo styling settings for AI photos of your real dishes',
+      'Trend Finder, which turns trending dishes into draft meals for you to review',
     ],
   },
   migrate: {
     title: 'Bring your customers with you',
-    body: 'Migration tools import your existing customers from a spreadsheet, Square or another system, so nobody has to sign up again.',
+    body: 'Setup is done for you. We import your existing customers and menu from a spreadsheet or the system you use today, so nobody has to sign up again, and plan the switch-over date with you.',
   },
   data: {
     title: 'Your business, your data',
-    body: 'Your customer and order data, your domain and your payment account always belong to your business. The platform runs on our hosting and care plan, which keeps it updated, backed up and running.',
+    body: 'Your customer and order data, your domain and your Stripe account always belong to your business. The platform runs on our hosting and care plan, which keeps it updated, backed up and running.',
     link: 'How ownership works',
   },
   more: {
@@ -65,7 +81,7 @@ const en = {
     {
       id: 'weekly-orders',
       question: 'Can customers order every week without starting over?',
-      answer: 'Yes. Customers have their own accounts, so each week they sign in, pick from the new menu and check out without re-entering their details.',
+      answer: 'Yes. Customers have their own accounts, so each week they sign in, pick from the new menu and check out without re-entering their details. They can also subscribe to a weekly plan and skip, pause or change it before your deadline.',
     },
     {
       id: 'cutoff-and-delivery-days',
@@ -75,12 +91,12 @@ const en = {
     {
       id: 'move-customers',
       question: 'Can I move my existing customers over?',
-      answer: "Yes. Migration tools import your customers from a spreadsheet, Square or another system, so they don't have to sign up again.",
+      answer: "Yes. We import your customers from a spreadsheet or the system you use today, so they don't have to sign up again.",
     },
     {
       id: 'own-data',
       question: 'Do I own my customer data?',
-      answer: 'Yes. Your customer and order data, domain and payment account always belong to your business, and you can export your data at any time.',
+      answer: 'Yes. Your customer and order data, domain and Stripe account always belong to your business, and you can export your data at any time.',
     },
     {
       id: 'cost',
@@ -97,12 +113,12 @@ const en = {
 const es: typeof en = {
   eyebrow: 'Sistema de pedidos para comidas preparadas',
   title: 'Sistema de pedidos en línea para negocios de comidas preparadas',
-  intro: 'Tomar pedidos por mensajes directos, textos y hojas de cálculo funciona hasta que deja de funcionar. Un sistema de pedidos para comidas preparadas permite que sus clientes ordenen por su cuenta mientras su semana se organiza sola.',
+  intro: 'Tomar pedidos por mensajes directos, textos y hojas de cálculo funciona hasta que deja de funcionar. Un sistema de pedidos para comidas preparadas permite que sus clientes ordenen y se suscriban por su cuenta mientras su semana se organiza sola. Nosotros lo configuramos y pasamos a sus clientes al nuevo sistema, para negocios pequeños y medianos de comidas preparadas en Florida, en inglés y en español.',
   ctaDemo: 'Probar la demo',
   ctaAlex: 'Hablar con Alex',
   live: {
     title: 'Véalo en vivo',
-    body: 'Haga un pedido como cliente y luego vea la misma semana desde el lado de la cocina.',
+    body: 'Haga un pedido como cliente y administre un plan semanal, y luego vea la misma semana desde el lado de la cocina: suscriptores, rutas de entrega, etiquetas y lo que hay que cocinar.',
     customerDemo: 'Demo para clientes',
     adminDemo: 'Demo del área de administración',
     newTab: '(se abre en una pestaña nueva)',
@@ -110,25 +126,41 @@ const es: typeof en = {
     brandNote: 'En la demo, abra el panel "Try it with your brand" para agregar su propio logotipo y colores.',
     guide: 'Descargar la guía de la demo',
   },
+  customers: {
+    title: 'Lo que reciben sus clientes',
+    items: [
+      'Un menú semanal que pueden filtrar por alérgenos, categoría y calorías',
+      'Planes semanales que pueden saltar, pausar, cambiar o cancelar desde su cuenta antes de su fecha límite',
+      'Entrega con tarifa según su código postal, o recogida en uno de sus puntos',
+      'Tarjetas de regalo por cualquier monto, enviadas en la fecha que elijan',
+      'Su tienda en la pantalla de inicio de su teléfono, que se abre como una app',
+      'Un asistente de IA que les ayuda a elegir comidas y le muestra a usted lo que piden que su menú todavía no tiene',
+    ],
+  },
   admin: {
     title: 'Lo que hace el área de administración',
     items: [
-      'Menú semanal con fecha límite para ordenar y días de entrega configurables',
-      'Todos los pedidos en un solo lugar',
+      'Menú semanal con su fecha límite para ordenar y sus días de entrega',
+      'Todos los pedidos y todos los suscriptores en un solo lugar, con quién recibe su entrega, la salta o tiene el plan en pausa esta semana',
+      'Zonas de entrega por código postal, cada una con su propia tarifa, pedido mínimo y monto para entrega gratis',
+      'Hojas de ruta para cada día de entrega, agrupadas por zona y en orden de paradas',
+      'Puntos de recogida, y más de una cocina cuando su negocio crezca',
       'Un plan de producción semanal con listas combinadas de preparación y de compras, listas para imprimir',
+      'Etiquetas imprimibles para cada comida, generadas con los datos de sus propias comidas, para que usted las revise antes de usarlas',
       'Costos de ingredientes y proveedores',
       'Análisis, incluidas la tasa de clientes que repiten y la tasa de abandono',
-      'Un asistente de IA que ayuda a sus clientes a elegir comidas y le muestra lo que piden que su menú todavía no tiene',
-      'Cupones y aprobación de reseñas',
+      'Cupones, tarjetas de regalo y aprobación de reseñas',
+      'Opciones de estilo para las fotos con IA de sus platos reales',
+      'Trend Finder, que convierte platillos en tendencia en borradores de comidas para que usted los revise',
     ],
   },
   migrate: {
     title: 'Traiga a sus clientes con usted',
-    body: 'Las herramientas de migración importan a sus clientes actuales desde una hoja de cálculo, Square u otro sistema, para que nadie tenga que registrarse de nuevo.',
+    body: 'Nosotros hacemos la configuración. Importamos a sus clientes actuales y su menú desde una hoja de cálculo o desde el sistema que usa hoy, para que nadie tenga que registrarse de nuevo, y planeamos con usted la fecha del cambio.',
   },
   data: {
     title: 'Su negocio, sus datos',
-    body: 'Los datos de sus clientes y pedidos, su dominio y su cuenta de pagos siempre pertenecen a su negocio. La plataforma funciona con nuestro plan de alojamiento y mantenimiento, que la mantiene actualizada, respaldada y en funcionamiento.',
+    body: 'Los datos de sus clientes y pedidos, su dominio y su cuenta de Stripe siempre pertenecen a su negocio. La plataforma funciona con nuestro plan de alojamiento y mantenimiento, que la mantiene actualizada, respaldada y en funcionamiento.',
     link: 'Cómo funciona la propiedad',
   },
   more: {
@@ -150,7 +182,7 @@ const es: typeof en = {
     {
       id: 'weekly-orders',
       question: '¿Mis clientes pueden ordenar cada semana sin empezar de cero?',
-      answer: 'Sí. Sus clientes tienen su propia cuenta, así que cada semana inician sesión, eligen del nuevo menú y pagan sin volver a ingresar sus datos.',
+      answer: 'Sí. Sus clientes tienen su propia cuenta, así que cada semana inician sesión, eligen del nuevo menú y pagan sin volver a ingresar sus datos. También pueden suscribirse a un plan semanal y saltarlo, pausarlo o cambiarlo antes de su fecha límite.',
     },
     {
       id: 'cutoff-and-delivery-days',
@@ -160,12 +192,12 @@ const es: typeof en = {
     {
       id: 'move-customers',
       question: '¿Puedo pasar a mis clientes actuales al nuevo sistema?',
-      answer: 'Sí. Las herramientas de migración importan a sus clientes desde una hoja de cálculo, Square u otro sistema, para que no tengan que registrarse de nuevo.',
+      answer: 'Sí. Importamos a sus clientes desde una hoja de cálculo o desde el sistema que usa hoy, para que no tengan que registrarse de nuevo.',
     },
     {
       id: 'own-data',
       question: '¿Los datos de mis clientes son míos?',
-      answer: 'Sí. Los datos de sus clientes y pedidos, su dominio y su cuenta de pagos siempre pertenecen a su negocio, y puede exportar sus datos en cualquier momento.',
+      answer: 'Sí. Los datos de sus clientes y pedidos, su dominio y su cuenta de Stripe siempre pertenecen a su negocio, y puede exportar sus datos en cualquier momento.',
     },
     {
       id: 'cost',
