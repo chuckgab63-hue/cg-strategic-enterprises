@@ -46,7 +46,7 @@ const en = {
         icon: 'ordering',
         path: '/meal-prep-ordering',
         title: 'Online Ordering for Meal Prep',
-        body: 'Online ordering built for meal prep businesses: weekly menus, cutoffs, prep lists and customer accounts.',
+        body: 'Online ordering built for meal prep businesses, set up for you: weekly plans, delivery zones, labels and customer accounts.',
       },
       {
         icon: 'search',
@@ -68,6 +68,14 @@ const en = {
         cta: 'Check my site',
       },
     ] as ServiceCard[],
+  },
+  // The meal-prep teaser under the services grid; the features are the
+  // ones checked working in the live demo.
+  mealPrep: {
+    eyebrow: 'Meal prep ordering',
+    title: 'Run your meal prep week from one place',
+    body: 'Weekly plans your customers manage themselves, delivery zones and route sheets, pickup, printable labels and gift cards. We set it up for you and move your customers over, in English and Spanish, for meal prep businesses in Florida.',
+    link: "See what's included",
   },
   // The Free Website Check section right after the hero (src/components/HomeWebsiteCheck.tsx).
   websiteCheck: {
@@ -115,7 +123,7 @@ const es: typeof en = {
         icon: 'ordering',
         path: '/meal-prep-ordering',
         title: 'Pedidos en línea para comidas preparadas',
-        body: 'Pedidos en línea hechos para negocios de comidas preparadas: menús semanales, fechas límite, listas de preparación y cuentas de clientes.',
+        body: 'Pedidos en línea hechos para negocios de comidas preparadas, configurados por nosotros: planes semanales, zonas de entrega, etiquetas y cuentas de clientes.',
       },
       {
         icon: 'search',
@@ -138,6 +146,12 @@ const es: typeof en = {
         cta: 'Revisar mi sitio',
       },
     ],
+  },
+  mealPrep: {
+    eyebrow: 'Pedidos para comidas preparadas',
+    title: 'Maneje su semana de comidas preparadas desde un solo lugar',
+    body: 'Planes semanales que sus clientes manejan por su cuenta, zonas de entrega y hojas de ruta, recogida, etiquetas imprimibles y tarjetas de regalo. Lo configuramos por usted y pasamos a sus clientes al nuevo sistema, en inglés y en español, para negocios de comidas preparadas en Florida.',
+    link: 'Ver qué incluye',
   },
   websiteCheck: {
     badge: 'Revisión gratuita del sitio web',

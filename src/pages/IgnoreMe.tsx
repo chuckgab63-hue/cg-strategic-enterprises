@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { isAnalyticsIgnored, setAnalyticsIgnored } from '../lib/analytics';
 
-// Unlisted owner tool at /ignore-me: turns Vercel Web Analytics off (or back on)
+// Unlisted owner tool at /analytics-optout (and its older address, /ignore-me):
+// turns Vercel Web Analytics off (or back on)
 // for this browser only, so our own visits don't count. Not in the nav, the
 // sitemap or SITE_ROUTES, and noindex (src/i18n/head.ts). English only.
 export default function IgnoreMe() {

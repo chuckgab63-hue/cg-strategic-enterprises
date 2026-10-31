@@ -298,6 +298,25 @@ export default function Home() {
       </section>
 
       {/* =========================================
+          MEAL PREP TEASER: a few of the ordering system's features, on to its page
+          ========================================= */}
+      <section className="site-container relative z-10 pb-24">
+        <div className="text-left bg-slate-900/60 border border-brand-orange/40 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+          <div className="flex-1">
+            <p className="text-xs font-bold tracking-widest uppercase text-brand-orange">{t.mealPrep.eyebrow}</p>
+            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mt-3">{t.mealPrep.title}</h2>
+            <p className="text-slate-300 leading-relaxed mt-3 max-w-3xl">{t.mealPrep.body}</p>
+          </div>
+          <Link
+            to={lp('/meal-prep-ordering')}
+            className="self-start md:self-center shrink-0 bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors"
+          >
+            {t.mealPrep.link} <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* =========================================
           GLOBAL OVERLAYS & MODALS
           ========================================= */}
       

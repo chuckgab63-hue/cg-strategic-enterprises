@@ -6,6 +6,15 @@
 
 import type { FaqItem } from './faq.ts';
 
+/** Picks a "What's included" card's icon in MealPrepOrdering.tsx. */
+export type IncludedIcon = 'plans' | 'zones' | 'routes' | 'pickup' | 'labels' | 'gift' | 'app' | 'photo' | 'trend';
+
+interface IncludedItem {
+  icon: IncludedIcon;
+  title: string;
+  body: string;
+}
+
 export const MEAL_PREP_ORDERING_PATH = '/meal-prep-ordering';
 export const DEMO_MENU_URL = 'https://demo.cgstrategic.dev/menu';
 export const DEMO_ADMIN_URL = 'https://demo.cgstrategic.dev/admin';
@@ -25,16 +34,23 @@ const en = {
     brandNote: 'In the demo, open the "Try it with your brand" panel to add your own logo and colors.',
     guide: 'Download the demo guide',
   },
-  customers: {
-    title: 'What your customers get',
+  // "What's included": only features checked working in the live demo
+  // (demo.cgstrategic.dev). The icon names are drawn in MealPrepOrdering.tsx.
+  included: {
+    title: "What's included",
+    intro: 'Set up for you, with your menu and customers moved over. Everything here works in the live demo today.',
+    cta: 'Try the demo',
     items: [
-      'A weekly menu they can filter by allergens, category and calories',
-      'Weekly plans they can skip, pause, change or cancel from their account before your deadline',
-      'Delivery priced by their ZIP code, or pickup at one of your spots',
-      'Gift cards for any amount, sent on the date they choose',
-      "Your store on their phone's home screen, opening like an app",
-      "An AI assistant that helps them choose meals and shows you what they ask for that the menu doesn't have yet",
-    ],
+      { icon: 'plans', title: 'Weekly plans', body: 'Customers subscribe, then skip a week, pause, change or cancel on their own before your deadline.' },
+      { icon: 'zones', title: 'Delivery zones and deadlines', body: 'Each ZIP code zone has its own fee, minimum order and free-delivery amount, and orders close at your deadline.' },
+      { icon: 'routes', title: 'Route sheets', body: "Each delivery day's stops, grouped by zone and in order, ready to print." },
+      { icon: 'pickup', title: 'Pickup and more kitchens', body: 'Pickup spots at checkout, and a second kitchen with its own zones and menu when you grow.' },
+      { icon: 'labels', title: 'Printable labels', body: 'Meal labels generated from your own meal data (nutrition, ingredients, allergens) for you to review before use.' },
+      { icon: 'gift', title: 'Coupons and gift cards', body: 'Run promotions, and sell gift cards for any amount that customers redeem at checkout.' },
+      { icon: 'app', title: 'Installable app', body: 'Customers add your store to their home screen and open it like an app.' },
+      { icon: 'photo', title: 'Food photo styling', body: 'Choose the lighting, angle, plate, background, color and garnish for AI photos of your real dishes.' },
+      { icon: 'trend', title: 'Trend Finder', body: 'Turns trending dishes into draft meals, with recipe, nutrition and price, for you to review and publish.' },
+    ] as IncludedItem[],
   },
   admin: {
     title: 'What the admin area does',
@@ -48,6 +64,7 @@ const en = {
       'Printable meal labels generated from your own meal data, for you to review before use',
       'Ingredient costs and suppliers',
       'Analytics, including repeat rate and churn',
+      "An AI assistant that helps customers choose meals and shows you what they ask for that the menu doesn't have yet",
       'Coupons, gift cards and review approval',
       'Food photo styling settings for AI photos of your real dishes',
       'Trend Finder, which turns trending dishes into draft meals for you to review',
@@ -126,15 +143,20 @@ const es: typeof en = {
     brandNote: 'En la demo, abra el panel "Try it with your brand" para agregar su propio logotipo y colores.',
     guide: 'Descargar la guía de la demo',
   },
-  customers: {
-    title: 'Lo que reciben sus clientes',
+  included: {
+    title: 'Qué incluye',
+    intro: 'Lo configuramos por usted y pasamos su menú y sus clientes al nuevo sistema. Todo lo que ve aquí ya funciona en la demo en vivo.',
+    cta: 'Probar la demo',
     items: [
-      'Un menú semanal que pueden filtrar por alérgenos, categoría y calorías',
-      'Planes semanales que pueden saltar, pausar, cambiar o cancelar desde su cuenta antes de su fecha límite',
-      'Entrega con tarifa según su código postal, o recogida en uno de sus puntos',
-      'Tarjetas de regalo por cualquier monto, enviadas en la fecha que elijan',
-      'Su tienda en la pantalla de inicio de su teléfono, que se abre como una app',
-      'Un asistente de IA que les ayuda a elegir comidas y le muestra a usted lo que piden que su menú todavía no tiene',
+      { icon: 'plans', title: 'Planes semanales', body: 'Sus clientes se suscriben y luego saltan una semana, pausan, cambian o cancelan por su cuenta antes de su fecha límite.' },
+      { icon: 'zones', title: 'Zonas de entrega y fechas límite', body: 'Cada zona por código postal tiene su propia tarifa, pedido mínimo y monto para entrega gratis, y los pedidos cierran en su fecha límite.' },
+      { icon: 'routes', title: 'Hojas de ruta', body: 'Las paradas de cada día de entrega, agrupadas por zona y en orden, listas para imprimir.' },
+      { icon: 'pickup', title: 'Recogida y más cocinas', body: 'Puntos de recogida al pagar, y una segunda cocina con sus propias zonas y menú cuando su negocio crezca.' },
+      { icon: 'labels', title: 'Etiquetas imprimibles', body: 'Etiquetas generadas con los datos de sus propias comidas (nutrición, ingredientes, alérgenos), para que usted las revise antes de usarlas.' },
+      { icon: 'gift', title: 'Cupones y tarjetas de regalo', body: 'Haga promociones y venda tarjetas de regalo por cualquier monto, que sus clientes usan al pagar.' },
+      { icon: 'app', title: 'App instalable', body: 'Sus clientes agregan su tienda a la pantalla de inicio y la abren como una app.' },
+      { icon: 'photo', title: 'Estilo de las fotos de sus platos', body: 'Elija la iluminación, el ángulo, el plato, el fondo, el color y la guarnición de las fotos con IA de sus platos reales.' },
+      { icon: 'trend', title: 'Trend Finder', body: 'Convierte platillos en tendencia en borradores de comidas, con receta, nutrición y precio, para que usted los revise y los publique.' },
     ],
   },
   admin: {
@@ -149,6 +171,7 @@ const es: typeof en = {
       'Etiquetas imprimibles para cada comida, generadas con los datos de sus propias comidas, para que usted las revise antes de usarlas',
       'Costos de ingredientes y proveedores',
       'Análisis, incluidas la tasa de clientes que repiten y la tasa de abandono',
+      'Un asistente de IA que ayuda a sus clientes a elegir comidas y le muestra lo que piden que su menú todavía no tiene',
       'Cupones, tarjetas de regalo y aprobación de reseñas',
       'Opciones de estilo para las fotos con IA de sus platos reales',
       'Trend Finder, que convierte platillos en tendencia en borradores de comidas para que usted los revise',

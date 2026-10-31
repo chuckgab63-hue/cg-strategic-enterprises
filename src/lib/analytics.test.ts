@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const track = vi.fn();
 vi.mock('@vercel/analytics/react', () => ({ track: (...args: unknown[]) => track(...args) }));
 
-const { stripQueryAndHash, trackEvent, analyticsBeforeSend, isAnalyticsIgnored, setAnalyticsIgnored, IGNORE_ANALYTICS_KEY } = await import('./analytics');
+const { stripQueryAndHash, trackEvent, analyticsBeforeSend, isAnalyticsIgnored, setAnalyticsIgnored, IGNORE_ANALYTICS_KEY, LEGACY_IGNORE_ANALYTICS_KEY } = await import('./analytics');
 
 describe('analytics privacy', () => {
   beforeEach(() => track.mockClear());
@@ -86,6 +86,24 @@ describe('analytics privacy', () => {
       expect(setAnalyticsIgnored(false)).toBe(true);
       expect(store.has(IGNORE_ANALYTICS_KEY)).toBe(false);
       expect(analyticsBeforeSend(event)).not.toBeNull();
+    });
+
+    it('uses the cg-ignore-analytics key', () => {
+      expect(IGNORE_ANALYTICS_KEY).toBe('cg-ignore-analytics');
+    });
+
+    it('still honours the older /ignore-me key, and clearing removes it too', () => {
+      store.set(LEGACY_IGNORE_ANALYTICS_KEY, '1');
+      expect(isAnalyticsIgnored()).toBe(true);
+      expect(analyticsBeforeSend(event)).toBeNull();
+      expect(setAnalyticsIgnored(false)).toBe(true);
+      expect(store.has(LEGACY_IGNORE_ANALYTICS_KEY)).toBe(false);
+      expect(analyticsBeforeSend(event)).not.toBeNull();
+    });
+
+    it('keeps campaign tags on events from a browser that is counted', () => {
+      const tagged = { type: 'pageview' as const, url: 'https://www.cgstrategic.dev/demo-guide?utm_source=outreach&utm_medium=email&utm_campaign=mealprep&utm_content=followup1-guide&ref=abc#top' };
+      expect(analyticsBeforeSend(tagged)?.url).toBe('https://www.cgstrategic.dev/demo-guide?utm_source=outreach&utm_medium=email&utm_campaign=mealprep&utm_content=followup1-guide');
     });
 
     it('only honours exactly "1"', () => {
