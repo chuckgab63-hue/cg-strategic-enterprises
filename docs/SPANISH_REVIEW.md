@@ -279,7 +279,7 @@ on the Spanish site.
 - **page “Save & publish”: paragraph 1** (changed): Póngale precio, marque que revisó los ingredientes, alérgenos y nutrición, y haga clic en Guardar y publicar. Sus cambios se guardan y la comida pasa al menú en un solo paso.
 - **page “See it on your storefront”: paragraph 1** (changed): Haga clic en Ver la tienda: la comida nueva ya está en el menú, lista para pedir.
 
-## Demo guide PDF, Spanish (Nov 2, 2026 update: plans and features)
+## Demo guide PDF, Spanish (Nov 1, 2026 update: plans and features)
 
 New section "8. Planes y funciones" and one changed page. Every new or changed Spanish string (50):
 
