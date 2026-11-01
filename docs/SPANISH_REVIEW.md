@@ -82,6 +82,18 @@ on the Spanish site.
 
 ## Words and choices worth a second look
 
+- **Plans and feature controls (Nov 2, 2026).** Every new or changed Spanish string:
+  - `mealPrepOrdering.ts` `plans` (new section):
+    - title: "Empiece simple y agregue funciones a medida que crece"
+    - intro: "Tres planes. Cada uno incluye todo lo del anterior. Usted activa cada función en Configuración > Funciones cuando esté listo, y lo que no incluye su plan aparece como disponible en un plan superior. Desactivar una función nunca borra sus datos."
+    - "Todo lo de {plan}, más:"
+    - **Básico**, "Su negocio de comidas preparadas, en línea": "Planes semanales que sus clientes saltan, pausan, cambian o cancelan"; "Zonas de entrega y hojas de ruta"; "Puntos de recogida"; "Cupones"; "Etiquetas imprimibles con fechas límite de consumo y hojas de empaque, para que usted las revise"; "Plan de producción con listas de preparación y de compras"; "Reseñas de clientes"; "Cantidades mínimas y pedidos mínimos"; "Exportaciones CSV e informe del impuesto sobre ventas"; "Tienda en inglés y en español"; "App instalable"
+    - **Avanzado**, "Venda más y maneje una cocina con más movimiento": "Comidas para armar, con calorías y macros"; "Tamaños y extras"; "Paquetes"; "Tarjetas de regalo"; "Puntos de recompensa y referidos"; "Encuestas a clientes"; "Costos de ingredientes y proveedores"; "Inventario, que se descuenta al marcar la semana como cocinada"; "Análisis, incluidas la tasa de clientes que repiten y la tasa de abandono"
+    - **Pro**, "Herramientas con IA y más de una cocina": "Asistente de comidas con IA"; "Fotos de sus platos con IA, con su estilo y su aprobación"; "Trend Finder"; "Más de una cocina"
+    - "La demo en vivo funciona con el plan Pro, con todo activado."
+  - `demoGuide.ts` `inside`, changed: added "…además de los tres planes y cómo activar funciones en Configuración > Funciones."
+  - `demoGuide.ts` `try.owner.items`, new: "Activar o desactivar funciones en Configuración > Funciones, y ver qué incluye cada plan (Básico, Avanzado, Pro)"; "Pídanos que le mostremos la demo con cada plan durante una llamada: la misma tienda y la misma área de administración, solo con las funciones de ese plan"
+  - Words to check: plan names "Básico" / "Avanzado" / "Pro" (the same names the app uses), "Funciones" for *Features*, "un plan superior" for *a higher plan*.
 - **Feature wave 2 (Nov 1, 2026): new demo features and the bilingual demo.** Every new or changed Spanish string:
   - `mealPrepOrdering.ts` `included.items`, changed card: **"Etiquetas y hojas de empaque"**: "Etiquetas para cada comida y una hoja de empaque para cada pedido, generadas con los datos de sus propias comidas (nutrición, ingredientes, alérgenos, fechas límite de consumo), para que usted las revise antes de usarlas."
   - `included.items`, new cards:
