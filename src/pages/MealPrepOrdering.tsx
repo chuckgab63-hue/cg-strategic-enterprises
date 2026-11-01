@@ -3,9 +3,9 @@ import {
   CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
-import { useLocalePath, useT } from '../i18n/useLang';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import mealPrepOrdering, {
-  DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH, type IncludedIcon,
+  DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH, demoHref, type IncludedIcon,
 } from '../i18n/mealPrepOrdering';
 import { DEMO_GUIDE_PATH } from '../i18n/demoGuide';
 
@@ -29,15 +29,29 @@ const INCLUDED_ICONS: Record<IncludedIcon, string> = {
   photo: 'M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1zm8 9a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
   // A rising line.
   trend: 'M3 17l6-6 4 4 8-8M15 7h6v6',
+  // A bowl.
+  build: 'M3 11h18a9 9 0 0 1-18 0zM8 7c0-1.5 1-2 1-3M12 7c0-1.5 1-2 1-3M16 7c0-1.5 1-2 1-3',
+  // Stacked boxes.
+  bundles: 'M3 13h8v8H3zM13 13h8v8h-8zM8 3h8v8H8z',
+  // Two people.
+  referral: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M17 11a3 3 0 1 0 0-6M22 21v-1a5 5 0 0 0-4-4.9',
+  // Shelves.
+  inventory: 'M4 3v18M20 3v18M4 9h16M4 15h16M7 6h3M7 12h5M13 18h4',
+  // A bar chart.
+  reports: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+  // A speech bubble.
+  language: 'M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12zM8.5 12h.01M12 12h.01M15.5 12h.01',
 };
 
 export default function MealPrepOrdering() {
   const t = useT(mealPrepOrdering);
+  const lang = useLang();
   const lp = useLocalePath();
 
-  // The demo is a separate site, so it opens in a new tab and this page stays put.
+  // The demo is a separate site, so it opens in a new tab and this page stays put,
+  // in this page's language.
   const demoLink = (href: string, label: string, className: string) => (
-    <a href={href} target="_blank" rel="noopener" className={className}>
+    <a href={demoHref(href, lang)} target="_blank" rel="noopener" className={className}>
       {label}<span className="sr-only"> {t.live.newTab}</span>
     </a>
   );
