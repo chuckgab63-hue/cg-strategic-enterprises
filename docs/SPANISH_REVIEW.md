@@ -115,6 +115,158 @@ on the Spanish site.
 - **Meal-prep highlights (Oct 31, 2026, second update):** `mealPrepOrdering.ts` `included` (title "Qué incluye", intro, the "Probar la demo" button and nine cards), the moved assistant line in `admin.items`; `home.ts` `mealPrep` (the homepage teaser) and the meal-prep services card `body`; `demoGuide.ts` `screens` (title and four image descriptions); `meta.ts` home description.
 - **Demo feature copy (Oct 31, 2026 update)** in `mealPrepOrdering.ts` (`intro`, `live.body`, the new `customers` list, `admin.items`, `migrate.body`, `data.body`, FAQ `weekly-orders`, `move-customers`, `own-data`), `demoGuide.ts` (`inside`, the new `try` and `setup` sections) and `meta.ts` (both pages' descriptions): "planes semanales", "punto de recogida", "hojas de ruta", "monto para entrega gratis", "Nosotros lo configuramos", "Como dueño del negocio". ("My Plan" and "Established" were in English then; since Nov 1 the demo shows them in Spanish, see above.) The Spanish PDF's "Genere una foto" page has a new second paragraph (Trend Finder photos and the meal check); "Check this photo against the recipe" stays in English, like the other button names.
 
+## Demo guide PDF, Spanish (Nov 1, 2026 update)
+
+`public/guides/meal-prep-demo-guide-es.pdf` (source: `docs/demo-guide/tools/content.mjs` in the demo's repository). Its screenshots are now taken from the demo in Spanish; meal names and sample data stay as entered, in English. Every new or changed Spanish string, in guide order (147):
+
+- **section title** (changed): 5. Planes, entregas, etiquetas, hojas de empaque y sucursales
+- **section title** (changed): 6. Referidos, encuestas e informes
+- **section title** (changed): 7. Trend Finder, paso a paso
+- **section title** (changed): 8. Traiga a sus clientes con usted
+- **section title** (changed): 9. Próximos pasos
+- **page “A working sample business you can click through”: paragraph 3** (new): Toda la demo está en inglés y en español: cambie con EN | ES en la parte superior de cualquier página. Su elección se mantiene, y un enlace que termina en ?lang=es abre la demo en español, así que puede mostrarla en español a sus clientes o a su equipo.
+- **page “A working sample business you can click through”: callout 3** (new): Inglés o español
+- **page “The owner side: your admin”: paragraph 1** (changed): Entre al panel desde el enlace al pie de cualquier página de la tienda (Área de administración) y haga clic en Iniciar sesión. La demo completa los datos de acceso de muestra por usted.
+- **page “The owner side: your admin”: paragraph 2** (changed): Todas las páginas del panel están en el menú de la izquierda. Ver la tienda lo regresa a la tienda. El panel tiene su propio selector EN | ES arriba.
+- **page “The owner side: your admin”: callout 3** (new): Inglés o español
+- **page “Start over any time with Reset demo”: title** (changed): Empiece de nuevo cuando quiera con Reiniciar demo
+- **page “Start over any time with Reset demo”: paragraph 1** (changed): La demo recuerda lo que cambie en este navegador, aunque lo cierre. Para volver al negocio de muestra original, haga clic en Reiniciar demo al final del menú del panel y confirme.
+- **page “Add your name, logo and colors”: paragraph 1** (changed): El panel Pruébelo con su marca se abre la primera vez que visita la demo (o haga clic en él abajo a la izquierda). Escriba el nombre de su negocio, suba su logo y elija sus colores. Los cambios se ven al instante.
+- **page “Add your name, logo and colors”: paragraph 2** (changed): Su logo nunca sale de su navegador. Copiar enlace para compartir le da un enlace que abre la demo con su nombre y sus colores.
+- **page “See the whole site with your brand”: paragraph 1** (changed): Cierre el panel y recorra el sitio: el encabezado, los botones y las páginas usan su nombre y sus colores. Haga clic en Restablecer en el panel para volver a Northside Kitchen.
+- **page “Build your own meal”: title** (new): Arme su propia comida
+- **page “Build your own meal”: paragraph 1** (new): Abra Build Your Own Bowl en el menú y elija una proteína (en porción regular o doble), un carbohidrato, una o dos verduras, una salsa y toppings. Mientras el cliente elige, se suman el precio, las calorías, la proteína, los carbohidratos y la grasa, junto con los alérgenos de lo que eligió.
+- **page “Build your own meal”: paragraph 2** (new): Si excluyó un alérgeno en los filtros del menú, aquí también se ocultan las opciones que lo contienen. La cocina recibe cada combinación en su plan de producción, sus etiquetas y sus hojas de empaque.
+- **page “Build your own meal”: callout 1** (new): El precio, según lo que elige
+- **page “Build your own meal”: callout 2** (new): Elija cada parte y su tamaño
+- **page “Build your own meal”: callout 3** (new): Se suman los macros y los alérgenos
+- **page “Sizes and add-ons”: title** (new): Tamaños y extras
+- **page “Sizes and add-ons”: paragraph 1** (new): Abra una comida que se ofrezca en tamaños, como el Burger Bowl. Elija un tamaño y marque hasta dos extras: el precio y la nutrición cambian antes de agregarla al carrito. Un extra que agrega un alérgeno que la comida no tiene lo indica aquí, y también en el carrito, al pagar y en la etiqueta.
+- **page “Sizes and add-ons”: paragraph 2** (new): Los planes semanales llevan el tamaño estándar de cada comida, sin extras; los tamaños y los extras son para pedidos individuales.
+- **page “Sizes and add-ons”: callout 1** (new): Elija un tamaño
+- **page “Sizes and add-ons”: callout 2** (new): Un extra, con el alérgeno que agrega
+- **page “Sizes and add-ons”: callout 3** (new): La comida elegida: macros y alérgenos
+- **page “Packs with a set list of meals”: title** (new): Paquetes con una lista fija de comidas
+- **page “Packs with a set list of meals”: paragraph 1** (new): Un paquete se vende a su propio precio con una lista fija de comidas, como el Keto Variety – 10 Meal Pack: cinco Garlic Butter Chicken y cinco Burger Bowl. Su página muestra qué incluye, los alérgenos de todas sus comidas y la nutrición por comida, promediada en el paquete.
+- **page “Packs with a set list of meals”: paragraph 2** (new): La cocina ve las comidas que contiene en el plan de producción, las etiquetas y las hojas de empaque. Usted define el contenido en el editor de la comida, en Qué incluye este paquete.
+- **page “Packs with a set list of meals”: callout 1** (new): El precio del paquete
+- **page “Packs with a set list of meals”: callout 2** (new): Qué incluye
+- **page “Packs with a set list of meals”: callout 3** (new): Alérgenos de todas sus comidas
+- **page “Order minimums”: title** (new): Pedidos mínimos
+- **page “Order minimums”: paragraph 1** (new): Dos mínimos, ambos opcionales. Una comida puede venderse de varias en varias: la Overnight Oats (mínimo 2) entra al carrito de dos en dos. Y la tienda puede tener un pedido mínimo ($20 en la demo); una zona de entrega puede tener uno mayor, y se aplica el mayor. El carrito indica lo que falta y no deja finalizar el pedido hasta cumplirlo.
+- **page “Order minimums”: paragraph 2** (new): Usted los define en el editor de la comida (Mínimo por pedido) y en la página de entregas (Mínimos de pedido). No afectan a los planes semanales.
+- **page “Order minimums”: callout 1** (new): Se agrega con su mínimo de 2
+- **page “Order minimums”: callout 2** (new): El mínimo de la tienda y cuál se aplica
+- **page “Order minimums”: callout 3** (new): Lo que falta
+- **page “The “Help me choose” assistant”: title** (changed): El asistente “Ayúdeme a elegir”
+- **page “The gift card code (demo)”: paragraph 1** (changed): La demo no envía correos, así que el código aparece en pantalla. Pruébelo al pagar, en la casilla Tarjeta de regalo.
+- **page “Refer a friend”: title** (new): Recomiende a un amigo
+- **page “Refer a friend”: paragraph 1** (new): En la página de su cuenta, cada cliente tiene un código y un enlace para compartir. Un amigo que se registra con él y paga su primer pedido gana una recompensa para los dos: un cupón, crédito en la tienda o puntos, como usted decida. Si ese pedido se reembolsa por completo, se retiran ambas recompensas.
+- **page “Refer a friend”: paragraph 2** (new): Sus clientes ven a los amigos que recomendaron y sus recompensas, listas para usar al pagar. En la demo los referidos son historial de muestra: no se cobra nada, así que ningún referido nuevo recibe recompensa en vivo.
+- **page “Refer a friend”: callout 1** (new): Comparta el enlace
+- **page “Refer a friend”: callout 2** (new): Amigos recomendados y su estado
+- **page “Refer a friend”: callout 3** (new): Recompensas listas para usar
+- **page “A short survey after delivery”: title** (new): Una encuesta corta después de la entrega
+- **page “A short survey after delivery”: paragraph 1** (new): Cuando un pedido se entrega o se recoge, su cliente puede responder cuatro preguntas rápidas: en general, la comida, la entrega o recogida, y si lo recomendaría, con un comentario opcional. Una respuesta por pedido, y solo usted la ve.
+- **page “A short survey after delivery”: paragraph 2** (new): En la demo, ábrala desde la cuenta de Maya: Historial de pedidos, “¿Qué tal este pedido?”. El enlace solo funciona para el cliente que hizo el pedido. El envío por correo después de la entrega se configura con su propio sistema; sus clientes también la encuentran en su historial de pedidos.
+- **page “A short survey after delivery”: callout 1** (new): Calificación con estrellas
+- **page “A short survey after delivery”: callout 2** (new): ¿Nos recomendaría?
+- **page “A short survey after delivery”: callout 3** (new): Enviar
+- **page “Overview”: paragraph 1** (changed): Su tablero: comidas en el menú, planes activos, cupones y puntos de recogida, con accesos directos a cada uno, y los ingredientes que se están acabando.
+- **page “Edit a meal and its photo”: paragraph 1** (changed): Cambie el nombre, el precio, la nutrición, las categorías y en qué páginas del menú aparece. En su propio sistema, Generar imagen con IA crea una foto del plato con el estilo de su menú, la revisa contra los ingredientes del plato y espera su aprobación; en la demo pública está desactivado para los visitantes, y se lo mostramos en vivo durante una llamada.
+- **page “Sizes and add-ons on a meal”: title** (new): Tamaños y extras de una comida
+- **page “Sizes and add-ons on a meal”: paragraph 1** (new): En el editor de una comida, en Tamaños y extras: marque Ofrecer tamaños y dé a cada tamaño su etiqueta y lo que suma al precio (su multiplicador ajusta la receta y la nutrición). Marque Ofrecer extras para elegir los extras que ofrece esta comida y cuántos puede agregar el cliente. Aplicar tamaños y extras los guarda, y cada cambio queda en el Registro de auditoría.
+- **page “Sizes and add-ons on a meal”: callout 1** (new): Ofrecer tamaños
+- **page “Sizes and add-ons on a meal”: callout 2** (new): Agregar un tamaño
+- **page “Sizes and add-ons on a meal”: callout 3** (new): Ofrecer extras
+- **page “Build your own: choices and rules”: title** (new): A su gusto: opciones y reglas
+- **page “Build your own: choices and rules”: paragraph 1** (new): En A su gusto, defina cuántas opciones de cada tipo elige el cliente (mínimo y máximo) y guarde. Más abajo, agregue los ingredientes para elegir: cada uno con sus tamaños, lo que suma al precio y su receta. Las calorías, los macros y los alérgenos salen de la receta y de su lista de ingredientes; revíselos ahí antes de ofrecer una opción.
+- **page “Build your own: choices and rules”: paragraph 2** (new): Nueva comida a su gusto agrega otra, oculta hasta que la ponga disponible en la página de comidas. Los Extras de esta página son los que ofrece en otras comidas.
+- **page “Build your own: choices and rules”: callout 1** (new): Cuántas de cada tipo
+- **page “Build your own: choices and rules”: callout 2** (new): Guardar las reglas
+- **page “Build your own: choices and rules”: callout 3** (new): Una comida a su gusto nueva
+- **page “Build your own: choices and rules”: callout 4** (new): Agregar un ingrediente para elegir
+- **page “Ingredients”: paragraph 1** (changed): Todo lo que compra, cómo lo compra (por libra, por caja), cuánto cuesta y cuánto tiene en existencia. Las recetas y los costos se calculan con esta lista.
+- **page “Inventory: stock on hand”: title** (new): Inventario: existencias
+- **page “Inventory: stock on hand”: paragraph 1** (new): La página de ingredientes muestra cuánto tiene de cada uno, en la unidad en que lo compra. Lo que está en su nivel de alerta o por debajo (se define al editar el ingrediente) aparece arriba y marcado como Baja. Las existencias bajan cuando una semana se marca como cocinada, nunca cuando se hacen pedidos.
+- **page “Inventory: stock on hand”: paragraph 2** (new): El ícono de caja ajusta las existencias; el del reloj muestra cada movimiento. Con más de una cocina, cada una lleva sus propias existencias.
+- **page “Inventory: stock on hand”: callout 1** (new): Alertas de existencias bajas
+- **page “Inventory: stock on hand”: callout 2** (new): En existencia
+- **page “Inventory: stock on hand”: callout 3** (new): Ajustar existencias (el reloj de al lado: su historial)
+- **page “Adjust stock, with a reason”: title** (new): Ajuste las existencias, con un motivo
+- **page “Adjust stock, with a reason”: paragraph 1** (new): Elija el motivo (entrega recibida, corrección de conteo, merma o descomposición, u otro, que requiere una nota), ingrese la cantidad y guarde. Cada ajuste queda en el historial de existencias, con quién lo hizo, y en el Registro de auditoría.
+- **page “Adjust stock, with a reason”: callout 1** (new): Motivo
+- **page “Adjust stock, with a reason”: callout 2** (new): Cantidad
+- **page “Adjust stock, with a reason”: callout 3** (new): Nota
+- **page “Adjust stock, with a reason”: callout 4** (new): Guardar ajuste
+- **page “Shopping lists by supplier”: paragraph 1** (changed): Más abajo: todo lo que hay que comprar, redondeado a como lo compra, con una lista por proveedor y su costo estimado. Con las existencias registradas, cada fila muestra lo que necesita la semana, lo que hay en existencia y lo que hay que comprar. Imprímala o descárguela como hoja de cálculo.
+- **page “Mark a week cooked”: title** (new): Marque una semana como cocinada
+- **page “Mark a week cooked”: paragraph 1** (new): Cuando la cocina termine una semana, haga clic en Marcar esta semana como cocinada en el plan de producción: las cantidades exactas de la lista de compras de esa semana se descuentan de las existencias, una sola vez. Deshacer cocinado las devuelve. Una semana que aún recibe pedidos todavía no se puede marcar.
+- **page “Mark a week cooked”: paragraph 2** (new): Un pedido cancelado antes simplemente sale del plan. Después, no se devuelven existencias, porque la comida ya se preparó; registre como merma lo que se deseche.
+- **page “Mark a week cooked”: callout 1** (new): Marcar esta semana como cocinada
+- **page “Mark a week cooked”: callout 2** (new): Existencias y su historial
+- **page “Variations: sizes, add-ons and choices ordered”: title** (new): Variaciones: tamaños, extras y opciones pedidas
+- **page “Variations: sizes, add-ons and choices ordered”: paragraph 1** (new): Elija una semana de entrega: cuántos se pidieron de cada tamaño, de cada extra (y a qué comidas se agregó) y de cada ingrediente a su gusto, con los mismos pedidos y la previsión de planes semanales del plan de producción. Variaciones CSV descarga las tres tablas.
+- **page “Variations: sizes, add-ons and choices ordered”: callout 1** (new): Elija la semana
+- **page “Variations: sizes, add-ons and choices ordered”: callout 2** (new): Tamaños
+- **page “Variations: sizes, add-ons and choices ordered”: callout 3** (new): Extras
+- **page “Variations: sizes, add-ons and choices ordered”: callout 4** (new): Descargar en CSV
+- **page “Plans”: paragraph 1** (changed): Los planes semanales que pueden elegir sus clientes: comidas por semana y precio por comida. Quién tiene cada plan está en Suscripciones (sección 5).
+- **page “Conversations”: paragraph 1** (changed): Lo que sus clientes le preguntan al asistente “Ayúdeme a elegir” y lo que no pudo responder: una forma rápida de ver qué agregar a su menú.
+- **page “Audit Log”: title** (changed): Registro de auditoría
+- **page “Audit Log”: callout 1** (changed): Registro de auditoría
+- **page “Food photo styling: check and approve”: paragraph 1** (changed): Cada opción reescribe su línea de la guía de estilo, y usted puede editar el texto. Al guardar se conservan las versiones anteriores y el cambio queda en el Registro de auditoría.
+- **page “Subscriptions: everyone on a weekly plan”: title** (changed): Suscripciones: todos sus clientes con plan semanal
+- **page “Change a plan for a customer”: paragraph 1** (changed): Abra un cliente para ver exactamente lo que él ve y hacer cambios por él: saltar una semana, elegir comidas, pausar, cambiar las comidas por semana o cancelar. Cada cambio que usted hace queda en el Registro de auditoría, y el plan guarda su propio historial.
+- **page “A sample label sheet”: paragraph 1** (changed): Cada etiqueta lleva su nombre y logo, la comida y la porción, un cuadro de nutrición, los ingredientes, una línea Contiene con los principales alérgenos (y líneas Posible para salsas compradas), las fechas de empaque y de consumo, y cómo conservarla y recalentarla.
+- **page “Packing slips”: title** (new): Hojas de empaque
+- **page “Packing slips”: paragraph 1** (new): Una hoja por pedido, para quien arma la bolsa y para el repartidor: el cliente y su teléfono, la dirección de entrega o el punto de recogida, el día, la ruta y el número de parada (en el mismo orden que en Rutas), las notas de entrega y cada comida con su tamaño, sus opciones y sus extras.
+- **page “Packing slips”: paragraph 2** (new): Elija la semana, filtre por día, entrega o recogida, o ruta, e imprima dos hojas o una por página. Ábralas desde el plan de producción, o desde los detalles de un pedido en Pedidos para ese pedido solo. Imprimir no cambia nada en sus pedidos.
+- **page “Packing slips”: callout 1** (new): Elija la semana y filtre
+- **page “Packing slips”: callout 3** (new): La parada de la ruta
+- **page “Packing slips”: callout 4** (new): Notas de entrega
+- **page “Gift Cards”: paragraph 1** (changed): Cada tarjeta de regalo: para quién es, su saldo y su historial (emisión, cada pedido que pagó, ajustes). Emita una tarjeta a mano (una cortesía, un premio), cambie un saldo o desactive una tarjeta perdida, siempre con una nota y todo en el Registro de auditoría.
+- **page “More than one kitchen: Locations”: title** (changed): Más de una cocina: Sucursales
+- **page “More than one kitchen: Locations”: paragraph 2** (changed): Con una sola cocina no verá nada de esto. Esta página es del negocio de muestra “Establecido” de la demo (elíjalo en el panel de marca), que tiene dos.
+- **page “Referrals”: title** (new): Referidos
+- **page “Referrals”: paragraph 1** (new): Cada referido: quién recomendó a quién, en qué estado está (esperando un primer pedido, recompensado, revertido tras un reembolso o bloqueado) y cada recompensa con su código. Un referido se bloquea cuando un cliente intenta usar su propio código, o el amigo usa el correo, la tarjeta o la dirección de entrega de quien lo recomendó; se muestra el motivo.
+- **page “Referrals”: paragraph 2** (new): Su sistema nunca guarda los datos de las tarjetas: para revisar si es la misma tarjeta guarda solo la huella de la tarjeta que genera Stripe. En la demo esto es historial de muestra.
+- **page “Referrals”: callout 1** (new): Totales
+- **page “Referrals”: callout 2** (new): Filtrar por estado
+- **page “Referrals”: callout 3** (new): Revertido tras un reembolso: se retiran sus recompensas
+- **page “Referral settings”: title** (new): Configuración de referidos
+- **page “Referral settings”: paragraph 1** (new): Active o desactive el programa y elija qué recibe quien recomienda y qué recibe el amigo (un cupón de un solo uso, de % o de $; crédito en la tienda; o puntos), cuánto duran los cupones de recompensa y los límites por persona al mes y en total. Ambas recompensas se emiten cuando se paga el primer pedido del amigo, y cada cambio guardado queda en el Registro de auditoría.
+- **page “Referral settings”: callout 1** (new): Programa activo o no
+- **page “Referral settings”: callout 2** (new): La recompensa de quien recomienda
+- **page “Referral settings”: callout 3** (new): La recompensa del amigo
+- **page “Customer surveys”: title** (new): Encuestas a clientes
+- **page “Customer surveys”: paragraph 1** (new): Las respuestas en las fechas que elija: cuántas y la tasa de respuesta, las calificaciones promedio en general, de la comida y de la entrega o recogida, el porcentaje que lo recomendaría, lo mismo por semana, y cada comentario con su pedido y su cliente. CSV descarga una fila por respuesta. Son aparte de las reseñas de comidas, y solo usted las ve.
+- **page “Customer surveys”: callout 1** (new): Respuestas y tasa de respuesta
+- **page “Customer surveys”: callout 2** (new): Por semana
+- **page “Customer surveys”: callout 3** (new): Comentarios
+- **page “Customer surveys”: callout 4** (new): Descargar en CSV
+- **page “Exports”: title** (new): Exportar
+- **page “Exports”: paragraph 1** (new): Sus datos en archivos CSV para Excel, Google Sheets o su contador: pedidos (una fila por cada comida del pedido), clientes, planes semanales, inventario en existencia y movimientos de inventario. Elija las fechas para los pedidos y los movimientos, y haga clic en Descargar CSV. Exportar no cambia nada, y el archivo de clientes no incluye contraseñas ni datos de pago.
+- **page “Exports”: callout 1** (new): Las fechas
+- **page “Exports”: callout 3** (new): Inventario en existencia
+- **page “Sales tax report”: title** (new): Informe de impuesto sobre ventas
+- **page “Sales tax report”: paragraph 1** (new): Un registro del impuesto que Stripe registró en sus pedidos pagados y entregados, por día, semana o mes, con totales y un CSV. La aplicación no calcula impuestos: con Stripe Tax activado en su cuenta de Stripe, el impuesto de cada pedido se guarda tal como Stripe lo cobró. Es un registro de sus pedidos, no asesoría fiscal.
+- **page “Sales tax report”: paragraph 2** (new): En la demo, los montos de impuesto son datos de muestra inventados.
+- **page “Sales tax report”: callout 1** (new): Datos de muestra en la demo
+- **page “Sales tax report”: callout 2** (new): Por día, semana o mes
+- **page “Sales tax report”: callout 3** (new): El impuesto, como lo registró Stripe
+- **page “Sales tax report”: callout 4** (new): Descargar en CSV
+- **page “Find trending meals”: paragraph 1** (changed): En la página de comidas, haga clic en Buscar comidas en tendencia. Elija cuántas ideas, un enfoque (alto en proteína, vegano, comida reconfortante…) y una temporada, y busque.
+- **page “Ingredients, nutrition and costs”: paragraph 1** (changed): Ver detalles muestra cada ingrediente con su nutrición y su costo. Los costos vienen de su lista de ingredientes; para ingredientes nuevos, su propio sistema estima el costo con los precios en línea de sus proveedores y promedios públicos de EE. UU., y marca cada uno para que usted lo confirme.
+- **page “Accept it: a hidden draft”: paragraph 1** (changed): Aceptar convierte la idea en una comida en borrador con su receta, preparación, nutrición y precio. Los borradores quedan ocultos para sus clientes hasta que usted los publique.
+- **page “Open the draft”: paragraph 1** (changed): Sus borradores están en Borradores, en la página de comidas. Haga clic en el lápiz para revisar uno.
+- **page “Add new ingredients and pick suppliers”: paragraph 1** (changed): Los ingredientes que aún no tiene aparecen con Agregar a Ingredientes. Con un clic se agregan a su lista y a la receta; después elija su proveedor y costo en la página de ingredientes.
+- **page “Generate a photo”: paragraph 1** (changed): En su propio sistema, Generar imagen con IA crea una foto del plato con el estilo de su menú, revisada contra los ingredientes y alérgenos del plato antes de que usted pueda aprobarla. En la demo pública está desactivado para los visitantes, como indica el mensaje; se lo mostramos en vivo durante una llamada.
+- **page “Generate a photo”: paragraph 2** (changed): Un borrador de Trend Finder empieza sin foto, aunque Trend Finder haya creado una para la idea: esa foto solo se revisó por su estilo. Se ofrece como opción: Verificar esta foto con la receta le aplica la misma revisión, y una foto que la pasa sigue esperando su aprobación.
+- **page “Generate a photo”: callout 1** (changed): Generar imagen con IA
+- **page “Save & publish”: paragraph 1** (changed): Póngale precio, marque que revisó los ingredientes, alérgenos y nutrición, y haga clic en Guardar y publicar. Sus cambios se guardan y la comida pasa al menú en un solo paso.
+- **page “See it on your storefront”: paragraph 1** (changed): Haga clic en Ver la tienda: la comida nueva ya está en el menú, lista para pedir.
+
 ## Intentionally left in English on Spanish pages
 
 - Brand, product, people and technology names (see the top of this file), and the "EN" link in the language toggle.
