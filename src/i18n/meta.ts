@@ -209,11 +209,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Meal-Prep Ordering Demo: Walkthrough Guide | ${NAME}`,
-        description: 'A free PDF tour of the live meal-prep ordering demo: weekly plans, delivery and pickup, labels, gift cards, photo styling and Trend Finder.',
+        description: 'A free PDF tour of the live meal-prep ordering demo: weekly plans, delivery and pickup, labels, gift cards, AI chat assistant, photo styling and Trend Finder.',
       },
       es: {
         title: `Demo de pedidos para meal prep: guía paso a paso | ${NAME}`,
-        description: 'Una guía PDF gratuita de la demo en vivo de pedidos para comidas preparadas: planes semanales, entregas y recogida, etiquetas, tarjetas de regalo y Trend Finder.',
+        description: 'Guía PDF gratuita de la demo en vivo de pedidos para comidas preparadas: planes semanales, entregas, etiquetas, tarjetas de regalo, asistente de IA y Trend Finder.',
       },
     },
     lastmod: '2026-11-01',

@@ -23,15 +23,16 @@ const en = {
   previewTitle: 'Preview of the demo walkthrough guide (PDF)',
   previewFallback: "Your browser can't show the guide here.",
   inside:
-    "What's inside: every storefront page your customers use and every tab of the admin area your staff works in, from the weekly menu to checkout, weekly plans, build-your-own meals, referrals, delivery and pickup, labels and packing slips, inventory, surveys, exports, gift cards, food photo styling and Trend Finder, in English and Spanish, plus the three plans and how to turn features on in Settings > Features.",
+    "What's inside: every storefront page your customers use and every tab of the admin area your staff works in, from the weekly menu to checkout, weekly plans, build-your-own meals, referrals, delivery and pickup, labels and packing slips, inventory, surveys, exports, gift cards, the customer AI chat assistant and its Conversations page, food photo styling and Trend Finder, in English and Spanish, plus the three plans and how to turn features on in Settings > Features.",
   // Only what works in the live demo today (checked on demo.cgstrategic.dev).
   try: {
     title: 'What you can try in the demo',
-    brand: 'Start with "Try it with your brand" to see the whole site with your name, logo and colors. The EN | ES switch at the top shows it all in Spanish.',
+    brand: 'Start with "Try it with your brand" to see the whole site with your name, logo and colors. The demo opens in English; the EN | ES switch at the top shows it all in Spanish.',
     customer: {
       title: 'As a customer',
       items: [
         'Browse the weekly menu and filter it by allergens, category and calories',
+        'Ask the AI assistant about the menu in your own words, get meals with your prices, and pass a question to the kitchen (it answers from the sample menu, points allergy questions to the kitchen, and each visitor gets a few questions a day)',
         'Build your own bowl and watch its calories and macros change as you pick, or choose a size and add-ons on a meal',
         'Order a bundle of meals, and see the minimum order and per-meal minimums at the cart',
         'Start a weekly plan, then skip a week, pause, change your meals per week or cancel, all from My Plan',
@@ -56,7 +57,8 @@ const en = {
         'Choose the food photo styling your AI meal photos follow: lighting, camera angle, plate, background, color and garnish',
         "Ask us to show AI photos live on a walkthrough call: a style guide written from your menu's photos, then a photo of a dish with garnish only from its recipe, checked against its ingredients and allergens, waiting for your approval (each is a paid call, so they're off for visitors)",
         'Use Trend Finder to turn a trending dish into a hidden draft meal, with its recipe, nutrition and price, for you to review and publish',
-        'Turn features on or off in Settings > Features, and see what each plan (Basic, Advanced, Pro) includes',
+        "Read the Conversations page: what customers asked the assistant, what it couldn't answer, and the questions passed to the kitchen",
+        'Turn features on or off in Settings > Features, see what each plan (Basic, Advanced, Pro) includes, and see who would be emailed when you pause weekly-plan billing',
         "Ask us to show the demo as each plan on a call: the same store and admin area with only that plan's features",
       ],
     },
@@ -93,15 +95,16 @@ const es: typeof en = {
   previewTitle: 'Vista previa de la guía de la demo (PDF)',
   previewFallback: 'Su navegador no puede mostrar la guía aquí.',
   inside:
-    'Qué incluye: cada página de la tienda que usan sus clientes y cada sección del área de administración donde trabaja su personal, desde el menú semanal hasta el pago, los planes semanales, las comidas para armar, los referidos, las entregas y la recogida, las etiquetas y hojas de empaque, el inventario, las encuestas, las exportaciones, las tarjetas de regalo, el estilo de las fotos de sus platos y Trend Finder, en inglés y en español, además de los tres planes y cómo activar funciones en Configuración > Funciones.',
+    'Qué incluye: cada página de la tienda que usan sus clientes y cada sección del área de administración donde trabaja su personal, desde el menú semanal hasta el pago, los planes semanales, las comidas para armar, los referidos, las entregas y la recogida, las etiquetas y hojas de empaque, el inventario, las encuestas, las exportaciones, las tarjetas de regalo, el asistente de IA para clientes con su página de Conversaciones, el estilo de las fotos de sus platos y Trend Finder, en inglés y en español, además de los tres planes y cómo activar funciones en Configuración > Funciones.',
   try: {
     title: 'Lo que puede probar en la demo',
     // The demo opens in Spanish from this page (demoHref), so its names are the Spanish ones.
-    brand: 'Empiece con "Pruébelo con su marca" para ver todo el sitio con su nombre, logotipo y colores. El selector EN | ES de arriba cambia el idioma de la demo.',
+    brand: 'Empiece con "Pruébelo con su marca" para ver todo el sitio con su nombre, logotipo y colores. La demo abre en inglés; el selector EN | ES de arriba la muestra toda en español.',
     customer: {
       title: 'Como cliente',
       items: [
         'Explorar el menú semanal y filtrarlo por alérgenos, categoría y calorías',
+        'Preguntar al asistente de IA sobre el menú con sus propias palabras, recibir comidas con sus precios y pasar una pregunta a la cocina (responde con el menú de muestra, dirige las preguntas sobre alergias a la cocina, y cada visitante puede hacer unas pocas preguntas al día)',
         'Armar su propio bowl y ver cómo cambian sus calorías y macros mientras elige, o elegir el tamaño y los extras de una comida',
         'Pedir un paquete de comidas, y ver el pedido mínimo y los mínimos por comida en el carrito',
         'Empezar un plan semanal y luego saltar una semana, pausarlo, cambiar la cantidad de comidas por semana o cancelarlo, todo desde Mi plan',
@@ -126,7 +129,8 @@ const es: typeof en = {
         'Elegir el estilo que siguen las fotos de sus comidas hechas con IA: iluminación, ángulo de cámara, plato, fondo, color y guarnición',
         'Pídanos que le mostremos las fotos con IA en vivo durante una llamada: una guía de estilo escrita a partir de las fotos de su menú y luego la foto de un plato, con guarnición solo de su receta, revisada contra sus ingredientes y alérgenos, que espera su aprobación (cada una tiene un costo, así que están desactivadas para los visitantes)',
         'Usar Trend Finder para convertir un platillo en tendencia en un borrador de comida oculto, con su receta, nutrición y precio, para que usted lo revise y lo publique',
-        'Activar o desactivar funciones en Configuración > Funciones, y ver qué incluye cada plan (Básico, Avanzado, Pro)',
+        'Leer la página de Conversaciones: lo que los clientes le preguntaron al asistente, lo que no pudo responder y las preguntas enviadas a la cocina',
+        'Activar o desactivar funciones en Configuración > Funciones, ver qué incluye cada plan (Básico, Avanzado, Pro) y ver a quién se le enviaría un correo si pausa los cobros de los planes semanales',
         'Pídanos que le mostremos la demo con cada plan durante una llamada: la misma tienda y la misma área de administración, solo con las funciones de ese plan',
       ],
     },
