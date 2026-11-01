@@ -279,6 +279,61 @@ on the Spanish site.
 - **page “Save & publish”: paragraph 1** (changed): Póngale precio, marque que revisó los ingredientes, alérgenos y nutrición, y haga clic en Guardar y publicar. Sus cambios se guardan y la comida pasa al menú en un solo paso.
 - **page “See it on your storefront”: paragraph 1** (changed): Haga clic en Ver la tienda: la comida nueva ya está en el menú, lista para pedir.
 
+## Demo guide PDF, Spanish (Nov 2, 2026 update: plans and features)
+
+New section "8. Planes y funciones" and one changed page. Every new or changed Spanish string (50):
+
+- **section title** (new): 8. Planes y funciones
+- **section title** (changed): 9. Traiga a sus clientes con usted
+- **section title** (changed): 10. Próximos pasos
+- **page “Settings: kitchen rules”: paragraph 1** (changed): Configuración tiene tres pestañas: General (estas reglas de cocina, sus proveedores y la guía de estilo de las fotos), Funciones (sección 8) y Seguridad (verificación en dos pasos para su cuenta).
+- **page “Three plans: Basic, Advanced and Pro”: title** (new): Tres planes: Básico, Avanzado y Pro
+- **page “Three plans: Basic, Advanced and Pro”: paragraph 1** (new): El sistema tiene tres planes, y cada uno incluye todo lo del anterior. Básico: pedidos en línea con planes semanales, zonas y rutas de entrega, puntos de recogida, cupones, etiquetas, hojas de empaque, plan de producción, reseñas, mínimos de pedido, exportaciones e informes, español y la app instalable.
+- **page “Three plans: Basic, Advanced and Pro”: paragraph 2** (new): Avanzado agrega comidas a su gusto, tamaños y extras, paquetes, tarjetas de regalo, puntos de recompensa, referidos, encuestas, costos y proveedores, inventario y análisis. Pro agrega las herramientas con IA (el asistente de comidas, las fotos de comidas con IA y Trend Finder) y más de una cocina.
+- **page “Three plans: Basic, Advanced and Pro”: paragraph 3** (new): En su propio sitio, CG Strategic define su plan, y usted elige qué funciones de ese plan están activadas en Configuración > Funciones. Active las funciones cuando esté listo para usarlas. Desactivar una nunca borra sus datos.
+- **page “Three plans: Basic, Advanced and Pro”: callout 1** (new): Configuración > Funciones
+- **page “Three plans: Basic, Advanced and Pro”: callout 2** (new): Cada plan y lo que incluye
+- **page “Three plans: Basic, Advanced and Pro”: callout 3** (new): Un interruptor para cada función
+- **page “Turn a feature on or off”: title** (new): Active o desactive una función
+- **page “Turn a feature on or off”: paragraph 1** (new): En la administración, abra Configuración y haga clic en la pestaña Funciones. Cada función aparece bajo su plan, con una descripción breve y un interruptor.
+- **page “Turn a feature on or off”: paragraph 2** (new): Al activar una función, el cambio es inmediato. Al desactivarla, primero se muestra lo que afecta: los datos en uso que contiene y las funciones que dependen de ella, que también se desactivan. Aquí, al desactivar Zonas de entrega también se desactiva Rutas de entrega. Haga clic en Desactivar para confirmar, o en Cancelar.
+- **page “Turn a feature on or off”: paragraph 3** (new): Una función desactivada se oculta en su tienda y en su administración; no se borra nada. Actívela de nuevo y todo estará como lo dejó. Cada cambio queda en el Registro de auditoría.
+- **page “Turn a feature on or off”: callout 1** (new): Funciones que se desactivan con ella
+- **page “Turn a feature on or off”: callout 2** (new): Los datos en uso que contiene
+- **page “Turn a feature on or off”: callout 3** (new): Confirmar
+- **page “Features that need another one”: title** (new): Funciones que necesitan otra
+- **page “Features that need another one”: paragraph 1** (new): Algunas funciones necesitan otra activada primero: Rutas de entrega necesita Zonas de entrega, Tamaños y extras necesita A su gusto, e Inventario necesita Plan de producción.
+- **page “Features that need another one”: paragraph 2** (new): Mientras la función que necesita esté desactivada, su interruptor no se puede activar y le indica qué activar primero. Active de nuevo Zonas de entrega y luego Rutas de entrega.
+- **page “Features that need another one”: callout 1** (new): Zonas de entrega, desactivada
+- **page “Features that need another one”: callout 2** (new): Rutas de entrega aún no se puede activar
+- **page “Features that need another one”: callout 3** (new): Qué activar primero
+- **page “Choose what happens to live data”: title** (new): Elija qué pasa con los datos en uso
+- **page “Choose what happens to live data”: paragraph 1** (new): Algunas funciones contienen cosas que sus clientes están usando. Antes de desactivar una de ellas, usted elige qué pasa, y Desactivar espera hasta que lo haga.
+- **page “Choose what happens to live data”: paragraph 2** (new): Planes semanales: solo detener nuevas suscripciones (los planes en curso continúan y se cobran como siempre), o pausar todos los cobros, con aviso a los clientes. Sus planes quedan en pausa por el negocio, se muestra un aviso en su cuenta y usted recibe un CSV de los clientes afectados. Al activar de nuevo los planes semanales, se reanudan exactamente esos planes.
+- **page “Choose what happens to live data”: paragraph 3** (new): Puntos de recompensa y referidos: respetar (las recompensas pendientes por referidos se siguen dando al ganarse; no se ganan puntos nuevos) o retener (los saldos se conservan y las recompensas pendientes esperan hasta que se active de nuevo). Las tarjetas de regalo dejan de venderse, y las ya vendidas se pueden seguir usando.
+- **page “Choose what happens to live data”: callout 1** (new): Lo que está en uso ahora
+- **page “Choose what happens to live data”: callout 2** (new): Su elección
+- **page “Choose what happens to live data”: callout 3** (new): Pausar todos los cobros, con aviso
+- **page “Choose what happens to live data”: callout 4** (new): Desactivar
+- **page “Available on a higher plan”: title** (new): Disponible en un plan superior
+- **page “Available on a higher plan”: paragraph 1** (new): Su plan aparece marcado en la lista. Las funciones de un plan superior muestran Disponible en un plan superior en lugar de un interruptor. Aquí el negocio tiene el plan Avanzado, así que las funciones de Pro aparecen, pero no se pueden activar.
+- **page “Available on a higher plan”: paragraph 2** (new): Para cambiar de plan, hable con CG Strategic: nosotros definimos su plan y usted sigue manejando sus interruptores.
+- **page “Available on a higher plan”: callout 1** (new): Su plan
+- **page “Available on a higher plan”: callout 2** (new): Un plan superior
+- **page “Available on a higher plan”: callout 3** (new): Disponible en un plan superior
+- **page “Preview a plan (for presenters)”: title** (new): Vista previa de un plan (para presentadores)
+- **page “Preview a plan (for presenters)”: paragraph 1** (new): En una llamada, un presentador puede mostrar la demo con cualquier plan. Vista previa de un plan está al final del panel Pruébelo con su marca. Los visitantes la ven bloqueada: se abre con el código de presentador.
+- **page “Preview a plan (for presenters)”: paragraph 2** (new): Elija Básico, Avanzado o Pro: la tienda, el menú de la administración y sus páginas cambian de inmediato. Mientras se muestra un plan menor, una insignia queda abajo a la izquierda. Reiniciar demo vuelve a Pro, con todas las funciones activadas.
+- **page “Preview a plan (for presenters)”: paragraph 3** (new): Esto cambia solo la demo en ese navegador. En el sitio propio de cada negocio, CG Strategic define el plan y el negocio maneja sus interruptores en Configuración > Funciones.
+- **page “Preview a plan (for presenters)”: callout 1** (new): Para presentadores: se abre con el código de presentador
+- **page “Preview a plan (for presenters)”: callout 2** (new): Básico, Avanzado o Pro
+- **page “Preview a plan (for presenters)”: callout 3** (new): El plan en vista previa
+- **page “Preview a plan (for presenters)”: callout 4** (new): Solo cambia esta demo
+- **page “The admin on the Basic plan”: title** (new): La administración en el plan Básico
+- **page “The admin on the Basic plan”: paragraph 1** (new): En el plan Básico, el menú de la administración muestra solo las páginas de Básico: compárelo con el menú completo de la sección 1. Las páginas de un plan superior, como A su gusto, Tarjetas de regalo, Análisis o Conversaciones, no aparecen en el menú, y si abre una, vuelve a la página principal de la administración con un aviso breve. En la tienda, las tarjetas de regalo y los paquetes de comidas se ocultan de la misma manera.
+- **page “The admin on the Basic plan”: callout 1** (new): Solo las páginas de Básico
+- **page “The admin on the Basic plan”: callout 2** (new): Vista previa del plan Básico
+
 ## Intentionally left in English on Spanish pages
 
 - Brand, product, people and technology names (see the top of this file), and the "EN" link in the language toggle.
