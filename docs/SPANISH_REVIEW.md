@@ -1109,6 +1109,18 @@ These Spanish names and descriptions were already in the app (they appear in its
 - **what is included: link to the feature hub** (new): Ver todas las funciones, con pantallas de la demo
 - **what is included: link on each card** (new): Cómo funciona
 
+## App, Spanish (Nov 1, 2026 update: no developer messages on public forms)
+
+Strings in the meal-prep app (IslandFreshmeals repository), written without a native speaker. The old Spanish sentences “Modo demo: no hay un webhook de contactos configurado…” and “Modo demo: no hay un webhook de contacto configurado…” were removed from the public pages.
+
+- **Delivery areas (`src/pages/DeliveryAreas.tsx`), shown on a real site whose notify form isn't connected: text** (new): Llámenos o escríbanos y le avisaremos en cuanto lleguemos a su zona.
+- **Delivery areas: phone link label** (new): Llamar
+- **Delivery areas: email link label** (new): Escribir
+- **Contact (`src/pages/Contact.tsx`), shown on a real site whose message form isn't connected** (new): Nuestro formulario de mensajes no está disponible por ahora. Llámenos o escríbanos con los datos que aparecen junto a él.
+- **Admin Overview setup note (`src/components/admin/SetupNotes.tsx`): title** (new): Nota de configuración
+- **Admin Overview setup note: delivery areas form** (new): El formulario «Avisarme» de la página de zonas de entrega no está conectado: falta el webhook de contactos (VITE_MAKE_LEADS_WEBHOOK_URL). Mientras tanto, a los visitantes fuera de su zona se les muestran su teléfono y su correo. Pida a CG Strategic que lo conecte.
+- **Admin Overview setup note: contact form** (new): El formulario de mensajes de la página Contacto no está conectado: falta el webhook de contacto (VITE_MAKE_CONTACT_WEBHOOK_URL). Mientras tanto, a los visitantes se les pide que llamen o escriban. Pida a CG Strategic que lo conecte.
+
 ## Intentionally left in English on Spanish pages
 
 - Brand, product, people and technology names (see the top of this file), and the "EN" link in the language toggle.
