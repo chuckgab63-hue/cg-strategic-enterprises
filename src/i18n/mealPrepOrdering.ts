@@ -5,9 +5,12 @@
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 import type { FaqItem } from './faq.ts';
+import type { Lang } from './lang.ts';
 
 /** Picks a "What's included" card's icon in MealPrepOrdering.tsx. */
-export type IncludedIcon = 'plans' | 'zones' | 'routes' | 'pickup' | 'labels' | 'gift' | 'app' | 'photo' | 'trend';
+export type IncludedIcon =
+  | 'plans' | 'zones' | 'routes' | 'pickup' | 'labels' | 'gift' | 'app' | 'photo' | 'trend'
+  | 'build' | 'bundles' | 'referral' | 'inventory' | 'reports' | 'language';
 
 interface IncludedItem {
   icon: IncludedIcon;
@@ -18,6 +21,9 @@ interface IncludedItem {
 export const MEAL_PREP_ORDERING_PATH = '/meal-prep-ordering';
 export const DEMO_MENU_URL = 'https://demo.cgstrategic.dev/menu';
 export const DEMO_ADMIN_URL = 'https://demo.cgstrategic.dev/admin';
+
+/** A demo link that opens the demo in this page's language (the demo remembers it). */
+export const demoHref = (url: string, lang: Lang) => `${url}?lang=${lang}`;
 
 const en = {
   eyebrow: 'Meal Prep Ordering System',
@@ -45,11 +51,17 @@ const en = {
       { icon: 'zones', title: 'Delivery zones and deadlines', body: 'Each ZIP code zone has its own fee, minimum order and free-delivery amount, and orders close at your deadline.' },
       { icon: 'routes', title: 'Route sheets', body: "Each delivery day's stops, grouped by zone and in order, ready to print." },
       { icon: 'pickup', title: 'Pickup and more kitchens', body: 'Pickup spots at checkout, and a second kitchen with its own zones and menu when you grow.' },
-      { icon: 'labels', title: 'Printable labels', body: 'Meal labels generated from your own meal data (nutrition, ingredients, allergens) for you to review before use.' },
+      { icon: 'labels', title: 'Labels and packing slips', body: 'Meal labels and a packing slip for every order, generated from your own meal data (nutrition, ingredients, allergens, use-by dates) for you to review before use.' },
       { icon: 'gift', title: 'Coupons and gift cards', body: 'Run promotions, and sell gift cards for any amount that customers redeem at checkout.' },
       { icon: 'app', title: 'Installable app', body: 'Customers add your store to their home screen and open it like an app.' },
       { icon: 'photo', title: 'Food photo styling', body: 'Styling options that make your real dishes look their best in AI photos. Garnish comes only from each recipe, every photo is checked against its ingredients and allergens, and none goes on your menu until you approve it.' },
       { icon: 'trend', title: 'Trend Finder', body: 'Turns trending dishes into draft meals, with recipe, nutrition and price, for you to review and publish.' },
+      { icon: 'build', title: 'Build your own, sizes and add-ons', body: 'Customers build a bowl from your proteins, carbs, vegetables and sauces and see its calories and macros as they pick. Any meal can have sizes and add-ons, each priced by you.' },
+      { icon: 'bundles', title: 'Bundles and minimums', body: 'Sell a set of meals as one bundle at one price, and set a minimum quantity per meal or a minimum order for the store.' },
+      { icon: 'referral', title: 'Referral program', body: "Each customer gets a referral link. When a friend's first order is paid, both get a reward, and a full refund takes it back." },
+      { icon: 'inventory', title: 'Inventory', body: 'Stock for every ingredient at each kitchen, taken off when you mark the week cooked, with low-stock alerts and a history of every change.' },
+      { icon: 'reports', title: 'Surveys, exports and sales tax', body: 'A short survey after each delivery, CSV exports of orders, customers, plans and stock, and a report of the sales tax Stripe charged.' },
+      { icon: 'language', title: 'English and Spanish', body: 'Your store and admin area in both languages. Customers switch with one tap and the store remembers their choice.' },
     ] as IncludedItem[],
   },
   admin: {
@@ -62,12 +74,20 @@ const en = {
       'Pickup spots, and more than one kitchen when you grow',
       'A weekly production plan with combined prep and shopping lists, ready to print',
       'Printable meal labels generated from your own meal data, for you to review before use',
+      'Packing slips for every order, with use-by dates from your own shelf-life settings, for you to review',
       'Ingredient costs and suppliers',
+      'Inventory at each kitchen: stock taken off when the week is marked cooked, low-stock alerts, and every adjustment recorded with its reason',
+      'Build-your-own meals, sizes, add-ons and bundles, with a report of which variations sell',
+      'A minimum quantity per meal and a minimum order for the store',
       'Analytics, including repeat rate and churn',
       "An AI assistant that helps customers choose meals and shows you what they ask for that the menu doesn't have yet",
       'Coupons, gift cards and review approval',
+      'A referral program, with rewards taken back when the order is fully refunded',
+      'Customer surveys after delivery, with averages, a weekly trend and comments',
+      'CSV exports of orders, customers, weekly plans and stock, and a sales tax report of what Stripe charged, by day, week or month',
       'AI photos of your real dishes: a style guide written from your own menu photos, your styling choices, garnish only from the recipe, an accuracy check and your approval',
       'Trend Finder, which turns trending dishes into draft meals for you to review',
+      'The whole admin area in English and Spanish',
     ],
   },
   migrate: {
@@ -139,8 +159,8 @@ const es: typeof en = {
     customerDemo: 'Demo para clientes',
     adminDemo: 'Demo del área de administración',
     newTab: '(se abre en una pestaña nueva)',
-    // The panel's name stays in English: that's what the demo shows.
-    brandNote: 'En la demo, abra el panel "Try it with your brand" para agregar su propio logotipo y colores.',
+    // The demo opens in Spanish from this page (demoHref), so the panel has its Spanish name.
+    brandNote: 'En la demo, abra el panel "Pruébelo con su marca" para agregar su propio logotipo y colores.',
     guide: 'Descargar la guía de la demo',
   },
   included: {
@@ -152,11 +172,17 @@ const es: typeof en = {
       { icon: 'zones', title: 'Zonas de entrega y fechas límite', body: 'Cada zona por código postal tiene su propia tarifa, pedido mínimo y monto para entrega gratis, y los pedidos cierran en su fecha límite.' },
       { icon: 'routes', title: 'Hojas de ruta', body: 'Las paradas de cada día de entrega, agrupadas por zona y en orden, listas para imprimir.' },
       { icon: 'pickup', title: 'Recogida y más cocinas', body: 'Puntos de recogida al pagar, y una segunda cocina con sus propias zonas y menú cuando su negocio crezca.' },
-      { icon: 'labels', title: 'Etiquetas imprimibles', body: 'Etiquetas generadas con los datos de sus propias comidas (nutrición, ingredientes, alérgenos), para que usted las revise antes de usarlas.' },
+      { icon: 'labels', title: 'Etiquetas y hojas de empaque', body: 'Etiquetas para cada comida y una hoja de empaque para cada pedido, generadas con los datos de sus propias comidas (nutrición, ingredientes, alérgenos, fechas límite de consumo), para que usted las revise antes de usarlas.' },
       { icon: 'gift', title: 'Cupones y tarjetas de regalo', body: 'Haga promociones y venda tarjetas de regalo por cualquier monto, que sus clientes usan al pagar.' },
       { icon: 'app', title: 'App instalable', body: 'Sus clientes agregan su tienda a la pantalla de inicio y la abren como una app.' },
       { icon: 'photo', title: 'Estilo de las fotos de sus platos', body: 'Opciones de estilo para que sus platos reales luzcan lo mejor posible en las fotos con IA. La guarnición sale solo de cada receta, cada foto se revisa contra sus ingredientes y alérgenos, y ninguna llega a su menú hasta que usted la aprueba.' },
       { icon: 'trend', title: 'Trend Finder', body: 'Convierte platillos en tendencia en borradores de comidas, con receta, nutrición y precio, para que usted los revise y los publique.' },
+      { icon: 'build', title: 'Arme su comida, tamaños y extras', body: 'Sus clientes arman un bowl con sus proteínas, carbohidratos, vegetales y salsas, y ven sus calorías y macros mientras eligen. Cualquier comida puede tener tamaños y extras, con el precio que usted fije.' },
+      { icon: 'bundles', title: 'Paquetes y mínimos', body: 'Venda un conjunto de comidas como un solo paquete a un solo precio, y fije una cantidad mínima por comida o un pedido mínimo para la tienda.' },
+      { icon: 'referral', title: 'Programa de referidos', body: 'Cada cliente recibe un enlace para recomendar. Cuando se paga el primer pedido del amigo, los dos reciben una recompensa, y un reembolso total la anula.' },
+      { icon: 'inventory', title: 'Inventario', body: 'Las existencias de cada ingrediente en cada cocina, que se descuentan al marcar la semana como cocinada, con alertas de existencias bajas y un historial de cada cambio.' },
+      { icon: 'reports', title: 'Encuestas, exportaciones e impuesto', body: 'Una encuesta corta después de cada entrega, exportaciones CSV de pedidos, clientes, planes y existencias, y un informe del impuesto sobre ventas que cobró Stripe.' },
+      { icon: 'language', title: 'Inglés y español', body: 'Su tienda y su área de administración en los dos idiomas. Sus clientes cambian de idioma con un toque y la tienda recuerda su elección.' },
     ],
   },
   admin: {
@@ -169,12 +195,20 @@ const es: typeof en = {
       'Puntos de recogida, y más de una cocina cuando su negocio crezca',
       'Un plan de producción semanal con listas combinadas de preparación y de compras, listas para imprimir',
       'Etiquetas imprimibles para cada comida, generadas con los datos de sus propias comidas, para que usted las revise antes de usarlas',
+      'Hojas de empaque para cada pedido, con fechas límite de consumo calculadas con la vida útil que usted fija, para que usted las revise',
       'Costos de ingredientes y proveedores',
+      'Inventario en cada cocina: existencias que se descuentan al marcar la semana como cocinada, alertas de existencias bajas y cada ajuste registrado con su motivo',
+      'Comidas para armar, tamaños, extras y paquetes, con un informe de qué variaciones se venden',
+      'Una cantidad mínima por comida y un pedido mínimo para la tienda',
       'Análisis, incluidas la tasa de clientes que repiten y la tasa de abandono',
       'Un asistente de IA que ayuda a sus clientes a elegir comidas y le muestra lo que piden que su menú todavía no tiene',
       'Cupones, tarjetas de regalo y aprobación de reseñas',
+      'Un programa de referidos, con recompensas que se anulan cuando el pedido se reembolsa por completo',
+      'Encuestas a clientes después de la entrega, con promedios, la tendencia semanal y comentarios',
+      'Exportaciones CSV de pedidos, clientes, planes semanales y existencias, y un informe del impuesto sobre ventas que cobró Stripe, por día, semana o mes',
       'Fotos con IA de sus platos reales: una guía de estilo escrita a partir de las fotos de su menú, sus opciones de estilo, guarnición solo de la receta, una revisión de exactitud y su aprobación',
       'Trend Finder, que convierte platillos en tendencia en borradores de comidas para que usted los revise',
+      'Toda el área de administración en inglés y en español',
     ],
   },
   migrate: {

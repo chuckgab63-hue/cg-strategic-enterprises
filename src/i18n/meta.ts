@@ -202,7 +202,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Pedidos en línea para negocios de comidas preparadas en Florida, configurados por nosotros: planes semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
       },
     },
-    lastmod: '2026-10-31',
+    lastmod: '2026-11-01',
   },
   {
     path: '/demo-guide',
@@ -216,7 +216,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Una guía PDF gratuita de la demo en vivo de pedidos para comidas preparadas: planes semanales, entregas y recogida, etiquetas, tarjetas de regalo y Trend Finder.',
       },
     },
-    lastmod: '2026-10-31',
+    lastmod: '2026-11-01',
     og: {
       image: '/og/meal-prep-demo-guide.jpg',
       width: 1200,

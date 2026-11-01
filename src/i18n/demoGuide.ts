@@ -23,19 +23,22 @@ const en = {
   previewTitle: 'Preview of the demo walkthrough guide (PDF)',
   previewFallback: "Your browser can't show the guide here.",
   inside:
-    "What's inside: every storefront page your customers use and every tab of the admin area your staff works in, from the weekly menu to checkout, weekly plans, delivery and pickup, labels, gift cards, food photo styling and Trend Finder.",
+    "What's inside: every storefront page your customers use and every tab of the admin area your staff works in, from the weekly menu to checkout, weekly plans, build-your-own meals, referrals, delivery and pickup, labels and packing slips, inventory, surveys, exports, gift cards, food photo styling and Trend Finder, in English and Spanish.",
   // Only what works in the live demo today (checked on demo.cgstrategic.dev).
   try: {
     title: 'What you can try in the demo',
-    brand: 'Start with "Try it with your brand" to see the whole site with your name, logo and colors.',
+    brand: 'Start with "Try it with your brand" to see the whole site with your name, logo and colors. The EN | ES switch at the top shows it all in Spanish.',
     customer: {
       title: 'As a customer',
       items: [
         'Browse the weekly menu and filter it by allergens, category and calories',
+        'Build your own bowl and watch its calories and macros change as you pick, or choose a size and add-ons on a meal',
+        'Order a bundle of meals, and see the minimum order and per-meal minimums at the cart',
         'Start a weekly plan, then skip a week, pause, change your meals per week or cancel, all from My Plan',
         'Check out for delivery by ZIP code, or choose a pickup spot (the demo takes no real payment)',
         'Buy a gift card (the demo shows the code instead of charging or emailing it)',
         "Add the store to your phone's home screen and open it like an app",
+        'Copy your referral link from your account page, and answer the short survey on a delivered order',
       ],
     },
     owner: {
@@ -45,6 +48,9 @@ const en = {
         'Set your ordering deadline and delivery days, and delivery zones by ZIP code, each with its own fee, minimum order and free-delivery amount',
         "Print a delivery day's route sheets, grouped by zone and in stop order",
         'Print meal labels generated from your own meal data (nutrition, ingredients, allergens) for you to review before use',
+        'Print packing slips for each order, with use-by dates from your own shelf-life settings, for you to review',
+        'Check stock at each kitchen, record a delivery or waste, and mark the week cooked to take its ingredients off stock',
+        'See which sizes and add-ons sell, referral rewards, survey results and the sales tax report, and download CSV exports',
         'Manage pickup spots, coupons and gift cards',
         'Run more than one kitchen: choose the "Established" sample business in the brand panel to see two',
         'Choose the food photo styling your AI meal photos follow: lighting, camera angle, plate, background, color and garnish',
@@ -85,19 +91,22 @@ const es: typeof en = {
   previewTitle: 'Vista previa de la guía de la demo (PDF)',
   previewFallback: 'Su navegador no puede mostrar la guía aquí.',
   inside:
-    'Qué incluye: cada página de la tienda que usan sus clientes y cada sección del área de administración donde trabaja su personal, desde el menú semanal hasta el pago, los planes semanales, las entregas y la recogida, las etiquetas, las tarjetas de regalo, el estilo de las fotos de sus platos y Trend Finder.',
+    'Qué incluye: cada página de la tienda que usan sus clientes y cada sección del área de administración donde trabaja su personal, desde el menú semanal hasta el pago, los planes semanales, las comidas para armar, los referidos, las entregas y la recogida, las etiquetas y hojas de empaque, el inventario, las encuestas, las exportaciones, las tarjetas de regalo, el estilo de las fotos de sus platos y Trend Finder, en inglés y en español.',
   try: {
     title: 'Lo que puede probar en la demo',
-    // The panel's name stays in English: that's what the demo shows.
-    brand: 'Empiece con "Try it with your brand" para ver todo el sitio con su nombre, logotipo y colores.',
+    // The demo opens in Spanish from this page (demoHref), so its names are the Spanish ones.
+    brand: 'Empiece con "Pruébelo con su marca" para ver todo el sitio con su nombre, logotipo y colores. El selector EN | ES de arriba cambia el idioma de la demo.',
     customer: {
       title: 'Como cliente',
       items: [
         'Explorar el menú semanal y filtrarlo por alérgenos, categoría y calorías',
-        'Empezar un plan semanal y luego saltar una semana, pausarlo, cambiar la cantidad de comidas por semana o cancelarlo, todo desde My Plan',
+        'Armar su propio bowl y ver cómo cambian sus calorías y macros mientras elige, o elegir el tamaño y los extras de una comida',
+        'Pedir un paquete de comidas, y ver el pedido mínimo y los mínimos por comida en el carrito',
+        'Empezar un plan semanal y luego saltar una semana, pausarlo, cambiar la cantidad de comidas por semana o cancelarlo, todo desde Mi plan',
         'Pagar con entrega a domicilio según su código postal, o elegir un punto de recogida (la demo no cobra de verdad)',
         'Comprar una tarjeta de regalo (la demo muestra el código en lugar de cobrarla o enviarla por correo)',
         'Agregar la tienda a la pantalla de inicio de su teléfono y abrirla como una app',
+        'Copiar su enlace para recomendar desde Mi cuenta, y responder la encuesta corta de un pedido entregado',
       ],
     },
     owner: {
@@ -107,8 +116,11 @@ const es: typeof en = {
         'Configurar su fecha límite para ordenar y sus días de entrega, y zonas de entrega por código postal, cada una con su propia tarifa, pedido mínimo y monto para entrega gratis',
         'Imprimir las hojas de ruta de un día de entrega, agrupadas por zona y en orden de paradas',
         'Imprimir etiquetas para cada comida generadas con los datos de sus propias comidas (nutrición, ingredientes, alérgenos), para que usted las revise antes de usarlas',
+        'Imprimir hojas de empaque para cada pedido, con fechas límite de consumo calculadas con la vida útil que usted fija, para que usted las revise',
+        'Revisar las existencias en cada cocina, registrar una entrega o una merma, y marcar la semana como cocinada para descontar sus ingredientes',
+        'Ver qué tamaños y extras se venden, las recompensas por referidos, los resultados de las encuestas y el informe de impuesto sobre ventas, y descargar exportaciones CSV',
         'Administrar puntos de recogida, cupones y tarjetas de regalo',
-        'Manejar más de una cocina: elija el negocio de ejemplo "Established" en el panel de marca para ver dos',
+        'Manejar más de una cocina: elija el negocio de ejemplo "Establecido" en el panel de marca para ver dos',
         'Elegir el estilo que siguen las fotos de sus comidas hechas con IA: iluminación, ángulo de cámara, plato, fondo, color y guarnición',
         'Pídanos que le mostremos las fotos con IA en vivo durante una llamada: una guía de estilo escrita a partir de las fotos de su menú y luego la foto de un plato, con guarnición solo de su receta, revisada contra sus ingredientes y alérgenos, que espera su aprobación (cada una tiene un costo, así que están desactivadas para los visitantes)',
         'Usar Trend Finder para convertir un platillo en tendencia en un borrador de comida oculto, con su receta, nutrición y precio, para que usted lo revise y lo publique',

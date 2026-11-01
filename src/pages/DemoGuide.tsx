@@ -7,7 +7,7 @@ import {
 import { PHONE_HREF } from '../config/site';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import demoGuide, { DEMO_GUIDE_PDF } from '../i18n/demoGuide';
-import { DEMO_MENU_URL } from '../i18n/mealPrepOrdering';
+import { DEMO_MENU_URL, demoHref } from '../i18n/mealPrepOrdering';
 
 // The embedded preview is for desktops only. It's left out of the page on
 // smaller screens (not just hidden), so a phone doesn't download the PDF
@@ -40,7 +40,7 @@ export default function DemoGuide() {
       <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>
         <div className="flex flex-wrap gap-3">
           {newTab(pdf, t.download, primaryButtonClass)}
-          {newTab(DEMO_MENU_URL, t.openDemo, secondaryButtonClass)}
+          {newTab(demoHref(DEMO_MENU_URL, lang), t.openDemo, secondaryButtonClass)}
         </div>
       </ServiceHero>
 
