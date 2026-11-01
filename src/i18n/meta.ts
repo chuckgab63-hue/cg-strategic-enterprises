@@ -7,6 +7,7 @@
 
 import type { Lang } from './lang.ts';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
+import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath } from './mealPrepFeaturesMeta.ts';
 
 export interface PageMeta {
   title: string;
@@ -204,6 +205,23 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
     lastmod: '2026-11-01',
   },
+  {
+    path: MEAL_PREP_FEATURES_PATH,
+    meta: {
+      en: { title: `${HUB_META.en.title} | ${NAME}`, description: HUB_META.en.description },
+      es: { title: `${HUB_META.es.title} | ${NAME}`, description: HUB_META.es.description },
+    },
+    lastmod: '2026-11-01',
+  },
+  // One route per feature page; the titles and descriptions are in mealPrepFeaturesMeta.ts.
+  ...FEATURE_SLUGS.map((slug): SiteRoute => ({
+    path: featurePath(slug),
+    meta: {
+      en: { title: `${FEATURE_META[slug].en.title} | ${NAME}`, description: FEATURE_META[slug].en.description },
+      es: { title: `${FEATURE_META[slug].es.title} | ${NAME}`, description: FEATURE_META[slug].es.description },
+    },
+    lastmod: '2026-11-01',
+  })),
   {
     path: '/demo-guide',
     meta: {

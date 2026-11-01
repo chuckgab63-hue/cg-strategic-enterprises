@@ -8,6 +8,7 @@ import mealPrepOrdering, {
   DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH, demoHref, type IncludedIcon,
 } from '../i18n/mealPrepOrdering';
 import { DEMO_GUIDE_PATH } from '../i18n/demoGuide';
+import { MEAL_PREP_FEATURES_PATH, featurePath, type FeatureSlug } from '../i18n/mealPrepFeaturesMeta';
 
 // Stroke icons on a 24-unit grid, drawn like the homepage's service icons.
 const INCLUDED_ICONS: Record<IncludedIcon, string> = {
@@ -45,6 +46,14 @@ const INCLUDED_ICONS: Record<IncludedIcon, string> = {
   assistant: 'M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z',
 };
 
+// Each "What's included" card links to the feature page that shows it working.
+const FEATURE_PAGE_FOR: Record<IncludedIcon, FeatureSlug> = {
+  plans: 'subscriptions', zones: 'delivery-and-pickup', routes: 'delivery-and-pickup', pickup: 'delivery-and-pickup',
+  labels: 'labels', gift: 'loyalty-and-referrals', app: 'bilingual-and-app', photo: 'ai-tools', trend: 'ai-tools',
+  build: 'bigger-orders', bundles: 'bigger-orders', referral: 'loyalty-and-referrals', inventory: 'kitchen-operations',
+  reports: 'reports-and-insights', language: 'bilingual-and-app', assistant: 'ai-tools',
+};
+
 export default function MealPrepOrdering() {
   const t = useT(mealPrepOrdering);
   const lang = useLang();
@@ -77,14 +86,24 @@ export default function MealPrepOrdering() {
                   <path d={INCLUDED_ICONS[item.icon]} />
                 </svg>
               </span>
-              <h3 className="text-lg font-black text-white">{item.title}</h3>
+              <h3 className="text-lg font-black text-white">
+                <Link to={lp(featurePath(FEATURE_PAGE_FOR[item.icon]))} className="hover:text-brand-orange transition-colors">{item.title}</Link>
+              </h3>
               <p className="text-slate-400 leading-relaxed mt-2">{item.body}</p>
+              <Link to={lp(featurePath(FEATURE_PAGE_FOR[item.icon]))} className="inline-block mt-3 text-brand-orange font-bold underline underline-offset-4 hover:text-white transition-colors">
+                {t.included.learnMore} <span className="sr-only">: {item.title}</span>&rarr;
+              </Link>
             </li>
           ))}
         </ul>
-        <Link to={lp(DEMO_GUIDE_PATH)} className={`${primaryButtonClass} inline-block mt-8`}>
-          {t.included.cta}
-        </Link>
+        <div className="flex flex-wrap items-center gap-4 mt-8">
+          <Link to={lp(MEAL_PREP_FEATURES_PATH)} className={primaryButtonClass}>
+            {t.included.featuresCta}
+          </Link>
+          <Link to={lp(DEMO_GUIDE_PATH)} className={secondaryButtonClass}>
+            {t.included.cta}
+          </Link>
+        </div>
       </ServiceSection>
 
       <section className="mt-16 md:mt-20 bg-slate-900/50 border border-brand-orange/40 rounded-3xl p-6 md:p-10">

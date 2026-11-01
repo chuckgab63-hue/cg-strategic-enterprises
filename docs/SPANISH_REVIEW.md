@@ -465,6 +465,650 @@ Strings in the meal-prep app itself (storefront, admin and the emails), written 
 
 - No new Spanish text: the existing feature “Español” (“Un selector inglés | español en la tienda y en la administración.”) now starts off in a new store. The explanations are in the demo guide entries above (section 8).
 
+## Meal-prep feature pages, Spanish (Nov 1, 2026: /es/meal-prep-ordering/features and 11 pages)
+
+Every Spanish string on the new feature hub and its eleven pages, written without a native speaker. Page names below are the English slugs under `/es/meal-prep-ordering/features/`. Screenshots on these pages come from the live demo in Spanish where a Spanish capture exists; the rest are English and say so in the caption. Feature names and descriptions in the "What is included" boxes come from the app's own registry (the second list below).
+
+### Hub and shared labels (`src/i18n/mealPrepFeatures.ts`)
+
+- **ui: hubEyebrow** (new): Sistema de pedidos para comidas preparadas
+- **ui: hubTitle** (new): Funciones del sistema de pedidos para comidas preparadas
+- **ui: hubIntro** (new): Todo lo que hace el sistema, agrupado por lo que hace por su negocio: ingresos recurrentes, pedidos más grandes, días de entrega más ordenados, menos tiempo de oficina y más clientes que vuelven. Cada página muestra las pantallas reales de la demo en vivo, para que vea cómo funciona antes de hablar con nosotros.
+- **ui: hubCardCta** (new): Ver cómo funciona
+- **ui: hubPlansTitle** (new): Qué plan incluye qué
+- **ui: hubPlansBody** (new): El sistema viene en tres planes, y cada uno incluye todo lo del plan anterior. Cada página de funciones dice en qué plan está cada función, y en su propio sitio usted activa las funciones cuando esté listo para usarlas.
+- **ui: hubPlansLink** (new): Ver los planes en la página principal
+- **ui: hubGuideCta** (new): Leer la guía de la demo
+- **ui: breadcrumbHome** (new): Inicio
+- **ui: breadcrumbMealPrep** (new): Pedidos para comidas preparadas
+- **ui: breadcrumbFeatures** (new): Funciones
+- **ui: nav** (new): Ruta de navegación
+- **ui: ctaDemo** (new): Probar la demo
+- **ui: ctaAlex** (new): Hablar con Alex
+- **ui: newTab** (new): (se abre en una pestaña nueva)
+- **ui: problemTitle** (new): El problema
+- **ui: howTitle** (new): Cómo funciona
+- **ui: howIntro** (new): Pantallas reales de la demo en vivo, solo con datos de muestra.
+- **ui: side.customer** (new): Lo que ve su cliente
+- **ui: side.admin** (new): Lo que usted ve en la administración
+- **ui: side.setup** (new): Lo que hacemos por usted
+- **ui: englishShot** (new): (captura en inglés)
+- **ui: sampleData** (new): Datos de muestra de la demo.
+- **ui: includedTitle** (new): Qué incluye, y en qué plan
+- **ui: includedIntro** (new): Cada plan incluye todo lo de los planes anteriores.
+- **ui: planLabel** (new): Desde el plan Avanzado / En el plan Pro
+- **ui: growTitle** (new): Cómo le ayuda a crecer
+- **ui: demoTitle** (new): Pruébelo en la demo
+- **ui: demoIntro** (new): Estos enlaces abren las pantallas exactas en la demo en vivo, en una pestaña nueva. Nada en la demo es real: no hay pagos, ni correos, ni clientes.
+- **ui: demoSide.customer** (new): Lado del cliente
+- **ui: demoSide.admin** (new): Lado de la administración
+- **ui: demoAdminNote** (new): Los enlaces de la administración le piden presionar Iniciar sesión una vez. La demo llena el inicio de sesión de muestra por usted.
+- **ui: faqTitle** (new): Preguntas que hacen los dueños
+- **ui: relatedTitle** (new): Funciones relacionadas
+- **ui: closingTitle** (new): ¿Quiere verlo con su menú?
+- **ui: closingBody** (new): Lo configuramos por usted y pasamos a sus clientes actuales. Llámenos o hable con Alex, y le mostramos cómo funcionaría para su negocio. También puede leer primero la guía de la demo.
+- **ui: callLabel** (new): Llamar al (904) 822-8929
+- **ui: guideLink** (new): Leer la guía de la demo
+- **ui: allFeatures** (new): Todas las funciones
+- **ui: setupPlansTitle** (new): Los tres planes
+
+### Titles and descriptions for search (`src/i18n/mealPrepFeaturesMeta.ts`)
+
+- **hub: title** (new): Funciones de pedidos para comidas preparadas
+- **hub: description** (new): Todas las funciones del sistema de pedidos para comidas preparadas: suscripciones, entregas, cocina, etiquetas, lealtad, informes y herramientas con IA.
+- **subscriptions: title** (new): Software de suscripciones para comidas preparadas
+- **subscriptions: description** (new): Planes semanales de comidas que los clientes saltan, pausan, cambian o cancelan solos, con cobro semanal en su propia cuenta de Stripe. Véalo en la demo en vivo.
+- **bigger-orders: title** (new): Comidas a su gusto, tamaños y paquetes
+- **bigger-orders: description** (new): Pedidos para comidas preparadas con platos a su gusto y macros en vivo, tamaños, extras, paquetes y un pedido mínimo, para que cada pedido valga la entrega.
+- **delivery-and-pickup: title** (new): Rutas de entrega para comidas preparadas
+- **delivery-and-pickup: description** (new): Zonas de entrega por código postal, días y fechas límite, hojas de ruta con paradas en orden, puntos de recogida y hojas de empaque imprimibles.
+- **kitchen-operations: title** (new): Producción e inventario de cocina
+- **kitchen-operations: description** (new): Plan de producción, listas de preparación y compras por proveedor, inventario, costos de ingredientes y varias cocinas, a partir de los pedidos de la semana.
+- **labels: title** (new): Etiquetas con información nutricional
+- **labels: description** (new): Imprima etiquetas con panel nutricional, ingredientes, alérgenos y fechas de empacado y de consumo, generadas con los datos de sus comidas para que usted las revise.
+- **loyalty-and-referrals: title** (new): Lealtad y referidos para comidas preparadas
+- **loyalty-and-referrals: description** (new): Puntos de recompensa, un programa de referidos que premia a ambas partes tras un primer pedido pagado, tarjetas de regalo y cupones para comidas preparadas.
+- **reviews-and-surveys: title** (new): Reseñas y encuestas a clientes
+- **reviews-and-surveys: description** (new): Reseñas de comidas que usted aprueba antes de mostrarlas, y una encuesta corta después de cada pedido con calificaciones y comentarios.
+- **reports-and-insights: title** (new): Análisis, abandono e informes de impuestos
+- **reports-and-insights: description** (new): Análisis con clientes que repiten y abandono, comidas más vendidas y tendencias de suscriptores, más exportaciones CSV e informe del impuesto sobre ventas.
+- **ai-tools: title** (new): Herramientas con IA para comidas preparadas
+- **ai-tools: description** (new): Un chat para clientes que responde con su propio menú, estilo de fotos de comida con revisión y su aprobación, y Trend Finder para ideas de comidas nuevas.
+- **bilingual-and-app: title** (new): Sitio bilingüe y app para comidas preparadas
+- **bilingual-and-app: description** (new): Un sitio de pedidos en inglés y español con cambio de un toque, una administración en los dos idiomas y una tienda que los clientes instalan en su teléfono.
+- **getting-started: title** (new): Configuración de pedidos para comidas preparadas
+- **getting-started: description** (new): Configuramos su sistema de pedidos, pasamos su menú y clientes, y lo ponemos en su dominio y su cuenta de Stripe. En inglés y español, noreste de Florida.
+
+### The pages (`src/i18n/mealPrepFeaturesEs.ts`)
+
+#### subscriptions
+
+- **name** (new): Suscripciones e ingresos recurrentes
+- **eyebrow** (new): Suscripciones e ingresos recurrentes
+- **title (h1)** (new): Software de suscripciones para comidas preparadas: planes semanales que funcionan solos
+- **intro** (new): Sus clientes se suscriben una vez y luego saltan una semana, cambian sus comidas, pausan o cancelan por su cuenta. Usted tiene una semana con la que puede planear, cobrada en su propia cuenta de Stripe.
+- **card on the hub** (new): Planes semanales que los clientes manejan solos: saltar, pausar, cambiar o cancelar, con cobro cada semana.
+- **problem 1** (new): Cada semana ando detrás de las mismas personas por mensajes: ¿entra esta semana?, ¿qué comidas quiere?, ¿ya pagó? Si se me pasa un solo mensaje, las cuentas de la semana se descuadran.
+- **problem 2** (new): Quiero que la gente se suscriba una vez y que la semana funcione sola, y no quiero perder a un cliente solo porque va a estar de viaje una semana.
+- **step 1: title** (new): Elegir un plan y empezar
+- **step 1: text** (new): El cliente elige un plan semanal (un número de comidas a un precio por comida), escoge entrega o recogida y confirma. En su propio sitio, el cliente agrega una tarjeta con Stripe, en su propia cuenta de Stripe, y cada semana se cobra después de la fecha límite de pedidos.
+- **step 1: image description** (new): La página de planes de la tienda de la demo con tres planes semanales y un precio por comida
+- **step 1: caption** (new): La página de planes. En la demo no se cobra nada.
+- **step 2: title** (new): Saltar, pausar, cambiar o cancelar antes de la fecha límite
+- **step 2: text** (new): En la página de su cuenta, el cliente ve su plan, su próxima entrega y las semanas que vienen, con la fecha límite para hacer cambios.
+- **step 2: point 1** (new): Saltar cualquier semana: sin entrega y sin cobro.
+- **step 2: point 2** (new): Elegir otras comidas para una semana, o dejar que la llenen sus favoritas guardadas o las recomendaciones de su chef.
+- **step 2: point 3** (new): Pausar todo el plan hasta una fecha, cambiar a más o menos comidas por semana, o cancelar.
+- **step 2: point 4** (new): Cuando pasa la fecha límite de una semana, esa semana se bloquea y su cocina planea con ella.
+- **step 2: image description** (new): La página Mi plan de un cliente con las próximas semanas y las opciones de saltar, cambiar o pausar
+- **step 2: caption** (new): Mi plan, como lo ve el cliente.
+- **step 3: title** (new): Ver a cada suscriptor e intervenir cuando haga falta
+- **step 3: text** (new): La página Suscripciones muestra a cada suscriptor con lo que hace esta semana: recibe entrega, salta o está en pausa. Puede filtrar por activos, en pausa, saltando esta semana, cancelados o con pago fallido, y buscar por nombre.
+- **step 3: point 1** (new): Abra a un cliente para ver exactamente lo que él ve, y salte una semana, elija comidas, pause, cambie las comidas por semana o cancele por él. Cada cambio queda en el Registro de auditoría.
+- **step 3: point 2** (new): Elija qué recibe un cliente que no escoge sus comidas: sus favoritas o las recomendaciones de su chef.
+- **step 3: point 3** (new): En su propio sitio, un pago semanal rechazado se marca aquí y en Pedidos, y el cliente recibe un correo con un enlace para actualizar su tarjeta.
+- **step 3: point 4** (new): Si alguna vez pausa los cobros o detiene las nuevas suscripciones, los clientes con un plan semanal reciben un correo en inglés o en español, además del aviso en su cuenta.
+- **step 3: image description** (new): La página Suscripciones de la administración con el conteo de planes activos, en pausa, saltando y cancelados
+- **step 3: caption** (new): Suscripciones en la administración.
+- **growth 1: title** (new): Ingresos recurrentes con los que puede planear
+- **growth 1: text** (new): A los suscriptores se les cobra cada semana después de la fecha límite de pedidos, así que usted sabe lo que viene antes de comprar y cocinar.
+- **growth 2: title** (new): Una mejor opción que cancelar
+- **growth 2: text** (new): Un cliente que está fuera una semana puede saltarla en un par de toques en lugar de cancelar por mensaje, y sigue en su plan cuando regresa.
+- **growth 3: title** (new): Menos tiempo de administración
+- **growth 3: text** (new): El plan hace el pedido de cada semana por el cliente. Usted deja de juntar pedidos por mensaje y parte de una lista que ya está lista.
+- **demo link 1** (new): La página de planes
+- **demo link 2** (new): La cuenta y el plan de un cliente
+- **demo link 3** (new): Suscriptores
+- **demo link 4** (new): Planes que ofrece
+- **FAQ 1: question** (new): ¿Pueden los clientes saltar una semana o pausar por su cuenta?
+- **FAQ 1: answer** (new): Sí. Antes de la fecha límite de pedidos de una semana pueden saltarla, cambiar sus comidas, pausar el plan hasta una fecha, cambiar cuántas comidas reciben o cancelar. Después de la fecha límite la semana se bloquea para que su cocina pueda planear.
+- **FAQ 2: question** (new): ¿A dónde va el dinero? ¿Se quedan con una parte de cada pedido?
+- **FAQ 2: answer** (new): Los pagos van a su propia cuenta de Stripe. No cobramos una comisión por pedido. Se aplican las comisiones de procesamiento de Stripe, como en cualquier pago con tarjeta.
+- **FAQ 3: question** (new): ¿Qué pasa cuando falla un pago semanal?
+- **FAQ 3: answer** (new): En su propio sitio, el pago fallido se marca en la página Suscripciones y en Pedidos, y el cliente recibe un correo con un enlace para actualizar su tarjeta.
+- **FAQ 4: question** (new): ¿Puedo pausar los cobros de todos, por ejemplo si cierro una semana?
+- **FAQ 4: answer** (new): Sí. En Configuración > Funciones puede pausar todos los cobros de los planes semanales o solo detener las nuevas suscripciones. La pantalla le muestra primero a quién afecta, los clientes reciben un correo en su idioma, y al activar de nuevo los planes semanales se reanudan exactamente esos planes.
+
+#### bigger-orders
+
+- **name** (new): Pedidos más grandes
+- **eyebrow** (new): Pedidos más grandes
+- **title (h1)** (new): Comidas a su gusto, tamaños, extras y paquetes
+- **intro** (new): Deje que sus clientes armen un plato con los macros a la vista, elijan un tamaño, agreguen extras y compren paquetes, y ponga un mínimo para que cada pedido valga el viaje.
+- **card on the hub** (new): Comidas a su gusto con macros, tamaños y extras, paquetes de comidas y un pedido mínimo.
+- **problem 1** (new): Mis clientes piden las mismas dos o tres comidas, y nadie prueba los extras porque tienen que escribirme para preguntar. Mientras tanto, un pedido pequeño que requiere un viaje de entrega apenas paga la gasolina.
+- **problem 2** (new): Quiero que la gente arme exactamente lo que quiere, vea el precio y los macros mientras elige, y gaste un poco más cada vez.
+- **step 1: title** (new): Armar su propia comida, con los macros sumándose mientras elige
+- **step 1: text** (new): El cliente escoge una proteína (porción normal o doble), un carbohidrato, una o dos verduras, una salsa y complementos. Mientras elige, se suman el precio, las calorías, la proteína, los carbohidratos y la grasa, junto con los alérgenos de lo que escogió. Si en el menú filtró un alérgeno, las opciones que lo contienen también se ocultan aquí.
+- **step 1: image description** (new): La página Arme su tazón con opciones de proteína, tamaños de porción y un precio que se va sumando
+- **step 1: caption** (new): Arme su tazón en la tienda de la demo.
+- **step 2: title** (new): Tamaños y extras
+- **step 2: text** (new): En una comida que viene en tamaños, el cliente elige un tamaño y marca hasta dos extras. El precio y la nutrición cambian antes de que pase al carrito. Un extra que trae un alérgeno que la comida no tiene lo indica ahí mismo, de nuevo en el carrito, al pagar y en la etiqueta.
+- **step 2: image description** (new): La página de una comida con selector de tamaño y extras con costo
+- **step 2: caption** (new): Una comida con tamaños y extras.
+- **step 3: title** (new): Paquetes de comidas a su propio precio
+- **step 3: text** (new): Un paquete es un conjunto con una lista fija de comidas, como un paquete variado de diez comidas. Su página muestra lo que trae, los alérgenos de cada comida y la nutrición por comida promediada en todo el paquete.
+- **step 3: image description** (new): La página de un paquete variado de diez comidas con la lista de lo que incluye
+- **step 3: caption** (new): Un paquete de comidas y lo que incluye.
+- **step 4: title** (new): Un pedido mínimo, para que cada pedido valga la entrega
+- **step 4: text** (new): Ponga un mínimo para toda la tienda, uno más alto para una zona de entrega (se aplica el más alto), o venda una comida de pocas en pocas. El carrito dice qué falta y no deja avanzar al pago hasta que se cumple el mínimo.
+- **step 4: image description** (new): El carrito mostrando el mensaje del pedido mínimo
+- **step 4: caption** (new): El carrito explica qué falta.
+- **step 5: title** (new): Usted pone las reglas, y la cocina recibe las combinaciones exactas
+- **step 5: text** (new): En la página A su gusto define cuántas opciones de cada tipo elige el cliente, y agrega los componentes con sus tamaños, el precio que suma cada uno y su receta. Las calorías, los macros y los alérgenos salen de la receta y de su lista de Ingredientes. La cocina ve cada combinación en el Plan de producción, las etiquetas y las hojas de empaque.
+- **step 5: image description** (new): La página A su gusto de la administración con las opciones y reglas
+- **step 5: caption** (new): Las reglas de A su gusto en la administración.
+- **growth 1: title** (new): Pedidos de mayor valor
+- **growth 1: text** (new): Los tamaños, los extras y los paquetes permiten que un cliente gaste un poco más cada vez, en comidas que ya le gustan.
+- **growth 2: title** (new): Menos pedidos que cuestan más de entregar de lo que dejan
+- **growth 2: text** (new): Un pedido mínimo, por tienda o por zona de entrega, evita que los pedidos muy pequeños se coman su margen.
+- **growth 3: title** (new): Menos idas y venidas
+- **growth 3: text** (new): Los clientes personalizan solos y ven el precio y la nutrición al instante, y usted recibe una lista exacta en lugar de una cadena de mensajes.
+- **demo link 1** (new): Arme su tazón
+- **demo link 2** (new): Paquetes de comidas
+- **demo link 3** (new): Reglas de A su gusto
+- **demo link 4** (new): Lo pedido, por tamaño y extra
+- **FAQ 1: question** (new): ¿Mi cocina ve exactamente lo que armó cada cliente?
+- **FAQ 1: answer** (new): Sí. Cada combinación, tamaño y extra aparece en el Plan de producción, las etiquetas y las hojas de empaque, y la página Variaciones cuenta cuántos de cada tamaño, extra y componente se pidieron para una semana de entrega.
+- **FAQ 2: question** (new): ¿Se actualizan los alérgenos y la nutrición cuando un cliente arma una comida?
+- **FAQ 2: answer** (new): Sí. Los totales y los alérgenos salen de la receta y de su lista de Ingredientes, así que revíselos antes de ofrecer un componente. Se actualizan mientras el cliente elige, y un extra que trae un alérgeno nuevo lo indica.
+- **FAQ 3: question** (new): ¿Los planes semanales pueden usar tamaños y extras?
+- **FAQ 3: answer** (new): No. Los planes semanales toman el tamaño estándar de cada comida, sin extras. Los tamaños y los extras son para pedidos individuales.
+- **FAQ 4: question** (new): ¿El pedido mínimo también se aplica a la recogida?
+- **FAQ 4: answer** (new): El mínimo de la tienda se aplica a todos los pedidos, incluida la recogida. Una zona de entrega puede tener un mínimo más alto, y entonces se aplica el más alto. Los planes semanales no se ven afectados.
+
+#### delivery-and-pickup
+
+- **name** (new): Entrega y recogida
+- **eyebrow** (new): Entrega y recogida
+- **title (h1)** (new): Planificación de rutas de entrega, zonas, recogida y hojas de empaque
+- **intro** (new): Zonas por código postal con su propio día y tarifa, hojas de ruta con las paradas en un orden lógico, puntos de recogida y una hoja de empaque para cada bolsa.
+- **card on the hub** (new): Zonas por código postal, días y fechas límite de entrega, puntos de recogida, hojas de ruta y hojas de empaque.
+- **problem 1** (new): El día de entrega es un caos. Ordeno direcciones en una hoja de cálculo, les mando a los repartidores el orden de las paradas por mensaje y escribo nombres en las bolsas, y gente de fuera de mi zona sigue pidiendo y luego quiere un reembolso.
+- **problem 2** (new): Necesito que el sistema sepa a dónde entrego, cuándo y cuánto cuesta, y que le dé una lista a mi repartidor.
+- **step 1: title** (new): Los clientes saben de inmediato si usted les entrega
+- **step 1: text** (new): Al pagar, el código postal del cliente encuentra su zona de entrega: su tarifa, su día de entrega y su pedido mínimo. Si queda fuera de todas las zonas, se le avisa y se le ofrecen sus puntos de recogida.
+- **step 1: image description** (new): La pantalla de pago donde a un código postal fuera de las zonas se le ofrece recogida
+- **step 1: caption** (new): A un código postal fuera de las zonas se le ofrece recogida.
+- **step 2: title** (new): Fechas límite, días de entrega y zonas
+- **step 2: text** (new): En la página Entrega define su fecha límite de pedidos, sus días de entrega y el monto para entrega gratis. Cada zona es una lista de códigos postales con su propio día de entrega, tarifa, pedido mínimo y monto de entrega gratis, y el pago las usa automáticamente.
+- **step 2: image description** (new): La página Entrega de la administración con la fecha límite, los días de entrega y las zonas
+- **step 2: caption** (new): Configuración de entrega y zonas.
+- **step 3: title** (new): Hojas de ruta para el día de entrega
+- **step 3: text** (new): Elija un día de entrega y sus pedidos se agrupan por zona, con las paradas de cada ruta en orden desde su cocina (la parada más cercana primero), además del nombre, teléfono, dirección, notas de entrega y número de comidas.
+- **step 3: point 1** (new): Imprima las hojas de ruta para su repartidor.
+- **step 3: point 2** (new): Descargue un CSV para llevarlo a una aplicación de planificación de rutas si quiere optimizar más.
+- **step 3: point 3** (new): Abra una ruta en Google Maps (las rutas largas se dividen en partes, como lo permite Google).
+- **step 3: image description** (new): La página Rutas de la administración con las paradas de cada ruta en orden
+- **step 3: caption** (new): Las rutas de un día de entrega.
+- **step 4: title** (new): Puntos de recogida
+- **step 4: text** (new): Anote los lugares donde los clientes pueden recoger sus comidas, como un gimnasio o un estudio. Si desactiva uno, desaparece del pago, y los pedidos anteriores conservan su nombre y dirección.
+- **step 4: image description** (new): La página Puntos de recogida de la administración
+- **step 4: caption** (new): Puntos de recogida.
+- **step 5: title** (new): Una hoja de empaque para cada pedido
+- **step 5: text** (new): Una hoja por pedido para quien empaca la bolsa y para el repartidor: el cliente y su teléfono, la dirección de entrega o el punto de recogida, el día, la ruta y el número de parada (en el mismo orden que Rutas), las notas de entrega, y cada comida con su tamaño, opciones y extras. Imprima dos hojas por página o una.
+- **step 5: image description** (new): La página Hojas de empaque de la administración con una hoja imprimible
+- **step 5: caption** (new): Una hoja de empaque lista para imprimir.
+- **growth 1: title** (new): Menos tiempo de administración el día de entrega
+- **growth 1: text** (new): Las rutas y las hojas de empaque salen directo de los pedidos de la semana, así que no tiene que armar el día a mano.
+- **growth 2: title** (new): Menos errores en la puerta
+- **growth 2: text** (new): Las hojas indican la ruta y el número de parada en el mismo orden que la hoja de ruta, así que la bolsa, el repartidor y la lista coinciden.
+- **growth 3: title** (new): Más clientes atendidos
+- **growth 3: text** (new): A quien está fuera de sus zonas no se le rechaza: se le ofrece recogida. Y cada zona puede tener su propio día, tarifa y mínimo, de modo que cada área que atiende tenga sentido para usted.
+- **demo link 1** (new): Configuración de entrega y zonas
+- **demo link 2** (new): Rutas
+- **demo link 3** (new): Puntos de recogida
+- **demo link 4** (new): Hojas de empaque
+- **FAQ 1: question** (new): ¿Puede cada zona de entrega tener su propio día, tarifa y mínimo?
+- **FAQ 1: answer** (new): Sí. Cada zona es una lista de códigos postales con su propio día de entrega, tarifa, pedido mínimo y monto de entrega gratis. Si la tienda también tiene un pedido mínimo, se aplica el más alto.
+- **FAQ 2: question** (new): ¿Qué pasa si un cliente está fuera de mis zonas?
+- **FAQ 2: answer** (new): Se le avisa que no entregamos ahí y se le ofrecen sus puntos de recogida, para que aún pueda pedir.
+- **FAQ 3: question** (new): ¿Optimiza mis rutas?
+- **FAQ 3: answer** (new): Pone las paradas de cada ruta en orden a partir de su cocina, la más cercana primero. Para algo más, descargue un CSV para una aplicación de planificación de rutas o abra la ruta en Google Maps.
+- **FAQ 4: question** (new): ¿Las rutas necesitan que las zonas de entrega estén activadas?
+- **FAQ 4: answer** (new): Sí. Las rutas de entrega dependen de las zonas de entrega, así que al desactivar las zonas también se desactivan las rutas. Desactivar una función nunca borra nada, y al activarla de nuevo todo vuelve.
+
+#### kitchen-operations
+
+- **name** (new): Operaciones de cocina
+- **eyebrow** (new): Operaciones de cocina
+- **title (h1)** (new): Software de cocina para comidas preparadas: plan de producción, listas de compras e inventario
+- **intro** (new): Los pedidos de la semana se convierten en una lista de preparación y una lista de compras por proveedor. Lleve el control de los costos de ingredientes y las existencias, y maneje más de una cocina cuando crezca.
+- **card on the hub** (new): Plan de producción, listas de preparación y compras, inventario, costos de ingredientes y proveedores, y más de una cocina.
+- **problem 1** (new): Armo la lista de preparación a mano a partir de los pedidos, y luego adivino el pedido de compras. O compro de más y tiro comida, o me quedo corto a mitad de semana.
+- **problem 2** (new): Y no sé bien cuánto me cuesta cada comida, porque los precios están en una libreta y en unos cuantos recibos.
+- **step 1: title** (new): El plan de producción: qué cocinar
+- **step 1: text** (new): Elija una semana de entrega y obtenga la lista de preparación: cuántas de cada comida y porción hay que hacer, a partir de los pedidos y los planes semanales de esa semana. Las semanas saltadas y en pausa no se incluyen. Desde aquí imprime las etiquetas y las hojas de empaque de la semana.
+- **step 1: image description** (new): El Plan de producción de la administración con la lista de preparación de una semana de entrega
+- **step 1: caption** (new): El Plan de producción de una semana de entrega.
+- **step 2: title** (new): Listas de compras por proveedor
+- **step 2: text** (new): Más abajo: todo lo que hay que comprar, redondeado a como lo compra, con una lista por proveedor y su costo estimado. Con las existencias registradas, cada fila muestra lo que necesita la semana, lo que tiene a mano y lo que debe comprar. Imprímala o descárguela como hoja de cálculo.
+- **step 2: image description** (new): La lista de compras por proveedor con las columnas de necesario, a mano y por comprar
+- **step 2: caption** (new): La lista de compras, con lo que ya tiene a mano.
+- **step 3: title** (new): Costos de ingredientes y proveedores
+- **step 3: text** (new): La página Ingredientes reúne todo lo que compra, cómo lo compra (por libra, por caja), cuánto cuesta, de qué proveedor viene y cuánto tiene a mano. De esta lista se calculan las recetas y los costos, y puede agregar un segundo proveedor y precio para comparar.
+- **step 3: image description** (new): La lista de Ingredientes de la administración con costo, proveedor y cantidad a mano
+- **step 3: caption** (new): Ingredientes, proveedores y existencias.
+- **step 4: title** (new): Un inventario que sigue lo que usted cocina
+- **step 4: text** (new): Todo lo que esté en su nivel de alerta o por debajo aparece arriba, marcado como Bajo. Las existencias bajan cuando usted marca una semana como cocinada, nunca cuando se hace un pedido, así que un pedido cancelado antes simplemente sale del plan. Ajuste las existencias con un motivo (una entrega recibida, una corrección de conteo, merma o descomposición) y cada ajuste queda en el historial de existencias.
+- **step 4: image description** (new): La página Ingredientes con alertas de existencias bajas y cantidades a mano
+- **step 4: caption** (new): Las alertas de existencias bajas, arriba.
+- **step 5: title** (new): Más de una cocina
+- **step 5: text** (new): Cada cocina tiene su propia dirección (de donde salen sus rutas), fecha límite de pedidos y días de entrega, zonas de entrega, puntos de recogida y las comidas que ofrece. A los clientes se les asigna una cocina según su dirección o su punto de recogida, y cada cocina lleva sus propias existencias. Con una sola cocina no ve nada de esto. La pantalla es del negocio de muestra Establecido de la demo, que tiene dos.
+- **step 5: image description** (new): La página Sucursales de la administración con dos cocinas y sus zonas
+- **step 5: caption** (new): Dos cocinas, cada una con su propio horario y menú.
+- **growth 1: title** (new): Menos desperdicio
+- **growth 1: text** (new): Usted compra para los pedidos reales de la semana, tomando en cuenta lo que ya tiene en los estantes, en lugar de adivinar.
+- **growth 2: title** (new): Saber cuánto le cuesta una comida
+- **growth 2: text** (new): Los costos de ingredientes y los proveedores respaldan cada receta, así que puede ver el costo de alimentos de una comida antes de fijar su precio.
+- **growth 3: title** (new): Menos tiempo de administración
+- **growth 3: text** (new): La lista de preparación, la lista de compras y las etiquetas salen de los mismos pedidos, así que deja de volver a escribir la semana.
+- **growth 4: title** (new): Espacio para crecer
+- **growth 4: text** (new): Cuando tenga sentido una segunda cocina, tiene su propio horario, zonas y existencias, y sus informes pueden mostrar una cocina o todas.
+- **demo link 1** (new): Plan de producción
+- **demo link 2** (new): Ingredientes, costos y existencias
+- **demo link 3** (new): Sucursales
+- **FAQ 1: question** (new): ¿El plan deja fuera los planes semanales saltados y en pausa?
+- **FAQ 1: answer** (new): Sí. La lista de preparación se arma con los pedidos de esa semana y los planes semanales que realmente se entregan. Las semanas saltadas y en pausa no se incluyen.
+- **FAQ 2: question** (new): ¿Cuándo bajan las existencias?
+- **FAQ 2: answer** (new): Cuando usted marca una semana como cocinada. Entonces las cantidades exactas de la lista de compras de esa semana se descuentan de las existencias, una sola vez, y Deshacer cocinada las devuelve. No se descuenta nada cuando se hace un pedido.
+- **FAQ 3: question** (new): ¿Puedo enviarle a cada proveedor su propia lista?
+- **FAQ 3: answer** (new): La lista de compras se divide por proveedor, con un costo estimado para cada uno. Puede imprimirla o descargarla como hoja de cálculo.
+- **FAQ 4: question** (new): ¿Necesito más de una cocina para usar esto?
+- **FAQ 4: answer** (new): No. El plan de producción, los costos y el inventario funcionan con una sola cocina. Más de una cocina es una función aparte, del plan Pro, para cuando crezca.
+
+#### labels
+
+- **name** (new): Etiquetas y fechas de consumo
+- **eyebrow** (new): Etiquetas y fechas de consumo
+- **title (h1)** (new): Etiquetas para comidas preparadas con información nutricional y fecha de consumo
+- **intro** (new): Imprima una etiqueta para cada comida con los datos de su propio menú: panel nutricional, ingredientes, alérgenos y fechas de empacado y de consumo. Usted las revisa antes de usarlas.
+- **card on the hub** (new): Etiquetas imprimibles con información nutricional, ingredientes, alérgenos y fecha de consumo, a partir de los datos de su propio menú.
+- **problem 1** (new): Las etiquetas me comen el domingo. Vuelvo a escribir los ingredientes y las calorías de cada comida, y nunca estoy seguro de que la fecha de consumo esté bien cuando ya está en el envase.
+- **problem 2** (new): Quiero etiquetas que salgan de las mismas recetas de mi menú, en el tamaño que acepta mi impresora.
+- **step 1: title** (new): Imprima las etiquetas de la semana en el tamaño que usa
+- **step 1: text** (new): Desde el Plan de producción, imprima una etiqueta para cada comida que se cocina esa semana, o para una sola comida, o una por pedido con el nombre del cliente. Elija hojas de 2 por 4 pulgadas o de 3 y un tercio por 4 pulgadas (Avery 5163/8163 y 5164/8164), o etiquetas térmicas de 4 por 6 pulgadas, y vea primero la vista previa.
+- **step 1: image description** (new): La página Etiquetas de la administración con opciones de tamaño, una fecha de producción y una vista previa
+- **step 1: caption** (new): Elija un tamaño, vea la vista previa e imprima.
+- **step 2: title** (new): Qué lleva cada etiqueta
+- **step 2: text** (new): Su nombre y logotipo, la comida y la porción, un panel nutricional, los ingredientes, una línea Contiene con los alérgenos principales (y líneas Posible para las salsas que compra ya hechas), las fechas de empacado y de consumo, y la forma de guardarla y recalentarla.
+- **step 2: image description** (new): Una hoja de etiquetas impresa con información nutricional, ingredientes, alérgenos y fechas de empacado y de consumo
+- **step 2: caption** (new): Etiquetas de muestra de la demo (en inglés).
+- **step 3: title** (new): Las fechas salen de la vida útil que usted define
+- **step 3: text** (new): Usted define la vida útil de cada comida. Las etiquetas imprimen el día de producción como Empacado, y Consumir antes del se cuenta desde ahí, con el día de producción como el día uno. Su cocina define ambas, y la etiqueta indica la fecha que usted da.
+- **step 4: title** (new): Las etiquetas salen de sus datos, para que usted las revise
+- **step 4: text** (new): Las etiquetas se generan con los datos de cada comida: su nutrición, ingredientes y alérgenos. Revíselas antes de usarlas, y compárelas con sus recetas y con las etiquetas de lo que compra ya hecho. Usted es responsable de lo que dicen sus etiquetas.
+- **growth 1: title** (new): Menos tiempo de administración
+- **growth 1: text** (new): No se vuelve a escribir nada: la etiqueta sale de los mismos datos de la comida que su menú y su plan de producción.
+- **growth 2: title** (new): Una sola fuente de información
+- **growth 2: text** (new): Cuando cambia una receta o un ingrediente, la nutrición, los alérgenos y la etiqueta cambian con ella, en lugar de tres documentos que se van desfasando.
+- **growth 3: title** (new): Los clientes ven lo que comen
+- **growth 3: text** (new): La misma nutrición, ingredientes y alérgenos están en la página de cada comida, así que lo que dice el envase coincide con lo que pidieron.
+- **demo link 1** (new): Etiquetas
+- **demo link 2** (new): Plan de producción (de donde se imprimen las etiquetas)
+- **FAQ 1: question** (new): ¿Qué tamaños de etiqueta puedo imprimir?
+- **FAQ 1: answer** (new): Hojas Avery de 2 por 4 pulgadas (10 por hoja) o de 3 y un tercio por 4 pulgadas (6 por hoja), o etiquetas térmicas de 4 por 6 pulgadas, una por etiqueta. Primero ve una vista previa.
+- **FAQ 2: question** (new): ¿De dónde salen los números de nutrición y los alérgenos de una etiqueta?
+- **FAQ 2: answer** (new): De los datos de sus propias comidas: la receta, su lista de Ingredientes y los alérgenos que usted registró. El sistema genera la etiqueta con eso, y usted la revisa antes de usarla.
+- **FAQ 3: question** (new): ¿Esto hace que mis etiquetas estén correctas por mí?
+- **FAQ 3: answer** (new): No. Las etiquetas se arman con sus datos para que usted las revise; no son asesoría legal ni regulatoria. Compárelas con sus recetas y con las etiquetas de lo que compra ya hecho, y consulte a quien lo asesore sobre las reglas de etiquetado si tiene dudas.
+- **FAQ 4: question** (new): ¿Puedo imprimir una etiqueta por pedido con el nombre del cliente?
+- **FAQ 4: answer** (new): Sí. Puede imprimir una etiqueta para cada comida que se cocina, las etiquetas de una sola comida, o una por pedido con el nombre del cliente.
+
+#### loyalty-and-referrals
+
+- **name** (new): Lealtad y recomendaciones
+- **eyebrow** (new): Lealtad y recomendaciones
+- **title (h1)** (new): Puntos de lealtad, referidos, tarjetas de regalo y cupones para comidas preparadas
+- **intro** (new): Premie a los clientes que siguen regresando, deje que sus mejores clientes traigan amigos, venda tarjetas de regalo y maneje códigos de descuento sin una hoja de cálculo.
+- **card on the hub** (new): Puntos de recompensa, referidos, tarjetas de regalo y cupones que hacen volver a los clientes y traen amigos.
+- **problem 1** (new): Mi mejor publicidad es el boca a boca, pero no puedo darle seguimiento. Reparto descuentos por mensaje y no sé quién mandó a quién ni cuánto me costó.
+- **problem 2** (new): También me encantaría vender tarjetas de regalo sin tener que inventar un código a mano cada vez.
+- **step 1: title** (new): Puntos de recompensa que los clientes pueden gastar
+- **step 1: text** (new): Los clientes ganan puntos con sus pedidos y los gastan después. Las páginas de las comidas muestran los puntos que gana un pedido, y los clientes ven su saldo en la página de su cuenta.
+- **step 2: title** (new): Referidos, con una recompensa para ambas partes
+- **step 2: text** (new): Cada cliente tiene un código y un enlace para compartir. Un amigo que se registra con él y paga un primer pedido gana una recompensa para los dos: un cupón, crédito en la tienda o puntos, como usted elija. Si ese pedido se reembolsa por completo, se retiran las dos recompensas.
+- **step 2: point 1** (new): Elija qué recibe quien refiere y qué recibe el amigo, cuánto duran los cupones de recompensa y los límites por cliente al mes y en total.
+- **step 2: point 2** (new): Un referido se bloquea cuando un cliente prueba su propio código, o cuando el amigo usa el correo, la tarjeta o la dirección de entrega de quien lo refiere, y se muestra el motivo.
+- **step 2: image description** (new): La página Referidos de la administración con referidos premiados, pendientes y bloqueados
+- **step 2: caption** (new): Los referidos y en qué punto está cada uno. Historial de muestra.
+- **step 3: title** (new): Tarjetas de regalo por cualquier monto
+- **step 3: text** (new): Los clientes compran una tarjeta de regalo para otra persona, con un mensaje y una fecha de envío. Se canjea al pagar, sola o con un cupón (usted decide), y lo que no se gasta se queda en la tarjeta. En su propio sitio, quien compra paga con tarjeta mediante Stripe y quien la recibe obtiene el código por correo en la fecha de envío.
+- **step 3: image description** (new): La página de tarjetas de regalo de la tienda con montos, destinatario y fecha de envío
+- **step 3: caption** (new): La página de tarjetas de regalo.
+- **step 4: title** (new): Cada tarjeta de regalo y su historial
+- **step 4: text** (new): Vea para quién es cada tarjeta, su saldo y su historial. Emita una tarjeta a mano (una cortesía, un premio), cambie un saldo o desactive una tarjeta perdida, cada cosa con una nota, todo en el Registro de auditoría.
+- **step 4: image description** (new): La página Tarjetas de regalo de la administración con saldos e historial
+- **step 4: caption** (new): Las tarjetas de regalo en la administración.
+- **step 5: title** (new): Códigos de cupón con límites
+- **step 5: text** (new): Un porcentaje o un monto de descuento, con un límite de usos y una fecha de vencimiento. Los clientes escriben el código al pagar.
+- **step 5: image description** (new): La lista de Cupones de la administración
+- **step 5: caption** (new): Cupones.
+- **growth 1: title** (new): Más clientes que repiten
+- **growth 1: text** (new): Los puntos le dan a la gente una razón para volver la semana siguiente, y un saldo que no quieren dejar sin usar.
+- **growth 2: title** (new): Clientes nuevos de personas a quienes ya les gusta su comida
+- **growth 2: text** (new): Los referidos premian a ambas partes, y solo después de que el amigo paga un primer pedido, así que no regala recompensas por registros que nunca piden.
+- **growth 3: title** (new): Dinero por adelantado, y caras nuevas
+- **growth 3: text** (new): Las tarjetas de regalo traen efectivo antes de cocinar las comidas y ponen su comida frente a alguien que aún no la ha probado.
+- **growth 4: title** (new): Menos tiempo de administración
+- **growth 4: text** (new): Los códigos, los saldos y las recompensas se llevan por usted, con cada cambio registrado.
+- **demo link 1** (new): Los puntos y el código de referido de un cliente
+- **demo link 2** (new): La página de tarjetas de regalo
+- **demo link 3** (new): Referidos
+- **demo link 4** (new): Tarjetas de regalo
+- **demo link 5** (new): Cupones
+- **FAQ 1: question** (new): ¿Cuándo se da la recompensa de un referido?
+- **FAQ 1: answer** (new): Cuando se paga el primer pedido del amigo. Si ese pedido se reembolsa por completo después, se retiran las dos recompensas. En la demo los referidos son historial de muestra y no se paga nada.
+- **FAQ 2: question** (new): ¿Pueden los clientes hacer trampa con el programa de referidos?
+- **FAQ 2: answer** (new): El sistema bloquea las formas habituales: usar su propio código, o un amigo que comparte el correo, la tarjeta o la dirección de entrega de quien lo refiere. Un referido bloqueado muestra el motivo. Para la comprobación de la misma tarjeta, solo guarda la huella digital de Stripe de la tarjeta, nunca los datos de la tarjeta.
+- **FAQ 3: question** (new): ¿Se puede usar una tarjeta de regalo junto con un cupón?
+- **FAQ 3: answer** (new): Usted decide. Hay una opción para permitir o no el uso de una tarjeta de regalo junto con un cupón.
+- **FAQ 4: question** (new): ¿Puedo elegir cuál es la recompensa?
+- **FAQ 4: answer** (new): Sí. En los referidos, quien refiere y el amigo pueden recibir cada uno un cupón de un solo uso (un porcentaje o un monto de descuento), crédito en la tienda o puntos, y usted define cuánto duran los cupones de recompensa y los límites por cliente.
+
+#### reviews-and-surveys
+
+- **name** (new): Reseñas y opiniones de clientes
+- **eyebrow** (new): Reseñas y opiniones de clientes
+- **title (h1)** (new): Reseñas de comidas y encuestas a clientes para negocios de comidas preparadas
+- **intro** (new): Los clientes califican las comidas, usted aprueba lo que se muestra en su menú, y una encuesta corta después de cada entrega le dice cómo salió realmente la semana.
+- **card on the hub** (new): Reseñas de comidas que usted aprueba, y una encuesta de cuatro preguntas después de cada pedido.
+- **problem 1** (new): Recibo buenos comentarios por mensaje y luego se pierden. Y la única mala semana me entero cuando alguien cancela.
+- **problem 2** (new): Quisiera reseñas en mi menú sin que desconocidos publiquen lo que quieran, y una encuesta rápida después de cada entrega.
+- **step 1: title** (new): Las reseñas aparecen solo después de que usted las aprueba
+- **step 1: text** (new): Los clientes califican y reseñan una comida. Una reseña aparece en la página de esa comida solo después de que usted la aprueba, y cada decisión queda en el Registro de auditoría.
+- **step 1: image description** (new): La página Reseñas de la administración con una reseña pendiente por aprobar o rechazar
+- **step 1: caption** (new): Una reseña pendiente de aprobación.
+- **step 2: title** (new): Una encuesta de cuatro preguntas después de cada pedido
+- **step 2: text** (new): Cuando un pedido se entrega o se recoge, su cliente puede responder cuatro preguntas rápidas: en general, la comida, la entrega o la recogida, y si lo recomendaría, con un comentario opcional. Una respuesta por pedido, y solo usted la ve.
+- **step 2: image description** (new): La página de la encuesta para el cliente con cuatro preguntas de calificación
+- **step 2: caption** (new): La encuesta, como la ve el cliente.
+- **step 3: title** (new): Las respuestas, por semana
+- **step 3: text** (new): Elija sus fechas y vea cuántos respondieron y la tasa de respuesta, las calificaciones promedio en general, de la comida y de la entrega o la recogida, el porcentaje que lo recomendaría, lo mismo por semana, y cada comentario con su pedido y su cliente. Un CSV descarga una fila por respuesta. Las encuestas son aparte de las reseñas de comidas.
+- **step 3: image description** (new): La página Encuestas a clientes de la administración con calificaciones por semana y comentarios
+- **step 3: caption** (new): Resultados de las encuestas. Datos de muestra de la demo.
+- **growth 1: title** (new): Confianza para los clientes nuevos
+- **growth 1: text** (new): Las reseñas aprobadas en la página de una comida ayudan a quien nunca ha pedido a elegir con más seguridad.
+- **growth 2: title** (new): Problemas detectados a tiempo
+- **growth 2: text** (new): Las calificaciones de entrega y recogida por semana muestran dónde falló una semana, antes de que se convierta en una cancelación.
+- **growth 3: title** (new): Saber qué seguir haciendo
+- **growth 3: text** (new): Las reseñas le dicen qué comidas entusiasman a los clientes, para que su menú siga lo que les gusta.
+- **demo link 1** (new): Los pedidos de un cliente, con el enlace de la encuesta
+- **demo link 2** (new): Reseñas
+- **demo link 3** (new): Encuestas a clientes
+- **FAQ 1: question** (new): ¿Puedo elegir qué reseñas se muestran en mi menú?
+- **FAQ 1: answer** (new): Sí. Una reseña aparece en la página de una comida solo después de que usted la aprueba, y también puede rechazarla.
+- **FAQ 2: question** (new): ¿Los clientes reciben la encuesta automáticamente?
+- **FAQ 2: answer** (new): En su propio sitio configuramos el correo que enlaza la encuesta después de la entrega, y los clientes también la encuentran en su historial de pedidos. El enlace funciona solo para el cliente que hizo el pedido.
+- **FAQ 3: question** (new): ¿Quién puede ver las respuestas de la encuesta?
+- **FAQ 3: answer** (new): Solo usted. Los clientes responden una vez por pedido, y las respuestas son aparte de las reseñas públicas de las comidas.
+- **FAQ 4: question** (new): ¿Puedo descargar las respuestas?
+- **FAQ 4: answer** (new): Sí. La página de encuestas tiene un CSV que descarga una fila por respuesta para las fechas que elija.
+
+#### reports-and-insights
+
+- **name** (new): Informes y análisis
+- **eyebrow** (new): Informes y análisis
+- **title (h1)** (new): Análisis para comidas preparadas: clientes que repiten, abandono, exportaciones CSV e informes de impuesto sobre ventas
+- **intro** (new): Vea las ventas, sus comidas más vendidas, los clientes que repiten y los que se van, y descargue sus datos como CSV para su contador, cuando quiera.
+- **card on the hub** (new): Análisis, clientes que repiten y abandono, exportaciones CSV e informe del impuesto sobre ventas.
+- **problem 1** (new): Cuando me pregunto si el negocio está creciendo, o llega la época de impuestos, estoy en hojas de cálculo. No podría decirle cuántos son mis clientes que repiten, quién se está yendo, ni cuál comida vende más en realidad.
+- **problem 2** (new): Quiero los números donde manejo el negocio, explicados con palabras sencillas.
+- **step 1: title** (new): Análisis, con palabras sencillas
+- **step 1: text** (new): Ingresos, pedidos, clientes y sus comidas más vendidas, semana por semana y mes por mes. Más abajo: suscriptores de los planes semanales, y saltos, pausas y cancelaciones por semana. Los recuadros de clientes que repiten y abandono tienen un enlace Qué significa que lleva a un glosario que explica cada número.
+- **step 1: image description** (new): La página Análisis de la administración con ingresos, pedidos, abandono y comidas más vendidas
+- **step 1: caption** (new): Análisis. Datos de muestra de la demo.
+- **step 2: title** (new): Sus datos en CSV, cuando quiera
+- **step 2: text** (new): Descargue pedidos (una fila por línea de comida), clientes, planes semanales, existencias y movimientos de existencias como archivos CSV para Excel, Google Sheets o su contador. Exportar no cambia nada, y el archivo de clientes no incluye contraseñas ni datos de pago.
+- **step 2: image description** (new): La página Exportar de la administración con descargas en CSV
+- **step 2: caption** (new): Exportaciones.
+- **step 3: title** (new): Un informe del impuesto sobre ventas con lo que registró Stripe
+- **step 3: text** (new): Un registro del impuesto que Stripe registró en sus pedidos pagados y cumplidos, por día, semana o mes, con totales y un CSV. El sistema no calcula el impuesto por sí mismo: con Stripe Tax activado en su cuenta de Stripe, el impuesto de cada pedido se guarda tal como lo cobró Stripe. Es un registro de sus pedidos, no asesoría fiscal. Los montos de la demo son datos de muestra inventados.
+- **step 3: image description** (new): El informe de impuesto sobre ventas de la administración por semana
+- **step 3: caption** (new): El informe del impuesto sobre ventas. Datos de muestra inventados.
+- **growth 1: title** (new): Más clientes que repiten
+- **growth 1: text** (new): La tasa de clientes que repiten, el abandono y los saltos, pausas y cancelaciones semanales muestran cuándo sus clientes habituales empiezan a alejarse, para que pueda contactarlos mientras todavía importa.
+- **growth 2: title** (new): Decidir qué cocinar y qué dejar
+- **growth 2: text** (new): Las comidas más vendidas de los últimos doce meses le dicen qué conservar, impulsar o retirar.
+- **growth 3: title** (new): Menos tiempo de administración en la época de impuestos
+- **growth 3: text** (new): El registro del impuesto sobre ventas ya está agrupado por semana o por mes, y su contador recibe el CSV en lugar de un montón de capturas de pantalla.
+- **demo link 1** (new): Análisis
+- **demo link 2** (new): Glosario de cada número
+- **demo link 3** (new): Exportar
+- **demo link 4** (new): Informe del impuesto sobre ventas
+- **FAQ 1: question** (new): ¿Qué significan aquí la tasa de clientes que repiten y el abandono?
+- **FAQ 1: answer** (new): La tasa de clientes que repiten es el porcentaje de los clientes de este año que han pedido más de una vez. El abandono es, de los clientes que pidieron en un mes, el porcentaje que nunca volvió a pedir, contado para meses con al menos tres meses de antigüedad. El glosario de la administración explica ambos con ejemplos.
+- **FAQ 2: question** (new): ¿El sistema calcula el impuesto sobre ventas?
+- **FAQ 2: answer** (new): No. Con Stripe Tax activado en su cuenta de Stripe, el impuesto de cada pedido se guarda tal como lo cobró Stripe, y el informe lo muestra por día, semana o mes. Es un registro de sus pedidos, no asesoría fiscal.
+- **FAQ 3: question** (new): ¿Puede mi contador usar las exportaciones?
+- **FAQ 3: answer** (new): Sí. Los pedidos, los clientes, los planes semanales, las existencias y el informe del impuesto sobre ventas se descargan como archivos CSV que abren en Excel o Google Sheets.
+- **FAQ 4: question** (new): ¿Puedo llevarme mi lista de clientes?
+- **FAQ 4: answer** (new): Sí. Los datos de sus clientes y pedidos siempre pertenecen a su negocio, y puede exportarlos en cualquier momento.
+
+#### ai-tools
+
+- **name** (new): Herramientas con IA
+- **eyebrow** (new): Herramientas con IA
+- **title (h1)** (new): Herramientas con IA para negocios de comidas preparadas: chat para clientes, estilo de fotos de comida y Trend Finder
+- **intro** (new): Un chat que responde las preguntas de sus clientes sobre el menú con su propio menú, opciones de estilo para las fotos de su comida e ideas para comidas nuevas. Usted controla todo.
+- **card on the hub** (new): Un asistente de chat para clientes con una página de Conversaciones, estilo de fotos de comida y Trend Finder para ideas de comidas nuevas.
+- **problem 1** (new): Los clientes me hacen las mismas preguntas sobre el menú a todas horas, y las contesto entre una tanda y otra. Las fotos de cada plato nuevo toman una eternidad. Y nunca sé qué comida nueva agregar.
+- **problem 2** (new): Quiero ayuda con las tres cosas, pero no quiero un robot que haga promesas sobre alergias ni que ponga en mi menú cosas que yo no aprobé.
+- **step 1: title** (new): Un chat en su tienda que responde con su menú
+- **step 1: text** (new): Un botón de chat aparece en la esquina de todas las páginas de la tienda. Los clientes preguntan con sus propias palabras, por ejemplo qué comidas con pollo tienen, y responde con su propio menú: las comidas que encajan, con sus precios y un botón Agregar que el cliente presiona por sí mismo. Responde en inglés o en español, según el idioma de la tienda, y no puede hacer pedidos, cambiar un plan ni prometer un descuento. Cuando no sabe algo, lo dice y ofrece pasarle la pregunta a usted.
+- **step 1: image description** (new): El asistente de chat respondiendo una pregunta del menú con comidas, precios y botones Agregar
+- **step 1: caption** (new): El asistente responde con el menú de muestra.
+- **step 2: title** (new): Las preguntas sobre alergias van a su cocina
+- **step 2: text** (new): Cualquier pregunta que mencione alergias recibe un recordatorio claro: si tiene una alergia grave, comuníquese directamente con la cocina antes de pedir. El asistente solo repite los alérgenos que usted registró para cada comida. Nunca dice que una comida es segura para una alergia, y no da consejos médicos ni de dieta. Hablar con la cocina le pasa la conversación a usted, y el nombre, el correo y el teléfono son opcionales.
+- **step 2: image description** (new): El asistente enumerando los alérgenos de una comida con un recordatorio de comunicarse con la cocina
+- **step 2: caption** (new): Una pregunta sobre alergias: los alérgenos registrados y un recordatorio de comunicarse con la cocina.
+- **step 3: title** (new): Conversaciones: lo que preguntan los clientes y lo que le falta a su menú
+- **step 3: text** (new): Cada chat se guarda en la página Conversaciones. Los recuadros cuentan las conversaciones, cuántas llevaron a un pedido de una comida recomendada, cuántas no pudo responder del todo y cuántas se enviaron a la cocina. Más abajo, lo que la gente más pidió y lo que no pudo responder: una forma rápida de ver qué agregar a su menú. Las conversaciones se borran después de los días que usted elija, 90 por defecto. En la demo el historial es inventado, y el chat que usted tenga en la demo aparece primero.
+- **step 3: image description** (new): La página Conversaciones de la administración con lo que pidieron los clientes y lo que el asistente no pudo responder
+- **step 3: caption** (new): Conversaciones. El historial de la demo es inventado.
+- **step 4: title** (new): Estilo de fotos de comida para sus platos reales
+- **step 4: text** (new): Elija la iluminación, el ángulo de la cámara, el plato o la superficie, el fondo, la gradación de color (de fiel a la realidad a natural, nunca sobresaturada), el adorno y la forma, a partir de una guía de estilo escrita con las fotos de su propio menú. El adorno solo sale de los ingredientes del propio plato. Cada foto con IA se revisa contra los ingredientes y alérgenos del plato, y una foto que muestre algo que no está en la receta no se usa. Una foto que pasa igual espera su aprobación antes de aparecer en su menú. En la demo pública las opciones de estilo funcionan y la creación de fotos está desactivada para los visitantes, porque cada una es una llamada de pago; la mostramos en vivo en una llamada de recorrido.
+- **step 4: image description** (new): Las opciones de estilo de fotos en la Configuración de la administración
+- **step 4: caption** (new): Opciones de estilo de fotos en Configuración (en inglés).
+- **step 5: title** (new): Trend Finder: ideas de comidas nuevas, con sus fuentes
+- **step 5: text** (new): Elija cuántas ideas, un enfoque como alto en proteína o vegano, y una temporada. Cada idea dice por qué es tendencia y enlaza los artículos recientes que lo muestran, de al menos dos publicaciones, con sus fechas. Mostrar detalles enumera cada ingrediente con su nutrición y costo, y lo que estima queda marcado para que usted lo confirme. Aceptar convierte una idea en un borrador de comida que queda oculto para los clientes hasta que usted lo revise y lo publique. La demo muestra resultados guardados de búsquedas reales; en su propio sitio busca en la web en vivo.
+- **step 5: image description** (new): Una idea de Trend Finder con por qué es tendencia y sus fuentes
+- **step 5: caption** (new): Una idea de Trend Finder con sus fuentes (en inglés).
+- **growth 1: title** (new): Menos preguntas repetidas contestadas a mano
+- **growth 1: text** (new): El chat se encarga de las preguntas del menú y le pasa solo las que no puede responder, con los datos de contacto que el cliente decidió dejar.
+- **growth 2: title** (new): Una lista de lo que le falta a su menú
+- **growth 2: text** (new): Las preguntas que no pudo responder son una lista clara de lo que los clientes quieren y usted todavía no ofrece.
+- **growth 3: title** (new): Más ideas para el menú, sin adivinar
+- **growth 3: text** (new): Trend Finder trae ideas con fuentes, ingredientes y costos, y usted decide qué se convierte en una comida.
+- **growth 4: title** (new): Fotos que combinan con su menú
+- **growth 4: text** (new): Las opciones de estilo mantienen las fotos nuevas en el estilo de las que ya tiene, y nada se publica sin su aprobación.
+- **demo link 1** (new): Abra el menú y presione Pregunte a nuestro asistente de IA
+- **demo link 2** (new): Conversaciones
+- **demo link 3** (new): Opciones de estilo de fotos
+- **demo link 4** (new): Comidas, con Buscar comidas en tendencia
+- **FAQ 1: question** (new): ¿El asistente le dirá a un cliente que una comida es segura para su alergia?
+- **FAQ 1: answer** (new): No. Solo repite los alérgenos que usted registró para una comida y siempre agrega un recordatorio de comunicarse directamente con la cocina antes de pedir. No dice que una comida es segura, y no da consejos médicos ni de dieta.
+- **FAQ 2: question** (new): ¿Puede el asistente tomar pedidos o dar descuentos?
+- **FAQ 2: answer** (new): No. No puede hacer pedidos, cambiar un plan ni prometer un descuento. Muestra comidas con sus precios y un botón Agregar que el cliente presiona por sí mismo.
+- **FAQ 3: question** (new): ¿El chat funciona en español?
+- **FAQ 3: answer** (new): Sí. Responde en inglés o en español, según el idioma de la tienda.
+- **FAQ 4: question** (new): ¿Por qué la demo limita cuántas preguntas puedo hacer?
+- **FAQ 4: answer** (new): En la demo es un asistente de IA real que responde con el menú de muestra, y cada visitante puede hacer unas pocas preguntas al día. Al llegar al límite, lo avisa, y en una llamada de recorrido le mostramos más.
+- **FAQ 5: question** (new): ¿Las fotos con IA se publican solas en mi menú?
+- **FAQ 5: answer** (new): No. Cada foto se revisa contra los ingredientes y alérgenos del plato, y una que pasa igual espera su aprobación. La revisión solo detecta extras visibles, así que usted sigue siendo responsable de su menú y sus etiquetas.
+
+#### bilingual-and-app
+
+- **name** (new): Tienda bilingüe y app instalable
+- **eyebrow** (new): Tienda bilingüe y app instalable
+- **title (h1)** (new): Sitio bilingüe para comidas preparadas, en inglés y español, instalable en el teléfono
+- **intro** (new): Su tienda y su área de administración en inglés y en español con un cambio de un toque, y una tienda que los clientes pueden agregar a la pantalla de inicio de su teléfono como una app.
+- **card on the hub** (new): Una tienda y una administración en inglés y español, y una tienda que los clientes pueden instalar como una app.
+- **problem 1** (new): Muchos de mis clientes prefieren pedir en español, y casi todos piden desde el teléfono. No quiero dos sitios web, y no quiero pagar por una app que tenga que aprobar una tienda de aplicaciones.
+- **step 1: title** (new): Un toque entre inglés y español
+- **step 1: text** (new): Los clientes cambian con EN | ES en la parte superior de cualquier página, y toda la tienda cambia. Su elección se mantiene, y un enlace que termina en ?lang=es abre la tienda en español, así que puede enviárselo directo a un cliente de habla hispana.
+- **step 1: image description** (new): La página de planes de la tienda de la demo en español
+- **step 1: caption** (new): La misma página de planes, en español.
+- **step 2: title** (new): Su administración también en los dos idiomas
+- **step 2: text** (new): La administración tiene su propio selector EN | ES, así que su personal puede trabajar en el idioma con el que se sienta más cómodo. Los correos a los clientes sobre cambios en los cobros salen en el idioma de cada cliente.
+- **step 2: image description** (new): La página Entrega de la administración de la demo en español
+- **step 2: caption** (new): La página Entrega de la administración, en español.
+- **step 3: title** (new): Usted decide cuándo se activa el español
+- **step 3: text** (new): En una tienda nueva el español empieza desactivado: la tienda abre en inglés, sin el selector EN | ES, hasta que usted activa Español en Configuración > Funciones. La demo lo tiene activado para que vea los dos. Los nombres y las descripciones de las comidas quedan como usted los escribe.
+- **step 4: title** (new): Instálela como una app
+- **step 4: text** (new): Después de su primer pedido, a los clientes se les ofrece agregar su tienda a la pantalla de inicio. Se abre como una app, con su nombre e ícono, y carga rápido en las visitas siguientes. En iPhone se muestran los dos pasos (Compartir, y luego Agregar a pantalla de inicio), porque Safari no tiene un botón de instalar. No hay una tienda de aplicaciones de por medio, y el pago siempre necesita conexión.
+- **step 4: image description** (new): La página del plan de un cliente en un teléfono
+- **step 4: caption** (new): Hecha para teléfonos: la página del plan en una pantalla pequeña (en inglés).
+- **growth 1: title** (new): Llegue a los clientes que prefieren español
+- **growth 1: text** (new): Reciben toda la tienda en su idioma sin que usted tenga que mantener un segundo sitio web.
+- **growth 2: title** (new): Más pedidos repetidos, con menos esfuerzo para el cliente
+- **growth 2: text** (new): Un ícono en la pantalla de inicio con su nombre queda a un toque del menú, lo que hace más fácil volver.
+- **growth 3: title** (new): Sin tienda de aplicaciones
+- **growth 3: text** (new): Los clientes la instalan desde el navegador, así que no hay nada que enviar, aprobar ni mantener actualizado en una tienda de aplicaciones.
+- **demo link 1** (new): La tienda en español
+- **demo link 2** (new): La administración (use EN | ES arriba)
+- **demo link 3** (new): Configuración > Funciones, donde se activa el español
+- **FAQ 1: question** (new): ¿Qué está disponible en los dos idiomas?
+- **FAQ 1: answer** (new): La tienda, el área de administración y los correos a los clientes sobre cambios en los cobros. Los nombres y las descripciones de las comidas que usted escribe quedan como los escribe; díganos si los quiere en los dos idiomas.
+- **FAQ 2: question** (new): ¿Mis clientes necesitan una tienda de aplicaciones?
+- **FAQ 2: answer** (new): No. Agregan su tienda a la pantalla de inicio de su teléfono desde el navegador. Se abre como una app con su nombre e ícono.
+- **FAQ 3: question** (new): ¿Se puede pedir sin conexión?
+- **FAQ 3: answer** (new): La tienda carga rápido en las visitas siguientes, pero el pago siempre necesita conexión.
+- **FAQ 4: question** (new): ¿Por qué el español empieza desactivado en una tienda nueva?
+- **FAQ 4: answer** (new): Para que usted decida cuándo se activa. La tienda abre en inglés, sin el selector EN | ES, hasta que active Español en Configuración > Funciones.
+
+#### getting-started
+
+- **name** (new): Cómo empezar
+- **eyebrow** (new): Cómo empezar
+- **title (h1)** (new): Configuración y migración de clientes para pedidos de comidas preparadas, hechas por nosotros
+- **intro** (new): Lo configuramos por usted, pasamos su menú y sus clientes, y lo ponemos en su propio dominio y su propia cuenta de Stripe. No tiene que aprender software ni empezar desde cero.
+- **card on the hub** (new): Configuración hecha por nosotros, traslado de sus clientes, y que sus datos, su dominio y su cuenta de Stripe sean suyos.
+- **problem 1** (new): No tengo tiempo para aprender un software nuevo, configurar los pagos y pasar a mis clientes, y me da miedo perder gente en el cambio.
+- **problem 2** (new): Tampoco quiero entregarle mi lista de clientes y mi negocio a una plataforma que me cobra por cada pedido.
+- **step 1: title** (new): Una llamada de introducción gratis
+- **step 1: text** (new): Hablamos de su menú, de cómo recibe pedidos hoy y de lo que le gustaría cambiar. Puede probar primero la demo con su propio nombre, logotipo y colores: el panel Pruébelo con su marca muestra todo el sitio como si fuera suyo.
+- **step 1: image description** (new): La tienda de la demo con otro nombre de negocio y otros colores
+- **step 1: caption** (new): La demo con el nombre y los colores cambiados en el panel de marca.
+- **step 2: title** (new): Lo configuramos por usted
+- **step 2: text** (new): Configuramos su nombre, logotipo y colores, su menú, sus zonas y días de entrega, sus planes y sus pagos, para que empiece con una tienda que ya funciona en lugar de una vacía.
+- **step 3: title** (new): Pasamos a sus clientes y su menú
+- **step 3: text** (new): Durante la configuración pasamos por usted los datos de sus clientes y de su menú, desde hojas de cálculo y otros sistemas. Un menú en una exportación de una tienda en línea se puede importar directamente. La nutrición y los alérgenos que no estén en la exportación se marcan para que usted los complete, nunca se adivinan. Sus clientes siguen pidiéndole sin interrupción, y planeamos con usted la fecha del cambio.
+- **step 4: title** (new): Active funciones a medida que crece
+- **step 4: text** (new): Hay tres planes, y nosotros definimos el suyo. En Configuración > Funciones usted elige cuáles de sus funciones están activadas, así que puede empezar sencillo y activar más cuando esté listo. Desactivar una nunca borra sus datos.
+- **step 4: image description** (new): La pestaña Funciones de la Configuración de la administración con interruptores agrupados por plan
+- **step 4: caption** (new): Configuración > Funciones, agrupadas por plan.
+- **step 5: title** (new): Sigue siendo suyo
+- **step 5: text** (new): Los datos de sus clientes y pedidos, su nombre de dominio y su cuenta de Stripe están a su nombre, y puede llevárselos en cualquier momento. Los pagos van a su propia cuenta de Stripe, y no cobramos una comisión por pedido.
+- **growth 1: title** (new): Cambiar sin perder clientes
+- **growth 1: text** (new): Planeamos con usted la fecha del cambio, y sus clientes siguen pidiéndole mientras pasamos todo.
+- **growth 2: title** (new): Menos tiempo de administración desde el primer día
+- **growth 2: text** (new): Usted no aprende un sistema nuevo encima de manejar una cocina. Nosotros hacemos la configuración y el traslado.
+- **growth 3: title** (new): Un negocio que es suyo
+- **growth 3: text** (new): Su lista de clientes, su dominio y su cuenta de pagos siguen a su nombre, así que puede crecer sin quedar atado.
+- **demo link 1** (new): La tienda (abra Pruébelo con su marca)
+- **demo link 2** (new): Configuración > Funciones
+- **FAQ 1: question** (new): ¿Quién lo configura?
+- **FAQ 1: answer** (new): Nosotros. Estamos en Jacksonville, Florida, y trabajamos con operadores pequeños y medianos de comidas preparadas en inglés y español. Usted nos cuenta cómo funciona su negocio y nosotros configuramos el sistema para eso.
+- **FAQ 2: question** (new): ¿Pueden pasar a mis clientes y mi menú?
+- **FAQ 2: answer** (new): Sí. Pasamos los datos de sus clientes y de su menú durante la configuración, desde hojas de cálculo y otros sistemas. La nutrición y los alérgenos que falten se marcan para que usted los complete, nunca se adivinan, y planeamos con usted la fecha del cambio.
+- **FAQ 3: question** (new): ¿Son míos mis datos, mi dominio y mi cuenta de Stripe?
+- **FAQ 3: answer** (new): Sí. Están a su nombre desde el principio, y puede exportar sus datos y llevárselos en cualquier momento.
+- **FAQ 4: question** (new): ¿Hay un cargo por cada pedido?
+- **FAQ 4: answer** (new): No cobramos una comisión por pedido. Se aplican las comisiones de procesamiento de Stripe a los pagos con tarjeta, como en cualquier otro lugar.
+- **FAQ 5: question** (new): ¿Cómo empiezo?
+- **FAQ 5: answer** (new): Llame al (904) 822-8929 o hable con Alex desde el botón de esta página. También puede leer primero la guía de la demo.
+
+### Reused from the app (`IslandFreshmeals/src/config/features.ts`)
+
+These Spanish names and descriptions were already in the app (they appear in its Settings > Features) and are shown on the pages unchanged. Listed here so one review covers them too.
+
+- **plan basic: name** (reused): Básico
+- **plan basic: description** (reused): Pedidos en línea con planes, entregas, recogida, cupones, etiquetas e informes.
+- **plan advanced: name** (reused): Avanzado
+- **plan advanced: description** (reused): Todo lo de Básico, más comidas a su gusto, paquetes, tarjetas de regalo, recompensas, inventario y análisis.
+- **plan pro: name** (reused): Pro
+- **plan pro: description** (reused): Todo lo de Avanzado, más las herramientas con IA y más de una cocina.
+- **subscriptions: name** (reused): Planes semanales
+- **subscriptions: description** (reused): Los clientes se suscriben a un plan semanal y se les cobra cada semana.
+- **delivery_zones: name** (reused): Zonas de entrega
+- **delivery_zones: description** (reused): Zonas por código postal con su tarifa, mínimo y día, y la página de zonas de entrega.
+- **route_sheets: name** (reused): Rutas de entrega
+- **route_sheets: description** (reused): Hojas de ruta para los choferes, con las paradas en un orden práctico.
+- **pickup_locations: name** (reused): Puntos de recogida
+- **pickup_locations: description** (reused): Lugares donde los clientes pueden recoger su pedido.
+- **coupons: name** (reused): Cupones
+- **coupons: description** (reused): Códigos de descuento que los clientes usan al pagar.
+- **labels: name** (reused): Etiquetas
+- **labels: description** (reused): Etiquetas de comidas para imprimir, con fecha de consumo.
+- **packing_slips: name** (reused): Hojas de empaque
+- **packing_slips: description** (reused): Una hoja para imprimir para la bolsa de cada pedido.
+- **production_planning: name** (reused): Plan de producción
+- **production_planning: description** (reused): La lista de preparación y la lista de compras de la semana, según los pedidos.
+- **reviews: name** (reused): Reseñas
+- **reviews: description** (reused): Los clientes califican las comidas; usted aprueba lo que se muestra en el menú.
+- **order_minimums: name** (reused): Mínimos de pedido
+- **order_minimums: description** (reused): Un total mínimo por pedido y cantidades mínimas por comida.
+- **reports: name** (reused): Exportaciones e informes
+- **reports: description** (reused): Exportaciones CSV y el informe de impuesto sobre ventas.
+- **spanish: name** (reused): Español
+- **spanish: description** (reused): Un selector inglés | español en la tienda y en la administración.
+- **pwa: name** (reused): App instalable
+- **pwa: description** (reused): Los clientes pueden agregar la tienda a la pantalla de inicio de su teléfono.
+- **build_your_own: name** (reused): A su gusto
+- **build_your_own: description** (reused): Los clientes arman una comida con proteínas, carbohidratos, verduras y salsas.
+- **sizes_addons: name** (reused): Tamaños y extras
+- **sizes_addons: description** (reused): Tamaños de comida y extras con costo en cualquier comida.
+- **bundles: name** (reused): Paquetes
+- **bundles: description** (reused): Venda varias comidas juntas a un solo precio.
+- **gift_cards: name** (reused): Tarjetas de regalo
+- **gift_cards: description** (reused): Venda tarjetas de regalo que los clientes canjean al pagar.
+- **loyalty_points: name** (reused): Puntos de recompensa
+- **loyalty_points: description** (reused): Los clientes ganan puntos con sus pedidos y los usan después.
+- **referrals: name** (reused): Referidos
+- **referrals: description** (reused): Los clientes comparten un código; ambos ganan una recompensa con el primer pedido del amigo.
+- **surveys: name** (reused): Encuestas
+- **surveys: description** (reused): Una encuesta corta después de cada pedido.
+- **ingredient_costs: name** (reused): Costos y proveedores
+- **ingredient_costs: description** (reused): Costos de ingredientes, costo de alimentos por comida y su lista de proveedores.
+- **inventory: name** (reused): Inventario
+- **inventory: description** (reused): Inventario en existencia, que baja a medida que cocina cada semana.
+- **analytics: name** (reused): Análisis
+- **analytics: description** (reused): Ventas, comidas más vendidas y tendencias de clientes, con un glosario de las cifras.
+- **ai_assistant: name** (reused): Asistente de comidas (IA)
+- **ai_assistant: description** (reused): Un chat que ayuda a los clientes a elegir comidas, y la página de lo que preguntaron.
+- **ai_photos: name** (reused): Fotos de comidas con IA
+- **ai_photos: description** (reused): Genere fotos de comidas que combinan con el estilo de su menú.
+- **trend_finder: name** (reused): Trend Finder
+- **trend_finder: description** (reused): Ideas de comidas nuevas según las tendencias, con costos estimados.
+- **multi_location: name** (reused): Más de una cocina
+- **multi_location: description** (reused): Maneje varias cocinas, cada una con su horario, zonas y menú.
+
+### Meal-prep ordering page (`src/i18n/mealPrepOrdering.ts`)
+
+- **what is included: link to the feature hub** (new): Ver todas las funciones, con pantallas de la demo
+- **what is included: link on each card** (new): Cómo funciona
+
 ## Intentionally left in English on Spanish pages
 
 - Brand, product, people and technology names (see the top of this file), and the "EN" link in the language toggle.
