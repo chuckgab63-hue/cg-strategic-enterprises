@@ -54,7 +54,7 @@ describe('page meta', () => {
 
   it('gives a page its lastmod in the sitemap, only when it has one', () => {
     const xml = sitemapXml();
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/demo-guide</loc>\n    <lastmod>2026-10-31</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/demo-guide</loc>\n    <lastmod>2026-11-01</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-10-31</lastmod>');
     // A page without one (Contact): no lastmod line after its loc.
     expect(xml).not.toMatch(/<loc>https:\/\/www\.cgstrategic\.dev\/contact<\/loc>\n    <lastmod>/);
