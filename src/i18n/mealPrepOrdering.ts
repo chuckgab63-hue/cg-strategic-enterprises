@@ -46,6 +46,8 @@ const en = {
     title: "What's included",
     intro: 'Set up for you, with your menu and customers moved over. Everything here works in the live demo today.',
     cta: 'Try the demo',
+    featuresCta: 'See every feature, with screens from the demo',
+    learnMore: 'How it works',
     items: [
       { icon: 'plans', title: 'Weekly plans', body: 'Customers subscribe, then skip a week, pause, change or cancel on their own before your deadline. If you ever pause billing, the customers affected get an email in their language.' },
       { icon: 'zones', title: 'Delivery zones and deadlines', body: 'Each ZIP code zone has its own fee, minimum order and free-delivery amount, and orders close at your deadline.' },
@@ -220,6 +222,8 @@ const es: typeof en = {
     title: 'Qué incluye',
     intro: 'Lo configuramos por usted y pasamos su menú y sus clientes al nuevo sistema. Todo lo que ve aquí ya funciona en la demo en vivo.',
     cta: 'Probar la demo',
+    featuresCta: 'Ver todas las funciones, con pantallas de la demo',
+    learnMore: 'Cómo funciona',
     items: [
       { icon: 'plans', title: 'Planes semanales', body: 'Sus clientes se suscriben y luego saltan una semana, pausan, cambian o cancelan por su cuenta antes de su fecha límite. Si alguna vez pausa los cobros, los clientes afectados reciben un correo en su idioma.' },
       { icon: 'zones', title: 'Zonas de entrega y fechas límite', body: 'Cada zona por código postal tiene su propia tarifa, pedido mínimo y monto para entrega gratis, y los pedidos cierran en su fecha límite.' },

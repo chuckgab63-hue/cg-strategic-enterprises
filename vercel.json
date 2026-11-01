@@ -62,6 +62,54 @@
       "destination": "/demo-guide/index.html"
     },
     {
+      "source": "/meal-prep-ordering/features",
+      "destination": "/meal-prep-ordering/features/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/subscriptions",
+      "destination": "/meal-prep-ordering/features/subscriptions/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/bigger-orders",
+      "destination": "/meal-prep-ordering/features/bigger-orders/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/delivery-and-pickup",
+      "destination": "/meal-prep-ordering/features/delivery-and-pickup/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/kitchen-operations",
+      "destination": "/meal-prep-ordering/features/kitchen-operations/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/labels",
+      "destination": "/meal-prep-ordering/features/labels/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/loyalty-and-referrals",
+      "destination": "/meal-prep-ordering/features/loyalty-and-referrals/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/reviews-and-surveys",
+      "destination": "/meal-prep-ordering/features/reviews-and-surveys/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/reports-and-insights",
+      "destination": "/meal-prep-ordering/features/reports-and-insights/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/ai-tools",
+      "destination": "/meal-prep-ordering/features/ai-tools/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/bilingual-and-app",
+      "destination": "/meal-prep-ordering/features/bilingual-and-app/index.html"
+    },
+    {
+      "source": "/meal-prep-ordering/features/getting-started",
+      "destination": "/meal-prep-ordering/features/getting-started/index.html"
+    },
+    {
       "source": "/faq",
       "destination": "/faq/index.html"
     },
@@ -136,6 +184,54 @@
     {
       "source": "/es/demo-guide",
       "destination": "/es/demo-guide/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features",
+      "destination": "/es/meal-prep-ordering/features/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/subscriptions",
+      "destination": "/es/meal-prep-ordering/features/subscriptions/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/bigger-orders",
+      "destination": "/es/meal-prep-ordering/features/bigger-orders/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/delivery-and-pickup",
+      "destination": "/es/meal-prep-ordering/features/delivery-and-pickup/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/kitchen-operations",
+      "destination": "/es/meal-prep-ordering/features/kitchen-operations/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/labels",
+      "destination": "/es/meal-prep-ordering/features/labels/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/loyalty-and-referrals",
+      "destination": "/es/meal-prep-ordering/features/loyalty-and-referrals/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/reviews-and-surveys",
+      "destination": "/es/meal-prep-ordering/features/reviews-and-surveys/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/reports-and-insights",
+      "destination": "/es/meal-prep-ordering/features/reports-and-insights/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/ai-tools",
+      "destination": "/es/meal-prep-ordering/features/ai-tools/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/bilingual-and-app",
+      "destination": "/es/meal-prep-ordering/features/bilingual-and-app/index.html"
+    },
+    {
+      "source": "/es/meal-prep-ordering/features/getting-started",
+      "destination": "/es/meal-prep-ordering/features/getting-started/index.html"
     },
     {
       "source": "/es/faq",
