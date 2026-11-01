@@ -334,6 +334,137 @@ New section "8. Planes y funciones" and one changed page. Every new or changed S
 - **page “The admin on the Basic plan”: callout 1** (new): Solo las páginas de Básico
 - **page “The admin on the Basic plan”: callout 2** (new): Vista previa del plan Básico
 
+## Demo guide PDF, Spanish (Nov 1, 2026 update: AI meal assistant, Conversations, billing-change emails)
+
+`public/guides/meal-prep-demo-guide-es.pdf` (source: `docs/demo-guide/tools/content.mjs` in the demo repository). The old “Help me choose” pages are replaced by the AI meal assistant pages, Conversations is rewritten, and section 8 now covers Spanish being off by default and the billing-change emails. Every new or changed Spanish string:
+
+- **page “A working sample business you can click through”: paragraph 3** (changed): La demo abre en inglés, y el español está a un clic: cambie con EN | ES en la parte superior de cualquier página y tanto la tienda como el panel de administración se muestran en español. Su elección se mantiene, y un enlace que termina en ?lang=es abre la demo en español, así que puede mostrarla en español a sus clientes o a su equipo.
+- **page “The AI meal assistant”: title** (new): El asistente de comidas con IA
+- **page “The AI meal assistant”: paragraph 1** (new): Un botón de chat, “Pregunte a nuestro asistente de IA”, aparece en la esquina de todas las páginas de la tienda. Sus clientes preguntan con sus propias palabras (“¿Qué comidas con pollo tienen?”) y el asistente responde con el menú de su cocina: las comidas que encajan, con sus precios y un botón Agregar que el cliente presiona por sí mismo.
+- **page “The AI meal assistant”: paragraph 2** (new): Responde en inglés o en español, según el idioma de la tienda. No puede hacer pedidos, cambiar un plan ni prometer un descuento, y cuando no sabe algo, lo dice y ofrece pasarle la pregunta a usted.
+- **page “The AI meal assistant”: paragraph 3** (new): En la demo es un asistente de IA real que responde con el menú de muestra. Cada visitante puede hacer unas pocas preguntas al día; al llegar al límite, el asistente lo avisa, y en una llamada de recorrido le mostramos más.
+- **page “The AI meal assistant”: callout 1** (new): El asistente de IA
+- **page “The AI meal assistant”: callout 2** (new): Comidas de su menú, con un botón Agregar
+- **page “The AI meal assistant”: callout 3** (new): Pregunte con sus propias palabras
+- **page “Allergy questions, and passing a question to the kitchen”: title** (new): Preguntas sobre alergias y cómo pasar una pregunta a la cocina
+- **page “Allergy questions, and passing a question to the kitchen”: paragraph 1** (new): Cualquier pregunta que mencione alergias recibe un recordatorio claro: “Si tiene una alergia grave, comuníquese directamente con la cocina antes de pedir.” El asistente solo repite los alérgenos que usted registró para cada comida. Nunca dice que una comida es segura para una alergia, y no da consejos médicos ni de dieta.
+- **page “Allergy questions, and passing a question to the kitchen”: paragraph 2** (new): Cuando no puede responder, o el cliente prefiere hablar con una persona, Hablar con la cocina le pasa la conversación a usted. El nombre, el correo y el teléfono son opcionales, y el cliente ve que se envió.
+- **page “Allergy questions, and passing a question to the kitchen”: callout 1** (new): El aviso de comunicarse con la cocina
+- **page “Allergy questions, and passing a question to the kitchen”: callout 2** (new): Hablar con la cocina
+- **page “Allergy questions, and passing a question to the kitchen”: callout 3** (new): El formulario para pasarla
+- **page “Allergy questions, and passing a question to the kitchen”: callout 4** (new): Enviar a la cocina
+- **page “Conversations”: title** (changed): Conversaciones
+- **page “Conversations”: paragraph 1** (changed): Aquí se guarda cada chat con el asistente de IA, para que vea qué preguntan sus clientes y qué respondió. Los recuadros cuentan las conversaciones, cuántas llevaron a un pedido de una comida recomendada, cuántas no pudo responder del todo y cuántas se enviaron a la cocina.
+- **page “Conversations”: paragraph 2** (changed): Más abajo, lo que la gente más pidió y lo que no pudo responder: una forma rápida de ver qué agregar a su menú. Las conversaciones se borran después de los días que usted elija, 90 por defecto. En la demo el historial es inventado; la conversación que tenga en esta pestaña aparece primero.
+- **page “Conversations”: callout 1** (changed): Conversaciones
+- **page “Conversations”: callout 2** (changed): Enviadas a la cocina
+- **page “Conversations”: callout 3** (changed): Lo que no pudo responder
+- **page “Conversations passed to the kitchen”: title** (new): Conversaciones enviadas a la cocina
+- **page “Conversations passed to the kitchen”: paragraph 1** (new): Muestre solo las preguntas que sus clientes le pasaron. Abra una para leer todo el chat, el idioma, los datos de contacto que dejó y si siguió un pedido en la semana. Puede borrar cualquier conversación.
+- **page “Conversations passed to the kitchen”: callout 1** (new): Mostrar: todas, o enviadas a la cocina
+- **page “Conversations passed to the kitchen”: callout 2** (new): Una conversación
+- **page “Conversations passed to the kitchen”: callout 3** (new): Todo el chat y los datos de contacto
+- **page “Three plans: Basic, Advanced and Pro”: paragraph 2** (changed): Avanzado agrega comidas a su gusto, tamaños y extras, paquetes, tarjetas de regalo, puntos de recompensa, referidos, encuestas, costos y proveedores, inventario y análisis. Pro agrega las herramientas con IA (el asistente de chat para clientes y su página de Conversaciones, las fotos de comidas con IA y Trend Finder) y más de una cocina.
+- **page “Turn a feature on or off”: paragraph 4** (new): El español empieza desactivado en una tienda nueva: la tienda abre en inglés y no muestra el selector EN | ES hasta que usted active Español aquí. (Esta demo lo tiene activado, para que vea los dos idiomas.)
+- **page “Choose what happens to live data”: paragraph 4** (new): La misma pantalla muestra a quién se le enviará un correo. Cuando usted pausa los cobros o detiene nuevas suscripciones, cada cliente con un plan semanal recibe un correo breve sobre el cambio, en inglés o en español, y otro cuando se reanudan los planes en pausa, además del aviso en su cuenta. En su propio sitio, los correos salen desde la dirección de correo de su negocio, que configuramos con usted. En esta demo no se envía nada.
+- **page “Choose what happens to live data”: callout 1** (changed): Lo que está en uso ahora
+- **page “Choose what happens to live data”: callout 2** (changed): Su elección
+- **page “Choose what happens to live data”: callout 3** (changed): Pausar todos los cobros, con aviso
+- **page “Choose what happens to live data”: callout 4** (changed): Quién recibe un correo
+- **page “Choose what happens to live data”: callout 5** (changed): Desactivar
+
+## Site pages, Spanish (Nov 1, 2026 update: AI meal assistant, billing-change emails, English-first demo)
+
+Strings on the meal-prep ordering page, the demo guide page and the guide's meta description that are new or changed.
+
+### `src/i18n/mealPrepOrdering.ts` (`/es/meal-prep-ordering`)
+
+- **card “Planes semanales”: body** (changed): Sus clientes se suscriben y luego saltan una semana, pausan, cambian o cancelan por su cuenta antes de su fecha límite. Si alguna vez pausa los cobros, los clientes afectados reciben un correo en su idioma.
+- **card “Asistente de comidas con IA”** (new, icon `assistant`): Un chat en su tienda que responde las preguntas de sus clientes con su propio menú, dirige las preguntas sobre alergias a su cocina y le pasa lo que no puede responder. Cada conversación queda guardada para usted en su panel de administración.
+- **card “Inglés y español”: body** (changed): Su tienda y su área de administración en inglés y en español. La tienda abre en inglés; active el español en Configuración > Funciones y sus clientes cambian de idioma con un toque, y la tienda recuerda su elección.
+- **admin list item** (changed): Un asistente de chat para sus clientes que responde con su propio menú y le pasa a su cocina lo que no puede responder, con una página de Conversaciones que muestra lo que los clientes piden y su menú todavía no cubre
+- **Pro plan item** (changed): Asistente de comidas con IA, con una página de Conversaciones
+
+### `src/i18n/demoGuide.ts` (`/es/demo-guide`)
+
+- **“Qué incluye”** (changed): adds “el asistente de IA para clientes con su página de Conversaciones” to the list of what the guide covers.
+- **brand try-it text** (changed): Empiece con "Pruébelo con su marca" para ver todo el sitio con su nombre, logotipo y colores. La demo abre en inglés; el selector EN | ES de arriba la muestra toda en español.
+- **customer try-it list item** (new): Preguntar al asistente de IA sobre el menú con sus propias palabras, recibir comidas con sus precios y pasar una pregunta a la cocina (responde con el menú de muestra, dirige las preguntas sobre alergias a la cocina, y cada visitante puede hacer unas pocas preguntas al día)
+- **owner try-it list item** (new): Leer la página de Conversaciones: lo que los clientes le preguntaron al asistente, lo que no pudo responder y las preguntas enviadas a la cocina
+- **owner try-it list item** (changed): Activar o desactivar funciones en Configuración > Funciones, ver qué incluye cada plan (Básico, Avanzado, Pro) y ver a quién se le enviaría un correo si pausa los cobros de los planes semanales
+
+### `src/i18n/meta.ts`
+
+- **demo guide meta description** (changed): Guía PDF gratuita de la demo en vivo de pedidos para comidas preparadas: planes semanales, entregas, etiquetas, tarjetas de regalo, asistente de IA y Trend Finder.
+
+## App, Spanish (Nov 1, 2026 update: AI meal assistant, Conversations, billing-change emails)
+
+Strings in the meal-prep app itself (storefront, admin and the emails), written without a native speaker. Files are in the IslandFreshmeals repository.
+
+### Chat widget (`src/components/assistant/AssistantWidget.tsx`, `assistantClient.ts`)
+
+- **open button** (new): Pregunte a nuestro asistente de IA
+- **title** (new): Asistente de comidas con IA
+- **demo notice** (new): Demo: este es un asistente de IA real. Lo que escriba en este chat se envía a un servicio de IA para responderlo, y no se guarda allí; la conversación se queda en este navegador. Nada más de lo que ingrese en la demo sale de su navegador.
+- **welcome** (new): ¡Hola! Soy un asistente de IA de esta cocina. Pregúnteme sobre el menú, los ingredientes, los alérgenos, la nutrición, la entrega o la recogida.
+- **starter suggestions** (new): Comidas altas en proteína · Opciones vegetarianas · ¿Hasta cuándo puedo pedir?
+- **placeholder** (new): Pregunte sobre el menú…
+- **disclaimer** (new): La IA responde con el menú de esta cocina y puede equivocarse. Si tiene una alergia grave, comuníquese con la cocina antes de pedir.
+- **buttons and labels** (new): Sugerencias · Conversación · Comidas mencionadas · Escribiendo · Mensaje · Enviar · Ver carrito (n) · Desde · n en el carrito · Agregar … al carrito · Agregar · Elegir opciones · Cargando el menú… · Algo salió mal. · Intentar de nuevo · Cerrar
+- **hand-off form** (new): Hablar con la cocina · Pasar su pregunta a la cocina · Todo es opcional. Deje una forma de contactarlo si desea una respuesta. · Nombre · Correo electrónico · Teléfono · Enviar a la cocina · Cancelar · Enviada a la cocina
+- **connection error** (new): No se pudo conectar con el asistente. Revise su conexión e inténtelo de nuevo.
+- **assistant off** (new): El asistente no está disponible en este momento.
+- **assistant failed** (new): El asistente no pudo responder en este momento. Inténtelo de nuevo en un momento.
+- **after hand-off** (new): Gracias. Le pasé su pregunta a la cocina; le responderán pronto.
+
+### What the assistant itself says (`supabase/functions/_shared/mealAssistant/safety.ts`)
+
+- **don't know, offer the kitchen** (new): No tengo esa información; ¿quiere que le pase su pregunta a la cocina?
+- **allergy note** (new): Si tiene una alergia grave, comuníquese directamente con la cocina antes de pedir.
+- **allergens listed** (new): Alérgenos indicados para … · sin alérgenos indicados
+- **off-topic** (new): Solo puedo ayudar con el menú, los pedidos y las entregas de esta cocina. ¿Qué le gustaría saber de las comidas?
+- **medical questions** (new): Puedo compartir la información nutricional del menú, pero no puedo dar consejos médicos ni de dieta. Consulte a su médico o a un nutricionista.
+- **daily limit** (new): El asistente ya respondió todas las preguntas que puede por hoy. Inténtelo de nuevo mañana o comuníquese con la cocina.
+- **demo daily limit** (new): Se alcanzó el límite de la demo por hoy. Reserve una demostración guiada para ver más: [booking link coming soon]
+- **keyword lists** (new, not shown to anyone): Spanish words the safety checks look for (allergies, health conditions, “seguro/segura”, promises of codes or refunds). Worth a glance for missing common words.
+
+### Admin: Conversations (`src/pages/admin/AdminConversations.tsx`)
+
+- **title and page description** (changed): Conversaciones · Lo que los clientes le preguntaron al asistente de comidas con IA en la tienda, lo que respondió, qué preguntas se pasaron a la cocina y si después hubo un pedido. Las conversaciones se eliminan N días después de su último mensaje.
+- **demo note** (new): En esta demo el historial es inventado; una conversación que usted tenga con el asistente en esta pestaña aparece primero.
+- **empty and loading** (new): Cargando conversaciones... · Las conversaciones no están conectadas. · Todavía no hay conversaciones.
+- **stat boxes** (new): Conversaciones · Terminaron en un pedido de una comida recomendada · No pudo responder del todo · Enviadas a la cocina
+- **filters** (new): Mostrar · Todas las conversaciones · Enviadas a la cocina · Todas · Pidió una recomendación · Pidió otra cosa · Agregó al carrito, sin pedido · Sin pedido · No pudo responder del todo
+- **gap callout** (new): “…” se pide más de lo que el menú ofrece. Salió en N de M conversaciones (X %), y 1 comida del menú encaja / N comidas del menú encajan. El X % de esas conversaciones terminó en un pedido de una comida recomendada, frente al Y % de todas. Ofrecer más comidas de tipo “…” es una decisión de menú, no del chat.
+- **tables** (new): Lo que la gente pidió · Elija uno para ver sus conversaciones. · Pidió · Conversaciones · Comidas que encajan · Con pedido · Lo que no pudo responder · Cada una es un hueco en el menú, en los detalles del menú o en lo que el asistente entiende. · Nada: todas las preguntas tuvieron respuesta.
+- **reasons** (new): No entendió · Nada encajó · Solo en parte · No está en los datos del menú
+- **a conversation** (new): Visitante · Esta pestaña · Español · Enviada a la cocina · Contacto · No dejó datos de contacto · Recomendó: · Transcripción · (agregada al carrito) · Pedido #N · Pedido #N, otras comidas · Resultado
+- **delete and retention** (new): Eliminar · ¿Eliminar esta conversación? · Su transcripción y sus datos de contacto se eliminan definitivamente. · Conservación · Conservar las conversaciones durante · días · De 1 a 3650 días. Las conversaciones más antiguas se eliminan automáticamente cada día. · Guardar · Ahora las conversaciones se conservan N días. · Eliminar las más antiguas ahora · Se eliminó 1 conversación. / Se eliminaron N conversaciones. · Ingrese un número entero de días, de 1 a 3650.
+
+### Admin: billing-change emails (`FeatureImpactDialog.tsx`, `SubscriptionNotices.tsx`)
+
+- **impact dialog heading** (new): Correo a los suscriptores
+- **who gets an email** (new): N cliente con plan semanal recibirá / N clientes con plan semanal recibirán un correo sobre este cambio. · Ningún cliente tiene un plan semanal en curso, así que no se envía ningún correo. · Revisando el correo…
+- **email not set up** (new): El correo no está configurado, así que los suscriptores solo verán el aviso en su cuenta y no se envía ningún correo. Para enviarles correos, agregue los secretos de Resend (RESEND_API_KEY, NOTICE_EMAIL_FROM) a las funciones de la tienda.
+- **after sending** (new): Se envió un correo a N suscriptor(es) sobre el cambio. · No se pudo enviar 1 correo / No se pudieron enviar N correos. Inténtelo de nuevo con «Enviar los correos pendientes». · No se enviaron los correos: … Se guardan: envíelos después con «Enviar los correos pendientes».
+- **demo preview** (new): Lo que se enviaría · Demo: no se envió ningún correo. En su propia versión, N suscriptor(es) recibe(n) este correo por Resend, cada uno en su idioma. · Para · Inglés / Español · Asunto · Cerrar
+- **pending emails** (new): N correo(s) sobre cambios en los planes semanales no se ha(n) enviado todavía. · Se pusieron en cola desde la línea de comandos, o un envío no terminó. · Enviar los correos pendientes · Enviando…
+- **platform limits** (new, `AdminPlatform.tsx`): Mensajes al asistente por visitante al día · Mensajes al asistente al día, toda la tienda
+
+### The emails customers get (`supabase/functions/_shared/subscriptionNoticeEmail.ts`)
+
+- **greeting and closing** (new): Hola, Nombre: · Hola: (no name) · Vea su plan: (enlace) · — Nombre del negocio (“Su cocina” if none)
+- **billing paused, subject** (new): [Negocio]: su plan semanal está en pausa
+- **billing paused, body** (new): [Negocio] pausó los planes semanales por ahora, así que su plan está en pausa y no se le cobrará mientras siga en pausa. / No tiene que hacer nada. Le avisaremos por correo cuando se reanude.
+- **resumed, subject** (new): [Negocio]: su plan semanal se reanudó
+- **resumed, body** (new): Los planes semanales de [Negocio] están activos de nuevo, así que su plan se reanudó. Sus comidas y el cobro semanal vuelven a partir de la próxima fecha límite de pedidos, como antes. / Si usted había pausado su plan, sigue en pausa hasta la fecha que eligió.
+- **new sign-ups stopped, subject** (new): [Negocio]: su plan semanal continúa como siempre
+- **new sign-ups stopped, body** (new): [Negocio] pausó las nuevas suscripciones a los planes semanales. / Su plan no cambia: continúa y se cobra como siempre. No tiene que hacer nada.
+
+### Spanish off by default (`Configuración > Funciones`)
+
+- No new Spanish text: the existing feature “Español” (“Un selector inglés | español en la tienda y en la administración.”) now starts off in a new store. The explanations are in the demo guide entries above (section 8).
+
 ## Intentionally left in English on Spanish pages
 
 - Brand, product, people and technology names (see the top of this file), and the "EN" link in the language toggle.

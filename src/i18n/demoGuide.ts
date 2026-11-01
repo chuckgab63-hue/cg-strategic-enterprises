@@ -99,7 +99,7 @@ const es: typeof en = {
   try: {
     title: 'Lo que puede probar en la demo',
     // The demo opens in Spanish from this page (demoHref), so its names are the Spanish ones.
-    brand: 'Empiece con "Pruébelo con su marca" para ver todo el sitio con su nombre, logotipo y colores. El selector EN | ES de arriba cambia el idioma de la demo.',
+    brand: 'Empiece con "Pruébelo con su marca" para ver todo el sitio con su nombre, logotipo y colores. La demo abre en inglés; el selector EN | ES de arriba la muestra toda en español.',
     customer: {
       title: 'Como cliente',
       items: [
