@@ -102,6 +102,28 @@ export default function MealPrepOrdering() {
         <CheckList items={t.admin.items} />
       </ServiceSection>
 
+      <ServiceSection title={t.plans.title}>
+        <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mb-8">{t.plans.intro}</p>
+        <ol className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {t.plans.tiers.map((tier, i) => (
+            <li key={tier.name} className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 flex flex-col">
+              <h3 className="text-2xl font-black text-white">{tier.name}</h3>
+              <p className="text-brand-orange font-bold mt-1">{tier.tagline}</p>
+              {i > 0 && <p className="text-slate-300 mt-4 font-semibold">{t.plans.includesPrevious(t.plans.tiers[i - 1].name)}</p>}
+              <ul className={`${i > 0 ? 'mt-2' : 'mt-4'} space-y-2`}>
+                {tier.items.map(item => (
+                  <li key={item} className="flex gap-2 text-slate-400 leading-relaxed">
+                    <span aria-hidden="true" className="text-brand-orange">&#10003;</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
+        <p className="text-slate-400 text-sm leading-relaxed mt-6">{t.plans.demoNote}</p>
+      </ServiceSection>
+
       <ServiceSection title={t.migrate.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl">{t.migrate.body}</p>
       </ServiceSection>
