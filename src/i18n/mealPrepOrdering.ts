@@ -10,7 +10,7 @@ import type { Lang } from './lang.ts';
 /** Picks a "What's included" card's icon in MealPrepOrdering.tsx. */
 export type IncludedIcon =
   | 'plans' | 'zones' | 'routes' | 'pickup' | 'labels' | 'gift' | 'app' | 'photo' | 'trend'
-  | 'build' | 'bundles' | 'referral' | 'inventory' | 'reports' | 'language';
+  | 'build' | 'bundles' | 'referral' | 'inventory' | 'reports' | 'language' | 'assistant';
 
 interface IncludedItem {
   icon: IncludedIcon;
@@ -47,7 +47,7 @@ const en = {
     intro: 'Set up for you, with your menu and customers moved over. Everything here works in the live demo today.',
     cta: 'Try the demo',
     items: [
-      { icon: 'plans', title: 'Weekly plans', body: 'Customers subscribe, then skip a week, pause, change or cancel on their own before your deadline.' },
+      { icon: 'plans', title: 'Weekly plans', body: 'Customers subscribe, then skip a week, pause, change or cancel on their own before your deadline. If you ever pause billing, the customers affected get an email in their language.' },
       { icon: 'zones', title: 'Delivery zones and deadlines', body: 'Each ZIP code zone has its own fee, minimum order and free-delivery amount, and orders close at your deadline.' },
       { icon: 'routes', title: 'Route sheets', body: "Each delivery day's stops, grouped by zone and in order, ready to print." },
       { icon: 'pickup', title: 'Pickup and more kitchens', body: 'Pickup spots at checkout, and a second kitchen with its own zones and menu when you grow.' },
@@ -56,12 +56,13 @@ const en = {
       { icon: 'app', title: 'Installable app', body: 'Customers add your store to their home screen and open it like an app.' },
       { icon: 'photo', title: 'Food photo styling', body: 'Styling options that make your real dishes look their best in AI photos. Garnish comes only from each recipe, every photo is checked against its ingredients and allergens, and none goes on your menu until you approve it.' },
       { icon: 'trend', title: 'Trend Finder', body: 'Turns trending dishes into draft meals, with recipe, nutrition and price, for you to review and publish.' },
+      { icon: 'assistant', title: 'AI meal assistant', body: "A chat on your storefront that answers customers' questions from your own menu, points allergy questions to your kitchen and passes on what it can't answer. Every conversation is saved for you in your admin." },
       { icon: 'build', title: 'Build your own, sizes and add-ons', body: 'Customers build a bowl from your proteins, carbs, vegetables and sauces and see its calories and macros as they pick. Any meal can have sizes and add-ons, each priced by you.' },
       { icon: 'bundles', title: 'Bundles and minimums', body: 'Sell a set of meals as one bundle at one price, and set a minimum quantity per meal or a minimum order for the store.' },
       { icon: 'referral', title: 'Referral program', body: "Each customer gets a referral link. When a friend's first order is paid, both get a reward, and a full refund takes it back." },
       { icon: 'inventory', title: 'Inventory', body: 'Stock for every ingredient at each kitchen, taken off when you mark the week cooked, with low-stock alerts and a history of every change.' },
       { icon: 'reports', title: 'Surveys, exports and sales tax', body: 'A short survey after each delivery, CSV exports of orders, customers, plans and stock, and a report of the sales tax Stripe charged.' },
-      { icon: 'language', title: 'English and Spanish', body: 'Your store and admin area in both languages. Customers switch with one tap and the store remembers their choice.' },
+      { icon: 'language', title: 'English and Spanish', body: 'Your store and admin area in English and Spanish. The store opens in English; turn Spanish on in Settings > Features and customers switch with one tap, and the store remembers their choice.' },
     ] as IncludedItem[],
   },
   admin: {
@@ -80,7 +81,7 @@ const en = {
       'Build-your-own meals, sizes, add-ons and bundles, with a report of which variations sell',
       'A minimum quantity per meal and a minimum order for the store',
       'Analytics, including repeat rate and churn',
-      "An AI assistant that helps customers choose meals and shows you what they ask for that the menu doesn't have yet",
+      "A customer chat assistant that answers from your own menu and passes what it can't answer to your kitchen, with a Conversations page showing what customers ask that the menu doesn't cover yet",
       'Coupons, gift cards and review approval',
       'A referral program, with rewards taken back when the order is fully refunded',
       'Customer surveys after delivery, with averages, a weekly trend and comments',
@@ -133,7 +134,7 @@ const en = {
         name: 'Pro',
         tagline: 'AI tools and more than one kitchen',
         items: [
-          'AI meal assistant',
+          'AI meal assistant, with a Conversations page',
           'AI food photos, with your styling and your approval',
           'Trend Finder',
           'More than one kitchen',
@@ -220,7 +221,7 @@ const es: typeof en = {
     intro: 'Lo configuramos por usted y pasamos su menú y sus clientes al nuevo sistema. Todo lo que ve aquí ya funciona en la demo en vivo.',
     cta: 'Probar la demo',
     items: [
-      { icon: 'plans', title: 'Planes semanales', body: 'Sus clientes se suscriben y luego saltan una semana, pausan, cambian o cancelan por su cuenta antes de su fecha límite.' },
+      { icon: 'plans', title: 'Planes semanales', body: 'Sus clientes se suscriben y luego saltan una semana, pausan, cambian o cancelan por su cuenta antes de su fecha límite. Si alguna vez pausa los cobros, los clientes afectados reciben un correo en su idioma.' },
       { icon: 'zones', title: 'Zonas de entrega y fechas límite', body: 'Cada zona por código postal tiene su propia tarifa, pedido mínimo y monto para entrega gratis, y los pedidos cierran en su fecha límite.' },
       { icon: 'routes', title: 'Hojas de ruta', body: 'Las paradas de cada día de entrega, agrupadas por zona y en orden, listas para imprimir.' },
       { icon: 'pickup', title: 'Recogida y más cocinas', body: 'Puntos de recogida al pagar, y una segunda cocina con sus propias zonas y menú cuando su negocio crezca.' },
@@ -229,12 +230,13 @@ const es: typeof en = {
       { icon: 'app', title: 'App instalable', body: 'Sus clientes agregan su tienda a la pantalla de inicio y la abren como una app.' },
       { icon: 'photo', title: 'Estilo de las fotos de sus platos', body: 'Opciones de estilo para que sus platos reales luzcan lo mejor posible en las fotos con IA. La guarnición sale solo de cada receta, cada foto se revisa contra sus ingredientes y alérgenos, y ninguna llega a su menú hasta que usted la aprueba.' },
       { icon: 'trend', title: 'Trend Finder', body: 'Convierte platillos en tendencia en borradores de comidas, con receta, nutrición y precio, para que usted los revise y los publique.' },
+      { icon: 'assistant', title: 'Asistente de comidas con IA', body: 'Un chat en su tienda que responde las preguntas de sus clientes con su propio menú, dirige las preguntas sobre alergias a su cocina y le pasa lo que no puede responder. Cada conversación queda guardada para usted en su panel de administración.' },
       { icon: 'build', title: 'Arme su comida, tamaños y extras', body: 'Sus clientes arman un bowl con sus proteínas, carbohidratos, vegetales y salsas, y ven sus calorías y macros mientras eligen. Cualquier comida puede tener tamaños y extras, con el precio que usted fije.' },
       { icon: 'bundles', title: 'Paquetes y mínimos', body: 'Venda un conjunto de comidas como un solo paquete a un solo precio, y fije una cantidad mínima por comida o un pedido mínimo para la tienda.' },
       { icon: 'referral', title: 'Programa de referidos', body: 'Cada cliente recibe un enlace para recomendar. Cuando se paga el primer pedido del amigo, los dos reciben una recompensa, y un reembolso total la anula.' },
       { icon: 'inventory', title: 'Inventario', body: 'Las existencias de cada ingrediente en cada cocina, que se descuentan al marcar la semana como cocinada, con alertas de existencias bajas y un historial de cada cambio.' },
       { icon: 'reports', title: 'Encuestas, exportaciones e impuesto', body: 'Una encuesta corta después de cada entrega, exportaciones CSV de pedidos, clientes, planes y existencias, y un informe del impuesto sobre ventas que cobró Stripe.' },
-      { icon: 'language', title: 'Inglés y español', body: 'Su tienda y su área de administración en los dos idiomas. Sus clientes cambian de idioma con un toque y la tienda recuerda su elección.' },
+      { icon: 'language', title: 'Inglés y español', body: 'Su tienda y su área de administración en inglés y en español. La tienda abre en inglés; active el español en Configuración > Funciones y sus clientes cambian de idioma con un toque, y la tienda recuerda su elección.' },
     ],
   },
   admin: {
@@ -253,7 +255,7 @@ const es: typeof en = {
       'Comidas para armar, tamaños, extras y paquetes, con un informe de qué variaciones se venden',
       'Una cantidad mínima por comida y un pedido mínimo para la tienda',
       'Análisis, incluidas la tasa de clientes que repiten y la tasa de abandono',
-      'Un asistente de IA que ayuda a sus clientes a elegir comidas y le muestra lo que piden que su menú todavía no tiene',
+      'Un asistente de chat para sus clientes que responde con su propio menú y le pasa a su cocina lo que no puede responder, con una página de Conversaciones que muestra lo que los clientes piden y su menú todavía no cubre',
       'Cupones, tarjetas de regalo y aprobación de reseñas',
       'Un programa de referidos, con recompensas que se anulan cuando el pedido se reembolsa por completo',
       'Encuestas a clientes después de la entrega, con promedios, la tendencia semanal y comentarios',
@@ -304,7 +306,7 @@ const es: typeof en = {
         name: 'Pro',
         tagline: 'Herramientas con IA y más de una cocina',
         items: [
-          'Asistente de comidas con IA',
+          'Asistente de comidas con IA, con una página de Conversaciones',
           'Fotos de sus platos con IA, con su estilo y su aprobación',
           'Trend Finder',
           'Más de una cocina',

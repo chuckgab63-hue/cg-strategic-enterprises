@@ -41,6 +41,8 @@ const INCLUDED_ICONS: Record<IncludedIcon, string> = {
   reports: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
   // A speech bubble.
   language: 'M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12zM8.5 12h.01M12 12h.01M15.5 12h.01',
+  // Sparkles: the AI assistant.
+  assistant: 'M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z',
 };
 
 export default function MealPrepOrdering() {
