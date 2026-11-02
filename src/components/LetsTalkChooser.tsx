@@ -5,6 +5,7 @@ import { useLang, useT } from '../i18n/useLang';
 import { trackEvent } from '../lib/analytics';
 import common from '../i18n/common';
 import alex from '../i18n/alex';
+import { bookingUrl } from '../config/booking';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -171,6 +172,22 @@ export default function LetsTalkChooser() {
                 {/* tel: links often do nothing on desktops, so tell mouse users to dial. */}
                 <span className="pointer-fine:hidden">{c.tapToCall}</span>
                 <span className="hidden pointer-fine:inline">{c.dialFromPhone}</span>
+              </span>
+            </a>
+
+            {/* An extra option: a free 30-minute Zoom intro call. Opens the booking page in a new tab. */}
+            <a
+              href={bookingUrl('lets-talk-chooser', 'header-chooser')}
+              target="_blank"
+              rel="noopener"
+              data-book-call="header-chooser"
+              onClick={close}
+              className="mt-2 block rounded-xl border border-slate-800 bg-slate-900/50 p-4 hover:border-brand-orange/60 transition-colors"
+            >
+              <span className="block text-white font-bold text-sm">{t.bookCall.label}</span>
+              <span className="block text-slate-400 text-xs leading-5 mt-1">
+                {t.bookCall.detail}
+                {t.bookCall.note && <> {t.bookCall.note}</>}
               </span>
             </a>
           </div>

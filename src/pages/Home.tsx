@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useAfterPageLoad } from '../lib/deferred';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import home from '../i18n/home';
+import common from '../i18n/common';
+import { bookingUrl } from '../config/booking';
 import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
 import { trackEvent } from '../lib/analytics';
@@ -51,6 +53,7 @@ export default function Home() {
   const t = useT(home);
   const lang = useLang();
   const lp = useLocalePath();
+  const c = useT(common);
   
   // --- Global Form/Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -257,6 +260,19 @@ export default function Home() {
                 {t.hero.viewWork}
               </button>
             </Link>
+            {/* An extra option beside the two above: a free 30-minute Zoom intro call. */}
+            <span className="inline-flex flex-col items-center gap-1">
+              <a
+                href={bookingUrl('home', 'hero')}
+                target="_blank"
+                rel="noopener"
+                data-book-call="hero"
+                className="inline-block bg-transparent border-2 border-white/60 text-white px-8 py-3 rounded-md font-bold tracking-wide hover:bg-white hover:text-slate-900 transition-all cursor-pointer hover:scale-105"
+              >
+                {c.bookCall.label}
+              </a>
+              {c.bookCall.note && <small className="text-[11px] leading-4 text-slate-300">{c.bookCall.note}</small>}
+            </span>
           </div>
         </div>
       </header>

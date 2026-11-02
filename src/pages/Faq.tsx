@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import FaqList from '../components/FaqList';
+import { BookCallButton } from '../components/ServicePage';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import faqDict, { faqJsonLdText } from '../i18n/faq';
 
@@ -24,9 +25,12 @@ export default function Faq() {
       <div className="mt-12 bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8 flex flex-col items-start gap-4">
         <h2 className="text-white font-bold text-lg m-0">{t.cta.title}</h2>
         <p className="text-slate-300 text-base leading-relaxed">{t.cta.body}</p>
-        <Link to={lp('/contact')} className="bg-brand-orange text-white px-6 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-opacity">
-          {t.cta.button}
-        </Link>
+        <div className="flex flex-wrap items-start gap-3">
+          <BookCallButton medium="faq" content="faq-cta" />
+          <Link to={lp('/contact')} className="bg-brand-orange text-white px-6 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-opacity">
+            {t.cta.button}
+          </Link>
+        </div>
       </div>
     </section>
   );

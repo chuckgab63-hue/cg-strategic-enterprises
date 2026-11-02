@@ -9,7 +9,7 @@ import {
   DEMO_BASE, demoLinkFor, featurePath, type FeaturePage, type FeaturesUi, type HowBlock, type ScreenRef,
 } from '../i18n/mealPrepFeatures';
 import { useLocalePath } from '../i18n/useLang';
-import { ServiceSection, TalkToAlexButton, primaryButtonClass, secondaryButtonClass } from './ServicePage';
+import { BookCallButton, ServiceSection, TalkToAlexButton, primaryButtonClass, secondaryButtonClass } from './ServicePage';
 
 // Pieces shared by the feature hub and the eleven feature pages
 // (src/pages/MealPrepFeatures.tsx, MealPrepFeature.tsx).
@@ -212,6 +212,7 @@ export function FeatureActions({ ui, demoUrl }: { ui: FeaturesUi; demoUrl?: stri
         </a>
       )}
       <TalkToAlexButton label={ui.ctaAlex} className={demoUrl ? secondaryButtonClass : primaryButtonClass} />
+      <BookCallButton medium="meal-prep-features" content="feature-actions" />
       {!demoUrl && (
         <a href={PHONE_HREF} className={secondaryButtonClass}>{PHONE_DISPLAY}</a>
       )}
