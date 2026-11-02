@@ -1,6 +1,6 @@
 import { PHONE_HREF } from '../config/site';
 import {
-  CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
+  BookCallButton, CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
   TalkToAlexButton, secondaryButtonClass,
 } from '../components/ServicePage';
 import { useT } from '../i18n/useLang';
@@ -11,11 +11,12 @@ export default function AnsweringService() {
   const t = useT(answeringService);
   const { callAriaLabel } = useT(common);
 
-  const ctas = (
+  const ctas = (placement: string) => (
     <>
       <div className="flex flex-wrap gap-3">
         <TalkToAlexButton label={t.ctaAlex} />
         <a href={PHONE_HREF} aria-label={callAriaLabel} className={secondaryButtonClass}>{t.ctaCall}</a>
+        <BookCallButton medium="answering-service" content={placement} />
       </div>
       <p className="text-slate-400 text-sm leading-relaxed mt-4">{t.tryNote}</p>
     </>
@@ -23,7 +24,7 @@ export default function AnsweringService() {
 
   return (
     <ServicePage>
-      <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>{ctas}</ServiceHero>
+      <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>{ctas('hero')}</ServiceHero>
 
       <ServiceSection title={t.what.title}>
         <CheckList items={t.what.items} />
@@ -45,7 +46,7 @@ export default function AnsweringService() {
 
       <ServiceFaq title={t.faqTitle} items={t.faq} path={ANSWERING_SERVICE_PATH} />
 
-      <ServiceClosing title={t.closing.title} body={t.closing.body}>{ctas}</ServiceClosing>
+      <ServiceClosing title={t.closing.title} body={t.closing.body}>{ctas('closing')}</ServiceClosing>
     </ServicePage>
   );
 }

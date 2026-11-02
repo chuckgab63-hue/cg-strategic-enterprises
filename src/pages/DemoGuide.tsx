@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  CheckList, ServiceClosing, ServiceHero, ServicePage, ServiceSection, TalkToAlexButton, primaryButtonClass,
+  BookCallButton, CheckList, ServiceClosing, ServiceHero, ServicePage, ServiceSection, TalkToAlexButton, primaryButtonClass,
   secondaryButtonClass,
 } from '../components/ServicePage';
 import { PHONE_HREF } from '../config/site';
@@ -92,6 +92,7 @@ export default function DemoGuide() {
         <div className="flex flex-wrap gap-3">
           <a href={PHONE_HREF} className={primaryButtonClass}>{t.closing.call}</a>
           <TalkToAlexButton label={t.closing.letsTalk} className={secondaryButtonClass} />
+          <BookCallButton medium="demo-guide" content="closing" />
         </div>
       </ServiceClosing>
 

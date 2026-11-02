@@ -425,7 +425,7 @@ Strings in the meal-prep app itself (storefront, admin and the emails), written 
 - **off-topic** (new): Solo puedo ayudar con el menú, los pedidos y las entregas de esta cocina. ¿Qué le gustaría saber de las comidas?
 - **medical questions** (new): Puedo compartir la información nutricional del menú, pero no puedo dar consejos médicos ni de dieta. Consulte a su médico o a un nutricionista.
 - **daily limit** (new): El asistente ya respondió todas las preguntas que puede por hoy. Inténtelo de nuevo mañana o comuníquese con la cocina.
-- **demo daily limit** (new): Se alcanzó el límite de la demo por hoy. Reserve una demostración guiada para ver más: [booking link coming soon]
+- **demo daily limit** (new; reworded Nov 2, 2026, see the booking-link section below): Se alcanzó el límite de la demo por hoy. Agende una llamada introductoria gratuita para ver más: <enlace> (página en inglés)
 - **keyword lists** (new, not shown to anyone): Spanish words the safety checks look for (allergies, health conditions, “seguro/segura”, promises of codes or refunds). Worth a glance for missing common words.
 
 ### Admin: Conversations (`src/pages/admin/AdminConversations.tsx`)
@@ -1120,6 +1120,25 @@ Strings in the meal-prep app (IslandFreshmeals repository), written without a na
 - **Admin Overview setup note (`src/components/admin/SetupNotes.tsx`): title** (new): Nota de configuración
 - **Admin Overview setup note: delivery areas form** (new): El formulario «Avisarme» de la página de zonas de entrega no está conectado: falta el webhook de contactos (VITE_MAKE_LEADS_WEBHOOK_URL). Mientras tanto, a los visitantes fuera de su zona se les muestran su teléfono y su correo. Pida a CG Strategic que lo conecte.
 - **Admin Overview setup note: contact form** (new): El formulario de mensajes de la página Contacto no está conectado: falta el webhook de contacto (VITE_MAKE_CONTACT_WEBHOOK_URL). Mientras tanto, a los visitantes se les pide que llamen o escriban. Pida a CG Strategic que lo conecte.
+
+## Booking link, Spanish (Nov 2, 2026: "Agende una llamada introductoria gratuita")
+
+The free 30-minute Zoom intro call is booked on a Cal.com page that exists **in English only**, so every Spanish placement says so in small text. One label, one note, used everywhere.
+
+### Site (`src/i18n/common.ts`, `bookCall`)
+
+- **button / link label** (new): Agende una llamada introductoria gratuita
+- **small note under or beside it** (new): (página en inglés)
+- **line in the "Hablemos" chooser and on /es/contact** (new): Una llamada gratuita de 30 minutos por Zoom con Chuck.
+- Placements on Spanish pages: the "Hablemos" chooser in the header, /es/contact, the home hero, /es/meal-prep-ordering (top and bottom), /es/answering-service (top and bottom), the 11 /es/meal-prep-ordering/features pages, /es/demo-guide, /es/search-ai-visibility and /es/faq.
+
+### Demo guide PDF and README (`IslandFreshmeals/docs/demo-guide/tools/content.mjs`)
+
+- **cover and last page** (changed; replaces "Agende su llamada: [enlace de reserva próximamente]"): Agende una llamada introductoria gratuita: cal.com/cgstrategic/intro-call (página en inglés)
+
+### Demo chat, when the daily limit is reached (`supabase/functions/_shared/mealAssistant/safety.ts`)
+
+- **demo daily limit** (changed): Se alcanzó el límite de la demo por hoy. Agende una llamada introductoria gratuita para ver más: <enlace> (página en inglés)
 
 ## Intentionally left in English on Spanish pages
 

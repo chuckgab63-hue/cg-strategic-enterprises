@@ -4,6 +4,7 @@ import ContactForm from '../components/ContactForm';
 import MailingAddress from '../components/MailingAddress';
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { useT } from '../i18n/useLang';
+import { BookCallButton, primaryButtonClass } from '../components/ServicePage';
 import common from '../i18n/common';
 import contactDict from '../i18n/contact';
 import { WEBSITE_CHECK_SOURCE } from '../lib/websiteCheck/lead';
@@ -12,6 +13,7 @@ import { MISSED_CALL_CALCULATOR_SOURCE } from '../lib/missedCall/submission';
 const ICON_PATHS = {
   phone: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
   email: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+  calendar: 'M8 7V3m8 4V3M4 11h16M5 5h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z',
   location: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z',
 };
 
@@ -33,7 +35,7 @@ const methodLinkClass = 'text-sm font-bold tracking-wide text-slate-200 hover:te
 
 export default function Contact() {
   const t = useT(contactDict).page;
-  const { callAriaLabel, emailAriaLabel } = useT(common);
+  const { callAriaLabel, emailAriaLabel, bookCall } = useT(common);
   // "Book a free intro call" on /website-check and "Pilot Missed-Call Rescue" on
   // /missed-call-calculator link here with ?source=..., so the lead is tagged with
   // where it came from and the message is started for them. Other values are ignored.
@@ -60,6 +62,9 @@ export default function Contact() {
           <a href={EMAIL_HREF} aria-label={emailAriaLabel} className={methodLinkClass}>
             {EMAIL.split('@')[0]}@<wbr />{EMAIL.split('@')[1]}
           </a>
+        </ContactMethod>
+        <ContactMethod icon="calendar" label={bookCall.detail} className="sm:col-span-2">
+          <BookCallButton medium="contact" content="contact-methods" className={primaryButtonClass} />
         </ContactMethod>
         <ContactMethod icon="location" label={t.mailingAddress} className="sm:col-span-2">
           <MailingAddress className="text-sm font-bold tracking-wide leading-relaxed text-slate-200" />

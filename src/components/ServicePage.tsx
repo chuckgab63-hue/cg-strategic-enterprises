@@ -2,7 +2,9 @@ import type { ReactNode } from 'react';
 import { OPEN_LETS_TALK_EVENT } from './LetsTalkChooser';
 import FaqList from './FaqList';
 import { faqPageJsonLdText, type FaqItem } from '../i18n/faq';
-import { useLang } from '../i18n/useLang';
+import { useLang, useT } from '../i18n/useLang';
+import common from '../i18n/common';
+import { bookingUrl } from '../config/booking';
 
 // Building blocks shared by the service pages (/answering-service,
 // /meal-prep-ordering): one layout, heading scale and set of buttons.
@@ -91,6 +93,24 @@ export function TalkToAlexButton({ label, className = primaryButtonClass }: { la
     <button type="button" onClick={() => window.dispatchEvent(new Event(OPEN_LETS_TALK_EVENT))} className={className}>
       {label}
     </button>
+  );
+}
+
+/**
+ * "Book a free intro call": opens the Cal.com page in a new tab. An extra option beside
+ * Talk to Alex and the phone number, never a replacement. `medium` is the page or
+ * component and `content` the placement; they become utm_medium and utm_content.
+ * On Spanish pages a small note says the booking page is in English.
+ */
+export function BookCallButton({ medium, content, className = secondaryButtonClass }: { medium: string; content: string; className?: string }) {
+  const { bookCall } = useT(common);
+  return (
+    <span className="inline-flex flex-col items-center gap-1">
+      <a href={bookingUrl(medium, content)} target="_blank" rel="noopener" data-book-call={content} className={className}>
+        {bookCall.label}
+      </a>
+      {bookCall.note && <small className="text-[11px] leading-4 text-slate-400">{bookCall.note}</small>}
+    </span>
   );
 }
 

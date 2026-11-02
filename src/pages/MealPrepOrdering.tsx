@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {
-  CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
+  BookCallButton, CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
@@ -73,6 +73,7 @@ export default function MealPrepOrdering() {
         <div className="flex flex-wrap gap-3">
           {demoLink(DEMO_MENU_URL, t.ctaDemo, primaryButtonClass)}
           <TalkToAlexButton label={t.ctaAlex} className={secondaryButtonClass} />
+          <BookCallButton medium="meal-prep-ordering" content="hero" />
         </div>
       </ServiceHero>
 
@@ -174,6 +175,7 @@ export default function MealPrepOrdering() {
         <div className="flex flex-wrap gap-3">
           {demoLink(DEMO_MENU_URL, t.ctaDemo, primaryButtonClass)}
           <TalkToAlexButton label={t.ctaAlex} className={secondaryButtonClass} />
+          <BookCallButton medium="meal-prep-ordering" content="closing" />
         </div>
       </ServiceClosing>
     </ServicePage>

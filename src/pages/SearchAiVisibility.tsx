@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ServiceClosing, ServicePage, TalkToAlexButton, primaryButtonClass } from '../components/ServicePage';
+import { BookCallButton, ServiceClosing, ServicePage, TalkToAlexButton, primaryButtonClass } from '../components/ServicePage';
 import { useLocalePath, useT } from '../i18n/useLang';
 import searchAiVisibility from '../i18n/searchAiVisibility';
 
@@ -55,7 +55,10 @@ export default function SearchAiVisibility() {
       </div>
 
       <ServiceClosing title={t.alex.title} body={t.alex.body}>
-        <TalkToAlexButton label={t.alex.cta} />
+        <div className="flex flex-wrap gap-3">
+          <TalkToAlexButton label={t.alex.cta} />
+          <BookCallButton medium="search-ai-visibility" content="closing" />
+        </div>
       </ServiceClosing>
     </ServicePage>
   );

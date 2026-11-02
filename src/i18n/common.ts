@@ -27,6 +27,11 @@ const en = {
   emailAriaLabel: `Email ${BUSINESS_NAME} at ${EMAIL}`,
   letsTalk: "Let's Talk",
   orSendMessage: 'Or send us a message',
+  bookCall: {
+    label: 'Book a free intro call',
+    note: '',
+    detail: 'A free 30-minute Zoom call with Chuck.',
+  },
   chooser: {
     title: "Let's talk",
     close: 'Close',
@@ -87,6 +92,11 @@ const es: typeof en = {
   emailAriaLabel: `Enviar un correo electrónico a ${BUSINESS_NAME} a ${EMAIL}`,
   letsTalk: 'Hablemos',
   orSendMessage: 'O envíenos un mensaje',
+  bookCall: {
+    label: 'Agende una llamada introductoria gratuita',
+    note: '(página en inglés)',
+    detail: 'Una llamada gratuita de 30 minutos por Zoom con Chuck.',
+  },
   chooser: {
     title: 'Hablemos',
     close: 'Cerrar',
