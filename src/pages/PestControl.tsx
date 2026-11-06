@@ -7,11 +7,10 @@ import FeatureSwitchDemo from '../components/FeatureSwitchDemo';
 import PestPackages from '../components/PestPackages';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 import { PEST_CONTROL_PATH, TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PROMISE } from '../config/pestPackages';
-import { LEGAL_BUSINESS_NAME, PHONE_HREF, SITE_URL } from '../config/site';
+import { LEGAL_BUSINESS_NAME, PHONE_DISPLAY, PHONE_HREF, SITE_URL } from '../config/site';
 import { breadcrumbJsonLdText } from '../i18n/breadcrumbs';
 import { localizePath, type Lang } from '../i18n/lang';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
-import common from '../i18n/common';
 import pestControl from '../i18n/pestControl';
 
 // /pest-control and /es/pest-control: the pest control offer, the feature-switch
@@ -67,7 +66,6 @@ export default function PestControl() {
   const t = useT(pestControl);
   const lang = useLang();
   const lp = useLocalePath();
-  const { callAriaLabel } = useT(common);
 
   const crumbs = [
     { name: t.breadcrumbs.home, path: '/' },
@@ -78,7 +76,10 @@ export default function PestControl() {
     <div className="flex flex-wrap gap-3">
       <TalkToAlexButton label={t.ctaAlex} />
       <BookCallButton medium="pest-control" content={placement} className={primaryButtonClass} />
-      <a href={PHONE_HREF} aria-label={callAriaLabel} className={secondaryButtonClass}>{t.ctaCall}</a>
+      {/* The accessible name has to contain the visible text, or someone using
+          voice control says "Call us" and nothing happens. So the number is
+          appended to the visible label rather than replacing it. */}
+      <a href={PHONE_HREF} aria-label={`${t.ctaCall}: ${PHONE_DISPLAY}`} className={secondaryButtonClass}>{t.ctaCall}</a>
     </div>
   );
 

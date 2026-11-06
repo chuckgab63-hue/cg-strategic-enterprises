@@ -84,7 +84,7 @@ export default function FeatureSwitchDemo() {
 
         {GROUPS.map(group => (
           <section key={group} className="mt-6">
-            <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-500">{t.groups[group]}</h3>
+            <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">{t.groups[group]}</h3>
             <p className="text-slate-400 text-xs leading-relaxed mt-2">{t.groupNotes[group]}</p>
             <ul className="mt-4 flex flex-col gap-4">
               {DEMO_SWITCHES.filter(s => s.group === group).map(s => {
@@ -121,7 +121,7 @@ export default function FeatureSwitchDemo() {
                     <p id={describedBy(s.key)} className="text-slate-400 text-sm leading-relaxed mt-2 ml-[3.25rem]">
                       {t.switches[s.key].description}
                     </p>
-                    <p className="text-slate-500 text-xs leading-relaxed mt-1.5 ml-[3.25rem]">
+                    <p className="text-slate-400 text-xs leading-relaxed mt-1.5 ml-[3.25rem]">
                       {s.group === 'settings' ? t.scopeStatus[s.scope] : t.groups.build}
                       {locked && ` ${t.lockedBy(t.switches[locked].label)}`}
                     </p>
@@ -156,7 +156,7 @@ export default function FeatureSwitchDemo() {
 
       {/* ---------------- The preview ---------------- */}
       <div className="flex flex-col gap-5">
-        <p className="text-[11px] font-black uppercase tracking-widest text-slate-500">{t.previewLabel}</p>
+        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">{t.previewLabel}</p>
 
         {/* Screen readers get the change as text; the frames below show it visually. */}
         <p aria-live="polite" className="sr-only">{announcement}</p>
@@ -186,7 +186,7 @@ export default function FeatureSwitchDemo() {
             <span className="px-3 py-1.5 rounded-full border border-slate-700 text-slate-300 text-[11px] font-bold">{t.mock.heroCall}</span>
           </div>
 
-          <p className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mt-5">{t.mock.servicesTitle}</p>
+          <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-5">{t.mock.servicesTitle}</p>
           <ul className="grid grid-cols-2 gap-2 mt-2">
             {t.mock.services.map(item => (
               <li key={item} className="bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-slate-300 text-xs">{item}</li>
@@ -197,7 +197,7 @@ export default function FeatureSwitchDemo() {
               </li>
             )}
           </ul>
-          <p className="text-slate-500 text-[11px] leading-relaxed mt-3">
+          <p className="text-slate-400 text-[11px] leading-relaxed mt-3">
             {on('wdo') ? t.mock.wdoAdded : t.mock.wdoRemoved} &middot; {t.scopeStatus.public}
           </p>
         </Frame>
@@ -237,7 +237,7 @@ export default function FeatureSwitchDemo() {
           </div>
         </Frame>
 
-        <p className="text-slate-500 text-xs leading-relaxed">{t.mockNote}</p>
+        <p className="text-slate-400 text-xs leading-relaxed">{t.mockNote}</p>
       </div>
     </div>
   );

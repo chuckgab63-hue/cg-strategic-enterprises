@@ -76,7 +76,7 @@ export default function PestPackages() {
                     <span>
                       {f.label[lang]}
                       {f.status && <> <StatusPill feature={f} /></>}
-                      {f.note && <span className="block text-slate-500 text-sm mt-0.5">{f.note[lang]}</span>}
+                      {f.note && <span className="block text-slate-400 text-sm mt-0.5">{f.note[lang]}</span>}
                     </span>
                   </li>
                 ))}
@@ -161,7 +161,7 @@ export default function PestPackages() {
                       {f.label[lang]}
                       {/* Every row is labelled here, so no reader has to work out what a missing pill means. */}
                       <span className="block mt-1.5"><StatusPill feature={f} always /></span>
-                      {f.note && <span className="block text-slate-500 text-sm mt-1">{f.note[lang]}</span>}
+                      {f.note && <span className="block text-slate-400 text-sm mt-1">{f.note[lang]}</span>}
                     </th>
                     {TIER_KEYS.map(tier => (
                       <td key={tier} className="py-3 px-1 sm:px-2 text-center align-top">
