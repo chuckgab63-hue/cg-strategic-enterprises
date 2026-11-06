@@ -76,7 +76,7 @@ export default function GlobalFooter() {
             </a>
             <p className="text-xs text-slate-400 font-semibold tracking-wide">{t.footer.serving}</p>
             {/* The mailing address stays: SMS (A2P) and email rules expect a physical address. */}
-            <MailingAddress className="text-xs font-semibold tracking-wide leading-relaxed text-slate-500" />
+            <MailingAddress className="text-xs font-semibold tracking-wide leading-relaxed text-slate-400" />
           </div>
         </div>
         {/* A short message form on every page, in the pre-rendered HTML. Same form,
@@ -89,10 +89,10 @@ export default function GlobalFooter() {
         )}
 
         <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center gap-3 md:gap-6 text-xs font-bold tracking-widest uppercase">
-          <p className="text-slate-600">&copy; {new Date().getFullYear()} {LEGAL_BUSINESS_NAME}. {t.footer.rights}</p>
+          <p className="text-slate-400">&copy; {new Date().getFullYear()} {LEGAL_BUSINESS_NAME}. {t.footer.rights}</p>
           <div className="flex gap-6">
-            <Link to={lp('/privacy')} className="text-slate-500 hover:text-brand-orange transition-colors">{t.nav.privacy}</Link>
-            <Link to={lp('/terms')} className="text-slate-500 hover:text-brand-orange transition-colors">{t.nav.terms}</Link>
+            <Link to={lp('/privacy')} className="text-slate-400 hover:text-brand-orange transition-colors">{t.nav.privacy}</Link>
+            <Link to={lp('/terms')} className="text-slate-400 hover:text-brand-orange transition-colors">{t.nav.terms}</Link>
           </div>
         </div>
       </div>

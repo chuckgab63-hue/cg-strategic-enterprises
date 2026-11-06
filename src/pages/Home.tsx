@@ -72,7 +72,7 @@ export default function Home() {
   }, [isModalOpen]);
 
   return (
-    <div className="home-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white relative">
+    <div className="home-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink relative">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: LOCAL_BUSINESS_JSON_LD }} />
 
       {/* The bare `h1`, `h2` and `p` rules in index.css (fixed sizes, weight 500, their
@@ -253,7 +253,7 @@ export default function Home() {
           >
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="bg-brand-orange text-white px-8 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-all shadow-md cursor-pointer hover:scale-105"
+              className="bg-brand-orange text-brand-ink px-8 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-all shadow-md cursor-pointer hover:scale-105"
             >
               {t.hero.startProject}
             </button>
@@ -289,7 +289,7 @@ export default function Home() {
           here), then the featured case study
           ========================================= */}
       <section id="services" className="site-container relative z-10 pb-24 scroll-mt-28">
-        <h2 className="text-sm font-bold tracking-widest uppercase text-slate-500 mb-6 text-center">{t.services.title}</h2>
+        <h2 className="text-sm font-bold tracking-widest uppercase text-slate-400 mb-6 text-center">{t.services.title}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {t.services.cards.map(card => (
             <Link
@@ -327,7 +327,7 @@ export default function Home() {
           </div>
           <Link
             to={lp('/meal-prep-ordering')}
-            className="self-start md:self-center shrink-0 bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors"
+            className="self-start md:self-center shrink-0 bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors"
           >
             {t.mealPrep.link} <span aria-hidden="true">&rarr;</span>
           </Link>

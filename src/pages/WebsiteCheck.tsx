@@ -114,7 +114,7 @@ function ScoreCard({ label, note, value, suffix, tone, learnMore, children }: {
     <div className={`bg-slate-900/50 border rounded-2xl p-5 flex flex-col gap-2 ${tone.split(' ')[1]}`}>
       <h3 className="text-xs font-bold tracking-widest uppercase text-slate-400">{label}</h3>
       <p className={`text-4xl font-black ${tone.split(' ')[0]}`}>
-        {value}{suffix && <span className="text-sm font-bold text-slate-500 ml-1">{suffix}</span>}
+        {value}{suffix && <span className="text-sm font-bold text-slate-400 ml-1">{suffix}</span>}
       </p>
       <p className="text-xs text-slate-400 leading-5">{note}</p>
       {children}
@@ -187,7 +187,7 @@ function Results({ result, onReset }: { result: ResultsResponse; onReset: () => 
     return (
       <p className="text-xs text-slate-300 leading-5">
         {parts.join(' · ')}
-        <span className="block text-slate-500">{m.metrics_source === 'field' ? t.fieldData : t.labData}</span>
+        <span className="block text-slate-400">{m.metrics_source === 'field' ? t.fieldData : t.labData}</span>
       </p>
     );
   };
@@ -309,7 +309,7 @@ function Results({ result, onReset }: { result: ResultsResponse; onReset: () => 
         <button
           type="button"
           onClick={() => window.dispatchEvent(new Event(OPEN_LETS_TALK_EVENT))}
-          className="bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer"
+          className="bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer"
         >
           {t.talkToAlex}
         </button>
@@ -334,7 +334,7 @@ function Results({ result, onReset }: { result: ResultsResponse; onReset: () => 
         </button>
       </div>
 
-      <p className="text-xs text-slate-500 leading-relaxed">{t.disclaimer}</p>
+      <p className="text-xs text-slate-400 leading-relaxed">{t.disclaimer}</p>
     </div>
   );
 }
@@ -575,7 +575,7 @@ export default function WebsiteCheck() {
                 className={`w-full mt-2 py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] ${
                   status === 'submitting'
                     ? 'bg-slate-700 text-slate-400 cursor-wait border border-slate-600'
-                    : 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange border border-transparent cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed'
+                    : 'bg-brand-orange text-brand-ink hover:bg-white hover:text-brand-orange-deep border border-transparent cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed'
                 }`}
               >
                 {status === 'submitting' ? t.form.submitting : t.form.submit}

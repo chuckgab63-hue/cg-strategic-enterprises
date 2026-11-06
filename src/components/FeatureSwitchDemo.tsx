@@ -179,7 +179,7 @@ export default function FeatureSwitchDemo() {
 
           <p className="text-white font-black text-lg leading-tight mt-4">{t.mock.heroTitle}</p>
           <div className="flex flex-wrap gap-2 mt-3">
-            <span className="px-3 py-1.5 rounded-full bg-brand-orange text-white text-[11px] font-bold">{t.mock.heroBook}</span>
+            <span className="px-3 py-1.5 rounded-full bg-brand-orange text-brand-ink text-[11px] font-bold">{t.mock.heroBook}</span>
             {on('jess') && (
               <span className="px-3 py-1.5 rounded-full border border-brand-orange/60 text-brand-orange text-[11px] font-bold">{t.mock.heroJess}</span>
             )}
@@ -225,7 +225,7 @@ export default function FeatureSwitchDemo() {
                     <div className="flex flex-wrap items-center gap-2 mt-2">
                       <span className={`${PILL} bg-slate-800 border border-slate-700 text-slate-300`}>{t.mock.contractStatus}</span>
                       {on('esign') && (
-                        <span className="px-3 py-1.5 rounded-full bg-brand-orange text-white text-[11px] font-bold">{t.mock.contractSend}</span>
+                        <span className="px-3 py-1.5 rounded-full bg-brand-orange text-brand-ink text-[11px] font-bold">{t.mock.contractSend}</span>
                       )}
                     </div>
                   </div>

@@ -94,7 +94,7 @@ export default function FluidDynamics() {
   const [contactMessage, setContactMessage] = useState('');
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
+    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink pb-32">
       
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
@@ -201,7 +201,7 @@ export default function FluidDynamics() {
                       setSelectedProject(null);
                       setTimeout(() => setIsContactModalOpen(true), 300); // Wait for card to close before opening comms
                     }}
-                    className="bg-brand-orange hover:bg-white text-white hover:text-brand-orange px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
+                    className="bg-brand-orange hover:bg-white text-brand-ink hover:text-brand-orange-deep px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
                   >
                     {t.requestIntegration}
                   </button>

@@ -20,7 +20,7 @@ export default function LangToggle() {
     <div role="group" aria-label={t.groupLabel} className="flex items-center text-xs font-bold tracking-widest">
       {LANGS.map((l, i) => (
         <Fragment key={l}>
-          {i > 0 && <span aria-hidden="true" className="text-slate-600">|</span>}
+          {i > 0 && <span aria-hidden="true" className="text-slate-400">|</span>}
           <Link
             to={localizePath(pathname, l) + search + hash}
             lang={l}

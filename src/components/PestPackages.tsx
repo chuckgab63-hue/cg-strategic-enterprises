@@ -58,7 +58,7 @@ export default function PestPackages() {
               className={`relative flex flex-col bg-slate-900/60 border rounded-3xl p-6 ${popular ? 'border-brand-orange/60 shadow-[0_0_30px_rgba(255,95,31,0.08)]' : 'border-slate-800'}`}
             >
               {popular && (
-                <p className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-brand-orange text-white text-[10px] font-black uppercase tracking-widest">
+                <p className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-brand-orange text-brand-ink text-[10px] font-black uppercase tracking-widest">
                   {t.mostPopular}
                 </p>
               )}
@@ -94,7 +94,7 @@ export default function PestPackages() {
                   rel="noopener"
                   data-book-call={`tier-${tier}`}
                   onClick={() => trackEvent('pest_tier_cta', lang, { tier })}
-                  className={`mt-4 inline-flex items-center justify-center w-full px-5 py-3 rounded-full font-bold tracking-widest uppercase text-xs transition-colors ${popular ? 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange' : 'border border-slate-600 text-slate-200 hover:border-brand-orange hover:text-brand-orange'}`}
+                  className={`mt-4 inline-flex items-center justify-center w-full px-5 py-3 rounded-full font-bold tracking-widest uppercase text-xs transition-colors ${popular ? 'bg-brand-orange text-brand-ink hover:bg-white hover:text-brand-orange-deep' : 'border border-slate-600 text-slate-200 hover:border-brand-orange hover:text-brand-orange-deep'}`}
                 >
                   {t.cta}
                 </a>
@@ -172,7 +172,7 @@ export default function PestPackages() {
                           </>
                         ) : (
                           <>
-                            <span aria-hidden="true" className="text-slate-600">&ndash;</span>
+                            <span aria-hidden="true" className="text-slate-400">&ndash;</span>
                             <span className="sr-only">{t.notIncluded}</span>
                           </>
                         )}

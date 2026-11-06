@@ -33,7 +33,7 @@ export default function OneSourceCaseStudy() {
 
   return (
     // text-left counters the global `#root { text-align: center }` in index.css.
-    <div className="case-study-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white text-left">
+    <div className="case-study-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink text-left">
 
       {/* Same reason as on /portfolio: hand the bare h1/h2/p rules in index.css back to Tailwind. */}
       <style>{`
@@ -66,7 +66,7 @@ export default function OneSourceCaseStudy() {
                 <span className="px-3 py-1 bg-[#020617] border border-slate-700 text-brand-orange text-[10px] font-bold uppercase tracking-widest rounded-full">
                   {t.category}
                 </span>
-                <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Jacksonville, FL</span>
+                <span className="text-slate-400 text-xs font-bold uppercase tracking-widest">Jacksonville, FL</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-[1.05] mb-6">
                 One Source <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-500">Total Pest Control.</span>
@@ -79,7 +79,7 @@ export default function OneSourceCaseStudy() {
                   href={STUDY.liveSiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-brand-orange text-white font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_25px_rgba(255,95,31,0.3)]"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-brand-orange text-brand-ink font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_25px_rgba(255,95,31,0.3)]"
                 >
                   {t.visitSite}
                   <ExternalIcon />
@@ -158,7 +158,7 @@ export default function OneSourceCaseStudy() {
           </div>
 
           <div className="mt-14">
-            <h3 className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">{t.techStack}</h3>
+            <h3 className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-4">{t.techStack}</h3>
             <ul className="flex flex-wrap gap-3">
               {STACK.map((s) => (
                 <li key={s} className="px-4 py-2 bg-slate-900 border border-slate-700 rounded-full text-sm font-bold text-slate-200">
@@ -200,7 +200,7 @@ export default function OneSourceCaseStudy() {
                     className="w-full h-auto rounded-xl border-2 border-slate-700 shadow-2xl"
                   />
                 </div>
-                <figcaption className="mt-4 text-xs font-bold uppercase tracking-widest text-slate-500">{t.screens[key].caption}</figcaption>
+                <figcaption className="mt-4 text-xs font-bold uppercase tracking-widest text-slate-400">{t.screens[key].caption}</figcaption>
               </figure>
             ))}
           </div>
@@ -247,7 +247,7 @@ export default function OneSourceCaseStudy() {
                   alt={t.adminScreens[key].alt}
                   className="w-full h-auto rounded-xl border border-slate-700 shadow-2xl"
                 />
-                <figcaption className="mt-4 text-xs font-bold uppercase tracking-widest text-slate-500">
+                <figcaption className="mt-4 text-xs font-bold uppercase tracking-widest text-slate-400">
                   {t.adminScreens[key].caption} <span className="normal-case tracking-normal font-normal">{t.mockNote}</span>
                 </figcaption>
               </figure>
@@ -260,7 +260,7 @@ export default function OneSourceCaseStudy() {
             <p className="text-slate-400 leading-relaxed max-w-prose">{t.switches.body}</p>
             <Link
               to={lp(PEST_CONTROL_PATH)}
-              className="inline-block mt-6 bg-brand-orange text-white px-6 py-3 rounded-full font-black uppercase tracking-widest text-xs hover:bg-white hover:text-brand-orange transition-colors"
+              className="inline-block mt-6 bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-black uppercase tracking-widest text-xs hover:bg-white hover:text-brand-orange-deep transition-colors"
             >
               {t.switches.link} <span aria-hidden="true">&rarr;</span>
             </Link>
@@ -308,7 +308,7 @@ export default function OneSourceCaseStudy() {
           >
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
-                <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">{t.keepExploring}</h3>
+                <h3 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-3">{t.keepExploring}</h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-brand-orange transition-colors duration-500">
                   {t.moreCaseStudies}
                 </h2>

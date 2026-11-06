@@ -3,6 +3,25 @@
 @theme {
   --color-brand-midnight: #003366;
   --color-brand-orange: #FF5F1F;
+
+  /* Two companions to the brand orange, so text on or over it can meet WCAG AA
+     (4.5:1 for anything under 18.66px bold or 24px regular — which is every
+     button label on this site, at 12px).
+
+     The orange itself is unchanged: on the near-black page it reaches 6.6:1
+     and is fine as text. The problem is only where it meets white.
+
+       white     on --color-brand-orange   3.04:1   fails
+       brand-ink on --color-brand-orange   6.64:1   passes
+       brand-orange      on white          3.04:1   fails
+       brand-orange-deep on white          5.18:1   passes
+
+     So: --color-brand-ink is what goes ON an orange fill, and
+     --color-brand-orange-deep is the orange to use AS text on a light fill
+     (the hover state of every primary button). Never pair plain
+     --color-brand-orange with white in either direction. */
+  --color-brand-ink: #020617;
+  --color-brand-orange-deep: #C2410C;
 }
 
 :root {

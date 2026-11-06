@@ -202,10 +202,10 @@ export default function BreakEvenChart({
       </p>
 
       <details className="mt-2 text-xs text-slate-400">
-        <summary className="cursor-pointer font-bold uppercase tracking-widest text-[10px] text-slate-500 hover:text-slate-300">{t.showTable}</summary>
+        <summary className="cursor-pointer font-bold uppercase tracking-widest text-[10px] text-slate-400 hover:text-slate-300">{t.showTable}</summary>
         <table id={tableId} className="mt-3 w-full text-left tabular-nums">
           <thead>
-            <tr className="text-slate-500 border-b border-slate-800">
+            <tr className="text-slate-400 border-b border-slate-800">
               {t.cols.map(col => <th key={col} className="py-1.5 font-semibold">{col}</th>)}
             </tr>
           </thead>

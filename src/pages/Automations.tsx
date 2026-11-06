@@ -63,7 +63,7 @@ export default function Automations() {
   }, [selectedWorkflow, isContactModalOpen]);
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
+    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink pb-32">
       
       {/* Background Wireframe Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
@@ -245,7 +245,7 @@ export default function Automations() {
               </div>
             </div>
             
-            <div className="flex justify-between w-full px-2 mt-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            <div className="flex justify-between w-full px-2 mt-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
               <span className="w-16 text-center">{t.nodeWebhookIn}</span>
               <span className="w-16 text-center text-blue-400">{t.nodeMakeLogic}</span>
               <span className="w-16 text-center">{t.nodeApiOut}</span>
@@ -295,7 +295,7 @@ export default function Automations() {
             {/* Inner Content Card */}
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
-                <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
+                <h3 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-3">
                   {t.runwayEyebrow}
                 </h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">
@@ -366,7 +366,7 @@ export default function Automations() {
                         setContactMessage(t.contactMessage(selectedWorkflow.title));
                         setIsContactModalOpen(true);
                       }}
-                      className="w-full bg-brand-orange hover:bg-white text-white hover:text-brand-orange py-3 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
+                      className="w-full bg-brand-orange hover:bg-white text-brand-ink hover:text-brand-orange-deep py-3 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
                     >
                       {t.deploy}
                     </button>
@@ -375,7 +375,7 @@ export default function Automations() {
 
                 {/* Right Column: Logic Visualizer */}
                 <div className="flex-[1.5] bg-[#020617] border border-slate-800 rounded-2xl p-6 relative">
-                  <h4 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-6 absolute top-6 left-6">{t.sequenceLabel}</h4>
+                  <h4 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-6 absolute top-6 left-6">{t.sequenceLabel}</h4>
                   
                   <div className="flex flex-col gap-2 mt-8">
                     

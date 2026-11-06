@@ -12,7 +12,7 @@ export default function NotFound() {
       <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight">{t.title}</h1>
       <p className="text-slate-400 text-lg">{t.body}</p>
       <div className="flex flex-wrap justify-center gap-4 mt-2">
-        <Link to={lp('/')} className="bg-brand-orange text-white px-6 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-opacity">
+        <Link to={lp('/')} className="bg-brand-orange text-brand-ink px-6 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-opacity">
           {t.home}
         </Link>
         <Link to={lp('/contact')} className="border-2 border-white text-white px-6 py-3 rounded-md font-bold tracking-wide hover:bg-white hover:text-slate-900 transition-colors">

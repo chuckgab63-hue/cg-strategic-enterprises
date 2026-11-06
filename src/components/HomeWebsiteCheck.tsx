@@ -68,7 +68,7 @@ export default function HomeWebsiteCheck() {
               />
               <button
                 type="submit"
-                className="shrink-0 bg-brand-orange text-white px-6 py-3 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer"
+                className="shrink-0 bg-brand-orange text-brand-ink px-6 py-3 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer"
               >
                 {t.submit}
               </button>
@@ -87,7 +87,7 @@ export default function HomeWebsiteCheck() {
             ))}
           </ul>
 
-          <p className="text-xs text-slate-500">{t.note}</p>
+          <p className="text-xs text-slate-400">{t.note}</p>
         </div>
       </div>
     </section>

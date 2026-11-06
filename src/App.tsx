@@ -40,7 +40,7 @@ export default function App() {
           from a browser that opted out at /analytics-optout (src/lib/analytics.ts). */}
       <Analytics beforeSend={analyticsBeforeSend} />
 
-      <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-white">
+      <div className="flex flex-col min-h-screen bg-slate-950 font-sans selection:bg-brand-orange selection:text-brand-ink">
         {/* Fixed Navigation */}
         <GlobalHeader />
 

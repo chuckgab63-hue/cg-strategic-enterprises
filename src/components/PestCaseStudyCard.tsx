@@ -50,7 +50,7 @@ export default function PestCaseStudyCard({ heading: Heading = 'h3', onClick, cl
             <li key={chip} className="px-3 py-1 rounded-full border border-slate-700 bg-slate-950/60 text-xs font-semibold text-slate-300">{chip}</li>
           ))}
         </ul>
-        <span className="inline-block mt-6 bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs group-hover:bg-white group-hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)]">
+        <span className="inline-block mt-6 bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs group-hover:bg-white group-hover:text-brand-orange-deep-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)]">
           {t.cta} <span aria-hidden="true">&rarr;</span>
         </span>
       </div>

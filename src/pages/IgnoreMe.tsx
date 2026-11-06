@@ -37,7 +37,7 @@ export default function IgnoreMe() {
           type="button"
           onClick={toggle}
           aria-pressed={ignored}
-          className="self-start bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors cursor-pointer"
+          className="self-start bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors cursor-pointer"
         >
           {ignored ? 'Count my visits again' : 'Ignore my visits'}
         </button>

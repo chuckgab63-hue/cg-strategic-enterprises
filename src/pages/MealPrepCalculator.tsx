@@ -99,7 +99,7 @@ function MetricCard({ label, value, valueClass = 'text-white', status, className
 }) {
   return (
     <div className={`bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col gap-3 ${className}`.trim()}>
-      <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{label}</span>
+      <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{label}</span>
       <span className={`text-3xl font-black tabular-nums leading-none ${valueClass}`}>{value}</span>
       {status}
       <p className="text-xs text-slate-400 leading-relaxed">{children}</p>
@@ -117,7 +117,7 @@ function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="text-sm font-bold text-slate-200">{text.label}</label>
       <div className="flex items-center bg-slate-950 border border-slate-700 focus-within:border-brand-orange rounded-xl transition-colors">
-        {spec.prefix && <span className="pl-4 text-slate-500 text-base sm:text-sm" aria-hidden="true">{spec.prefix}</span>}
+        {spec.prefix && <span className="pl-4 text-slate-400 text-base sm:text-sm" aria-hidden="true">{spec.prefix}</span>}
         <input
           id={id}
           type="number" inputMode="decimal" min={0} max={spec.max} step={spec.step}
@@ -126,7 +126,7 @@ function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string
           onChange={(e) => onChange(e.target.value)}
           className={`w-full min-w-0 bg-transparent focus:outline-none py-3 text-white text-base sm:text-sm tabular-nums ${spec.prefix ? 'pl-1.5' : 'pl-4'} pr-4`}
         />
-        {text.suffix && <span className="pr-4 text-slate-500 text-xs whitespace-nowrap" aria-hidden="true">{text.suffix}</span>}
+        {text.suffix && <span className="pr-4 text-slate-400 text-xs whitespace-nowrap" aria-hidden="true">{text.suffix}</span>}
       </div>
       {isMeals && (
         <input
@@ -137,7 +137,7 @@ function NumberField({ spec, value, onChange }: { spec: FieldSpec; value: string
           className="w-full accent-brand-orange cursor-pointer my-1"
         />
       )}
-      <p id={noteId} className="text-[11px] text-slate-500 leading-relaxed">{text.note}</p>
+      <p id={noteId} className="text-[11px] text-slate-400 leading-relaxed">{text.note}</p>
     </div>
   );
 }
@@ -302,14 +302,14 @@ export default function MealPrepCalculator() {
                       </button>
                     ))}
                   </div>
-                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                  <p className="text-[11px] text-slate-400 leading-relaxed">
                     {t.sourcingNote(LOCAL_SOURCING_PREMIUM * 100)}
                   </p>
                 </div>
               )}
 
               {group.id === 'kitchen' && (
-                <p className="text-[11px] text-slate-500 leading-relaxed border-t border-slate-800 pt-4">
+                <p className="text-[11px] text-slate-400 leading-relaxed border-t border-slate-800 pt-4">
                   <strong className="text-slate-300">{t.cardProcessing.strong}</strong>{t.cardProcessing.rest}
                 </p>
               )}
@@ -332,7 +332,7 @@ export default function MealPrepCalculator() {
 
           {/* Headline: break-even */}
           <div ref={headlineRef} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-7">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.headlineLabel}</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{t.headlineLabel}</span>
             {neverBreaksEven ? (
               <>
                 <p className="text-3xl md:text-4xl font-black text-red-400 mt-2 leading-tight">{t.neverTitle}</p>
@@ -377,7 +377,7 @@ export default function MealPrepCalculator() {
                 breakEvenMeals={r.breakEvenMeals}
               />
             </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed mt-3">
+            <p className="text-[11px] text-slate-400 leading-relaxed mt-3">
               {t.chartCaption}
             </p>
           </div>
@@ -400,7 +400,7 @@ export default function MealPrepCalculator() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Two food benchmarks, two denominators: keep them side by side and say which is which. */}
             <div className="sm:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-5">
-              <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.foodTwoWays}</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{t.foodTwoWays}</span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 mt-3">
                 <div className="flex flex-col gap-3">
                   <span className="text-xs font-bold text-slate-300">{t.foodAlone}</span>
@@ -419,7 +419,7 @@ export default function MealPrepCalculator() {
                   </p>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-500 leading-relaxed border-t border-slate-800 mt-5 pt-4">
+              <p className="text-[11px] text-slate-400 leading-relaxed border-t border-slate-800 mt-5 pt-4">
                 {t.overlapNote}
               </p>
             </div>
@@ -492,7 +492,7 @@ export default function MealPrepCalculator() {
 
           {/* The COGS trap */}
           <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-7">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.cogsTrap}</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{t.cogsTrap}</span>
             <h2 className="text-xl md:text-2xl font-black text-white mt-2">{t.cogsTitle}</h2>
             <p className="text-sm text-slate-400 leading-relaxed mt-3">
               {t.cogsBody}
@@ -514,7 +514,7 @@ export default function MealPrepCalculator() {
                     </div>
                   </div>
                 ))}
-                <p className="text-[11px] text-slate-500">{t.whiteTick(BENCHMARKS.trueCogsWarning)}</p>
+                <p className="text-[11px] text-slate-400">{t.whiteTick(BENCHMARKS.trueCogsWarning)}</p>
                 {r.trueCogsPct > 100 ? (
                   <StatusChip tone="bad">{t.cogsOver100(meals)}</StatusChip>
                 ) : r.trueCogsPct > BENCHMARKS.trueCogsWarning ? (
@@ -524,7 +524,7 @@ export default function MealPrepCalculator() {
                 )}
               </div>
             ) : (
-              <p className="text-xs text-slate-500 mt-4">{t.cogsEmpty}</p>
+              <p className="text-xs text-slate-400 mt-4">{t.cogsEmpty}</p>
             )}
           </div>
 
@@ -545,7 +545,7 @@ export default function MealPrepCalculator() {
 
       {/* --- Benchmarks --- */}
       <div className="mt-16 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 md:p-8">
-        <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">{t.benchmarks}</span>
+        <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{t.benchmarks}</span>
         <h2 className="text-2xl md:text-3xl font-black text-white mt-2">{t.benchmarksTitle}</h2>
         <p className="text-sm text-slate-400 leading-relaxed mt-3 max-w-3xl">
           {t.benchmarksBody}
@@ -597,11 +597,11 @@ export default function MealPrepCalculator() {
             ) : (
               <>
                 {t.mobileBreakEven} <strong className="text-white tabular-nums">{t.perWeek(r.breakEvenMeals!)}</strong>
-                <span className="text-slate-500"> · </span>
+                <span className="text-slate-400"> · </span>
                 {t.mobileYou} <strong className={`tabular-nums ${pastBreakEven ? 'text-emerald-400' : 'text-red-400'}`}>{t.perWeek(meals)} {pastBreakEven ? '✓' : '✕'}</strong>
               </>
             )}
-            <span className="text-slate-500"> · </span>
+            <span className="text-slate-400"> · </span>
             <span className="tabular-nums">{usd(r.contributionMargin, true)}{t.perMeal}</span>
           </span>
           <span className="text-[10px] font-black uppercase tracking-widest text-brand-orange whitespace-nowrap">{t.results} &darr;</span>

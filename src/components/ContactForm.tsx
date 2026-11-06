@@ -262,7 +262,7 @@ export default function ContactForm({ source, copy, initialMessage = '', onSucce
         className={`w-full mt-2 py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] ${
           formStatus === 'submitting'
             ? 'bg-slate-700 text-slate-400 cursor-not-allowed border border-slate-600'
-            : 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange border border-transparent cursor-pointer'
+            : 'bg-brand-orange text-brand-ink hover:bg-white hover:text-brand-orange-deep border border-transparent cursor-pointer'
         }`}
       >
         {formStatus === 'submitting' ? copy.submittingLabel : copy.submitLabel}
