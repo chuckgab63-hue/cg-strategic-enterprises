@@ -215,13 +215,22 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
     key: 'ai',
     label: { en: 'AI on your site', es: 'IA en su sitio' },
     features: [
+      // Two rows, not one with a caveat: the English assistant is in use and
+      // the Spanish one is not, and a single row would have to carry one chip
+      // for both. Whichever chip won, half of it would be wrong.
       {
         key: 'voice-assistant',
         tier: 'pro',
-        label: { en: 'An AI voice assistant on your website', es: 'Un asistente de voz con IA en su sitio web' },
+        label: { en: 'An AI voice assistant on your website, in English', es: 'Un asistente de voz con IA en su sitio web, en inglés' },
+      },
+      {
+        key: 'voice-assistant-spanish',
+        tier: 'pro',
+        status: 'rolling-out',
+        label: { en: 'The same voice assistant in Spanish', es: 'El mismo asistente de voz en español' },
         note: {
-          en: 'In use in English. The Spanish version is built and rolling out.',
-          es: 'En uso en inglés. La versión en español está construida y en implementación.',
+          en: 'Built and waiting on its native-speaker review. No client has switched it on.',
+          es: 'Construido y a la espera de su revisión por un hablante nativo. Ningún cliente lo ha activado.',
         },
       },
       {
@@ -311,8 +320,8 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
         status: 'rolling-out',
         label: { en: 'E-signature: the customer signs on their phone', es: 'Firma electrónica: el cliente firma en su celular' },
         note: {
-          en: 'Switched off until it is set up, and no customer has signed through it yet.',
-          es: 'Desactivada hasta que se configure, y ningún cliente ha firmado con ella todavía.',
+          en: 'Switched off, and no customer has signed through it yet.',
+          es: 'Desactivada, y ningún cliente ha firmado con ella todavía.',
         },
       },
       {
