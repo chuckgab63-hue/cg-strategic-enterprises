@@ -25,12 +25,16 @@ export default function LangToggle() {
             to={localizePath(pathname, l) + search + hash}
             lang={l}
             hrefLang={l}
-            aria-label={NAMES[l]}
             aria-current={l === lang ? 'true' : undefined}
             onClick={() => storeLang(l)}
             className={`px-1.5 py-2 transition-colors ${l === lang ? 'text-brand-orange' : 'text-slate-400 hover:text-white'}`}
           >
+            {/* The full name extends the visible "EN"/"ES" rather than replacing
+                it with aria-label. An accessible name that does not contain the
+                visible text leaves anyone using voice control saying "EN" at a
+                link that will not answer to it. */}
             {l.toUpperCase()}
+            <span className="sr-only"> {NAMES[l]}</span>
           </Link>
         </Fragment>
       ))}

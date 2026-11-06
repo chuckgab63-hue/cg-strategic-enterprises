@@ -50,12 +50,33 @@ export default function GlobalFooter() {
   ];
 
   return (
-    <footer className="bg-[#020617] border-t border-slate-900 pt-16 pb-8 relative z-10">
+    <footer className="site-footer bg-[#020617] border-t border-slate-900 pt-16 pb-8 relative z-10">
+      {/* These headings are h2 so the page never jumps h2 -> h4, which is a
+          skipped level on every page of the site. They have to be h2 rather
+          than h3 because a page whose deepest heading is the h1 would skip a
+          level either way.
+
+          The bare `h2` rule in index.css (24px, weight 500, its own navy
+          colour and margins) is unlayered, so it beats the Tailwind classes
+          below — navy headings on a near-black footer. revert-layer hands
+          those properties back to Tailwind, the same fix .service-page,
+          .home-page and .case-study-page already use. Not redundant. */}
+      <style>{`
+        .site-footer h2 {
+          font-family: revert-layer;
+          font-size: revert-layer;
+          font-weight: revert-layer;
+          line-height: revert-layer;
+          letter-spacing: revert-layer;
+          color: revert-layer;
+          margin: revert-layer;
+        }
+      `}</style>
       <div className="site-container">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
           {columns.map(column => (
             <div key={column.heading} className="flex flex-col items-center md:items-start gap-4">
-              <h4 className="text-white font-black tracking-widest uppercase text-xs mb-2">{column.heading}</h4>
+              <h2 className="text-white font-black tracking-widest uppercase text-xs mb-2">{column.heading}</h2>
               {column.links.map(([path, label]) => (
                 <Link key={label} to={lp(path)} className={linkClass}>{label}</Link>
               ))}
@@ -63,7 +84,7 @@ export default function GlobalFooter() {
           ))}
 
           <div className="flex flex-col items-center md:items-start gap-4">
-            <h4 className="text-white font-black tracking-widest uppercase text-xs mb-2">{t.footer.contact}</h4>
+            <h2 className="text-white font-black tracking-widest uppercase text-xs mb-2">{t.footer.contact}</h2>
             <a href={PHONE_HREF} aria-label={t.callAriaLabel} className="text-sm font-bold tracking-widest text-slate-300 hover:text-brand-orange transition-colors">
               {PHONE_DISPLAY}
             </a>
@@ -83,7 +104,7 @@ export default function GlobalFooter() {
             labels and Make.com webhook as /contact, tagged "Footer" in the leads sheet. */}
         {!onContactPage && (
           <div className="border-t border-slate-900 pt-12 mb-12 max-w-2xl mx-auto md:mx-0 text-left">
-            <h4 className="text-white font-black tracking-widest uppercase text-xs mb-6 text-center md:text-left">{contact.formTitle}</h4>
+            <h2 className="text-white font-black tracking-widest uppercase text-xs mb-6 text-center md:text-left">{contact.formTitle}</h2>
             <ContactForm source="Footer" copy={contact.form} />
           </div>
         )}
