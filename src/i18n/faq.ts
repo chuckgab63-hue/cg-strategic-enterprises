@@ -32,7 +32,7 @@ const en = {
     {
       id: 'who-we-work-with',
       question: 'Who do you work with?',
-      answer: 'Small and growing businesses across Florida, from Miami to Pensacola, especially service businesses like home services and pest control, and food businesses like meal prep, catering and commissary kitchens.',
+      answer: 'Small and growing businesses across Florida and Georgia, from Miami to Pensacola and up through Savannah and Atlanta, especially service businesses like home services and pest control, and food businesses like meal prep, catering and commissary kitchens.',
     },
     {
       id: 'how-projects-start',
@@ -83,7 +83,7 @@ const en = {
     {
       id: 'local',
       question: 'Do you work with businesses outside Jacksonville?',
-      answer: "Yes. We're based in Northeast Florida and work with businesses all over the state. Intro calls, audits and walkthroughs happen over video, so it doesn't matter whether you're in Miami, Tampa, Orlando or the Panhandle. For businesses in Northeast Florida, we're happy to meet in person too.",
+      answer: "Yes. We're based in Northeast Florida and work with businesses across Florida and Georgia. Intro calls, audits and walkthroughs happen over video, so it doesn't matter whether you're in Miami, Tampa, Orlando, the Panhandle, Savannah or Atlanta. For businesses in Northeast Florida, we're happy to meet in person too.",
     },
   ] as FaqItem[],
   cta: {
@@ -106,7 +106,7 @@ const es: typeof en = {
     {
       id: 'who-we-work-with',
       question: '¿Con quién trabajan?',
-      answer: 'Con negocios pequeños y en crecimiento de todo Florida, desde Miami hasta Pensacola, sobre todo empresas de servicios, como servicios para el hogar y control de plagas, y negocios de comida, como comidas preparadas, catering y cocinas comerciales compartidas.',
+      answer: 'Con negocios pequeños y en crecimiento de todo Florida y Georgia, desde Miami hasta Pensacola y hasta Savannah y Atlanta, sobre todo empresas de servicios, como servicios para el hogar y control de plagas, y negocios de comida, como comidas preparadas, catering y cocinas comerciales compartidas.',
     },
     {
       id: 'how-projects-start',
@@ -157,7 +157,7 @@ const es: typeof en = {
     {
       id: 'local',
       question: '¿Trabajan con negocios fuera de Jacksonville?',
-      answer: 'Sí. Estamos en el noreste de Florida y trabajamos con negocios de todo el estado. Las llamadas introductorias, las evaluaciones y los recorridos se hacen por videollamada, así que no importa si está en Miami, Tampa, Orlando o el Panhandle. Si su negocio está en el noreste de Florida, con gusto también podemos reunirnos en persona.',
+      answer: 'Sí. Estamos en el noreste de Florida y trabajamos con negocios de todo Florida y Georgia. Las llamadas introductorias, las evaluaciones y los recorridos se hacen por videollamada, así que no importa si está en Miami, Tampa, Orlando, el Panhandle, Savannah o Atlanta. Si su negocio está en el noreste de Florida, con gusto también podemos reunirnos en persona.',
     },
   ],
   cta: {

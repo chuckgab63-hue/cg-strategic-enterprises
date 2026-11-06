@@ -36,7 +36,7 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
 };
 
 // LocalBusiness structured data for the home page. No street address: the
-// business serves all of Florida rather than customers at an office. (The
+// business serves Florida and Georgia rather than customers at an office. (The
 // site-wide Organization JSON-LD from vite.config.ts carries the mailing address.)
 const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
   '@context': 'https://schema.org',
@@ -45,7 +45,12 @@ const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
   url: SITE_URL,
   telephone: PHONE_INTL,
   email: EMAIL,
-  areaServed: 'Florida',
+  // Two states, each typed, rather than one bare string: a crawler reading
+  // "Florida and Georgia" as a single name would match neither.
+  areaServed: [
+    { '@type': 'State', name: 'Florida' },
+    { '@type': 'State', name: 'Georgia' },
+  ],
 }).replace(/</g, '\\u003c');
 
 

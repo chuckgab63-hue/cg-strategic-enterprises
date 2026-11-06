@@ -184,11 +184,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `AI Answering Service & Virtual Receptionist | ${NAME}`,
-        description: 'An AI answering service for Florida small businesses. Answers every call 24/7 in English or Spanish, captures leads and books follow-ups. Talk to Alex.',
+        description: 'An AI answering service for small businesses in Florida and Georgia. Answers every call 24/7 in English or Spanish, captures leads and books follow-ups. Talk to Alex.',
       },
       es: {
         title: `Servicio de atención telefónica con IA y recepcionista virtual | ${NAME}`,
-        description: 'Servicio de atención telefónica con IA para pequeños negocios de Florida: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda seguimientos.',
+        description: 'Servicio de atención telefónica con IA para pequeños negocios de Florida y Georgia: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda seguimientos.',
       },
     },
   },
@@ -205,11 +205,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Meal Prep Ordering System & Website for Meal Prep Businesses | ${NAME}`,
-        description: 'Online ordering for Florida meal prep businesses, set up for you: weekly menus and plans, delivery zones and routes, labels and gift cards. See the live demo.',
+        description: 'Online ordering for meal prep businesses in Florida and Georgia, set up for you: weekly menus and plans, delivery zones and routes, labels and gift cards. See the live demo.',
       },
       es: {
         title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
-        description: 'Pedidos en línea para negocios de comidas preparadas en Florida, configurados por nosotros: planes semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
+        description: 'Pedidos en línea para negocios de comidas preparadas en Florida y Georgia, configurados por nosotros: planes semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
       },
     },
     lastmod: '2026-11-01',
@@ -259,11 +259,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     path: '/search-ai-visibility',
     meta: {
       en: {
-        title: `Search & AI Visibility for Florida Small Businesses | ${NAME}`,
+        title: `Search & AI Visibility for Small Businesses in Florida and Georgia | ${NAME}`,
         description: 'Get found on Google, Bing, Maps and AI assistants: technical SEO, Google Business Profile, keyword-driven service pages, AI search visibility and Spanish versions.',
       },
       es: {
-        title: `Visibilidad en buscadores e IA para pequeños negocios de Florida | ${NAME}`,
+        title: `Visibilidad en buscadores e IA para pequeños negocios de Florida y Georgia | ${NAME}`,
         description: 'Que lo encuentren en Google, Bing, Maps y los asistentes de IA: SEO técnico, Perfil de Empresa en Google, páginas de servicios por palabras clave, búsqueda con IA y versiones en español.',
       },
     },

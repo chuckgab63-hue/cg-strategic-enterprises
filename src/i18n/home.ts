@@ -81,7 +81,7 @@ const en = {
   mealPrep: {
     eyebrow: 'Meal prep ordering',
     title: 'Run your meal prep week from one place',
-    body: 'Weekly plans your customers manage themselves, delivery zones and route sheets, pickup, printable labels and gift cards. We set it up for you and move your customers over, in English and Spanish, for meal prep businesses in Florida.',
+    body: 'Weekly plans your customers manage themselves, delivery zones and route sheets, pickup, printable labels and gift cards. We set it up for you and move your customers over, in English and Spanish, for meal prep businesses in Florida and Georgia.',
     link: "See what's included",
   },
   // The Free Website Check section right after the hero (src/components/HomeWebsiteCheck.tsx).
@@ -165,7 +165,7 @@ const es: typeof en = {
   mealPrep: {
     eyebrow: 'Pedidos para comidas preparadas',
     title: 'Maneje su semana de comidas preparadas desde un solo lugar',
-    body: 'Planes semanales que sus clientes manejan por su cuenta, zonas de entrega y hojas de ruta, recogida, etiquetas imprimibles y tarjetas de regalo. Lo configuramos por usted y pasamos a sus clientes al nuevo sistema, en inglés y en español, para negocios de comidas preparadas en Florida.',
+    body: 'Planes semanales que sus clientes manejan por su cuenta, zonas de entrega y hojas de ruta, recogida, etiquetas imprimibles y tarjetas de regalo. Lo configuramos por usted y pasamos a sus clientes al nuevo sistema, en inglés y en español, para negocios de comidas preparadas en Florida y Georgia.',
     link: 'Ver qué incluye',
   },
   websiteCheck: {
