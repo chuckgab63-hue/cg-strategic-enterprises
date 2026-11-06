@@ -11,7 +11,7 @@ export default function Portfolio() {
   const lp = useLocalePath();
 
   return (
-    <div className="portfolio-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
+    <div className="portfolio-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink pb-32">
 
       {/* The bare `h1`, `h2` and `p` rules in index.css (fixed sizes, weight 500, their
           own colour and margins; `p { margin: 0 }`) are unlayered, so they beat the
@@ -83,7 +83,7 @@ export default function Portfolio() {
             {/* Inner Content Card */}
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
-                <h3 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-3">
+                <h3 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-3">
                   {t.next.eyebrow}
                 </h3>
                 <h2 className="text-3xl md:text-5xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-brand-orange group-hover:to-amber-500 transition-all duration-500">

@@ -21,6 +21,12 @@ export const SKUNKWORKS_PROJECTS: SkunkworksProject[] = [
   { slug: 'training-in-a-box', status: 'prototype' },
   { slug: 'ai-search-visibility-monitor', status: 'concept' },
   { slug: 'photo-diagnosis-quote', status: 'in-use', link: { to: '/work/one-source-total-pest-control' } },
+  // Prototype, not in-use: both are built and tested against a development
+  // database with sample records, and the first pest control client is being
+  // moved onto them. Nobody is running their business on either yet. They go
+  // to 'in-use' the day a client is, and not before.
+  { slug: 'feature-switches', status: 'prototype', link: { to: '/pest-control' } },
+  { slug: 'digital-termite-contracts', status: 'prototype', link: { to: '/pest-control' } },
   { slug: 'bilingual-voice-agent', status: 'concept' },
   { slug: 'proposal-autopilot', status: 'concept' },
 ];

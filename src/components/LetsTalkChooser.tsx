@@ -108,7 +108,7 @@ export default function LetsTalkChooser() {
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
         onClick={() => (open ? close() : setOpen(true))}
-        className="inline-block bg-brand-orange text-white px-4 sm:px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
+        className="inline-block bg-brand-orange text-brand-ink px-4 sm:px-6 py-2.5 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] whitespace-nowrap cursor-pointer"
       >
         {t.letsTalk}
       </button>
@@ -157,7 +157,7 @@ export default function LetsTalkChooser() {
               <p data-alex-status aria-live="polite" className="empty:hidden mt-2 text-xs leading-5 text-slate-400"></p>
             </div>
 
-            <p className="my-2 text-center text-[11px] text-slate-500">{c.fallbackNote}</p>
+            <p className="my-2 text-center text-[11px] text-slate-400">{c.fallbackNote}</p>
 
             <a
               href={PHONE_HREF}

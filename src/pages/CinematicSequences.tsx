@@ -39,7 +39,7 @@ export default function CinematicSequences() {
   const lang = useLang();
 
   return (
-    <div className="w-full bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white relative">
+    <div className="w-full bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink relative">
       
       {/* Hero Section */}
       <section className="h-screen w-full flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
@@ -111,7 +111,7 @@ export default function CinematicSequences() {
               {phase.cta && (
                 <button 
                   onClick={() => setIsModalOpen(true)}
-                  className="bg-brand-orange text-white px-12 py-5 rounded-md font-bold tracking-widest uppercase hover:bg-white hover:text-brand-orange transition-all shadow-[0_0_30px_rgba(255,95,31,0.3)] hover:scale-105 cursor-pointer"
+                  className="bg-brand-orange text-brand-ink px-12 py-5 rounded-md font-bold tracking-widest uppercase hover:bg-white hover:text-brand-orange-deep transition-all shadow-[0_0_30px_rgba(255,95,31,0.3)] hover:scale-105 cursor-pointer"
                 >
                   {t.cta}
                 </button>
@@ -123,7 +123,7 @@ export default function CinematicSequences() {
 
       {/* Outro Spacer */}
       <section className="h-[40vh] w-full bg-slate-950 flex flex-col items-center justify-center border-t border-slate-900 relative z-20">
-         <p className="text-slate-500 font-bold tracking-widest uppercase text-sm mb-4">{t.tagline}</p>
+         <p className="text-slate-400 font-bold tracking-widest uppercase text-sm mb-4">{t.tagline}</p>
          <div className="w-12 h-1 bg-brand-orange/50 rounded-full"></div>
       </section>
 

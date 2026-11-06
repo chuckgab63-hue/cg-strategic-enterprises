@@ -3,7 +3,7 @@
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 /** Picks the card's icon in Home.tsx. */
-export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check';
+export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check' | 'pest';
 
 interface ServiceCard {
   icon: ServiceIcon;
@@ -29,6 +29,13 @@ const en = {
     title: 'Services',
     learnMore: 'Learn more',
     cards: [
+      {
+        icon: 'pest',
+        path: '/pest-control',
+        title: 'Pest Control Companies',
+        body: 'Websites, an AI assistant that answers in English or Spanish, and the office system behind it: licences, hiring and termite contracts. Features switch on as you grow.',
+        cta: 'See the packages',
+      },
       {
         icon: 'automation',
         path: '/automations',
@@ -106,6 +113,14 @@ const es: typeof en = {
     learnMore: 'Más información',
     // Services grid and case study card: NEW, not yet reviewed by a native speaker.
     cards: [
+      // Pest control card: NEW, not yet reviewed by a native speaker.
+      {
+        icon: 'pest',
+        path: '/pest-control',
+        title: 'Empresas de control de plagas',
+        body: 'Sitios web, un asistente de IA que responde en inglés o español y el sistema de oficina detrás de todo: licencias, contratación y contratos de termitas. Las funciones se activan a medida que crece.',
+        cta: 'Ver los paquetes',
+      },
       {
         icon: 'automation',
         path: '/automations',

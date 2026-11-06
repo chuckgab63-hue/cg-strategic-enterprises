@@ -128,10 +128,10 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
         />
         <span className="text-xs text-slate-300 leading-relaxed">
           {t.consent}
-          {t.consentGoverns && <span className="block mt-1 text-slate-500">{t.consentGoverns}</span>}
+          {t.consentGoverns && <span className="block mt-1 text-slate-400">{t.consentGoverns}</span>}
         </span>
       </label>
-      <p className="text-[11px] text-slate-500 leading-relaxed -mt-1">
+      <p className="text-[11px] text-slate-400 leading-relaxed -mt-1">
         {t.optional} {t.see} <Link to={lp('/privacy')} className={linkClass}>{t.privacy}</Link>.
       </p>
       <button
@@ -139,7 +139,7 @@ export default function MealPrepSummaryForm({ inputs, results }: MealPrepSummary
         className={`w-full mt-1 py-3 rounded-xl font-bold tracking-widest uppercase text-xs transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] ${
           formStatus === 'submitting'
             ? 'bg-slate-700 text-slate-400 cursor-not-allowed border border-slate-600'
-            : 'bg-brand-orange text-white hover:bg-white hover:text-brand-orange border border-transparent cursor-pointer'
+            : 'bg-brand-orange text-brand-ink hover:bg-white hover:text-brand-orange-deep border border-transparent cursor-pointer'
         }`}
       >
         {formStatus === 'submitting' ? t.sending : t.submit}

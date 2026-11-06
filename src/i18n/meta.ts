@@ -8,6 +8,7 @@
 import type { Lang } from './lang.ts';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
 import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath } from './mealPrepFeaturesMeta.ts';
+import { PEST_CONTROL_META, PEST_CONTROL_PATH } from './pestControlMeta.ts';
 
 export interface PageMeta {
   title: string;
@@ -190,6 +191,14 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Servicio de atención telefónica con IA para pequeños negocios de Florida: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda seguimientos.',
       },
     },
+  },
+  {
+    path: PEST_CONTROL_PATH,
+    meta: {
+      en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
+      es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
+    },
+    lastmod: '2026-11-06',
   },
   {
     path: '/meal-prep-ordering',

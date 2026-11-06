@@ -11,6 +11,7 @@ import common from '../i18n/common';
 // logo goes home, so there's no separate Home link.
 const NAV_LINKS = [
   { to: '/#services', key: 'services' },
+  { to: '/pest-control', key: 'pestControl' },
   { to: '/portfolio', key: 'caseStudies' },
   { to: '/skunkworks', key: 'skunkworks' },
   { to: '/contact', key: 'contact' },
@@ -55,12 +56,16 @@ export default function GlobalHeader() {
             </span>
           </Link>
 
-          <nav aria-label={t.mainNavLabel} className="hidden lg:flex items-center gap-6 lg:justify-self-center">
+          {/* Five links now, so the row is tightened between lg and xl and only
+              opens up above it. Spanish labels run longer again ("Control de
+              plagas"), so there the wide tracking waits until 1360px, the same
+              width at which the wordmark appears. */}
+          <nav aria-label={t.mainNavLabel} className="hidden lg:flex items-center gap-3 xl:gap-6 lg:justify-self-center">
             {NAV_LINKS.map(link => (
               <Link
                 key={link.to}
                 to={lp(link.to)}
-                className="text-sm font-bold tracking-widest uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap"
+                className={`text-sm font-bold uppercase text-slate-300 hover:text-brand-orange transition-colors whitespace-nowrap ${lang === 'es' ? 'tracking-wide min-[1360px]:tracking-widest' : 'tracking-wide xl:tracking-widest'}`}
               >
                 {t.nav[link.key]}
               </Link>

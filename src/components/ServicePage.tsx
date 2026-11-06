@@ -9,7 +9,7 @@ import { bookingUrl } from '../config/booking';
 // Building blocks shared by the service pages (/answering-service,
 // /meal-prep-ordering): one layout, heading scale and set of buttons.
 
-export const primaryButtonClass = 'inline-flex items-center justify-center bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer';
+export const primaryButtonClass = 'inline-flex items-center justify-center bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer';
 export const secondaryButtonClass = 'inline-flex items-center justify-center border border-slate-600 text-slate-200 px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:border-brand-orange hover:text-brand-orange transition-colors cursor-pointer';
 
 export function ServicePage({ children }: { children: ReactNode }) {

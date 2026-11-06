@@ -181,7 +181,7 @@ export default function Skunkworks() {
                   </div>
                   <p className="text-white font-bold text-sm leading-tight">{activeProduct.title}</p>
                   <p className="text-emerald-400 font-bold text-xs">{activeProduct.price}</p>
-                  <button onClick={(e) => e.stopPropagation()} className="w-full mt-1 bg-white text-slate-900 py-1.5 rounded text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange hover:text-white transition-colors">{v.buyNow}</button>
+                  <button onClick={(e) => e.stopPropagation()} className="w-full mt-1 bg-white text-slate-900 py-1.5 rounded text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange hover:text-brand-ink transition-colors">{v.buyNow}</button>
                 </motion.div>
               )}
             </motion.div>
@@ -208,7 +208,7 @@ export default function Skunkworks() {
             <button onClick={() => setActiveStyle('source')} className={`p-3 rounded-xl flex items-center justify-center transition-all ${activeStyle === 'source' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`} title={v.styleButtons.source}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             </button>
-            <button onClick={() => setActiveStyle('cleared')} className={`p-3 rounded-xl flex items-center justify-center transition-all ${activeStyle === 'cleared' ? 'bg-brand-orange text-white shadow-[0_0_15px_rgba(255,95,31,0.5)]' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`} title={v.styleButtons.cleared}>
+            <button onClick={() => setActiveStyle('cleared')} className={`p-3 rounded-xl flex items-center justify-center transition-all ${activeStyle === 'cleared' ? 'bg-brand-orange text-brand-ink shadow-[0_0_15px_rgba(255,95,31,0.5)]' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`} title={v.styleButtons.cleared}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
             </button>
             <div className="w-full h-px bg-slate-800 my-1"></div>
@@ -305,7 +305,7 @@ export default function Skunkworks() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-300 flex flex-col items-center py-24 px-6 relative overflow-hidden selection:bg-brand-orange selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-300 flex flex-col items-center py-24 px-6 relative overflow-hidden selection:bg-brand-orange selection:text-brand-ink">
       
       {/* Ambient Grid & Glow */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
@@ -424,7 +424,7 @@ export default function Skunkworks() {
                     </button>
                     <button 
                       onClick={() => setRenderMode('3D')}
-                      className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${renderMode === '3D' ? 'bg-brand-orange text-white shadow-[0_0_15px_rgba(255,95,31,0.4)]' : 'text-slate-400 hover:text-white'}`}
+                      className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${renderMode === '3D' ? 'bg-brand-orange text-brand-ink shadow-[0_0_15px_rgba(255,95,31,0.4)]' : 'text-slate-400 hover:text-white'}`}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
                       {t.init3d}
@@ -479,7 +479,7 @@ export default function Skunkworks() {
                      </button>
                      <button 
                        onClick={() => setRenderMode('3D')}
-                       className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${renderMode === '3D' ? 'bg-brand-orange text-white shadow-[0_0_15px_rgba(255,95,31,0.4)]' : 'text-slate-400 hover:text-white'}`}
+                       className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${renderMode === '3D' ? 'bg-brand-orange text-brand-ink shadow-[0_0_15px_rgba(255,95,31,0.4)]' : 'text-slate-400 hover:text-white'}`}
                      >
                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
                        {t.init3d}
@@ -556,7 +556,7 @@ export default function Skunkworks() {
 
                 {/* Right Column: Logic Visualizer */}
                 <div className="flex-[1.5] bg-[#020617] border border-slate-800 rounded-2xl p-6 relative">
-                  <h4 className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-6 absolute top-6 left-6">{t.modal.sequence}</h4>
+                  <h4 className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-6 absolute top-6 left-6">{t.modal.sequence}</h4>
                   
                   <div className="flex flex-col gap-2 mt-8">
                     {/* Trigger Node */}

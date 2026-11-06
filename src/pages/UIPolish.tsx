@@ -40,7 +40,7 @@ export default function UIPolish() {
   };
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-24">
+    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink pb-24">
       
       <div className="pt-20 site-container flex flex-col items-center text-center">
         
@@ -75,7 +75,7 @@ export default function UIPolish() {
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-brand-orange/20 group-hover:scale-150 transition-all duration-1000 ease-out"></div>
             
             <h3 className="text-2xl font-black text-white mb-2 relative z-10 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all duration-500">{t.hoverCard.title}</h3>
-            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-8 relative z-10">{t.hoverCard.subtitle}</p>
+            <p className="text-sm text-slate-400 font-bold uppercase tracking-widest mb-8 relative z-10">{t.hoverCard.subtitle}</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10 h-auto">
               
@@ -145,7 +145,7 @@ export default function UIPolish() {
                     transition={{ duration: 0.2 }}
                     className="w-full h-full flex items-center justify-center border border-dashed border-slate-800 rounded-xl"
                   >
-                    <span className="text-slate-600 text-sm font-bold uppercase tracking-widest">{t.hoverCard.empty}</span>
+                    <span className="text-slate-400 text-sm font-bold uppercase tracking-widest">{t.hoverCard.empty}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -153,7 +153,7 @@ export default function UIPolish() {
 
             {/* Interactive Hardware LEDs */}
             <div className="mt-8 pt-6 border-t border-slate-800/50 flex justify-between items-center relative z-10">
-              <span className="text-xs text-slate-500 font-bold uppercase tracking-widest">{t.hoverCard.status}</span>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-widest">{t.hoverCard.status}</span>
               <div className="flex gap-3">
                   <span className="w-2 h-2 rounded-full bg-slate-700 group-hover:bg-brand-orange group-hover:animate-pulse transition-colors duration-500 shadow-[0_0_10px_rgba(255,95,31,0)] group-hover:shadow-[0_0_10px_rgba(255,95,31,0.8)]"></span>
                   <span className="w-2 h-2 rounded-full bg-slate-700 group-hover:bg-blue-500 group-hover:animate-pulse delay-75 transition-colors duration-500 shadow-[0_0_10px_rgba(59,130,246,0)] group-hover:shadow-[0_0_10px_rgba(59,130,246,0.8)]"></span>
@@ -168,7 +168,7 @@ export default function UIPolish() {
             
             <div>
               <h3 className="text-2xl font-black text-white mb-2 relative z-10">{t.inputCard.title}</h3>
-              <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-8 relative z-10">{t.inputCard.subtitle}</p>
+              <p className="text-sm text-slate-400 font-bold uppercase tracking-widest mb-8 relative z-10">{t.inputCard.subtitle}</p>
             </div>
             
             <div className="relative z-10 w-full max-w-sm mx-auto">
@@ -213,7 +213,7 @@ export default function UIPolish() {
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         placeholder={t.inputCard.placeholder}
-                        className={`w-full bg-slate-950 border-2 rounded-xl pl-6 pr-20 py-4 text-white placeholder:text-slate-600 focus:outline-none transition-all duration-300 relative z-20 ${allMet ? 'border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)]' : 'border-slate-800 focus:border-brand-orange focus:shadow-[0_0_20px_rgba(255,95,31,0.2)]'}`}
+                        className={`w-full bg-slate-950 border-2 rounded-xl pl-6 pr-20 py-4 text-white placeholder:text-slate-400 focus:outline-none transition-all duration-300 relative z-20 ${allMet ? 'border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)]' : 'border-slate-800 focus:border-brand-orange focus:shadow-[0_0_20px_rgba(255,95,31,0.2)]'}`}
                       />
 
                       {/* Right Action Icons (Checkmark & Eye Toggle) */}
@@ -240,7 +240,7 @@ export default function UIPolish() {
                           type="button"
                           tabIndex={-1}
                           onClick={() => setShowPassword(!showPassword)}
-                          className="text-slate-500 hover:text-slate-300 transition-colors p-1 focus:outline-none"
+                          className="text-slate-400 hover:text-slate-300 transition-colors p-1 focus:outline-none"
                           title={showPassword ? t.inputCard.hidePassword : t.inputCard.showPassword}
                         >
                           {showPassword ? (
@@ -288,7 +288,7 @@ export default function UIPolish() {
                                     </motion.svg>
                                   )}
                                 </motion.div>
-                                <span className={`text-sm transition-colors duration-300 ${req.met ? 'text-white font-bold' : 'text-slate-500'}`}>
+                                <span className={`text-sm transition-colors duration-300 ${req.met ? 'text-white font-bold' : 'text-slate-400'}`}>
                                   {req.text}
                                 </span>
                               </div>
@@ -302,7 +302,7 @@ export default function UIPolish() {
                                 opacity: allMet ? 1 : 0.4,
                                 scale: allMet ? 1 : 0.98,
                               }}
-                              className={`mt-2 w-full py-3 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 ${allMet ? 'bg-brand-orange text-white shadow-[0_0_20px_rgba(255,95,31,0.4)] hover:bg-white hover:text-brand-orange cursor-pointer' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+                              className={`mt-2 w-full py-3 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 ${allMet ? 'bg-brand-orange text-brand-ink shadow-[0_0_20px_rgba(255,95,31,0.4)] hover:bg-white hover:text-brand-orange-deep cursor-pointer' : 'bg-slate-800 text-slate-400 cursor-not-allowed'}`}
                             >
                               {allMet ? t.inputCard.submitReady : t.inputCard.submitWaiting}
                             </motion.button>

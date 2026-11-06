@@ -65,9 +65,9 @@ const TiltCard = ({ project, onClick }: { project: Project; onClick: () => void 
         <motion.span layoutId={`category-${project.id}`} className="inline-block px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase mb-4 bg-white/20 text-white backdrop-blur-md border border-white/30">
           {project.category}
         </motion.span>
-        <motion.h3 layoutId={`title-${project.id}`} className="text-2xl font-black mb-2 text-white drop-shadow-md">
+        <motion.h2 layoutId={`title-${project.id}`} className="text-2xl font-black mb-2 text-white drop-shadow-md">
           {project.title}
-        </motion.h3>
+        </motion.h2>
         <motion.p layoutId={`desc-${project.id}`} className="text-sm leading-relaxed text-slate-200 drop-shadow-md">
           {project.desc}
         </motion.p>
@@ -94,8 +94,24 @@ export default function FluidDynamics() {
   const [contactMessage, setContactMessage] = useState('');
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-white pb-32">
-      
+    <div className="fluid-page bg-slate-950 text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-orange selection:text-brand-ink pb-32">
+      {/* The card titles below are h2, not h3: this page's only other heading
+          is its h1, so h3 skipped a level. The bare `h2` rule in index.css
+          (24px, weight 500, its own navy colour and margins) is unlayered and
+          would beat the Tailwind classes on them, so revert-layer hands those
+          properties back — the same fix .service-page and .site-footer use. */}
+      <style>{`
+        .fluid-page h2 {
+          font-family: revert-layer;
+          font-size: revert-layer;
+          font-weight: revert-layer;
+          line-height: revert-layer;
+          letter-spacing: revert-layer;
+          color: revert-layer;
+          margin: revert-layer;
+        }
+      `}</style>
+
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
       <div className="pt-20 site-container flex flex-col items-center text-center relative z-10 min-h-[60vh]">
@@ -154,9 +170,9 @@ export default function FluidDynamics() {
                   <motion.span layoutId={`category-${selectedProject.id}`} className="inline-block px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase mb-2 bg-white/20 text-white backdrop-blur-md border border-white/30">
                     {selectedProject.category}
                   </motion.span>
-                  <motion.h3 layoutId={`title-${selectedProject.id}`} className="text-xl md:text-2xl font-black mb-1 text-white drop-shadow-md">
+                  <motion.h2 layoutId={`title-${selectedProject.id}`} className="text-xl md:text-2xl font-black mb-1 text-white drop-shadow-md">
                     {selectedProject.title}
-                  </motion.h3>
+                  </motion.h2>
                   <motion.p layoutId={`desc-${selectedProject.id}`} className="text-sm text-white/90 drop-shadow-md max-w-md">
                     {selectedProject.desc}
                   </motion.p>
@@ -201,7 +217,7 @@ export default function FluidDynamics() {
                       setSelectedProject(null);
                       setTimeout(() => setIsContactModalOpen(true), 300); // Wait for card to close before opening comms
                     }}
-                    className="bg-brand-orange hover:bg-white text-white hover:text-brand-orange px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
+                    className="bg-brand-orange hover:bg-white text-brand-ink hover:text-brand-orange-deep px-6 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs transition-colors duration-300 shadow-[0_0_20px_rgba(255,95,31,0.3)]"
                   >
                     {t.requestIntegration}
                   </button>

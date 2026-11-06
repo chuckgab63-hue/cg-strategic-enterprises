@@ -53,7 +53,7 @@ function SliderField({ spec, value, onChange }: { spec: FieldSpec; value: string
       <div className="flex items-center justify-between gap-3">
         <label id={labelId} htmlFor={id} className="text-sm font-bold text-slate-200">{text.label}</label>
         <div className="flex items-center shrink-0 w-32 bg-slate-950 border border-slate-700 focus-within:border-brand-orange rounded-xl transition-colors">
-          {spec.kind === 'money' && <span className="pl-3 text-slate-500 text-base sm:text-sm" aria-hidden="true">$</span>}
+          {spec.kind === 'money' && <span className="pl-3 text-slate-400 text-base sm:text-sm" aria-hidden="true">$</span>}
           <input
             id={id}
             type="number" inputMode="decimal" min={0} max={max} step={spec.step}
@@ -62,7 +62,7 @@ function SliderField({ spec, value, onChange }: { spec: FieldSpec; value: string
             onChange={(e) => onChange(e.target.value)}
             className={`w-full min-w-0 bg-transparent focus:outline-none py-2.5 text-white text-base sm:text-sm tabular-nums text-right ${spec.kind === 'money' ? 'pl-1' : 'pl-3'} ${spec.kind === 'pct' ? 'pr-1' : 'pr-3'}`}
           />
-          {spec.kind === 'pct' && <span className="pr-3 text-slate-500 text-sm" aria-hidden="true">%</span>}
+          {spec.kind === 'pct' && <span className="pr-3 text-slate-400 text-sm" aria-hidden="true">%</span>}
         </div>
       </div>
       <input
@@ -73,7 +73,7 @@ function SliderField({ spec, value, onChange }: { spec: FieldSpec; value: string
         onChange={(e) => onChange(e.target.value)}
         className="w-full accent-brand-orange cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange rounded"
       />
-      {text.hint && <p id={hintId} className="text-[11px] text-slate-500 leading-relaxed">{text.hint}</p>}
+      {text.hint && <p id={hintId} className="text-[11px] text-slate-400 leading-relaxed">{text.hint}</p>}
     </div>
   );
 }
@@ -174,7 +174,7 @@ export default function MissedCallCalculator() {
               />
               <span className="flex flex-col gap-1">
                 <span className="text-sm font-bold text-slate-200">{t.recurringLabel}</span>
-                <span id={recurringHintId} className="text-[11px] text-slate-500 leading-relaxed">{t.recurringHint}</span>
+                <span id={recurringHintId} className="text-[11px] text-slate-400 leading-relaxed">{t.recurringHint}</span>
               </span>
             </label>
             {recurring && RECURRING_FIELDS.map(spec => (
@@ -195,7 +195,7 @@ export default function MissedCallCalculator() {
               </span>
               <span className="text-sm font-semibold text-slate-300 tabular-nums">{t.perYear(money(r.lostRevenuePerYear))}</span>
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed">{t.estimateNote}</p>
+            <p className="text-xs text-slate-400 leading-relaxed">{t.estimateNote}</p>
 
             <div className="flex flex-col gap-3 border-t border-slate-800 pt-5">
               <h3 className="text-sm font-bold text-slate-200">{t.breakdownHeading}</h3>
@@ -204,7 +204,7 @@ export default function MissedCallCalculator() {
                   <div key={step.label} className="flex items-start justify-between gap-4">
                     <dt className="flex flex-col gap-0.5 min-w-0">
                       <span className="text-sm text-slate-300">{step.label}</span>
-                      <span className="text-[11px] text-slate-500 tabular-nums break-words">{step.working}</span>
+                      <span className="text-[11px] text-slate-400 tabular-nums break-words">{step.working}</span>
                     </dt>
                     <dd className="text-sm font-bold text-white tabular-nums whitespace-nowrap">{step.result}</dd>
                   </div>
@@ -221,7 +221,7 @@ export default function MissedCallCalculator() {
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new Event(OPEN_LETS_TALK_EVENT))}
-                className="bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer"
+                className="bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer"
               >
                 {t.ctaAlex}
               </button>

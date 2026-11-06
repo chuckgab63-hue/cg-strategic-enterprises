@@ -27,7 +27,7 @@ export default function Faq() {
         <p className="text-slate-300 text-base leading-relaxed">{t.cta.body}</p>
         <div className="flex flex-wrap items-start gap-3">
           <BookCallButton medium="faq" content="faq-cta" />
-          <Link to={lp('/contact')} className="bg-brand-orange text-white px-6 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-opacity">
+          <Link to={lp('/contact')} className="bg-brand-orange text-brand-ink px-6 py-3 rounded-md font-bold tracking-wide hover:opacity-90 transition-opacity">
             {t.cta.button}
           </Link>
         </div>

@@ -24,7 +24,7 @@ function ContactMethod({ icon, label, className = '', children }: { icon: keyof 
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={ICON_PATHS[icon]}></path>
       </svg>
       <div className="flex flex-col gap-1 min-w-0">
-        <span className="text-xs font-bold tracking-widest uppercase text-slate-500">{label}</span>
+        <span className="text-xs font-bold tracking-widest uppercase text-slate-400">{label}</span>
         {children}
       </div>
     </div>

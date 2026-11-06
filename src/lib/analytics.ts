@@ -23,7 +23,9 @@ export type AnalyticsEvent =
   | 'check_learn_more'
   | 'check_estimator_used'
   | 'home_website_check_click'
-  | 'home_case_study_click';
+  | 'home_case_study_click'
+  | 'pest_feature_toggled'
+  | 'pest_tier_cta';
 
 /** public/alex-voice.js dispatches this on window when a call connects (it can't import this module). */
 export const ALEX_CALL_STARTED_EVENT = 'cg:alex-call-started';
@@ -90,7 +92,23 @@ export type CheckCard = 'speed' | 'mobile' | 'search' | 'missed_call';
 /** Where on the homepage a "Check my site" click came from, as sent with home_website_check_click. */
 export type HomeCheckPlacement = 'card' | 'section';
 
-export function trackEvent(name: AnalyticsEvent, language: Lang, extra: { card?: CheckCard; placement?: HomeCheckPlacement } = {}) {
+/**
+ * What a custom event may carry besides its name and the page language. All of
+ * it is fixed vocabulary from the code — a card name, a placement, a feature
+ * key, a package name — never anything a visitor typed.
+ */
+export interface EventDetail {
+  card?: CheckCard;
+  placement?: HomeCheckPlacement;
+  /** The /pest-control switch that moved (pest_feature_toggled). */
+  feature?: string;
+  /** Which way it moved (pest_feature_toggled). */
+  state?: 'on' | 'off';
+  /** The package whose button was used (pest_tier_cta). */
+  tier?: string;
+}
+
+export function trackEvent(name: AnalyticsEvent, language: Lang, extra: EventDetail = {}) {
   track(name, { language, ...extra });
 }
 

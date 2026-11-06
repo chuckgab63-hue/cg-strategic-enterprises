@@ -69,13 +69,13 @@ export default function SkunkworksProjects({ onPilot }: Props) {
               type="button"
               aria-pressed={filter === value}
               onClick={() => setFilter(value)}
-              className={`${tight ? 'px-2.5 tracking-wide' : 'px-3 tracking-wider'} sm:px-4 py-2 rounded-full text-xs font-bold uppercase sm:tracking-widest transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange ${filter === value ? 'bg-brand-orange text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`${tight ? 'px-2.5 tracking-wide' : 'px-3 tracking-wider'} sm:px-4 py-2 rounded-full text-xs font-bold uppercase sm:tracking-widest transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange ${filter === value ? 'bg-brand-orange text-brand-ink' : 'text-slate-400 hover:text-white'}`}
             >
               {t.filters[value]}
             </button>
           ))}
         </div>
-        <p aria-live="polite" className="text-xs text-slate-500">
+        <p aria-live="polite" className="text-xs text-slate-400">
           {t.showing(shown.length, SKUNKWORKS_PROJECTS.length)}
         </p>
       </div>
@@ -91,7 +91,7 @@ export default function SkunkworksProjects({ onPilot }: Props) {
                 <p className="text-brand-orange text-sm font-semibold">{text.hook}</p>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed">{text.description}</p>
-              {text.note && <p className="text-slate-500 text-xs">{text.note}</p>}
+              {text.note && <p className="text-slate-400 text-xs">{text.note}</p>}
 
               <div className="mt-auto pt-2">
                 <ul className="flex flex-wrap gap-2 mb-6" aria-label={t.builtOnLabel(text.title)}>
@@ -104,7 +104,7 @@ export default function SkunkworksProjects({ onPilot }: Props) {
                     type="button"
                     onClick={() => onPilot(project, text.title)}
                     aria-label={t.pilotAria(text.title)}
-                    className="bg-brand-orange/10 border border-brand-orange/60 text-brand-orange px-5 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs hover:bg-brand-orange hover:text-white transition-colors cursor-pointer"
+                    className="bg-brand-orange/10 border border-brand-orange/60 text-brand-orange px-5 py-2.5 rounded-lg font-bold tracking-widest uppercase text-xs hover:bg-brand-orange hover:text-brand-ink transition-colors cursor-pointer"
                   >
                     {t.pilotCta}
                   </button>

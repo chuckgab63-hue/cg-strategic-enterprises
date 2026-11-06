@@ -29,7 +29,7 @@ const RATING_TONE: Record<VitalRating, string> = {
   poor: 'text-red-400 border-red-500/50',
 };
 
-const primaryButton = 'text-center bg-brand-orange text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer';
+const primaryButton = 'text-center bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors shadow-[0_0_15px_rgba(255,95,31,0.3)] cursor-pointer';
 const secondaryButton = 'text-center border border-slate-600 text-slate-200 px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:border-brand-orange hover:text-brand-orange transition-colors cursor-pointer';
 
 /**
@@ -100,7 +100,7 @@ export function SpeedDetails({ strategy, metrics }: { strategy: 'desktop' | 'mob
               </div>
             ))}
           </dl>
-          <p className="text-xs text-slate-500">{metrics.metrics_source === 'field' ? t.fieldSource : t.labSource}</p>
+          <p className="text-xs text-slate-400">{metrics.metrics_source === 'field' ? t.fieldSource : t.labSource}</p>
         </div>
       )}
     </div>
@@ -176,7 +176,7 @@ function Estimator({ idPrefix }: { idPrefix: string }) {
           <div key={f.key} className="flex flex-col gap-2">
             <label htmlFor={`${idPrefix}-${f.key}`} className="text-xs font-semibold text-slate-300">{t.fields[f.label]}</label>
             <div className="flex items-center bg-slate-950 border border-slate-700 focus-within:border-brand-orange rounded-xl transition-colors">
-              {f.kind === 'money' && <span className="pl-4 text-slate-500 text-base sm:text-sm" aria-hidden="true">$</span>}
+              {f.kind === 'money' && <span className="pl-4 text-slate-400 text-base sm:text-sm" aria-hidden="true">$</span>}
               <input
                 id={`${idPrefix}-${f.key}`}
                 type="number" inputMode="decimal" min={0} max={f.max} step={f.step}
@@ -184,12 +184,12 @@ function Estimator({ idPrefix }: { idPrefix: string }) {
                 onChange={e => setField(f.key, e.target.value)}
                 className={`w-full min-w-0 bg-transparent focus:outline-none py-3 text-white text-base sm:text-sm tabular-nums ${f.kind === 'money' ? 'pl-1' : 'pl-4'} ${f.kind === 'pct' ? 'pr-1' : 'pr-4'}`}
               />
-              {f.kind === 'pct' && <span className="pr-4 text-slate-500 text-sm" aria-hidden="true">%</span>}
+              {f.kind === 'pct' && <span className="pr-4 text-slate-400 text-sm" aria-hidden="true">%</span>}
             </div>
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-slate-500 leading-relaxed">{t.assumption}</p>
+      <p className="text-[11px] text-slate-400 leading-relaxed">{t.assumption}</p>
 
       <dl aria-live="polite" className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-800 pt-5">
         {[
