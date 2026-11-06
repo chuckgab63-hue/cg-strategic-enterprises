@@ -82,6 +82,24 @@ const en = {
       builtOn: ['Google Gemini', 'Make.com'],
       linkLabel: 'Read the One Source case study',
     },
+    'feature-switches': {
+      title: 'Feature Switches',
+      hook: 'Buy what you use. Switch the rest on later.',
+      description:
+        'One registry owns every switchable part of a system, along with the pages, menus and endpoints it controls, so an owner can turn a module off without leaving a page reachable that nobody remembered to guard. Switching off hides and blocks; it never deletes.',
+      builtOn: ['Astro', 'Supabase', 'Row Level Security'],
+      note: 'Built and tested against sample records. The first client is being moved onto it.',
+      linkLabel: 'See it as an interactive demo',
+    },
+    'digital-termite-contracts': {
+      title: 'Digital Termite Contracts',
+      hook: 'The termite file, out of the drawer.',
+      description:
+        'Every agreement in one searchable list, filed A–Z, with the cancel, renewal and retention dates worked out by the database rather than typed three times. Originals cannot be replaced or deleted, years of paper contracts import in batches with a person checking every field, and an inspector gets one PDF instead of four links.',
+      builtOn: ['Astro', 'Supabase', 'Google Gemini', 'Make.com', 'BoldSign'],
+      note: 'Built and tested against sample contracts; the first client is being moved onto it. Sending for signature stays switched off until it is set up, and no customer has signed through it yet.',
+      linkLabel: 'See what it covers',
+    },
     'bilingual-voice-agent': {
       title: 'Bilingual Voice Agent',
       hook: 'English or Spanish, without “press 2.”',
@@ -165,6 +183,24 @@ const es: typeof en = {
         'Un cliente sube una foto de una plaga o de un problema, la IA hace una primera identificación y el cliente potencial llega con la foto y un servicio sugerido. Primero lo creamos como un analizador de plagas; el mismo modelo funciona para plomería, techos y más.',
       builtOn: ['Google Gemini', 'Make.com'],
       linkLabel: 'Lea el caso de estudio de One Source',
+    },
+    'feature-switches': {
+      title: 'Interruptores de funciones',
+      hook: 'Compre lo que usa. Active el resto después.',
+      description:
+        'Un solo registro es dueño de cada parte activable del sistema, junto con las páginas, los menús y los endpoints que controla, así que el dueño puede desactivar un módulo sin dejar accesible una página que nadie se acordó de proteger. Desactivar oculta y bloquea; nunca borra.',
+      builtOn: ['Astro', 'Supabase', 'Row Level Security'],
+      note: 'Construido y probado con registros de muestra. El primer cliente está pasando a usarlo.',
+      linkLabel: 'Véalo como demostración interactiva',
+    },
+    'digital-termite-contracts': {
+      title: 'Contratos digitales de termitas',
+      hook: 'El archivo de termitas, fuera del cajón.',
+      description:
+        'Todos los acuerdos en una sola lista con búsqueda, archivados de A a Z, con las fechas de cancelación, renovación y conservación calculadas por la base de datos en lugar de escribirse tres veces. Los originales no se pueden reemplazar ni borrar, años de contratos en papel se importan por lotes con una persona que revisa cada campo, y un inspector recibe un solo PDF en vez de cuatro enlaces.',
+      builtOn: ['Astro', 'Supabase', 'Google Gemini', 'Make.com', 'BoldSign'],
+      note: 'Construido y probado con contratos de muestra; el primer cliente está pasando a usarlo. El envío para firma sigue desactivado hasta que se configure, y ningún cliente ha firmado con él todavía.',
+      linkLabel: 'Vea qué incluye',
     },
     'bilingual-voice-agent': {
       title: 'Agente de voz bilingüe',

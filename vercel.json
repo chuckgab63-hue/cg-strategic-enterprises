@@ -50,6 +50,10 @@
       "destination": "/answering-service/index.html"
     },
     {
+      "source": "/pest-control",
+      "destination": "/pest-control/index.html"
+    },
+    {
       "source": "/meal-prep-ordering",
       "destination": "/meal-prep-ordering/index.html"
     },
@@ -172,6 +176,10 @@
     {
       "source": "/es/answering-service",
       "destination": "/es/answering-service/index.html"
+    },
+    {
+      "source": "/es/pest-control",
+      "destination": "/es/pest-control/index.html"
     },
     {
       "source": "/es/meal-prep-ordering",

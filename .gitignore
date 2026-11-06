@@ -33,3 +33,6 @@ claude-seo/
 
 # Supabase CLI's local cache
 supabase/.temp
+
+# Worktrees the desktop app creates for other sessions; never part of a commit.
+.claude/worktrees/

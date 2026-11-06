@@ -159,6 +159,14 @@ const en = {
   } as Record<AdminKey, { caption: string; alt: string }>,
   mockNote: '(mock-up with demo data)',
 
+  // Links the case study to /pest-control, where the switch panel is shown as
+  // an interactive demo and the packages are set out.
+  switches: {
+    title: 'Features switch on as you grow',
+    body: 'None of this had to arrive at once. In the newer build, each part of the system is a switch in the owner’s own settings page: turn one off and its pages, menus and endpoints go with it, and every record stays exactly where it is. That is how the same build can fit a two-truck company and a growing one. It is built and tested against sample records, and One Source is being moved onto it now — the switch panel is not part of what their office uses today.',
+    link: 'See the packages for pest control companies',
+  },
+
   quoteBadge: 'TODO: Client quote',
   quoteText: "Early feedback from the owner and office manager: it handles the work their CRM and payment system don't, in real time, so they can focus on growth.",
 
@@ -320,6 +328,12 @@ const es: typeof en = {
     },
   },
   mockNote: '(maqueta con datos de demostración)',
+
+  switches: {
+    title: 'Las funciones se activan a medida que crece',
+    body: 'Nada de esto tenía que llegar todo junto. En la construcción más reciente, cada parte del sistema es un interruptor en la página de configuración del dueño: desactive uno y sus páginas, menús y endpoints se van con él, y cada registro se queda exactamente donde está. Así el mismo desarrollo le sirve a una empresa de dos camionetas y a una que está creciendo. Está construido y probado con registros de muestra, y One Source está pasando a usarlo ahora: el panel de interruptores no es parte de lo que su oficina usa hoy.',
+    link: 'Vea los paquetes para empresas de control de plagas',
+  },
 
   quoteBadge: 'PENDIENTE: testimonio del cliente',
   quoteText: 'Primeros comentarios de la dirección y de la administración de la oficina: resuelve en tiempo real el trabajo que su CRM y su sistema de pagos no cubren, para que puedan concentrarse en crecer.',

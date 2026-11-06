@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ONE_SOURCE_CASE_STUDY as STUDY } from '../config/caseStudies';
+import { PEST_CONTROL_PATH } from '../config/pestPackages';
 import { useLocalePath, useT } from '../i18n/useLang';
 import copy from '../i18n/oneSourceCaseStudy';
 
@@ -251,6 +252,18 @@ export default function OneSourceCaseStudy() {
                 </figcaption>
               </figure>
             ))}
+          </div>
+
+          {/* --- Features switch on as you grow: on to /pest-control --- */}
+          <div className="mt-14 bg-slate-900/60 border border-brand-orange/40 rounded-3xl p-8 md:p-10">
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-4">{t.switches.title}</h3>
+            <p className="text-slate-400 leading-relaxed max-w-prose">{t.switches.body}</p>
+            <Link
+              to={lp(PEST_CONTROL_PATH)}
+              className="inline-block mt-6 bg-brand-orange text-white px-6 py-3 rounded-full font-black uppercase tracking-widest text-xs hover:bg-white hover:text-brand-orange transition-colors"
+            >
+              {t.switches.link} <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
 
           {/* --- Client feedback --- */}

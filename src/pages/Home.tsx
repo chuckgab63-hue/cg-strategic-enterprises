@@ -31,6 +31,8 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
   website: 'M3 5h18v14H3zM3 9h18',
   // A tick in a circle.
   check: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-4 9 3 3 5-6',
+  // A bug: body, antennae and legs.
+  pest: 'M12 7a4 4 0 0 1 4 4v3a4 4 0 0 1-8 0v-3a4 4 0 0 1 4-4zm0 0V4m-2-1 2 1 2-1M8 11H4m4 3H5m11-3h4m-4 3h3',
 };
 
 // LocalBusiness structured data for the home page. No street address: the
