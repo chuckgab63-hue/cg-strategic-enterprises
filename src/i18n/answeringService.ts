@@ -11,7 +11,7 @@ export const ANSWERING_SERVICE_PATH = '/answering-service';
 
 const en = {
   eyebrow: 'AI Answering Service',
-  title: 'AI Answering Service for Florida Small Businesses',
+  title: 'AI Answering Service for Small Businesses in Florida and Georgia',
   intro: 'Every missed call is a customer who might not call back. An AI answering service picks up every call, day or night, so no lead ends up in voicemail.',
   ctaAlex: 'Talk to Alex',
   ctaCall: `Call ${PHONE_DISPLAY}`,
@@ -89,7 +89,7 @@ const en = {
 
 const es: typeof en = {
   eyebrow: 'Servicio de atención telefónica con IA',
-  title: 'Servicio de atención telefónica con IA para pequeños negocios de Florida',
+  title: 'Servicio de atención telefónica con IA para pequeños negocios de Florida y Georgia',
   intro: 'Cada llamada perdida es un cliente que quizás no vuelva a llamar. Un servicio de atención telefónica con IA contesta todas las llamadas, de día o de noche, para que ningún cliente potencial termine en el buzón de voz.',
   ctaAlex: 'Hablar con Alex',
   ctaCall: `Llamar al ${PHONE_DISPLAY}`,

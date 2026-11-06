@@ -74,7 +74,7 @@ const en = {
   },
   setup: {
     title: 'Done for you',
-    body: 'We set it up for you, with your menu, plans, delivery zones and branding, and move your existing customers over. Built for small and mid-sized meal prep businesses in Florida, with support in English and Spanish.',
+    body: 'We set it up for you, with your menu, plans, delivery zones and branding, and move your existing customers over. Built for small and mid-sized meal prep businesses in Florida and Georgia, with support in English and Spanish.',
   },
   closing: {
     title: 'Want us to walk you through it?',
@@ -146,7 +146,7 @@ const es: typeof en = {
   },
   setup: {
     title: 'Nosotros lo configuramos',
-    body: 'Lo configuramos por usted, con su menú, sus planes, sus zonas de entrega y su marca, y pasamos a sus clientes actuales al nuevo sistema. Hecho para negocios pequeños y medianos de comidas preparadas en Florida, con atención en inglés y en español.',
+    body: 'Lo configuramos por usted, con su menú, sus planes, sus zonas de entrega y su marca, y pasamos a sus clientes actuales al nuevo sistema. Hecho para negocios pequeños y medianos de comidas preparadas en Florida y Georgia, con atención en inglés y en español.',
   },
   closing: {
     title: '¿Quiere que se la mostremos?',

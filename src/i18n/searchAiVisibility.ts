@@ -28,7 +28,7 @@ const en = {
     },
     {
       title: 'Bilingual Reach',
-      body: "English and Spanish versions of your key pages, so you're found by Florida's Spanish-speaking customers too.",
+      body: "English and Spanish versions of your key pages, so you're found by Spanish-speaking customers across Florida and Georgia too.",
     },
     {
       title: 'Email That Lands in the Inbox',
@@ -67,7 +67,7 @@ const es: typeof en = {
     },
     {
       title: 'Alcance bilingüe',
-      body: 'Versiones en inglés y en español de sus páginas principales, para que también lo encuentren los clientes hispanohablantes de Florida.',
+      body: 'Versiones en inglés y en español de sus páginas principales, para que también lo encuentren los clientes hispanohablantes de Florida y Georgia.',
     },
     {
       title: 'Correos que llegan a la bandeja de entrada',

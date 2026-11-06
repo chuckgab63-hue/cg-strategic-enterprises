@@ -16,7 +16,7 @@ this file in the same commit.
 ## 1. Add to Alex's knowledge / background
 
 > CG Strategic Enterprises builds websites, AI assistants and automations for
-> local businesses across Florida, from Northeast Florida. One of our
+> local businesses across Florida and Georgia, from Northeast Florida. One of our
 > specialities is pest control companies, and we have a full package for them in
 > three levels: Basic, Pro and Advanced. Details are on the website at
 > cgstrategic.dev/pest-control, in English and Spanish.

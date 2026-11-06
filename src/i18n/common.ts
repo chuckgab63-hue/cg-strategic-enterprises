@@ -48,7 +48,7 @@ const en = {
     freeTools: 'Free tools',
     company: 'Company',
     contact: 'Contact',
-    serving: 'Serving businesses across Florida',
+    serving: 'Serving Florida and Georgia',
     rights: 'All rights reserved.',
   },
   langToggle: {
@@ -114,7 +114,7 @@ const es: typeof en = {
     freeTools: 'Herramientas gratuitas',
     company: 'Empresa',
     contact: 'Contacto',
-    serving: 'Atendemos a negocios en todo Florida',
+    serving: 'Atendemos Florida y Georgia',
     rights: 'Todos los derechos reservados.',
   },
   langToggle: {

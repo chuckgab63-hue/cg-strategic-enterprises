@@ -48,7 +48,10 @@ function serviceJsonLd(lang: Lang, t: typeof pestControl.en): string {
     serviceType: t.schema.serviceType,
     url: SITE_URL + localizePath(PEST_CONTROL_PATH, lang),
     provider: { '@type': 'Organization', name: LEGAL_BUSINESS_NAME, url: SITE_URL },
-    areaServed: { '@type': 'State', name: 'Florida' },
+    areaServed: [
+      { '@type': 'State', name: 'Florida' },
+      { '@type': 'State', name: 'Georgia' },
+    ],
     audience: { '@type': 'BusinessAudience', name: t.schema.audience },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',

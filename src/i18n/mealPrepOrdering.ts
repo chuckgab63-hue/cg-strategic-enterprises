@@ -28,7 +28,7 @@ export const demoHref = (url: string, lang: Lang) => `${url}?lang=${lang}`;
 const en = {
   eyebrow: 'Meal Prep Ordering System',
   title: 'Online Ordering System for Meal Prep Businesses',
-  intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida, in English and Spanish.",
+  intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida and Georgia, in English and Spanish.",
   ctaDemo: 'Try the demo',
   ctaAlex: 'Talk to Alex',
   live: {
@@ -205,7 +205,7 @@ const en = {
 const es: typeof en = {
   eyebrow: 'Sistema de pedidos para comidas preparadas',
   title: 'Sistema de pedidos en línea para negocios de comidas preparadas',
-  intro: 'Tomar pedidos por mensajes directos, textos y hojas de cálculo funciona hasta que deja de funcionar. Un sistema de pedidos para comidas preparadas permite que sus clientes ordenen y se suscriban por su cuenta mientras su semana se organiza sola. Nosotros lo configuramos y pasamos a sus clientes al nuevo sistema, para negocios pequeños y medianos de comidas preparadas en Florida, en inglés y en español.',
+  intro: 'Tomar pedidos por mensajes directos, textos y hojas de cálculo funciona hasta que deja de funcionar. Un sistema de pedidos para comidas preparadas permite que sus clientes ordenen y se suscriban por su cuenta mientras su semana se organiza sola. Nosotros lo configuramos y pasamos a sus clientes al nuevo sistema, para negocios pequeños y medianos de comidas preparadas en Florida y Georgia, en inglés y en español.',
   ctaDemo: 'Probar la demo',
   ctaAlex: 'Hablar con Alex',
   live: {

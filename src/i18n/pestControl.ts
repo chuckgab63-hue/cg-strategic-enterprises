@@ -34,7 +34,7 @@ const en = {
   eyebrow: 'Pest control',
   title: 'Built for pest control companies',
   intro:
-    'A website that gets found, an assistant that answers when the office is closed, and an office system that keeps licences, hiring and termite contracts straight — in English and Spanish, for pest control companies across Florida.',
+    'A website that gets found, an assistant that answers when the office is closed, and an office system that keeps licences, hiring and termite contracts straight — in English and Spanish, for pest control companies across Florida and Georgia.',
   ctaAlex: 'Talk to Alex',
   ctaCall: 'Call us',
   newTab: '(opens in a new tab)',
@@ -381,7 +381,7 @@ const es: typeof en = {
   eyebrow: 'Control de plagas',
   title: 'Hecho para empresas de control de plagas',
   intro:
-    'Un sitio web que la gente encuentra, un asistente que contesta cuando la oficina está cerrada y un sistema de oficina que mantiene en orden las licencias, las contrataciones y los contratos de termitas: en inglés y español, para empresas de control de plagas en todo Florida.',
+    'Un sitio web que la gente encuentra, un asistente que contesta cuando la oficina está cerrada y un sistema de oficina que mantiene en orden las licencias, las contrataciones y los contratos de termitas: en inglés y español, para empresas de control de plagas en todo Florida y Georgia.',
   ctaAlex: 'Hablar con Alex',
   ctaCall: 'Llámenos',
   newTab: '(se abre en una pestaña nueva)',
