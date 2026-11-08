@@ -21,8 +21,24 @@ export interface SiteRoute {
   meta: Record<Lang, PageMeta>;
   /** Open Graph image for link previews, if the page has one. */
   og?: { image: string; width: number; height: number; alt: Record<Lang, string>; type: 'article' | 'website' };
-  /** The sitemap's lastmod (YYYY-MM-DD): the day the page's content last changed. */
-  lastmod?: string;
+  /**
+   * The sitemap's lastmod, as YYYY-MM-DD.
+   *
+   * The convention: lastmod is the date the page's own visible copy last
+   * changed — the words a visitor reads, its headings, its images, its meta
+   * title and description. Styling-only changes do not count, and neither do
+   * accessibility, performance or refactoring commits that leave the copy
+   * alone: a contrast fix across the site is not news to a search engine, and
+   * a sitemap that claims it is gets its dates ignored. A change to shared
+   * chrome (the header, the footer, the nav) only counts for a page when it
+   * changed that page's own content too.
+   *
+   * Required, not optional: a route with no date is a route nobody decided
+   * about. When a page's copy changes, move its date in the same commit —
+   * src/i18n/i18n.test.ts checks the format and that no date is in the future,
+   * but only a person can say whether the words actually changed.
+   */
+  lastmod: string;
 }
 
 const NAME = 'CG Strategic Enterprises';
@@ -40,7 +56,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: `${NAME} crea sitios web, asistentes de IA, automatizaciones y sistemas de pedidos para comidas preparadas para negocios locales en Jacksonville, FL y otras ciudades.`,
       },
     },
-    lastmod: '2026-10-31',
+    lastmod: '2026-11-06',
   },
   {
     path: '/automations',
@@ -54,6 +70,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Automatizaciones que conectan su sitio web, CRM, correo electrónico y teléfono para captar clientes potenciales y darles seguimiento sin trabajo manual.',
       },
     },
+    lastmod: '2026-10-29',
   },
   {
     path: '/portfolio',
@@ -67,6 +84,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Casos de estudio de nuestro trabajo en sitios web, IA y automatización, empezando por una renovación completa para una empresa de control de plagas en Florida.',
       },
     },
+    lastmod: '2026-10-29',
   },
   {
     path: ONE_SOURCE_CASE_STUDY.path,
@@ -87,19 +105,21 @@ export const SITE_ROUTES: SiteRoute[] = [
         es: 'Página de inicio de One Source Total Pest Control: "Friendly, local pest control in Jacksonville, FL" sobre un video de palmeras',
       },
     },
+    lastmod: '2026-11-08',
   },
   {
     path: '/skunkworks',
     meta: {
       en: {
         title: `Skunkworks: AI Automation Experiments for Local Businesses | ${NAME}`,
-        description: 'AI automation experiments for local businesses: missed-call callbacks, voice notes for field techs, photo-to-quote intake, bilingual voice agents and more, each labeled Concept, Prototype or In use.',
+        description: 'AI automation experiments for local businesses: missed-call callbacks, voice notes for field techs, photo-to-quote intake, bilingual voice agents and more, each labeled Concept, Prototype, Ready or In use.',
       },
       es: {
         title: `Skunkworks: experimentos de automatización con IA para negocios locales | ${NAME}`,
-        description: 'Experimentos de automatización con IA para negocios locales: devolución inmediata de llamadas perdidas, notas de voz para técnicos de campo, cotizaciones a partir de fotos, agentes de voz bilingües y más, cada uno marcado como Concepto, Prototipo o En uso.',
+        description: 'Experimentos de automatización con IA para negocios locales: devolución inmediata de llamadas perdidas, notas de voz para técnicos de campo, cotizaciones a partir de fotos, agentes de voz bilingües y más, cada uno marcado como Concepto, Prototipo, Listo o En uso.',
       },
     },
+    lastmod: '2026-11-08',
   },
   {
     path: '/cinematic',
@@ -113,6 +133,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Una demostración de animaciones grandes y cinematográficas, controladas por el desplazamiento, para sitios web.',
       },
     },
+    lastmod: '2026-10-29',
   },
   {
     path: '/fluid-dynamics',
@@ -126,6 +147,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Una demostración de animaciones de interfaz fluidas y basadas en física para sitios web.',
       },
     },
+    lastmod: '2026-10-29',
   },
   {
     path: '/ui-polish',
@@ -139,6 +161,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Una demostración de detalles de interfaz como los de una app, en la web: gestos, transiciones y microinteracciones.',
       },
     },
+    lastmod: '2026-10-29',
   },
   {
     path: '/meal-prep-calculator',
@@ -152,6 +175,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Calculadora gratuita para negocios de comidas preparadas: ingrese su precio, costo de alimentos, alquiler de cocina, entregas y su propio tiempo para ver el % de costo de alimentos, el % de costo primo, la contribución por comida y el volumen de equilibrio que más importa.',
       },
     },
+    lastmod: '2026-10-28',
   },
   {
     path: '/website-check',
@@ -165,6 +189,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Reciba una revisión gratuita de la velocidad de su sitio, la experiencia en celulares, lo básico para buscadores y el riesgo de llamadas perdidas, con las mejoras principales en lenguaje sencillo. Le enviaremos el informe por correo electrónico.',
       },
     },
+    lastmod: '2026-10-29',
   },
   {
     path: '/missed-call-calculator',
@@ -178,6 +203,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Calculadora gratuita: ingrese sus llamadas por semana, cuántas no contesta, cuántas de esas personas no vuelven a llamar y cuánto vale un cliente para estimar los ingresos que las llamadas perdidas podrían costarle cada mes y cada año.',
       },
     },
+    lastmod: '2026-10-23',
   },
   {
     path: '/answering-service',
@@ -191,6 +217,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Servicio de atención telefónica con IA para pequeños negocios de Florida y Georgia: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda seguimientos.',
       },
     },
+    lastmod: '2026-11-06',
   },
   {
     path: PEST_CONTROL_PATH,
@@ -198,7 +225,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
     },
-    lastmod: '2026-11-06',
+    lastmod: '2026-11-08',
   },
   {
     path: '/meal-prep-ordering',
@@ -267,6 +294,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Que lo encuentren en Google, Bing, Maps y los asistentes de IA: SEO técnico, Perfil de Empresa en Google, páginas de servicios por palabras clave, búsqueda con IA y versiones en español.',
       },
     },
+    lastmod: '2026-11-06',
   },
   {
     path: '/faq',
@@ -280,6 +308,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Respuestas sobre nuestros sitios web, asistentes de IA y automatizaciones: cómo empieza un proyecto, precios, plazos, alojamiento y mantenimiento, quién es dueño de su sitio web y sus datos, Alex, nuestro asistente de IA, y nuestro trabajo en español.',
       },
     },
+    lastmod: '2026-11-06',
   },
   {
     path: '/contact',
@@ -293,6 +322,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: `Comuníquese con ${NAME} en Jacksonville, FL. Llame al (904) 822-8929, escriba a info@cgstrategic.dev o envíenos un mensaje sobre su proyecto web, de IA o de automatización.`,
       },
     },
+    lastmod: '2026-11-02',
   },
   {
     path: '/privacy',
@@ -306,6 +336,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: `Cómo ${NAME} recopila, usa y protege la información que usted comparte en este sitio web, incluidos los formularios de contacto y los mensajes de texto.`,
       },
     },
+    lastmod: '2026-10-23',
   },
   {
     path: '/terms',
@@ -319,6 +350,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: `Los términos para usar el sitio web de ${NAME} y nuestro programa de mensajes de texto.`,
       },
     },
+    lastmod: '2026-10-23',
   },
 ];
 

@@ -52,13 +52,32 @@ describe('page meta', () => {
     expect(head.title).toMatch(/^Página no encontrada/);
   });
 
-  it('gives a page its lastmod in the sitemap, only when it has one', () => {
+  // The convention behind these dates is written out on SiteRoute.lastmod in
+  // meta.ts: the day the page's own visible copy last changed, styling-only
+  // commits excluded. A test cannot tell whether the words changed; it can
+  // tell that every route was given a real date and that none of them is in
+  // the future, which is what makes a sitemap worth reading.
+  it('gives every route a lastmod, as a date that is not in the future', () => {
+    const today = new Date().toISOString().slice(0, 10);
+    for (const route of SITE_ROUTES) {
+      expect(route.lastmod, route.path).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      // Parsed back, so 2026-02-31 and 2026-13-01 fail rather than pass the shape check.
+      expect(new Date(`${route.lastmod}T00:00:00Z`).toISOString().slice(0, 10), route.path).toBe(route.lastmod);
+      expect(route.lastmod <= today, `${route.path} is dated in the future`).toBe(true);
+    }
+  });
+
+  it('puts a lastmod under every URL in the sitemap, English and Spanish', () => {
     const xml = sitemapXml();
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/demo-guide</loc>\n    <lastmod>2026-11-01</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-10-31</lastmod>');
-    // A page without one (Contact): no lastmod line after its loc.
-    expect(xml).not.toMatch(/<loc>https:\/\/www\.cgstrategic\.dev\/contact<\/loc>\n    <lastmod>/);
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>');
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>(\n    <lastmod>([^<]+)<\/lastmod>)?/g)];
+    expect(locs.length).toBe(SITE_ROUTES.length * (SPANISH_PUBLIC ? 2 : 1));
+    for (const [, loc, , lastmod] of locs) expect(lastmod, loc).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+
+    // A page and its Spanish twin share the route's date.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-08</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-08</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-02</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-06</lastmod>');
   });
 
   it('keeps /analytics-optout and /ignore-me out of search and the sitemap', () => {
