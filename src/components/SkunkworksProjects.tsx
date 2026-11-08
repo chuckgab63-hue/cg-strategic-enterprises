@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SKUNKWORKS_PROJECTS, type ProjectStatus, type SkunkworksProject } from '../config/skunkworksProjects';
+import { statusLabel, statusMeaning, statusShort } from '../config/featureStatus';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import copy from '../i18n/skunkworksProjects';
+import type { Lang } from '../i18n/lang';
 
-const STATUS_ORDER: ProjectStatus[] = ['concept', 'prototype', 'in-use'];
+const STATUS_ORDER: ProjectStatus[] = ['concept', 'prototype', 'ready', 'in-use'];
 
-const FILTERS: (ProjectStatus | 'all')[] = ['all', 'concept', 'prototype', 'in-use'];
+const FILTERS: (ProjectStatus | 'all')[] = ['all', 'concept', 'prototype', 'ready', 'in-use'];
 
 const BADGE: Record<ProjectStatus, { pill: string; dot: string }> = {
   concept: { pill: 'bg-slate-800 border-slate-700 text-slate-300', dot: 'bg-slate-400' },
   prototype: { pill: 'bg-blue-500/10 border-blue-500/30 text-blue-400', dot: 'bg-blue-400' },
+  ready: { pill: 'bg-amber-500/10 border-amber-500/30 text-amber-300', dot: 'bg-amber-400' },
   'in-use': { pill: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400', dot: 'bg-emerald-400' },
 };
+
+/**
+ * What each status is called here. 'ready' and 'in-use' are shared with
+ * /pest-control, so their words come from src/config/featureStatus.ts rather
+ * than being written again; 'concept' and 'prototype' are this page's own.
+ */
+function statusWords(status: ProjectStatus, lang: Lang, t: typeof copy.en) {
+  // 'Ready' wears its short form here, beside one-word badges; 'In use with a
+  // client' keeps the full label it has always had on this page.
+  if (status === 'ready') return { label: statusShort(status, lang), meaning: statusMeaning(status, lang) };
+  if (status === 'in-use') return { label: statusLabel(status, lang), meaning: statusMeaning(status, lang) };
+  return t.statuses[status];
+}
 
 function StatusBadge({ status, label }: { status: ProjectStatus; label: string }) {
   return (
@@ -34,8 +50,12 @@ interface Props {
 export default function SkunkworksProjects({ onPilot }: Props) {
   const t = useT(copy);
   const lp = useLocalePath();
-  // Spanish filter labels are longer: tighten them on phones so all four stay on one row.
-  const tight = useLang() === 'es';
+  const lang = useLang();
+  // Spanish filter labels are longer: tighten them on phones so the row stays compact.
+  const tight = lang === 'es';
+  const words = (status: ProjectStatus) => statusWords(status, lang, t);
+  const filterLabel = (value: ProjectStatus | 'all') =>
+    value === 'ready' || value === 'in-use' ? statusShort(value, lang) : t.filters[value];
   const [filter, setFilter] = useState<ProjectStatus | 'all'>('all');
   const shown = filter === 'all' ? SKUNKWORKS_PROJECTS : SKUNKWORKS_PROJECTS.filter(p => p.status === filter);
 
@@ -51,11 +71,11 @@ export default function SkunkworksProjects({ onPilot }: Props) {
       </div>
 
       {/* Legend */}
-      <dl className="grid gap-3 sm:grid-cols-3 mb-6">
+      <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         {STATUS_ORDER.map(status => (
           <div key={status} className="flex flex-col items-start gap-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-4">
-            <dt><StatusBadge status={status} label={t.statuses[status].label} /></dt>
-            <dd className="text-sm text-slate-400">{t.statuses[status].meaning}</dd>
+            <dt><StatusBadge status={status} label={words(status).label} /></dt>
+            <dd className="text-sm text-slate-400">{words(status).meaning}</dd>
           </div>
         ))}
       </dl>
@@ -71,7 +91,7 @@ export default function SkunkworksProjects({ onPilot }: Props) {
               onClick={() => setFilter(value)}
               className={`${tight ? 'px-2.5 tracking-wide' : 'px-3 tracking-wider'} sm:px-4 py-2 rounded-full text-xs font-bold uppercase sm:tracking-widest transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange ${filter === value ? 'bg-brand-orange text-brand-ink' : 'text-slate-400 hover:text-white'}`}
             >
-              {t.filters[value]}
+              {filterLabel(value)}
             </button>
           ))}
         </div>
@@ -85,7 +105,7 @@ export default function SkunkworksProjects({ onPilot }: Props) {
           const text = t.projects[project.slug];
           return (
             <li key={project.slug} className="flex flex-col gap-4 bg-[#020617]/80 border border-slate-800 rounded-3xl p-6 md:p-8 hover:border-slate-700 transition-colors">
-              <div><StatusBadge status={project.status} label={t.statuses[project.status].label} /></div>
+              <div><StatusBadge status={project.status} label={words(project.status).label} /></div>
               <div className="flex flex-col gap-1">
                 <h3 className="text-white font-bold text-xl">{text.title}</h3>
                 <p className="text-brand-orange text-sm font-semibold">{text.hook}</p>
