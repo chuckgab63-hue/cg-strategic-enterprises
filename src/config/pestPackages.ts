@@ -8,24 +8,28 @@
 // start showing them.
 //
 // Honesty rules (the same ones /skunkworks follows): `status` is what is true
-// today, not what is nearly true.
+// today, not what is nearly true. The words themselves live in one place,
+// src/config/featureStatus.ts, so every page says the same thing.
 //
-// The line that decides it is which system a feature runs in. One Source's
-// staff use the live admin every day: staff records, licensing, training,
-// careers and applicants, onboarding and the daily digest, plus the Pest
-// Analyzer and the voice assistant on the site. Those are 'in-use'.
+// The line that decides it is whether a client is running their business on a
+// feature. One Source's staff use the live admin every day: staff records,
+// licensing, training, careers and applicants, onboarding and the daily digest,
+// plus the Pest Analyzer and the voice assistant on the site. Those are
+// 'in-use'.
 //
 // Everything in the newer build — contracts and everything around them, the
 // feature switches themselves, the Spanish site and the Spanish half of the
-// voice assistant — runs against a development database with sample data and
-// has not been in the client's hands yet. Those are 'rolling-out', e-signature
-// included, and no amount of "it works" upgrades one. A feature moves to
-// 'in-use' on the day a client is actually using it, and not before.
+// voice assistant — is built, deployed and working in the platform, and is
+// switched on for a client on the day they are ready. Those are 'ready'.
+// E-signature is 'ready-esign': the same, except that switching it on needs the
+// client's own signing account connected first. A feature moves to 'in-use' on
+// the day a client is actually using it, and not before.
 //
 // Plain TypeScript with no React so src/i18n/meta.ts and vite.config.ts can
 // import the path. Spanish strings: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 import type { Lang } from '../i18n/lang.ts';
+import type { StatusKey } from './featureStatus.ts';
 
 export const PEST_CONTROL_PATH = '/pest-control';
 
@@ -92,15 +96,18 @@ export const TIER_PROMISE: Record<TierKey, Record<Lang, string>> = {
 // ---------------------------------------------------------------------------
 
 /**
- * What we can say about a feature today.
+ * What we can say about a feature today. The four words, and what each one
+ * means, are defined once in src/config/featureStatus.ts.
  *
  * in-use:      a pest control client is using it in production right now.
- * rolling-out: built and tested, running on a development database with sample
- *              data. Nobody's client has used it yet.
+ * ready:       built and working in the platform; switched on for a client on
+ *              the day they are ready.
+ * ready-esign: the same, except switching it on needs the client's own
+ *              e-signature account connected first.
  * service:     something CG Strategic runs alongside the platform rather than
  *              a feature of the platform itself.
  */
-export type FeatureStatus = 'in-use' | 'rolling-out' | 'service';
+export type FeatureStatus = StatusKey;
 
 export interface PackageFeature {
   key: string;
@@ -115,8 +122,9 @@ export interface PackageFeature {
 
 /**
  * A feature's status, with the default spelled out. The cards show a chip only
- * for the two that are caveats; the table labels every row, so nothing there
- * depends on the reader knowing what an absent chip means.
+ * for the three that are not already in use with a client; the table labels
+ * every row, so nothing there depends on the reader knowing what an absent chip
+ * means.
  */
 export const statusOf = (f: PackageFeature): FeatureStatus => f.status ?? 'in-use';
 
@@ -159,7 +167,7 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
       {
         key: 'spanish-site',
         tier: 'pro',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Spanish site with an EN | ES toggle and its own URLs', es: 'Sitio en español con selector EN | ES y sus propias direcciones' },
       },
     ],
@@ -215,9 +223,10 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
     key: 'ai',
     label: { en: 'AI on your site', es: 'IA en su sitio' },
     features: [
-      // Two rows, not one with a caveat: the English assistant is in use and
-      // the Spanish one is not, and a single row would have to carry one chip
-      // for both. Whichever chip won, half of it would be wrong.
+      // Two rows, not one with a caveat: the English assistant is in use with a
+      // client and the Spanish one is built and waiting to be switched on, and a
+      // single row would have to carry one chip for both. Whichever chip won,
+      // half of it would be wrong.
       {
         key: 'voice-assistant',
         tier: 'pro',
@@ -226,11 +235,11 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
       {
         key: 'voice-assistant-spanish',
         tier: 'pro',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'The same voice assistant in Spanish', es: 'El mismo asistente de voz en español' },
         note: {
-          en: 'Built and waiting on its native-speaker review. No client has switched it on.',
-          es: 'Construido y a la espera de su revisión por un hablante nativo. Ningún cliente lo ha activado.',
+          en: 'Switched on together with the Spanish site.',
+          es: 'Se activa junto con el sitio en español.',
         },
       },
       {
@@ -247,7 +256,7 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
       {
         key: 'feature-switches',
         tier: 'pro',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Feature switches you hold yourself — e.g. WDO inspections on or off', es: 'Interruptores que usted maneja: por ejemplo, inspecciones WDO activadas o no' },
       },
     ],
@@ -305,47 +314,47 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
       {
         key: 'digital-contracts',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Digital termite contracts, filed A–Z and searchable', es: 'Contratos digitales de termitas, archivados de A a Z y con búsqueda' },
       },
       {
         key: 'computed-dates',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Cancel, renewal and retention dates worked out for you', es: 'Fechas de cancelación, renovación y conservación calculadas por el sistema' },
       },
       {
         key: 'esign',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready-esign',
         label: { en: 'E-signature: the customer signs on their phone', es: 'Firma electrónica: el cliente firma en su celular' },
         note: {
-          en: 'Switched off, and no customer has signed through it yet.',
-          es: 'Desactivada, y ningún cliente ha firmado con ella todavía.',
+          en: 'Connect your signing account and the switch turns it on.',
+          es: 'Conecte su cuenta de firma y el interruptor la activa.',
         },
       },
       {
         key: 'paper-import',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Paper-contract import, with a person checking every field', es: 'Importación de contratos en papel, con una persona que revisa cada campo' },
       },
       {
         key: 'protected-originals',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Protected originals that cannot be replaced or deleted', es: 'Originales protegidos que no se pueden reemplazar ni borrar' },
       },
       {
         key: 'audit-packet',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Audit packet: one PDF for an inspector, not four links', es: 'Paquete de auditoría: un solo PDF para un inspector, no cuatro enlaces' },
       },
       {
         key: 'renewals',
         tier: 'advanced',
-        status: 'rolling-out',
+        status: 'ready',
         label: { en: 'Renewals tracking and reminders', es: 'Seguimiento y recordatorios de renovaciones' },
       },
     ],

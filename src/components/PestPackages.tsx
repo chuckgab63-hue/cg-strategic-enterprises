@@ -4,6 +4,7 @@ import {
   type FeatureStatus, type PackageFeature, type TierKey,
 } from '../config/pestPackages';
 import { bookingUrl } from '../config/booking';
+import { statusLabel, statusMeaning } from '../config/featureStatus';
 import { LOCALE } from '../i18n/lang';
 import { trackEvent } from '../lib/analytics';
 import { useLang, useT } from '../i18n/useLang';
@@ -17,23 +18,31 @@ import pestControl from '../i18n/pestControl';
 // No figure reaches this component while SHOW_PRICES is false — the cards and
 // the table say "Pricing after a free 30-minute audit" instead.
 
-const STATUS_PILL = 'inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border';
+/** The four statuses shown in the legend, in the order they are read. */
+const LEGEND: FeatureStatus[] = ['in-use', 'ready', 'ready-esign', 'service'];
+
+// rounded-2xl, not rounded-full: the e-signature label wraps to several lines
+// on a phone, and a full radius turns a wrapped pill into an ellipse that cuts
+// across its own text. A fixed radius still reads as a chip on one line.
+const STATUS_PILL = 'inline-block px-2.5 py-1 rounded-2xl text-[10px] font-bold uppercase tracking-widest border';
 const STATUS_TONE: Record<FeatureStatus, string> = {
   'in-use': 'border-emerald-400/40 text-emerald-200 bg-emerald-400/10',
-  'rolling-out': 'border-amber-400/50 text-amber-300 bg-amber-400/10',
+  ready: 'border-amber-400/50 text-amber-300 bg-amber-400/10',
+  'ready-esign': 'border-amber-400/50 text-amber-300 bg-amber-400/10',
   service: 'border-sky-400/40 text-sky-200 bg-sky-400/10',
 };
 
 /**
- * The status pill. In the cards it only shows the two that are caveats, so the
- * lists stay readable; in the table it shows every one, because that is the
- * reference list and an absent pill there would be something to interpret.
+ * The status pill. In the cards it only shows the three that are not already in
+ * use with a client, so the lists stay readable; in the table it shows every
+ * one, because that is the reference list and an absent pill there would be
+ * something to interpret. The words come from src/config/featureStatus.ts.
  */
 function StatusPill({ feature, always = false }: { feature: PackageFeature; always?: boolean }) {
-  const t = useT(pestControl).packages;
+  const lang = useLang();
   const status = statusOf(feature);
   if (status === 'in-use' && !always) return null;
-  return <span className={`${STATUS_PILL} ${STATUS_TONE[status]}`}>{t.statusLabels[status]}</span>;
+  return <span className={`${STATUS_PILL} ${STATUS_TONE[status]}`}>{statusLabel(status, lang)}</span>;
 }
 
 export default function PestPackages() {
@@ -115,11 +124,11 @@ export default function PestPackages() {
         {/* What each label means, spelled out rather than left to the colour. */}
         <div className="mt-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
           <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">{t.statusLegendTitle}</p>
-          <dl className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {(['in-use', 'rolling-out', 'service'] as const).map(status => (
+          <dl className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {LEGEND.map(status => (
               <div key={status}>
-                <dt><span className={`${STATUS_PILL} ${STATUS_TONE[status]}`}>{t.statusLabels[status]}</span></dt>
-                <dd className="text-slate-400 text-sm leading-relaxed mt-2">{t.statusMeanings[status]}</dd>
+                <dt><span className={`${STATUS_PILL} ${STATUS_TONE[status]}`}>{statusLabel(status, lang)}</span></dt>
+                <dd className="text-slate-400 text-sm leading-relaxed mt-2">{statusMeaning(status, lang)}</dd>
               </div>
             ))}
           </dl>

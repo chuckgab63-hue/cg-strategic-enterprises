@@ -13,9 +13,9 @@ describe('SKUNKWORKS_PROJECTS', () => {
       'training-in-a-box': 'prototype',
       'ai-search-visibility-monitor': 'concept',
       'photo-diagnosis-quote': 'in-use',
-      'feature-switches': 'prototype',
-      'digital-termite-contracts': 'prototype',
-      'bilingual-voice-agent': 'concept',
+      'feature-switches': 'ready',
+      'digital-termite-contracts': 'ready',
+      'bilingual-voice-agent': 'ready',
       'proposal-autopilot': 'concept',
     });
   });

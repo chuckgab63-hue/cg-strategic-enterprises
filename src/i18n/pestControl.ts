@@ -6,10 +6,13 @@
 //
 // Honesty rules: no results, no metrics, no client details beyond what
 // /work/one-source-total-pest-control already shows, and every mock screen says
-// it is a mock with sample data. "Rolling out" means built but not yet live
-// with a customer; it must not read as "available now".
+// it is a mock with sample data. The status words — "In use with a client",
+// "Built — ready to switch on" — are defined once in src/config/featureStatus.ts
+// and never rewritten here; a feature only reaches "in use" when a client is
+// actually using it.
 
 import type { FaqItem } from './faq.ts';
+import type { StatusKey } from '../config/featureStatus.ts';
 import type { SwitchKey } from '../config/pestPackages.ts';
 
 interface MockRow {
@@ -20,7 +23,8 @@ interface MockRow {
 
 interface DeepDive {
   key: 'voice' | 'analyzer' | 'contracts' | 'renewals' | 'licensing' | 'spanish';
-  status: 'in-use' | 'rolling-out';
+  /** One of the two shared statuses a built feature can honestly carry here. */
+  status: Extract<StatusKey, 'in-use' | 'ready'>;
   title: string;
   body: string;
   points: string[];
@@ -51,7 +55,7 @@ const en = {
     intro:
       "You do not buy the whole system on day one. Each part is a switch, and the ones in your admin area are yours to move. Flip them below and watch the site and the admin area change — this is a demo of the real panel, with sample data.",
     status:
-      'The switch panel is itself rolling out: built and tested against a database of sample records, with the first pest control client being moved onto it now. Nobody is running their business on it yet.',
+      'The switch panel is built, deployed and working in the platform today. It is switched on for your company when you are ready — no client is obliged to take it before then.',
     tryIt: 'Try it: flip a switch.',
     panelTitle: 'Admin › Settings › Features',
     reset: 'Reset the switches',
@@ -103,7 +107,7 @@ const en = {
     noDelete:
       'Switching something off hides and blocks it. It never deletes: every record stays exactly where it is, and turning the switch back on brings it all back as it was.',
 
-    checklistTitle: 'Before this will work',
+    checklistTitle: 'What to connect first',
     checklist: [
       'The signing templates exist, one per language, with the field names the send step fills.',
       'The signing service’s API key lives in your automation account and nowhere else — not in the website code.',
@@ -156,34 +160,19 @@ const en = {
     featureColumn: 'Feature',
     included: 'Included',
     notIncluded: 'Not included',
-    statusLabels: {
-      'in-use': 'In use with a client',
-      'rolling-out': 'Rolling out',
-      service: 'Service, not software',
-    },
-    /** The legend above the table. Say what each label means, not what we hope it means. */
+    /**
+     * The legend above the table. The labels and their meanings come from
+     * src/config/featureStatus.ts; only this heading is copy.
+     */
     statusLegendTitle: 'What the labels mean',
-    statusMeanings: {
-      'in-use': 'A pest control client is using it in production right now.',
-      'rolling-out': 'Built and tested, running on a test database with sample data. No client has used it yet.',
-      service: 'Something we run alongside the platform rather than part of the website.',
-    },
-    cardsStatusNote: 'Items with no label are in use with a pest control client today. The full table below labels every one.',
+    cardsStatusNote: 'Items with no label are in use with a pest control client today. Everything labelled is built and working, and switches on for you when you are ready. The full table below labels every one.',
   },
 
   // --- Feature deep-dives --------------------------------------------------
   deepDives: {
     title: 'A closer look',
     intro:
-      'Six of the pieces, and what each one actually does. Each says which of the two it is: already in use with a pest control client, or built and tested and still on its way to one.',
-    statusLabels: {
-      'in-use': 'In use with a client',
-      'rolling-out': 'Rolling out',
-    },
-    statusMeanings: {
-      'in-use': 'A pest control client is using it in production right now.',
-      'rolling-out': 'Built and tested, running on a test database with sample data. No client has used it yet.',
-    },
+      'Six of the pieces, and what each one actually does. Each says which of the two it is: in use with a pest control client today, or built and working and ready to switch on for yours.',
     mockNote: 'Recreated interface with sample data, not a customer record.',
     items: [
       {
@@ -196,8 +185,8 @@ const en = {
           'Answers from your services and your area, not the whole internet',
           'Every call ends as a lead in the same place as your forms',
           'A daily cap on calls, so the bill cannot run away',
-          'Spanish, with no "press 2 for Spanish" — built and rolling out, not live yet',
-          'Follows your feature switches, so it stops offering a service you turn off — part of the same roll-out',
+          'Spanish, with no "press 2 for Spanish" — built and ready to switch on',
+          'Follows your feature switches, so it stops offering a service you turn off',
         ],
         shot: {
           caption: 'The assistant panel on a service page',
@@ -223,10 +212,10 @@ const en = {
       },
       {
         key: 'contracts',
-        status: 'rolling-out',
+        status: 'ready',
         title: 'The termite file, out of the drawer',
         body:
-          'Every agreement in one searchable list, filed A–Z by customer. The dates that have to agree with each other — the right to cancel, when the agreement ends, how long the record is kept — are worked out by the system rather than typed three times. When an inspector asks for one, you hand over a single PDF. It is built and tested against sample contracts; the first client is being moved onto it now.',
+          'Every agreement in one searchable list, filed A–Z by customer. The dates that have to agree with each other — the right to cancel, when the agreement ends, how long the record is kept — are worked out by the system rather than typed three times. When an inspector asks for one, you hand over a single PDF. The whole contract file is built and working in the platform, and it switches on for your company when you are ready.',
         points: [
           'The signed or scanned original cannot be replaced or deleted',
           'An audit packet in one file: the record, the timeline, the file fingerprints, the original and the signing certificate',
@@ -245,10 +234,10 @@ const en = {
       },
       {
         key: 'renewals',
-        status: 'rolling-out',
+        status: 'ready',
         title: 'Renewal season stops surprising you',
         body:
-          'Each agreement knows the month it renews. The contract list filters to what is due, and the same information goes out in one email a day, so the renewal conversation happens before the cover lapses rather than after. It travels with the contract file, so it is rolling out at the same time.',
+          'Each agreement knows the month it renews. The contract list filters to what is due, and the same information goes out in one email a day, so the renewal conversation happens before the cover lapses rather than after. It travels with the contract file, so it switches on at the same time.',
         points: [
           'A renewals-due filter on the contract list',
           'The renewals section of the daily email, with the fee',
@@ -284,14 +273,14 @@ const en = {
       },
       {
         key: 'spanish',
-        status: 'rolling-out',
+        status: 'ready',
         title: 'A Spanish site, not a translate button',
         body:
-          'Every page exists twice, each with its own address, so a Spanish-speaking customer can find you in Spanish and share a link that stays in Spanish. The admin area is bilingual too. It is written, built and waiting on its native-speaker review before the first client switches it on.',
+          'Every page exists twice, each with its own address, so a Spanish-speaking customer can find you in Spanish and share a link that stays in Spanish. The admin area is bilingual too. It is written, built and working in the platform, and it switches on for your company when you are ready.',
         points: [
           'Its own URLs, so Spanish pages can rank in Spanish',
           'One tap between EN and ES, and the choice is remembered',
-          'The voice assistant and the contract templates both have a Spanish version, rolling out with it',
+          'The voice assistant and the contract templates both have a Spanish version, and they switch on with it',
           'Noting who on your staff speaks Spanish is already in use, so you can staff a route on purpose',
           'Every line reviewed by a native speaker before it goes live',
         ],
@@ -312,7 +301,7 @@ const en = {
     eyebrow: 'The first build',
     title: 'See it on a real pest control site',
     body:
-      'We built this with One Source Total Pest Control in Jacksonville. Their office uses the admin area every day — staff, licensing, training, hiring, onboarding and the daily email — and the site runs the photo analyzer, the voice assistant and one lead intake. The newer parts, the contract file and the switch panel and the Spanish site, are built and being rolled out to them now. The case study walks through what was there before and what replaced it.',
+      'We built this with One Source Total Pest Control in Jacksonville. Their office uses the admin area every day — staff, licensing, training, hiring, onboarding and the daily email — and the site runs the photo analyzer, the voice assistant and one lead intake. The newer parts — the contract file, the switch panel and the Spanish site — are built and working in the platform, ready for the day they switch them on. The case study walks through what was there before and what replaced it.',
     link: 'Read the One Source case study',
   },
 
@@ -330,7 +319,7 @@ const en = {
       id: 'switches',
       question: 'How do the feature switches work?',
       answer:
-        'Each part of the system is a row in one registry that owns the pages, menus and endpoints it controls, so switching it off takes all of them with it and cannot leave a page reachable that somebody forgot to guard. Only the owner can move a switch. Switches inside the admin area apply immediately; ones that change the public site rebuild it in about a minute. Nothing is deleted either way, and a feature that depends on another cannot be switched on until its parent is. To be straight with you about where this stands: the panel is built and tested against sample records, and the first client is being moved onto it. Nobody is running their business on it yet.',
+        'Each part of the system is a row in one registry that owns the pages, menus and endpoints it controls, so switching it off takes all of them with it and cannot leave a page reachable that somebody forgot to guard. Only the owner can move a switch. Switches inside the admin area apply immediately; ones that change the public site rebuild it in about a minute. Nothing is deleted either way, and a feature that depends on another cannot be switched on until its parent is. Where this stands: the panel is built, deployed and working in the platform, and it is switched on for your company on the day you are ready.',
     },
     {
       id: 'start-small',
@@ -340,15 +329,15 @@ const en = {
     },
     {
       id: 'esign-status',
-      question: 'Is the e-signature live?',
+      question: 'What does the e-signature need before it works?',
       answer:
-        'Not yet with a customer. It is built, tested and switched off by default, and switching it on shows a checklist of the setup that has to be in place first: the signing templates in each language, the API key held in the automation account rather than the website, and the send automation switched on with its callbacks pointed at your site. We will tell you plainly when the first customer has signed through it.',
+        'Your own e-signature account, connected to us. The feature itself is built and working, and it ships switched off, because sending a contract out for signature uses an account that is yours rather than ours. Switching it on shows the short checklist of what has to be connected first: the signing templates in each language, the API key held in your automation account rather than the website, and the send automation switched on with its callbacks pointed at your site. Connect the account and the switch turns it on.',
     },
     {
       id: 'spanish',
       question: 'Do I need the Spanish site?',
       answer:
-        'That depends on your area and your crews. Where it earns its keep, it earns it twice: Spanish-speaking customers can read and share your site, and the pages can rank in Spanish instead of competing with your English ones. The voice assistant and the contract templates both have a Spanish version. Where it stands today: the Spanish site and the Spanish half of the voice assistant are written and built, waiting on their native-speaker review, and no client has switched them on yet. Every line is reviewed before it goes live.',
+        'That depends on your area and your crews. Where it earns its keep, it earns it twice: Spanish-speaking customers can read and share your site, and the pages can rank in Spanish instead of competing with your English ones. The voice assistant and the contract templates both have a Spanish version. Where it stands today: the Spanish site and the Spanish half of the voice assistant are built and working in the platform, ready to switch on for your company, and every line is reviewed by a native speaker before your pages go live.',
     },
     {
       id: 'audit',
@@ -396,7 +385,7 @@ const es: typeof en = {
     intro:
       'No compra todo el sistema el primer día. Cada parte es un interruptor, y los que están en su área de administración los maneja usted. Muévalos aquí abajo y vea cómo cambian el sitio y la administración: es una demostración del panel real, con datos de muestra.',
     status:
-      'El panel de interruptores está en implementación: construido y probado con una base de datos de registros de muestra, y el primer cliente de control de plagas está pasando a usarlo ahora. Todavía nadie maneja su negocio con él.',
+      'El panel de interruptores está construido, desplegado y funcionando hoy en la plataforma. Se activa en su empresa cuando usted esté listo: ningún cliente está obligado a tomarlo antes.',
     tryIt: 'Pruébelo: mueva un interruptor.',
     panelTitle: 'Administración › Configuración › Funciones',
     reset: 'Restablecer los interruptores',
@@ -448,7 +437,7 @@ const es: typeof en = {
     noDelete:
       'Desactivar algo lo oculta y lo bloquea. Nunca borra: cada registro se queda exactamente donde está, y al volver a activar el interruptor todo regresa como estaba.',
 
-    checklistTitle: 'Antes de que esto funcione',
+    checklistTitle: 'Qué conectar primero',
     checklist: [
       'Las plantillas de firma existen, una por idioma, con los nombres de campo que llena el paso de envío.',
       'La clave de API del servicio de firma vive en su cuenta de automatización y en ningún otro lugar, no en el código del sitio web.',
@@ -500,32 +489,14 @@ const es: typeof en = {
     featureColumn: 'Función',
     included: 'Incluido',
     notIncluded: 'No incluido',
-    statusLabels: {
-      'in-use': 'En uso con un cliente',
-      'rolling-out': 'En implementación',
-      service: 'Servicio, no software',
-    },
     statusLegendTitle: 'Qué significan las etiquetas',
-    statusMeanings: {
-      'in-use': 'Un cliente de control de plagas lo está usando en producción ahora mismo.',
-      'rolling-out': 'Construido y probado, funcionando en una base de datos de prueba con datos de muestra. Ningún cliente lo ha usado todavía.',
-      service: 'Algo que manejamos junto a la plataforma, no una parte del sitio web.',
-    },
-    cardsStatusNote: 'Lo que no lleva etiqueta está en uso hoy con un cliente de control de plagas. La tabla completa de abajo etiqueta cada punto.',
+    cardsStatusNote: 'Lo que no lleva etiqueta está en uso hoy con un cliente de control de plagas. Todo lo que lleva etiqueta está construido y funcionando, y se activa para usted cuando esté listo. La tabla completa de abajo etiqueta cada punto.',
   },
 
   deepDives: {
     title: 'Una mirada más de cerca',
     intro:
-      'Seis de las piezas y lo que hace cada una. Cada una indica cuál de las dos cosas es: ya en uso con un cliente de control de plagas, o construida y probada pero todavía en camino a uno.',
-    statusLabels: {
-      'in-use': 'En uso con un cliente',
-      'rolling-out': 'En implementación',
-    },
-    statusMeanings: {
-      'in-use': 'Un cliente de control de plagas lo está usando en producción ahora mismo.',
-      'rolling-out': 'Construido y probado, funcionando en una base de datos de prueba con datos de muestra. Ningún cliente lo ha usado todavía.',
-    },
+      'Seis de las piezas y lo que hace cada una. Cada una indica cuál de las dos cosas es: en uso hoy con un cliente de control de plagas, o construida y funcionando y lista para activarse en la suya.',
     mockNote: 'Interfaz recreada con datos de muestra, no el registro de un cliente.',
     items: [
       {
@@ -538,8 +509,8 @@ const es: typeof en = {
           'Responde con sus servicios y su zona, no con todo el internet',
           'Cada llamada termina como cliente potencial en el mismo lugar que sus formularios',
           'Un límite diario de llamadas, para que la cuenta no se dispare',
-          'Español, sin "oprima 2 para español": construido y en implementación, todavía no en uso',
-          'Sigue sus interruptores de funciones, así que deja de ofrecer un servicio que usted desactive: parte de la misma implementación',
+          'Español, sin "oprima 2 para español": construido y listo para activar',
+          'Sigue sus interruptores de funciones, así que deja de ofrecer un servicio que usted desactive',
         ],
         shot: {
           caption: 'El panel del asistente en una página de servicio',
@@ -565,10 +536,10 @@ const es: typeof en = {
       },
       {
         key: 'contracts',
-        status: 'rolling-out',
+        status: 'ready',
         title: 'El archivo de termitas, fuera del cajón',
         body:
-          'Todos los acuerdos en una sola lista con búsqueda, archivados de A a Z por cliente. Las fechas que tienen que coincidir entre sí (el derecho a cancelar, cuándo termina el acuerdo, cuánto se conserva el registro) las calcula el sistema en lugar de escribirse tres veces. Cuando un inspector pide uno, usted entrega un solo PDF. Está construido y probado con contratos de muestra; el primer cliente está pasando a usarlo ahora.',
+          'Todos los acuerdos en una sola lista con búsqueda, archivados de A a Z por cliente. Las fechas que tienen que coincidir entre sí (el derecho a cancelar, cuándo termina el acuerdo, cuánto se conserva el registro) las calcula el sistema en lugar de escribirse tres veces. Cuando un inspector pide uno, usted entrega un solo PDF. Todo el archivo de contratos está construido y funcionando en la plataforma, y se activa en su empresa cuando usted esté listo.',
         points: [
           'El original firmado o escaneado no se puede reemplazar ni borrar',
           'Un paquete de auditoría en un archivo: el registro, la línea de tiempo, las huellas de los archivos, el original y el certificado de firma',
@@ -587,10 +558,10 @@ const es: typeof en = {
       },
       {
         key: 'renewals',
-        status: 'rolling-out',
+        status: 'ready',
         title: 'La temporada de renovaciones deja de sorprenderlo',
         body:
-          'Cada acuerdo sabe en qué mes se renueva. La lista de contratos se filtra por lo que vence, y la misma información sale en un correo al día, para que la conversación de renovación ocurra antes de que la cobertura se venza y no después. Va junto con el archivo de contratos, así que se implementa al mismo tiempo.',
+          'Cada acuerdo sabe en qué mes se renueva. La lista de contratos se filtra por lo que vence, y la misma información sale en un correo al día, para que la conversación de renovación ocurra antes de que la cobertura se venza y no después. Va junto con el archivo de contratos, así que se activa al mismo tiempo.',
         points: [
           'Un filtro de renovaciones por vencer en la lista de contratos',
           'La sección de renovaciones del correo diario, con la tarifa',
@@ -626,14 +597,14 @@ const es: typeof en = {
       },
       {
         key: 'spanish',
-        status: 'rolling-out',
+        status: 'ready',
         title: 'Un sitio en español, no un botón de traducir',
         body:
-          'Cada página existe dos veces, cada una con su propia dirección, para que un cliente hispanohablante lo encuentre en español y comparta un enlace que se queda en español. El área de administración también es bilingüe. Está escrito, construido y a la espera de su revisión por un hablante nativo antes de que el primer cliente lo active.',
+          'Cada página existe dos veces, cada una con su propia dirección, para que un cliente hispanohablante lo encuentre en español y comparta un enlace que se queda en español. El área de administración también es bilingüe. Está escrito, construido y funcionando en la plataforma, y se activa en su empresa cuando usted esté listo.',
         points: [
           'Sus propias direcciones, para que las páginas en español puedan posicionarse en español',
           'Un toque entre EN y ES, y la elección se recuerda',
-          'El asistente de voz y las plantillas de contrato tienen versión en español, y se implementan con él',
+          'El asistente de voz y las plantillas de contrato tienen versión en español, y se activan con él',
           'Indicar quién de su personal habla español ya está en uso, para que pueda armar una ruta a propósito',
           'Cada línea revisada por un hablante nativo antes de salir al aire',
         ],
@@ -653,7 +624,7 @@ const es: typeof en = {
     eyebrow: 'La primera construcción',
     title: 'Véalo en un sitio real de control de plagas',
     body:
-      'Esto lo construimos con One Source Total Pest Control en Jacksonville. Su oficina usa el área de administración todos los días (personal, licencias, capacitación, contratación, incorporación y el correo diario) y el sitio tiene el analizador de fotos, el asistente de voz y una sola entrada de clientes potenciales. Las partes más nuevas (el archivo de contratos, el panel de interruptores y el sitio en español) están construidas y se les están implementando ahora. El caso de estudio recorre qué había antes y qué lo reemplazó.',
+      'Esto lo construimos con One Source Total Pest Control en Jacksonville. Su oficina usa el área de administración todos los días (personal, licencias, capacitación, contratación, incorporación y el correo diario) y el sitio tiene el analizador de fotos, el asistente de voz y una sola entrada de clientes potenciales. Las partes más nuevas (el archivo de contratos, el panel de interruptores y el sitio en español) están construidas y funcionando en la plataforma, listas para el día en que las activen. El caso de estudio recorre qué había antes y qué lo reemplazó.',
     link: 'Lea el caso de estudio de One Source',
   },
 
@@ -670,7 +641,7 @@ const es: typeof en = {
       id: 'switches',
       question: '¿Cómo funcionan los interruptores de funciones?',
       answer:
-        'Cada parte del sistema es una fila en un solo registro que es dueño de las páginas, los menús y los endpoints que controla, así que desactivarla se lleva todos consigo y no puede dejar una página accesible que alguien olvidó proteger. Solo el dueño puede mover un interruptor. Los que están dentro de la administración se aplican de inmediato; los que cambian el sitio público lo reconstruyen en alrededor de un minuto. En ningún caso se borra nada, y una función que depende de otra no se puede activar hasta que su función principal lo esté. Para ser claros sobre en qué punto está: el panel está construido y probado con registros de muestra, y el primer cliente está pasando a usarlo. Todavía nadie maneja su negocio con él.',
+        'Cada parte del sistema es una fila en un solo registro que es dueño de las páginas, los menús y los endpoints que controla, así que desactivarla se lleva todos consigo y no puede dejar una página accesible que alguien olvidó proteger. Solo el dueño puede mover un interruptor. Los que están dentro de la administración se aplican de inmediato; los que cambian el sitio público lo reconstruyen en alrededor de un minuto. En ningún caso se borra nada, y una función que depende de otra no se puede activar hasta que su función principal lo esté. En qué punto está: el panel está construido, desplegado y funcionando en la plataforma, y se activa en su empresa el día que usted esté listo.',
     },
     {
       id: 'start-small',
@@ -680,15 +651,15 @@ const es: typeof en = {
     },
     {
       id: 'esign-status',
-      question: '¿La firma electrónica ya está en uso?',
+      question: '¿Qué necesita la firma electrónica para funcionar?',
       answer:
-        'Todavía no con un cliente. Está construida, probada y desactivada de forma predeterminada, y al activarla aparece una lista de la configuración que tiene que estar lista primero: las plantillas de firma en cada idioma, la clave de API guardada en la cuenta de automatización y no en el sitio web, y la automatización de envío activada con sus respuestas apuntando a su sitio. Le diremos claramente cuándo el primer cliente haya firmado con ella.',
+        'Su propia cuenta de firma electrónica, conectada con nosotros. La función está construida y funcionando, y viene desactivada porque enviar un contrato para firma usa una cuenta que es suya y no nuestra. Al activarla aparece la lista corta de lo que hay que conectar primero: las plantillas de firma en cada idioma, la clave de API guardada en su cuenta de automatización y no en el sitio web, y la automatización de envío activada con sus respuestas apuntando a su sitio. Conecte la cuenta y el interruptor la activa.',
     },
     {
       id: 'spanish',
       question: '¿Necesito el sitio en español?',
       answer:
-        'Depende de su zona y de sus equipos. Donde vale la pena, vale el doble: los clientes hispanohablantes pueden leer y compartir su sitio, y las páginas pueden posicionarse en español en lugar de competir con las de inglés. El asistente de voz y las plantillas de contrato tienen versión en español. En qué punto está hoy: el sitio en español y la mitad en español del asistente de voz están escritos y construidos, a la espera de su revisión por un hablante nativo, y ningún cliente los ha activado todavía. Cada línea se revisa antes de salir al aire.',
+        'Depende de su zona y de sus equipos. Donde vale la pena, vale el doble: los clientes hispanohablantes pueden leer y compartir su sitio, y las páginas pueden posicionarse en español en lugar de competir con las de inglés. El asistente de voz y las plantillas de contrato tienen versión en español. En qué punto está hoy: el sitio en español y la mitad en español del asistente de voz están construidos y funcionando en la plataforma, listos para activarse en su empresa, y cada línea la revisa un hablante nativo antes de que sus páginas salgan al aire.',
     },
     {
       id: 'audit',

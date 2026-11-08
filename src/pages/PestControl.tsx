@@ -6,6 +6,7 @@ import {
 import FeatureSwitchDemo from '../components/FeatureSwitchDemo';
 import PestPackages from '../components/PestPackages';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
+import { statusLabel, statusMeaning } from '../config/featureStatus';
 import { PEST_CONTROL_PATH, TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PROMISE } from '../config/pestPackages';
 import { LEGAL_BUSINESS_NAME, PHONE_DISPLAY, PHONE_HREF, SITE_URL } from '../config/site';
 import { breadcrumbJsonLdText } from '../i18n/breadcrumbs';
@@ -18,8 +19,8 @@ import pestControl from '../i18n/pestControl';
 //
 // The packages and the switch list are data (src/config/pestPackages.ts); the
 // copy is src/i18n/pestControl.ts; this file is the layout and the structured
-// data. Status labels come from the config, so "rolling out" cannot drift
-// between the cards, the table and the deep-dives.
+// data. Status labels come from src/config/featureStatus.ts, so the same words
+// appear on the chips, the table legend, the deep-dives and /skunkworks.
 
 /**
  * Screenshots already cleared for the One Source case study, reused here rather
@@ -112,7 +113,7 @@ export default function PestControl() {
             somebody who only reads this far should still have been told. */}
         <p className="text-amber-200/90 leading-relaxed max-w-3xl mt-4 bg-amber-400/5 border border-amber-400/30 rounded-2xl p-4">
           <span className="inline-block border border-amber-400/50 bg-amber-400/10 text-amber-300 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest mr-2">
-            {t.deepDives.statusLabels['rolling-out']}
+            {statusLabel('ready', lang)}
           </span>
           {t.demo.status}
         </p>
@@ -130,16 +131,17 @@ export default function PestControl() {
       {/* --- Feature deep-dives --- */}
       <ServiceSection title={t.deepDives.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mb-6">{t.deepDives.intro}</p>
-        {/* The two labels, defined once, so a chip below is never a guess. */}
+        {/* The two labels, defined once in the shared config, so a chip below is
+            never a guess. */}
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-          {(['in-use', 'rolling-out'] as const).map(status => (
+          {(['in-use', 'ready'] as const).map(status => (
             <div key={status} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5">
               <dt>
-                <span className={`inline-block border rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest ${status === 'rolling-out' ? 'border-amber-400/50 text-amber-300 bg-amber-400/10' : 'border-emerald-400/40 text-emerald-200 bg-emerald-400/10'}`}>
-                  {t.deepDives.statusLabels[status]}
+                <span className={`inline-block border rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest ${status === 'ready' ? 'border-amber-400/50 text-amber-300 bg-amber-400/10' : 'border-emerald-400/40 text-emerald-200 bg-emerald-400/10'}`}>
+                  {statusLabel(status, lang)}
                 </span>
               </dt>
-              <dd className="text-slate-400 text-sm leading-relaxed mt-2">{t.deepDives.statusMeanings[status]}</dd>
+              <dd className="text-slate-400 text-sm leading-relaxed mt-2">{statusMeaning(status, lang)}</dd>
             </div>
           ))}
         </dl>
@@ -149,8 +151,8 @@ export default function PestControl() {
             return (
               <article key={item.key} className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start bg-slate-900/50 border border-slate-800 rounded-3xl p-6 md:p-8">
                 <div className="lg:col-span-2">
-                  <p className={`inline-block border rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest ${item.status === 'rolling-out' ? 'border-amber-400/50 text-amber-300 bg-amber-400/10' : 'border-emerald-400/40 text-emerald-200 bg-emerald-400/10'}`}>
-                    {t.deepDives.statusLabels[item.status]}
+                  <p className={`inline-block border rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest ${item.status === 'ready' ? 'border-amber-400/50 text-amber-300 bg-amber-400/10' : 'border-emerald-400/40 text-emerald-200 bg-emerald-400/10'}`}>
+                    {statusLabel(item.status, lang)}
                   </p>
                   <h3 className="text-xl md:text-2xl font-black text-white mt-3">{item.title}</h3>
                   <p className="text-slate-300 leading-relaxed mt-3">{item.body}</p>
