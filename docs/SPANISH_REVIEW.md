@@ -66,6 +66,13 @@ Notes for the legal reviewer:
 | `src/i18n/mealPrepOrdering.ts` | `/es/meal-prep-ordering`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
 | `src/i18n/demoGuide.ts` | `/es/demo-guide`: the demo walkthrough guide page. The Spanish PDF (`public/guides/meal-prep-demo-guide-es.pdf`) is marked for native review on its cover. **New, not yet reviewed.** |
 | `src/i18n/oneSourceCaseStudy.ts` | `/es/work/one-source-total-pest-control` |
+| `src/i18n/lawnCare.ts` | `/es/lawn-care`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
+| `src/config/lawnPackages.ts` | The Basic / Pro / Advanced feature rows on `/es/lawn-care`. **New, not yet reviewed.** |
+| `src/i18n/lawnCareMeta.ts` | `/es/lawn-care` title and meta description. **New, not yet reviewed.** |
+| `src/i18n/pestControl.ts` | `/es/pest-control`: the whole page, the switch demo and its FAQ. Never listed here before; it is listed now. |
+| `src/config/pestPackages.ts` | The Basic / Pro / Advanced feature rows on `/es/pest-control`. Never listed here before. |
+| `src/i18n/pestControlMeta.ts` | `/es/pest-control` title and meta description. Never listed here before. |
+| `src/config/tiers.ts` | The three package names, headlines and promises, shared by both industry pages. |
 | `src/i18n/skunkworks.ts` | `/es/skunkworks` (voicebots, spatial viewer) |
 | `src/i18n/skunkworksProjects.ts` | "Lo que estamos construyendo" project cards |
 | `src/i18n/cinematic.ts` | `/es/cinematic` |

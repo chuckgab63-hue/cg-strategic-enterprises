@@ -3,7 +3,7 @@
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
 /** Picks the card's icon in Home.tsx. */
-export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check' | 'pest';
+export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check' | 'pest' | 'lawn';
 
 interface ServiceCard {
   icon: ServiceIcon;
@@ -34,6 +34,13 @@ const en = {
         path: '/pest-control',
         title: 'Pest Control Companies',
         body: 'Websites, an AI assistant that answers in English or Spanish, and the office system behind it: licences, hiring and termite contracts. Features switch on as you grow.',
+        cta: 'See the packages',
+      },
+      {
+        icon: 'lawn',
+        path: '/lawn-care',
+        title: 'Lawn Care & Landscaping',
+        body: 'A page per service with a seasonal switch, residential and commercial estimate forms, an AI assistant in English or Spanish, and crew, licence and finance tools in your own admin area.',
         cta: 'See the packages',
       },
       {
@@ -119,6 +126,14 @@ const es: typeof en = {
         path: '/pest-control',
         title: 'Empresas de control de plagas',
         body: 'Sitios web, un asistente de IA que responde en inglés o español y el sistema de oficina detrás de todo: licencias, contratación y contratos de termitas. Las funciones se activan a medida que crece.',
+        cta: 'Ver los paquetes',
+      },
+      // Lawn care card: NEW, not yet reviewed by a native speaker.
+      {
+        icon: 'lawn',
+        path: '/lawn-care',
+        title: 'Jardinería y paisajismo',
+        body: 'Una página por servicio con interruptor de temporada, formularios de cotización residencial y comercial, un asistente de IA en inglés o español, y herramientas de cuadrilla, licencias y finanzas en su propia área de administración.',
         cta: 'Ver los paquetes',
       },
       {

@@ -33,6 +33,8 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
   check: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-4 9 3 3 5-6',
   // A bug: body, antennae and legs.
   pest: 'M12 7a4 4 0 0 1 4 4v3a4 4 0 0 1-8 0v-3a4 4 0 0 1 4-4zm0 0V4m-2-1 2 1 2-1M8 11H4m4 3H5m11-3h4m-4 3h3',
+  // Blades of grass over the ground line.
+  lawn: 'M5 20c0-5 2-8 4-10m3 10c0-7 2-11 5-14M8 20c0-4 1-7 3-9m-6 9h14',
 };
 
 // LocalBusiness structured data for the home page. No street address: the

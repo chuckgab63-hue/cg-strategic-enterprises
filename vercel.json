@@ -54,6 +54,10 @@
       "destination": "/pest-control/index.html"
     },
     {
+      "source": "/lawn-care",
+      "destination": "/lawn-care/index.html"
+    },
+    {
       "source": "/meal-prep-ordering",
       "destination": "/meal-prep-ordering/index.html"
     },
@@ -180,6 +184,10 @@
     {
       "source": "/es/pest-control",
       "destination": "/es/pest-control/index.html"
+    },
+    {
+      "source": "/es/lawn-care",
+      "destination": "/es/lawn-care/index.html"
     },
     {
       "source": "/es/meal-prep-ordering",

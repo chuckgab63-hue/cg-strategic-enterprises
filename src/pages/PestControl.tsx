@@ -5,10 +5,10 @@ import {
 } from '../components/ServicePage';
 import CornerWebDemo from '../components/CornerWebDemo';
 import FeatureSwitchDemo from '../components/FeatureSwitchDemo';
-import PestPackages from '../components/PestPackages';
+import TierPackages from '../components/TierPackages';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 import { statusLabel, statusMeaning } from '../config/featureStatus';
-import { PEST_CONTROL_PATH, TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PROMISE } from '../config/pestPackages';
+import { PACKAGE_GROUPS, PEST_CONTROL_PATH, TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PROMISE } from '../config/pestPackages';
 import { LEGAL_BUSINESS_NAME, PHONE_DISPLAY, PHONE_HREF, SITE_URL } from '../config/site';
 import { breadcrumbJsonLdText } from '../i18n/breadcrumbs';
 import { localizePath, type Lang } from '../i18n/lang';
@@ -126,7 +126,7 @@ export default function PestControl() {
       {/* --- Packages --- */}
       <ServiceSection title={t.packages.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mb-8">{t.packages.intro}</p>
-        <PestPackages />
+        <TierPackages groups={PACKAGE_GROUPS} copy={t.packages} medium="pest-control" event="pest_tier_cta" />
       </ServiceSection>
 
       {/* --- Feature deep-dives --- */}

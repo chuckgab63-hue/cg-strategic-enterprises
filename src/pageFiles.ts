@@ -26,6 +26,7 @@ export const PAGE_FILES: [path: string, file: string][] = [
   ['/faq', 'Faq'],
   ['/answering-service', 'AnsweringService'],
   ['/pest-control', 'PestControl'],
+  ['/lawn-care', 'LawnCare'],
   ['/meal-prep-ordering', 'MealPrepOrdering'],
   ['/meal-prep-ordering/features', 'MealPrepFeatures'],
   ['/meal-prep-ordering/features/subscriptions', 'MealPrepFeature'],

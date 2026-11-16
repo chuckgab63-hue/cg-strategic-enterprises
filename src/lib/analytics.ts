@@ -25,7 +25,8 @@ export type AnalyticsEvent =
   | 'home_website_check_click'
   | 'home_case_study_click'
   | 'pest_feature_toggled'
-  | 'pest_tier_cta';
+  | 'pest_tier_cta'
+  | 'lawn_tier_cta';
 
 /** public/alex-voice.js dispatches this on window when a call connects (it can't import this module). */
 export const ALEX_CALL_STARTED_EVENT = 'cg:alex-call-started';
@@ -104,7 +105,7 @@ export interface EventDetail {
   feature?: string;
   /** Which way it moved (pest_feature_toggled). */
   state?: 'on' | 'off';
-  /** The package whose button was used (pest_tier_cta). */
+  /** The package whose button was used (pest_tier_cta, lawn_tier_cta). */
   tier?: string;
 }
 

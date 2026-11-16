@@ -12,6 +12,7 @@ import common from '../i18n/common';
 const NAV_LINKS = [
   { to: '/#services', key: 'services' },
   { to: '/pest-control', key: 'pestControl' },
+  { to: '/lawn-care', key: 'lawnCare' },
   { to: '/portfolio', key: 'caseStudies' },
   { to: '/skunkworks', key: 'skunkworks' },
   { to: '/contact', key: 'contact' },

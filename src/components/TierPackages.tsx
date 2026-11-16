@@ -1,22 +1,27 @@
 import {
-  MOST_POPULAR, PACKAGE_GROUPS, SHOW_PRICES, TIER_HEADLINE, TIER_KEYS, TIER_NAME,
-  TIER_PRICES, TIER_PROMISE, featuresAddedBy, statusOf, tierHas,
-  type FeatureStatus, type PackageFeature, type TierKey,
-} from '../config/pestPackages';
+  MOST_POPULAR, SHOW_PRICES, TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PRICES,
+  TIER_PROMISE, featuresAddedBy, statusOf, tierHas,
+  type FeatureStatus, type PackageFeature, type PackageGroup, type TierKey,
+} from '../config/tiers';
 import { bookingUrl } from '../config/booking';
 import { statusLabel, statusMeaning } from '../config/featureStatus';
 import { LOCALE } from '../i18n/lang';
-import { trackEvent } from '../lib/analytics';
+import { trackEvent, type AnalyticsEvent } from '../lib/analytics';
 import { useLang, useT } from '../i18n/useLang';
 import common from '../i18n/common';
-import pestControl from '../i18n/pestControl';
+import type pestControl from '../i18n/pestControl';
 
-// Basic / Pro / Advanced on /pest-control: three cards, then the full
-// feature × package table. Both read src/config/pestPackages.ts, so a feature
-// added there shows up in both without being written twice.
+// Basic / Pro / Advanced on an industry page: three cards, then the full
+// feature × package table. Both are drawn from the `groups` it is handed
+// (src/config/pestPackages.ts, src/config/lawnPackages.ts), so a feature added
+// there shows up in both without being written twice, and two industry pages
+// present their packages with the same code rather than the same code twice.
 //
 // No figure reaches this component while SHOW_PRICES is false — the cards and
 // the table say "Pricing after a free 30-minute audit" instead.
+
+/** The copy around the packages. Every industry page's i18n file has this shape. */
+export type PackagesCopy = typeof pestControl.en.packages;
 
 /** The four statuses shown in the legend, in the order they are read. */
 const LEGEND: FeatureStatus[] = ['in-use', 'ready', 'ready-esign', 'service'];
@@ -33,7 +38,7 @@ const STATUS_TONE: Record<FeatureStatus, string> = {
 };
 
 /**
- * The status pill. In the cards it only shows the three that are not already in
+ * The status pill. In the cards it only shows the ones that are not already in
  * use with a client, so the lists stay readable; in the table it shows every
  * one, because that is the reference list and an absent pill there would be
  * something to interpret. The words come from src/config/featureStatus.ts.
@@ -45,8 +50,12 @@ function StatusPill({ feature, always = false }: { feature: PackageFeature; alwa
   return <span className={`${STATUS_PILL} ${STATUS_TONE[status]}`}>{statusLabel(status, lang)}</span>;
 }
 
-export default function PestPackages() {
-  const t = useT(pestControl).packages;
+/**
+ * `groups` is the industry's feature matrix, `copy` its packages copy, `medium`
+ * the page (it becomes utm_medium on the booking links) and `event` the
+ * analytics event its buttons send.
+ */
+export default function TierPackages({ groups, copy: t, medium, event }: { groups: PackageGroup[]; copy: PackagesCopy; medium: string; event: AnalyticsEvent }) {
   const { bookCall } = useT(common);
   const lang = useLang();
 
@@ -79,7 +88,7 @@ export default function PestPackages() {
               {previous && <p className="text-slate-300 font-semibold mt-5">{t.includesPrevious(previous)}</p>}
 
               <ul className={`${previous ? 'mt-2' : 'mt-5'} flex flex-col gap-2`}>
-                {featuresAddedBy(tier).map(f => (
+                {featuresAddedBy(groups, tier).map(f => (
                   <li key={f.key} className="flex gap-2 text-slate-400 leading-relaxed">
                     <span aria-hidden="true" className="text-brand-orange shrink-0">&#10003;</span>
                     <span>
@@ -98,11 +107,11 @@ export default function PestPackages() {
                 </p>
                 {SHOW_PRICES && <p className="text-slate-400 text-sm mt-1">{t.pricingNote}</p>}
                 <a
-                  href={bookingUrl('pest-control', `tier-${tier}`)}
+                  href={bookingUrl(medium, `tier-${tier}`)}
                   target="_blank"
                   rel="noopener"
                   data-book-call={`tier-${tier}`}
-                  onClick={() => trackEvent('pest_tier_cta', lang, { tier })}
+                  onClick={() => trackEvent(event, lang, { tier })}
                   className={`mt-4 inline-flex items-center justify-center w-full px-5 py-3 rounded-full font-bold tracking-widest uppercase text-xs transition-colors ${popular ? 'bg-brand-orange text-brand-ink hover:bg-white hover:text-brand-orange-deep' : 'border border-slate-600 text-slate-200 hover:border-brand-orange hover:text-brand-orange-deep'}`}
                 >
                   {t.cta}
@@ -157,7 +166,7 @@ export default function PestPackages() {
                 ))}
               </tr>
             </thead>
-            {PACKAGE_GROUPS.map(group => (
+            {groups.map(group => (
               <tbody key={group.key}>
                 <tr className="bg-slate-900/60">
                   <th scope="colgroup" colSpan={TIER_KEYS.length + 1} className="py-2.5 px-3 text-xs font-black uppercase tracking-widest text-white">

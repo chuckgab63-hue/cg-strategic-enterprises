@@ -8,6 +8,7 @@
 import type { Lang } from './lang.ts';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
 import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath } from './mealPrepFeaturesMeta.ts';
+import { LAWN_CARE_META, LAWN_CARE_PATH } from './lawnCareMeta.ts';
 import { PEST_CONTROL_META, PEST_CONTROL_PATH } from './pestControlMeta.ts';
 
 export interface PageMeta {
@@ -224,6 +225,14 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
+    },
+    lastmod: '2026-11-16',
+  },
+  {
+    path: LAWN_CARE_PATH,
+    meta: {
+      en: { title: `${LAWN_CARE_META.en.title} | ${NAME}`, description: LAWN_CARE_META.en.description },
+      es: { title: `${LAWN_CARE_META.es.title} | ${NAME}`, description: LAWN_CARE_META.es.description },
     },
     lastmod: '2026-11-16',
   },
