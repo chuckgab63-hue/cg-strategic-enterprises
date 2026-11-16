@@ -170,6 +170,22 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
         status: 'ready',
         label: { en: 'Spanish site with an EN | ES toggle and its own URLs', es: 'Sitio en español con selector EN | ES y sus propias direcciones' },
       },
+      // In use: One Source's corner web and the seasonal corners are both
+      // switched on and running on their public site today.
+      {
+        key: 'craft-touch',
+        tier: 'pro',
+        label: { en: 'A custom animated touch, built for your company', es: 'Un detalle animado a la medida, hecho para su empresa' },
+        note: {
+          en: 'Drawn as SVG, hidden from screen readers, and still for anyone who asks for less motion.',
+          es: 'Dibujado en SVG, invisible para los lectores de pantalla y quieto para quien pide menos movimiento.',
+        },
+      },
+      {
+        key: 'seasonal-corners',
+        tier: 'pro',
+        label: { en: 'Seasonal corner scenes that change themselves through the year', es: 'Escenas de temporada en la esquina que cambian solas durante el año' },
+      },
     ],
   },
   {
@@ -356,6 +372,55 @@ export const PACKAGE_GROUPS: PackageGroup[] = [
         tier: 'advanced',
         status: 'ready',
         label: { en: 'Renewals tracking and reminders', es: 'Seguimiento y recordatorios de renovaciones' },
+      },
+    ],
+  },
+  // Built against a test database with sample figures, like the contract file
+  // it sits beside, so every row here is 'ready' and not one of them is
+  // 'in-use'. Nobody's real books are in it yet.
+  {
+    key: 'finance',
+    label: { en: 'Finance and tax', es: 'Finanzas e impuestos' },
+    features: [
+      {
+        key: 'finance-overview',
+        tier: 'advanced',
+        status: 'ready',
+        label: { en: 'Revenue, expenses and margin for the year, beside last year', es: 'Ingresos, gastos y margen del año, junto a los del año anterior' },
+      },
+      {
+        key: 'finance-entries',
+        tier: 'advanced',
+        status: 'ready',
+        label: { en: 'Entries typed in, imported from a CSV, or sent in automatically', es: 'Entradas escritas a mano, importadas desde un CSV o enviadas automáticamente' },
+      },
+      {
+        key: 'finance-pnl',
+        tier: 'advanced',
+        status: 'ready',
+        label: { en: 'A profit and loss report with a print layout and forecast columns', es: 'Un estado de resultados con formato de impresión y columnas de proyección' },
+      },
+      {
+        key: 'finance-contractors',
+        tier: 'advanced',
+        status: 'ready',
+        label: { en: 'Contractor 1099 and W-9 tracking, with the threshold and the deadline', es: 'Seguimiento de 1099 y W-9 de contratistas, con el umbral y la fecha límite' },
+      },
+      {
+        key: 'finance-tax',
+        tier: 'advanced',
+        status: 'ready',
+        label: { en: 'CPA worksheets: annual, quarterly estimates, 1099-NEC/1096, payroll and Florida sales tax', es: 'Hojas de trabajo para el contador: anual, estimaciones trimestrales, 1099-NEC/1096, nómina e impuesto sobre las ventas de Florida' },
+        note: {
+          en: 'Behind their own owner-only switch, off until you turn them on.',
+          es: 'Detrás de su propio interruptor, solo para el dueño, apagado hasta que usted lo active.',
+        },
+      },
+      {
+        key: 'finance-documents',
+        tier: 'advanced',
+        status: 'ready',
+        label: { en: 'Financial documents filed by year, with filters', es: 'Documentos financieros archivados por año, con filtros' },
       },
     ],
   },

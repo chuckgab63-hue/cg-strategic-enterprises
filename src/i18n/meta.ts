@@ -225,7 +225,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
     },
-    lastmod: '2026-11-08',
+    lastmod: '2026-11-16',
   },
   {
     path: '/meal-prep-ordering',

@@ -22,7 +22,7 @@ interface MockRow {
 }
 
 interface DeepDive {
-  key: 'voice' | 'analyzer' | 'contracts' | 'renewals' | 'licensing' | 'spanish';
+  key: 'voice' | 'analyzer' | 'craft' | 'contracts' | 'renewals' | 'finance' | 'licensing' | 'spanish';
   /** One of the two shared statuses a built feature can honestly carry here. */
   status: Extract<StatusKey, 'in-use' | 'ready'>;
   title: string;
@@ -32,6 +32,8 @@ interface DeepDive {
   shot?: { caption: string; alt: string };
   /** Recreated interface, so no screenshot of anyone's records is needed. */
   mock?: { title: string; rows: MockRow[]; footer: string };
+  /** A live, decorative demo rendered in place of a picture. */
+  demo?: { caption: string };
 }
 
 const en = {
@@ -172,7 +174,7 @@ const en = {
   deepDives: {
     title: 'A closer look',
     intro:
-      'Six of the pieces, and what each one actually does. Each says which of the two it is: in use with a pest control client today, or built and working and ready to switch on for yours.',
+      'Eight of the pieces, and what each one actually does. Each says which of the two it is: in use with a pest control client today, or built and working and ready to switch on for yours.',
     mockNote: 'Recreated interface with sample data, not a customer record.',
     items: [
       {
@@ -208,6 +210,24 @@ const en = {
         shot: {
           caption: 'Photo upload on desktop and phone',
           alt: 'Pest Analyzer page on a pest control website: a photo drop area beside the upload field, an optional notes box and an Analyze my photo button',
+        },
+      },
+      {
+        key: 'craft',
+        status: 'in-use',
+        title: 'Memorable, on-brand touches',
+        body:
+          'A template looks like a template. One small thing made for your company is what people remember, and what they describe to someone else. On One Source’s spiders page an orb-weaver spins a web into the corner: the strands draw themselves in, the dew catches the light, and she patrols the web and plucks it where she stops. Move your cursor near her and she bolts for the hub. It is running on their site today, and the corner beside this is a smaller version of the same thing.',
+        points: [
+          'Drawn as SVG, so it stays sharp and weighs a fraction of a video',
+          'Decorative: hidden from screen readers, and it never sits over a button',
+          'Holds still for a visitor whose device asks for less motion',
+          'Stops when the tab is in the background, so it is not spending a phone battery',
+          'Seasonal corners too — the holidays change themselves through the year',
+          'Which pages show it, and how fast she moves, are switches in your admin area',
+        ],
+        demo: {
+          caption: 'A live one, in our colour, built the same way. Ask your device for less motion and it never starts.',
         },
       },
       {
@@ -251,6 +271,30 @@ const en = {
             { label: 'Example, B.', value: 'April', badge: '$ renewal fee' },
           ],
           footer: 'Plus 2 licences expiring and 1 overdue onboarding item',
+        },
+      },
+      {
+        key: 'finance',
+        status: 'ready',
+        title: 'Finance built into your admin',
+        body:
+          'Where the money stands, in the same place as everything else, instead of a spreadsheet somebody has to remember to update. This year beside last year, revenue by service line, expenses by category, and a profit and loss you can print. When the accountant asks, the worksheets are already made: quarterly estimates, the annual return, 1099-NEC and 1096, payroll reconciliation and Florida sales tax. Built and working in the platform, and it switches on for your company when you are ready.',
+        points: [
+          'Revenue, expenses and margin for the year, next to the year before',
+          'Entries typed in, imported from a CSV, or sent in automatically from another system',
+          'A profit and loss report with its own print layout, and forecast columns',
+          'Contractors: 1099 status worked out for you, W-9 requests, the threshold and the deadline',
+          'CPA worksheets that tie out to the profit and loss, with anything unverified flagged for review',
+          'Tax reports sit behind their own owner-only switch, off until you turn them on',
+        ],
+        mock: {
+          title: 'Finance › Overview — sample company, 2026',
+          rows: [
+            { label: 'Revenue, year to date', value: '$420,000', badge: '+8% vs 2025' },
+            { label: 'Expenses, year to date', value: '$268,000', badge: 'By category' },
+            { label: 'Net margin', value: '36%', badge: 'By month' },
+          ],
+          footer: 'Download the CPA worksheet (CSV)',
         },
       },
       {
@@ -301,7 +345,7 @@ const en = {
     eyebrow: 'The first build',
     title: 'See it on a real pest control site',
     body:
-      'We built this with One Source Total Pest Control in Jacksonville. Their office uses the admin area every day — staff, licensing, training, hiring, onboarding and the daily email — and the site runs the photo analyzer, the voice assistant and one lead intake. The newer parts — the contract file, the switch panel and the Spanish site — are built and working in the platform, ready for the day they switch them on. The case study walks through what was there before and what replaced it.',
+      'We built this with One Source Total Pest Control in Jacksonville. Their office uses the admin area every day — staff, licensing, training, hiring, onboarding and the daily email — and the site runs the photo analyzer, the voice assistant, one lead intake and, since this month, the corner web on their spiders page and seasonal corners that change themselves through the year. The newer parts — the contract file, the finance and tax area, the switch panel and the Spanish site — are built and working in the platform, ready for the day they switch them on. The case study walks through what was there before and what replaced it.',
     link: 'Read the One Source case study',
   },
 
@@ -496,7 +540,7 @@ const es: typeof en = {
   deepDives: {
     title: 'Una mirada más de cerca',
     intro:
-      'Seis de las piezas y lo que hace cada una. Cada una indica cuál de las dos cosas es: en uso hoy con un cliente de control de plagas, o construida y funcionando y lista para activarse en la suya.',
+      'Ocho de las piezas y lo que hace cada una. Cada una indica cuál de las dos cosas es: en uso hoy con un cliente de control de plagas, o construida y funcionando y lista para activarse en la suya.',
     mockNote: 'Interfaz recreada con datos de muestra, no el registro de un cliente.',
     items: [
       {
@@ -532,6 +576,24 @@ const es: typeof en = {
         shot: {
           caption: 'Subida de fotos en computadora y celular',
           alt: 'Página del analizador de plagas en un sitio de control de plagas: un área para soltar la foto junto al campo de carga, una casilla de notas opcional y un botón para analizar la foto',
+        },
+      },
+      {
+        key: 'craft',
+        status: 'in-use',
+        title: 'Detalles memorables y con su marca',
+        body:
+          'Una plantilla se ve como una plantilla. Una sola cosa hecha para su empresa es lo que la gente recuerda y lo que le describe a otra persona. En la página de arañas de One Source, una araña tejedora teje una telaraña en la esquina: los hilos se dibujan solos, el rocío atrapa la luz, y ella recorre la telaraña y la hace vibrar donde se detiene. Acerque el cursor y corre hacia el centro. Hoy está funcionando en su sitio, y la esquina que está al lado es una versión más pequeña de lo mismo.',
+        points: [
+          'Dibujada en SVG: se mantiene nítida y pesa una fracción de lo que pesa un video',
+          'Decorativa: los lectores de pantalla no la ven y nunca queda encima de un botón',
+          'Se queda quieta si el dispositivo del visitante pide menos movimiento',
+          'Se detiene cuando la pestaña queda en segundo plano, así no gasta la batería del celular',
+          'También hay esquinas de temporada: los días festivos cambian solos a lo largo del año',
+          'Qué páginas la muestran, y a qué velocidad se mueve, son interruptores en su área de administración',
+        ],
+        demo: {
+          caption: 'Una de verdad, en nuestro color y hecha igual. Si su dispositivo pide menos movimiento, nunca se inicia.',
         },
       },
       {
@@ -575,6 +637,30 @@ const es: typeof en = {
             { label: 'Ejemplo, B.', value: 'Abril', badge: '$ tarifa de renovación' },
           ],
           footer: 'Más 2 licencias por vencer y 1 tarea de incorporación atrasada',
+        },
+      },
+      {
+        key: 'finance',
+        status: 'ready',
+        title: 'Finanzas dentro de su área de administración',
+        body:
+          'Dónde está el dinero, en el mismo lugar que todo lo demás, en vez de una hoja de cálculo que alguien tiene que acordarse de actualizar. Este año junto al anterior, los ingresos por línea de servicio, los gastos por categoría y un estado de resultados que puede imprimir. Cuando el contador pregunta, las hojas de trabajo ya están hechas: estimaciones trimestrales, la declaración anual, los formularios 1099-NEC y 1096, la conciliación de nómina y el impuesto sobre las ventas de Florida. Está construido y funcionando en la plataforma, y se activa en su empresa cuando usted esté listo.',
+        points: [
+          'Ingresos, gastos y margen del año, junto a los del año anterior',
+          'Entradas escritas a mano, importadas desde un archivo CSV o enviadas automáticamente desde otro sistema',
+          'Un estado de resultados con su propio formato de impresión y columnas de proyección',
+          'Contratistas: el estado del 1099 calculado por el sistema, solicitudes de W-9, el umbral y la fecha límite',
+          'Hojas de trabajo para el contador que cuadran con el estado de resultados, con lo no verificado marcado para revisión',
+          'Los reportes de impuestos tienen su propio interruptor, solo para el dueño, apagado hasta que usted lo active',
+        ],
+        mock: {
+          title: 'Finanzas › Resumen — empresa de muestra, 2026',
+          rows: [
+            { label: 'Ingresos del año', value: '$420,000', badge: '+8 % vs. 2025' },
+            { label: 'Gastos del año', value: '$268,000', badge: 'Por categoría' },
+            { label: 'Margen neto', value: '36 %', badge: 'Por mes' },
+          ],
+          footer: 'Descargar la hoja de trabajo para el contador (CSV)',
         },
       },
       {
@@ -624,7 +710,7 @@ const es: typeof en = {
     eyebrow: 'La primera construcción',
     title: 'Véalo en un sitio real de control de plagas',
     body:
-      'Esto lo construimos con One Source Total Pest Control en Jacksonville. Su oficina usa el área de administración todos los días (personal, licencias, capacitación, contratación, incorporación y el correo diario) y el sitio tiene el analizador de fotos, el asistente de voz y una sola entrada de clientes potenciales. Las partes más nuevas (el archivo de contratos, el panel de interruptores y el sitio en español) están construidas y funcionando en la plataforma, listas para el día en que las activen. El caso de estudio recorre qué había antes y qué lo reemplazó.',
+      'Esto lo construimos con One Source Total Pest Control en Jacksonville. Su oficina usa el área de administración todos los días (personal, licencias, capacitación, contratación, incorporación y el correo diario) y el sitio tiene el analizador de fotos, el asistente de voz, una sola entrada de clientes potenciales y, desde este mes, la telaraña de la esquina en su página de arañas y las esquinas de temporada que cambian solas a lo largo del año. Las partes más nuevas (el archivo de contratos, el área de finanzas e impuestos, el panel de interruptores y el sitio en español) están construidas y funcionando en la plataforma, listas para el día en que las activen. El caso de estudio recorre qué había antes y qué lo reemplazó.',
     link: 'Lea el caso de estudio de One Source',
   },
 

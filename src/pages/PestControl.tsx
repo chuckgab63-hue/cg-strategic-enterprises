@@ -3,6 +3,7 @@ import {
   BookCallButton, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
+import CornerWebDemo from '../components/CornerWebDemo';
 import FeatureSwitchDemo from '../components/FeatureSwitchDemo';
 import PestPackages from '../components/PestPackages';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
@@ -182,6 +183,15 @@ export default function PestControl() {
                         className="w-full h-auto rounded-2xl border border-slate-700"
                       />
                       <figcaption className="text-slate-400 text-sm leading-relaxed mt-2">{item.shot.caption}</figcaption>
+                    </figure>
+                  )}
+                  {item.demo && (
+                    <figure className="m-0">
+                      {/* The real thing rather than a picture of it: the corner
+                          web is decorative, so it costs nothing to let the
+                          visitor watch it draw itself. */}
+                      <CornerWebDemo />
+                      <figcaption className="text-slate-400 text-sm leading-relaxed mt-2">{item.demo.caption}</figcaption>
                     </figure>
                   )}
                   {item.mock && (
