@@ -40,7 +40,7 @@ const en = {
   eyebrow: 'Pest control',
   title: 'Built for pest control companies',
   intro:
-    'A website that gets found, an assistant that answers when the office is closed, and an office system that keeps licences, hiring and termite contracts straight — in English and Spanish, for pest control companies across Florida and Georgia.',
+    'A website that gets found, an assistant that answers when the office is closed, and an office system that keeps licenses, hiring and termite contracts straight — in English and Spanish, for pest control companies across Florida and Georgia.',
   ctaAlex: 'Talk to Alex',
   ctaCall: 'Call us',
   newTab: '(opens in a new tab)',
@@ -261,7 +261,7 @@ const en = {
         points: [
           'A renewals-due filter on the contract list',
           'The renewals section of the daily email, with the fee',
-          'The daily email itself is already in use for expiring licences and overdue onboarding',
+          'The daily email itself is already in use for expiring licenses and overdue onboarding',
           'Switch the reminders off and the renewal months stay on the records',
         ],
         mock: {
@@ -270,7 +270,7 @@ const en = {
             { label: 'Sample, A.', value: 'March', badge: '$ renewal fee' },
             { label: 'Example, B.', value: 'April', badge: '$ renewal fee' },
           ],
-          footer: 'Plus 2 licences expiring and 1 overdue onboarding item',
+          footer: 'Plus 2 licenses expiring and 1 overdue onboarding item',
         },
       },
       {
@@ -300,9 +300,9 @@ const en = {
       {
         key: 'licensing',
         status: 'in-use',
-        title: 'Licences, training and who can run a route',
+        title: 'Licenses, training and who can run a route',
         body:
-          'The part of the business a field-service app does not cover. Every ID card, certification and the business licence has an expiry date and a dashboard showing what lapses in the next 30, 60 and 90 days. Each technician has a supervised training log and a plain answer to "are they ready for their own route yet".',
+          'The part of the business a field-service app does not cover. Every ID card, certification and the business license has an expiry date and a dashboard showing what lapses in the next 30, 60 and 90 days. Each technician has a supervised training log and a plain answer to "are they ready for their own route yet".',
         points: [
           'A 30/60/90-day expiry dashboard, plus the daily email',
           'A supervised training log per technician, per category',
@@ -312,7 +312,7 @@ const en = {
         ],
         shot: {
           caption: "A technician's readiness (mock-up with sample data)",
-          alt: "Mock of a technician's page in a pest control admin area: supervised training progress for each licence category, ID card status, onboarding progress and what is left before they are route-ready",
+          alt: "Mock of a technician's page in a pest control admin area: supervised training progress for each license category, ID card status, onboarding progress and what is left before they are route-ready",
         },
       },
       {
@@ -369,7 +369,7 @@ const en = {
       },
       {
         before: 'Licensing, training and hiring tracked by hand.',
-        after: 'An admin area their office works in daily: staff, licences, training, hiring, onboarding.',
+        after: 'An admin area their office works in daily: staff, licenses, training, hiring, onboarding.',
       },
     ],
   },
@@ -381,7 +381,7 @@ const en = {
       id: 'ownership',
       question: 'Who owns the website and the data?',
       answer:
-        'You do. Your customer and contract records, your domain, your brand, photos and content, and your payment account are yours, and you can export your data at any time. The platform software is licensed to you through the monthly care plan, which is what keeps it hosted, patched and supported. If you ever leave, you take your data, domain, content and payment account with you. If you would rather run the platform yourself, there is an option to buy out the software licence.',
+        'You do. Your customer and contract records, your domain, your brand, photos and content, and your payment account are yours, and you can export your data at any time. The platform software is licensed to you through the monthly care plan, which is what keeps it hosted, patched and supported. If you ever leave, you take your data, domain, content and payment account with you. If you would rather run the platform yourself, there is an option to buy out the software license.',
       more: { label: 'More on ownership', path: '/faq#ownership' },
     },
     {

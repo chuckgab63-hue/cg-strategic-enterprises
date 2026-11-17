@@ -17,7 +17,7 @@
 //           domain right now.
 //   ready   built, deployed and working, and switched on for a company on the
 //           day they are ready. That is the whole admin area behind the site —
-//           crew records, licences, training, onboarding, the hiring pipeline —
+//           crew records, licenses, training, onboarding, the hiring pipeline —
 //           and all of the finance and tax side, which has been built and
 //           tested against sample figures and holds nobody's real books yet.
 //   service something CG Strategic runs alongside the platform: the phone, the
@@ -173,7 +173,7 @@ export const LAWN_PACKAGE_GROUPS: PackageGroup[] = [
         key: 'credentials',
         tier: 'pro',
         status: 'ready',
-        label: { en: 'Licence and certification tracker with expiry dates — the state applicator certification, driver licences, insurance', es: 'Control de licencias y certificaciones con fechas de vencimiento: la certificación estatal de aplicador, licencias de conducir, seguros' },
+        label: { en: 'License and certification tracker with expiry dates — the state applicator certification, driver licenses, insurance', es: 'Control de licencias y certificaciones con fechas de vencimiento: la certificación estatal de aplicador, licencias de conducir, seguros' },
       },
       {
         key: 'training',

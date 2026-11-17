@@ -53,7 +53,7 @@ const en = {
   eyebrow: 'Lawn care and landscaping',
   title: 'Built for lawn care and landscaping companies',
   intro:
-    'A lawn care website that gets found, an assistant that answers while the crews are out, commercial estimates that ask the right questions, and an office system that keeps licences, hiring and the books straight — in English and Spanish, for companies across Florida and Georgia.',
+    'A lawn care website that gets found, an assistant that answers while the crews are out, commercial estimates that ask the right questions, and an office system that keeps licenses, hiring and the books straight — in English and Spanish, for companies across Florida and Georgia.',
   ctaAlex: 'Talk to Alex',
   ctaCall: 'Call us',
   newTab: '(opens in a new tab)',
@@ -93,7 +93,7 @@ const en = {
       {
         title: 'Hiring is a season of its own',
         body:
-          'Applications arrive, résumés pile up, and somebody has to know whose applicator certification expires in March. The careers page feeds a pipeline, hiring creates the record and its checklist, and the licence that lapses is on a dashboard instead of in somebody’s memory.',
+          'Applications arrive, résumés pile up, and somebody has to know whose applicator certification expires in March. The careers page feeds a pipeline, hiring creates the record and its checklist, and the license that lapses is on a dashboard instead of in somebody’s memory.',
       },
     ],
   },
@@ -136,7 +136,7 @@ const en = {
         items: [
           { text: 'A careers page where applications and résumés land in one place', status: 'in-use' },
           { text: 'A hiring pipeline from New to Hired, and hiring that creates the record for you', status: 'ready' },
-          { text: 'Licences and certifications with their expiry dates on a dashboard', status: 'ready' },
+          { text: 'Licenses and certifications with their expiry dates on a dashboard', status: 'ready' },
           { text: 'A training log and an onboarding checklist per crew member', status: 'ready' },
           { text: 'Owner, office, crew and accountant roles, each reaching only what it should', status: 'ready' },
           { text: 'Feature switches you hold yourself, and an audit log of who moved what', status: 'ready' },
@@ -235,11 +235,11 @@ const en = {
       {
         key: 'crew',
         status: 'ready',
-        title: 'Licences, training and who can spray',
+        title: 'Licenses, training and who can spray',
         body:
-          'The part a scheduling app does not cover. Every certification, licence and insurance document has an expiry date, and the dashboard says what lapses next rather than leaving it to the month somebody happens to look. Each crew member has a training log, and the office has a plain answer to "can this person apply product on their own yet". Applications from your careers page land in the same system, so hiring somebody creates their record and their checklist in one step.',
+          'The part a scheduling app does not cover. Every certification, license and insurance document has an expiry date, and the dashboard says what lapses next rather than leaving it to the month somebody happens to look. Each crew member has a training log, and the office has a plain answer to "can this person apply product on their own yet". Applications from your careers page land in the same system, so hiring somebody creates their record and their checklist in one step.',
         points: [
-          'Expiry dates on the state applicator certification, driver licences and insurance',
+          'Expiry dates on the state applicator certification, driver licenses and insurance',
           'A training log per person, with what is done and what runs out',
           'Onboarding checklists with due dates, created the moment you hire',
           'Crew members check their own status on their phone instead of calling the office',
@@ -287,7 +287,7 @@ const en = {
     eyebrow: 'The build this page is about',
     title: 'See it on a live lawn care site',
     body:
-      'By The C of Jax is a lawn care and landscaping company in Jacksonville, and their site is the one every green label on this page points to. Residential and commercial pages, a page per service with a switch behind it, the service-area checker, the quote and commercial estimate forms, the careers page, the gallery, the AI voice assistant and the full Spanish site with Spanish addresses are all live on their own domain today. The admin area behind it — crew records, licences, training, hiring, and the finance and tax side — is built and working, waiting on the day they switch each part on.',
+      'By The C of Jax is a lawn care and landscaping company in Jacksonville, and their site is the one every green label on this page points to. Residential and commercial pages, a page per service with a switch behind it, the service-area checker, the quote and commercial estimate forms, the careers page, the gallery, the AI voice assistant and the full Spanish site with Spanish addresses are all live on their own domain today. The admin area behind it — crew records, licenses, training, hiring, and the finance and tax side — is built and working, waiting on the day they switch each part on.',
     link: 'Visit bythecofjax.com',
     note: 'Their site, not a demo of ours. It opens in a new tab.',
   },
@@ -299,7 +299,7 @@ const en = {
       id: 'ownership',
       question: 'Who owns the website and the data?',
       answer:
-        'You do. Your customer records, your domain, your brand, photos and content, and your payment account are yours, and you can export your data at any time. The platform software is licensed to you through the monthly care plan, which is what keeps it hosted, patched and supported. If you ever leave, you take your data, domain, content and payment account with you. If you would rather run the platform yourself, there is an option to buy out the software licence.',
+        'You do. Your customer records, your domain, your brand, photos and content, and your payment account are yours, and you can export your data at any time. The platform software is licensed to you through the monthly care plan, which is what keeps it hosted, patched and supported. If you ever leave, you take your data, domain, content and payment account with you. If you would rather run the platform yourself, there is an option to buy out the software license.',
       more: { label: 'More on ownership', path: '/faq#ownership' },
     },
     {

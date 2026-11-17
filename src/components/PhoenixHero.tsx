@@ -241,22 +241,21 @@ export default function PhoenixHero() {
           keeps the letters legible on those frames. It costs the picture
           nothing, which a deeper wash would not. The cards do not depend on it:
           each one carries its own surface. */}
-      <div className="phoenix-copy site-container flex flex-col gap-6 py-9 lg:absolute lg:inset-x-0 lg:bottom-0 lg:gap-2 lg:py-0 lg:pb-5">
-        {/* No panel behind the block: the bird has the frame. From lg the copy
-            sits in the lower-left over the foreground, in a column that never
-            reaches the seated figure on the right, and each LINE of the
-            headline and the subline carries its own brand-ink backing
-            (phoenix-line in src/index.css) instead.
+      <div className="phoenix-copy site-container flex flex-col gap-6 py-9 lg:absolute lg:inset-x-0 lg:bottom-0 lg:flex-row-reverse lg:items-end lg:justify-end lg:gap-6 lg:py-0 lg:pb-6">
+        {/* The copy column. From lg it sits to the RIGHT of the cards, both
+            bottom-aligned, the pair anchored to the container's left edge --
+            flex-row-reverse rather than reordering the markup, so the h1 stays
+            first in the document and the mobile order (copy, then cards) is
+            the DOM order.
 
-            Why per line and why 0.62: the wash reaches zero above the copy at
-            short viewports, and the clip puts pixels up to rgb(255, 237, 218)
-            behind these words, where white is 1:1. Backing each line is the
-            only thing that holds whatever the frame does, and 0.62 is the
-            lowest step that cleared 4.5:1 on 100% of both elements at
-            1366x768 and 1920x1080 -- 0.5 left 3.95:1 on the headline and
-            0.6 put the subline on the line at 4.50. The measurements are in
-            the commit. */}
-        <div className="flex flex-col items-center gap-4 text-center lg:max-w-[30rem] lg:items-start lg:gap-2 lg:text-left">
+            Nothing is painted behind the block: the bird has the frame. Each
+            LINE carries its own brand-ink backing instead (phoenix-line in
+            src/index.css), because the clip puts pixels up to
+            rgb(255, 237, 218) behind these words, where white is 1:1. 0.62 is
+            the lowest step that held 4.5:1 on 100% of the area at every
+            viewport tested, including a tall narrow window where the wash
+            contributes nothing. */}
+        <div className="flex flex-col items-center gap-4 text-center lg:max-w-[26rem] lg:items-start lg:gap-2 lg:text-left">
           <h1
             id="phoenix-hero-title"
             className="text-3xl font-black leading-tight tracking-tight text-white md:text-4xl lg:text-3xl lg:phoenix-shadow"
@@ -281,30 +280,52 @@ export default function PhoenixHero() {
 
         </div>
 
-        {/* The three industries, in the same order at every width. One row from
-            sm, stacked from lg -- and a row again on a desktop shorter than
-            900px, which is where the 16:9 frame is tall enough to fill the
-            viewport and a stacked column pushes the headline up into the
-            splash. A row is about 110px shorter than the stack, which drops
-            the headline clear of the bird and deeper into the wash. Each card
-            keeps its own surface: over video that is what makes their
-            contrast reliable, whatever frame is showing. */}
-        <ul aria-label={t.industriesLabel} className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:max-w-[30rem] lg:grid-cols-1 lg:gap-1.5 [@media(min-width:1024px)_and_(max-height:899px)]:max-w-[56rem] [@media(min-width:1024px)_and_(max-height:899px)]:grid-cols-3 [@media(min-width:1024px)_and_(max-height:899px)]:gap-2">
+        {/* The three industries, in the same order at every width: one row from
+            sm, a column from lg. From lg they sit to the LEFT of the copy, and
+            the pair is short enough (about 170px) to live in the bottom of the
+            frame at 1366x768, which is why the old "cards as a row under 900px
+            tall" rule is gone -- two columns made it unnecessary.
+
+            The cards are transparent now, so the picture reads through them.
+            What holds their text is the same per-line backing the copy uses,
+            on the label and on the line, rather than a surface behind the
+            whole card.
+
+            The outline is two lines, not one, and that is deliberate: a single
+            translucent white border measured 1.23:1 against the brighter
+            frames, because white on bright water is white on white. A white
+            border with a brand-ink ring immediately outside it always has an
+            edge to contrast with -- the pair reads at 5.7:1 or better whatever
+            the frame does, which is what keeps the card's boundary visible. */}
+        <ul aria-label={t.industriesLabel} className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:w-[17rem] lg:shrink-0 lg:grid-cols-1 lg:gap-1.5">
           {t.industries.map(card => (
             <li key={card.key} className="flex">
               <Link
                 to={lp(card.path)}
                 onClick={() => trackEvent('home_industry_click', lang, { industry: card.key })}
-                className="group flex w-full flex-col gap-1 rounded-2xl border border-slate-700/80 bg-brand-ink/90 p-4 text-left transition-colors hover:border-brand-orange/60 lg:gap-0 lg:rounded-xl lg:px-3 lg:py-2"
+                className="group flex w-full flex-col gap-1 rounded-2xl border border-slate-700/80 bg-brand-ink/90 p-4 text-left transition-colors hover:border-brand-orange/60 lg:gap-1 lg:rounded-xl lg:border-white/55 lg:bg-transparent lg:px-3 lg:py-2 lg:shadow-[0_0_0_1px_rgba(2,6,23,0.6)] lg:hover:border-brand-orange"
               >
-                <span className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-white lg:text-xs">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-brand-orange lg:h-3.5 lg:w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <span className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-white lg:gap-0 lg:text-xs">
+                  {/* Two placements of the same icon and arrow rather than one:
+                      on a phone they sit on the card's own surface, the arrow
+                      pushed to the right edge; from lg the card has no surface,
+                      so both have to sit INSIDE the backing or they are orange
+                      on bare video, which is where they would fail 3:1. */}
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-brand-orange lg:hidden" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d={INDUSTRY_ICONS[card.key]} />
                   </svg>
-                  {card.label}
-                  <span aria-hidden="true" className="ml-auto text-brand-orange transition-transform group-hover:translate-x-1">&rarr;</span>
+                  <span className="lg:phoenix-line lg:box-decoration-clone lg:inline-flex lg:items-center lg:gap-1.5 lg:transition-colors lg:group-hover:text-brand-orange">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" className="hidden h-3.5 w-3.5 shrink-0 text-brand-orange lg:block" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={INDUSTRY_ICONS[card.key]} />
+                    </svg>
+                    {card.label}
+                    <span aria-hidden="true" className="hidden text-brand-orange transition-transform group-hover:translate-x-1 lg:inline">&rarr;</span>
+                  </span>
+                  <span aria-hidden="true" className="ml-auto text-brand-orange transition-transform group-hover:translate-x-1 lg:hidden">&rarr;</span>
                 </span>
-                <span className="text-sm leading-snug text-slate-300 lg:text-[11px] lg:leading-tight">{card.line}</span>
+                <span className="text-sm leading-snug text-slate-300 lg:text-[11px] lg:leading-relaxed">
+                  <span className="lg:phoenix-line lg:box-decoration-clone">{card.line}</span>
+                </span>
               </Link>
             </li>
           ))}
