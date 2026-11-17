@@ -6,10 +6,14 @@ import home from '../i18n/home';
 import common from '../i18n/common';
 import { bookingUrl } from '../config/booking';
 
-// The second hero on the home page: a full-width band with the phoenix clip
-// playing behind the headline. It sits below the first hero and above the Free
-// Website Check, so it is never the first paint and never the LCP candidate on
-// either language.
+// The second hero on the home page: a full-width 16:9 frame of the phoenix
+// clip, with the headline over its foot on a desktop and under it on a phone.
+// It sits below the first hero and above the Free Website Check, so it is
+// never the first paint and never the LCP candidate on either language.
+//
+// The picture is shown as shot. Nothing sits over the video but a wash across
+// the bottom 30%, where the words are, and nothing dims the element itself --
+// no opacity, no filter, no blend mode.
 //
 // Phoenix video: generated with Runway (Kling 4.0) from an original photo by
 // Chuck Gabbard. The site has no media credits page or footer credit line
@@ -35,14 +39,6 @@ const POSTER = '/video/phoenix-hero-poster.jpg';
 const WEBM = '/video/phoenix-hero.webm';
 const MP4 = '/video/phoenix-hero.mp4';
 
-// The crop. Only one axis is ever cut: a band wider than 16:9 (any desktop)
-// loses top and bottom, a band narrower than it (a phone, where the band is
-// 390x420) loses left and right. So one pair covers both. The bird flies in the
-// upper left, and a centred horizontal crop cut it in half on a phone; 20%
-// keeps it whole there and changes nothing on a desktop, where the full width
-// already shows.
-const CROP = 'object-cover [object-position:20%_center]';
-
 /** True when the viewer has asked for less motion or less data. Read in an effect: it is false in the server markup, so hydration matches. */
 function quietMedia(): boolean {
   const asks = (q: string) => window.matchMedia?.(q).matches === true;
@@ -61,9 +57,7 @@ export default function PhoenixHero() {
   // Mount the <video> only when the band is near the viewport and the viewer
   // has not asked for less motion or less data.
   const [wantsVideo, setWantsVideo] = useState(false);
-  // Painted the first frame: only then does the video fade over the poster, so
-  // a slow connection shows the poster rather than a black rectangle.
-  const [playing, setPlaying] = useState(false);
+  // Drives the button's icon and its accessible name, nothing else.
   const [paused, setPaused] = useState(false);
   // Set when the viewer uses the button, so the tab-visibility handler below
   // does not restart a clip they stopped on purpose.
@@ -130,102 +124,118 @@ export default function PhoenixHero() {
     <section
       ref={sectionRef}
       aria-labelledby="phoenix-hero-title"
-      className="phoenix-hero relative z-10 w-full overflow-hidden bg-brand-ink aspect-[16/9] min-h-[420px] max-h-[70vh] sm:min-h-[360px]"
+      className="phoenix-hero relative z-10 w-full bg-brand-ink"
     >
-      {/* The poster, as an image rather than the <video poster> attribute, so a
-          viewer who never scrolls this far pays for nothing. width/height give
-          the box its shape before it arrives. Decorative: the headline beside
-          it says everything it says. */}
-      <img
-        src={POSTER}
-        width={1920}
-        height={1080}
-        loading="lazy"
-        decoding="async"
-        alt=""
-        aria-hidden="true"
-        className={`absolute inset-0 h-full w-full ${CROP}`}
-      />
-
-      {wantsVideo && (
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster={POSTER}
+      {/* The frame, at its own 16:9 and nothing else. No max-height in vh and no
+          min-height: at an exact 16:9 box object-cover has nothing to crop, so
+          the whole shot is on screen at every width -- the bird's wingtips at
+          the top, the beach at the foot. */}
+      <div className="relative w-full overflow-hidden aspect-[16/9]">
+        {/* The poster, as an image rather than only the <video poster>
+            attribute, so a viewer who never scrolls this far pays for nothing.
+            width/height give the box its shape before it arrives. Decorative:
+            the headline says everything it says. */}
+        <img
+          src={POSTER}
+          width={1280}
+          height={720}
+          loading="lazy"
+          decoding="async"
+          alt=""
           aria-hidden="true"
-          tabIndex={-1}
-          onPlaying={() => { setPlaying(true); setPaused(false); }}
-          onPause={() => setPaused(true)}
-          className={`absolute inset-0 h-full w-full ${CROP} transition-opacity duration-700 ${playing ? 'opacity-100' : 'opacity-0'}`}
-        >
-          <source src={WEBM} type="video/webm" />
-          <source src={MP4} type="video/mp4" />
-        </video>
-      )}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
 
-      {/* The brand-ink wash the text sits on: clear at the top, where the
-          phoenix is, and deep over the lower half, where the words are.
-
-          It has to be this deep. The clip is not reliably dark behind the
-          text: sampling the headline's and subline's own rectangles across ten
-          frames found pixels at rgb(255, 237, 218) and rgb(255, 251, 233) as
-          the fire sweeps through. White on white is 1:1, so the wash is what
-          makes the contrast, not the footage. At the headline's top edge it is
-          ~0.81 opaque, which puts white text at about 10:1 over the worst
-          frame; the subline sits lower and darker still. Thinning it fails
-          4.5:1 on the bright frames. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{ background: 'linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.88) 40%, rgba(2, 6, 23, 0.72) 60%, rgba(2, 6, 23, 0.28) 80%, rgba(2, 6, 23, 0) 100%)' }}
-      />
-
-      {/* Text over the lower third: left-aligned from sm up, centred on a phone. */}
-      <div className="absolute inset-0 flex items-end">
-        <div className="site-container flex flex-col items-center gap-5 pb-10 text-center sm:items-start sm:pb-14 sm:text-left md:pb-16">
-          <h2
-            id="phoenix-hero-title"
-            className="text-3xl font-black leading-tight tracking-tight text-white md:text-5xl"
+        {/* Nothing dims this: no opacity, no filter, no blend mode, and no
+            overlay across it. It plays at the brightness of the file. The
+            poster underneath covers the moment before the first frame decodes,
+            and the element's own poster attribute covers it too, so no fade is
+            needed to avoid a flash. */}
+        {wantsVideo && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={POSTER}
+            aria-hidden="true"
+            tabIndex={-1}
+            onPlaying={() => setPaused(false)}
+            onPause={() => setPaused(true)}
+            className="absolute inset-0 h-full w-full object-cover"
           >
-            {t.headline}
-          </h2>
-          <p className="max-w-xl text-base leading-relaxed text-slate-200 md:text-lg">
-            {t.subline}
-          </p>
-          <span className="inline-flex flex-col items-center gap-1 sm:items-start">
-            <a
-              href={bookingUrl('home', 'phoenix-hero')}
-              target="_blank"
-              rel="noopener"
-              data-book-call="phoenix-hero"
-              className="inline-block cursor-pointer rounded-md bg-brand-orange px-8 py-3 font-bold tracking-wide text-brand-ink shadow-md transition-all hover:scale-105 hover:opacity-90"
-            >
-              {t.cta}
-            </a>
-            {c.bookCall.note && <small className="text-[11px] leading-4 text-slate-300">{c.bookCall.note}</small>}
-          </span>
-        </div>
+            <source src={WEBM} type="video/webm" />
+            <source src={MP4} type="video/mp4" />
+          </video>
+        )}
+
+        {/* The only wash on the picture, and only where the words sit: the
+            bottom 30%, clear at its top edge and 0.6 brand-ink at the very
+            bottom. Above that line the footage is untouched.
+
+            It is only drawn from md up, because that is the only width where
+            the copy is over the video at all. The text-shadow on the copy does
+            the rest of the work -- see the comment there. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 hidden h-[30%] md:block"
+          style={{ background: 'linear-gradient(to top, rgba(2, 6, 23, 0.6) 0%, rgba(2, 6, 23, 0) 100%)' }}
+        />
+
+        {/* WCAG 2.2.2: the clip moves for more than five seconds and loops, so
+            it needs a visible way to stop it. Only rendered when there is a
+            video to stop. */}
+        {wantsVideo && (
+          <button
+            type="button"
+            onClick={togglePlay}
+            aria-label={paused ? t.play : t.pause}
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/40 bg-brand-ink/70 text-white transition-colors hover:bg-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" fill="currentColor">
+              {paused ? <path d="M8 5l11 7-11 7z" /> : <path d="M7 5h4v14H7zm6 0h4v14h-4z" />}
+            </svg>
+          </button>
+        )}
       </div>
 
-      {/* WCAG 2.2.2: the clip moves for more than five seconds and loops, so it
-          needs a visible way to stop it. Only rendered when there is a video to
-          stop. */}
-      {wantsVideo && (
-        <button
-          type="button"
-          onClick={togglePlay}
-          aria-label={paused ? t.play : t.pause}
-          className="absolute right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/40 bg-brand-ink/70 text-white transition-colors hover:bg-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+      {/* One copy block, placed two ways rather than written twice (two of these
+          would mean a duplicate heading id and a screen reader reading it
+          twice). Below md it is ordinary flow under the frame: a 390px phone
+          gives a 219px-tall video, which these three lines would cover
+          entirely. From md up (a 768px window is a 432px-tall frame) it is
+          lifted over the foot of the picture.
+
+          The text-shadow is load-bearing, not decoration. The wash is capped at
+          0.6, and the brightest pixels the clip puts behind these words reach
+          rgb(255, 237, 218) as the fire sweeps through, so the shadow is what
+          keeps the letters legible on those frames. It costs the picture
+          nothing, which a deeper wash would not. */}
+      <div className="phoenix-copy site-container flex flex-col items-center gap-5 py-9 text-center md:absolute md:inset-x-0 md:bottom-0 md:items-start md:gap-4 md:py-0 md:pb-7 md:text-left lg:pb-9">
+        <h2
+          id="phoenix-hero-title"
+          className="text-3xl font-black leading-tight tracking-tight text-white md:text-5xl md:[text-shadow:0_2px_12px_rgba(2,6,23,0.95),0_1px_3px_rgba(2,6,23,0.9)]"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" fill="currentColor">
-            {paused ? <path d="M8 5l11 7-11 7z" /> : <path d="M7 5h4v14H7zm6 0h4v14h-4z" />}
-          </svg>
-        </button>
-      )}
+          {t.headline}
+        </h2>
+        <p className="max-w-xl text-base leading-relaxed text-slate-200 md:text-lg md:[text-shadow:0_1px_8px_rgba(2,6,23,0.95),0_1px_2px_rgba(2,6,23,0.9)]">
+          {t.subline}
+        </p>
+        <span className="inline-flex flex-col items-center gap-1 md:items-start">
+          <a
+            href={bookingUrl('home', 'phoenix-hero')}
+            target="_blank"
+            rel="noopener"
+            data-book-call="phoenix-hero"
+            className="inline-block cursor-pointer rounded-md bg-brand-orange px-8 py-3 font-bold tracking-wide text-brand-ink shadow-md transition-all hover:scale-105 hover:opacity-90"
+          >
+            {t.cta}
+          </a>
+          {c.bookCall.note && <small className="text-[11px] leading-4 text-slate-300 md:[text-shadow:0_1px_6px_rgba(2,6,23,0.95)]">{c.bookCall.note}</small>}
+        </span>
+      </div>
     </section>
   );
 }
