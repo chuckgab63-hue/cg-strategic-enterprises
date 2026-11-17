@@ -25,6 +25,16 @@ const en = {
     startProject: 'Start a Project',
     viewWork: 'View Our Work',
   },
+  // The second hero: the phoenix clip under the first hero (PhoenixHero.tsx).
+  // `pause` and `play` name the button that stops the clip (WCAG 2.2.2); they
+  // are read out by a screen reader, never shown, so they say what it does.
+  phoenix: {
+    headline: 'Built to rise.',
+    subline: 'AI answering, automation and websites that help small businesses grow without the busywork.',
+    cta: 'Book a free intro call',
+    pause: 'Pause the background video',
+    play: 'Play the background video',
+  },
   services: {
     title: 'Services',
     learnMore: 'Learn more',
@@ -114,6 +124,14 @@ const es: typeof en = {
     p2: 'Sin humo, sin espejos y sin relleno de marketing. Solo código probado, integraciones seguras y una ejecución incansable para optimizar sus operaciones, de modo que su equipo sea más ágil y rápido.',
     startProject: 'Iniciar un proyecto',
     viewWork: 'Ver nuestro trabajo',
+  },
+  // Second hero: NEW, not yet reviewed by a native speaker.
+  phoenix: {
+    headline: 'Hecho para crecer.',
+    subline: 'Atención telefónica con IA, automatización y sitios web que ayudan a los pequeños negocios a crecer sin el trabajo repetitivo.',
+    cta: 'Reserve una llamada gratis',
+    pause: 'Pausar el video de fondo',
+    play: 'Reproducir el video de fondo',
   },
   services: {
     title: 'Servicios',

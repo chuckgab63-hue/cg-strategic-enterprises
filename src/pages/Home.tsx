@@ -10,6 +10,7 @@ import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
 import { trackEvent } from '../lib/analytics';
 import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
+import PhoenixHero from '../components/PhoenixHero';
 import PestCaseStudyCard from '../components/PestCaseStudyCard';
 import type { ServiceIcon } from '../i18n/home';
 
@@ -285,6 +286,13 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {/* =========================================
+          SECTION 2: SECOND HERO, the phoenix clip behind "Built to rise."
+          Below the first hero on purpose: it is never the first paint, so the
+          video never competes with the hero image or becomes the LCP element.
+          ========================================= */}
+      <PhoenixHero />
 
       {/* =========================================
           FREE WEBSITE CHECK: type a website, continue on /website-check
