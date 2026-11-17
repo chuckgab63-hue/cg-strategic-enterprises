@@ -94,6 +94,27 @@ body {
 /* Shared content width for every page, header and footer: wide on big screens,
    with fluid side padding. 24px is the floor so phone layouts keep the old px-6
    gutter. Readable text widths are capped separately (max-w-prose etc.). */
+/* The home hero's per-line text backing: a brand-ink highlight that hugs each
+   line of the headline and the subline rather than a panel behind the block.
+   box-decoration-break: clone is what makes it per-line -- without it a wrapped
+   line gets one long box with the padding only at the two ends, and the shape
+   stops hugging.
+
+   The alpha is not a taste decision. Against the brightest pixels the clip puts
+   behind these words, white text needs 0.539 to reach 4.5:1 and the subline's
+   slate-200 needs 0.596; --phoenix-ink-alpha is set above both, and
+   src/components/PhoenixHero.tsx carries the measurement that fixed it. Only
+   used from lg up, which is the only width where this copy is on the video. */
+@utility phoenix-line {
+  --phoenix-ink-alpha: 0.62;
+  background-color: rgb(2 6 23 / var(--phoenix-ink-alpha));
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding-inline: 0.4em;
+  padding-block: 0.12em;
+  border-radius: 0.5rem;
+}
+
 /* The dark halo under the home hero's copy, where it sits on the phoenix clip.
    One utility rather than three arbitrary [text-shadow:...] classes: this file
    is render-blocking on every page of the site, and the three spelled-out

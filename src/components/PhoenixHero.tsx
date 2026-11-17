@@ -242,19 +242,29 @@ export default function PhoenixHero() {
           nothing, which a deeper wash would not. The cards do not depend on it:
           each one carries its own surface. */}
       <div className="phoenix-copy site-container flex flex-col gap-6 py-9 lg:absolute lg:inset-x-0 lg:bottom-0 lg:gap-2 lg:py-0 lg:pb-5">
-        {/* No backing of its own any more: the bird has the frame. From lg the
-            copy sits in the lower-left over the foreground, in a narrow column
-            so it never reaches the seated figure on the right, and the wash
-            plus the text-shadow do the work the panel used to do. */}
+        {/* No panel behind the block: the bird has the frame. From lg the copy
+            sits in the lower-left over the foreground, in a column that never
+            reaches the seated figure on the right, and each LINE of the
+            headline and the subline carries its own brand-ink backing
+            (phoenix-line in src/index.css) instead.
+
+            Why per line and why 0.62: the wash reaches zero above the copy at
+            short viewports, and the clip puts pixels up to rgb(255, 237, 218)
+            behind these words, where white is 1:1. Backing each line is the
+            only thing that holds whatever the frame does, and 0.62 is the
+            lowest step that cleared 4.5:1 on 100% of both elements at
+            1366x768 and 1920x1080 -- 0.5 left 3.95:1 on the headline and
+            0.6 put the subline on the line at 4.50. The measurements are in
+            the commit. */}
         <div className="flex flex-col items-center gap-4 text-center lg:max-w-[30rem] lg:items-start lg:gap-2 lg:text-left">
           <h1
             id="phoenix-hero-title"
             className="text-3xl font-black leading-tight tracking-tight text-white md:text-4xl lg:text-3xl lg:phoenix-shadow"
           >
-            {t.headline}
+            <span className="lg:phoenix-line lg:box-decoration-clone">{t.headline}</span>
           </h1>
-          <p className="max-w-2xl text-base leading-relaxed text-slate-200 md:text-lg lg:text-sm lg:leading-snug lg:phoenix-shadow">
-            {t.subline}
+          <p className="max-w-2xl text-base leading-relaxed text-slate-200 md:text-lg lg:text-sm lg:leading-relaxed lg:phoenix-shadow">
+            <span className="lg:phoenix-line lg:box-decoration-clone">{t.subline}</span>
           </p>
           <span className="inline-flex flex-col items-center gap-1 lg:items-start">
             <a
@@ -271,14 +281,15 @@ export default function PhoenixHero() {
 
         </div>
 
-        {/* The three industries. One row from sm, stacked again from lg, where
-            they sit under the copy in the same lower-left column -- so the
-            order reads the same at every width. Compact from lg (tighter
-            padding, smaller type) because the whole stack has to clear the
-            fold on a 1366x768 screen, where the 16:9 frame is the viewport.
-            Each card keeps its own surface: over video that is what makes
-            their contrast reliable, whatever frame is showing. */}
-        <ul aria-label={t.industriesLabel} className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:max-w-[30rem] lg:grid-cols-1 lg:gap-1.5">
+        {/* The three industries, in the same order at every width. One row from
+            sm, stacked from lg -- and a row again on a desktop shorter than
+            900px, which is where the 16:9 frame is tall enough to fill the
+            viewport and a stacked column pushes the headline up into the
+            splash. A row is about 110px shorter than the stack, which drops
+            the headline clear of the bird and deeper into the wash. Each card
+            keeps its own surface: over video that is what makes their
+            contrast reliable, whatever frame is showing. */}
+        <ul aria-label={t.industriesLabel} className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:max-w-[30rem] lg:grid-cols-1 lg:gap-1.5 [@media(min-width:1024px)_and_(max-height:899px)]:max-w-[56rem] [@media(min-width:1024px)_and_(max-height:899px)]:grid-cols-3 [@media(min-width:1024px)_and_(max-height:899px)]:gap-2">
           {t.industries.map(card => (
             <li key={card.key} className="flex">
               <Link
