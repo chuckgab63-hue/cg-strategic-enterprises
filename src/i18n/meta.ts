@@ -74,20 +74,6 @@ export const SITE_ROUTES: SiteRoute[] = [
     lastmod: '2026-10-29',
   },
   {
-    path: '/portfolio',
-    meta: {
-      en: {
-        title: `Case Studies | ${NAME}`,
-        description: 'Case studies of our website, AI and automation work, starting with a full rebuild for a Florida pest control company.',
-      },
-      es: {
-        title: `Casos de estudio | ${NAME}`,
-        description: 'Casos de estudio de nuestro trabajo en sitios web, IA y automatización, empezando por una renovación completa para una empresa de control de plagas en Florida.',
-      },
-    },
-    lastmod: '2026-10-29',
-  },
-  {
     path: ONE_SOURCE_CASE_STUDY.path,
     meta: {
       en: { title: ONE_SOURCE_CASE_STUDY.title, description: ONE_SOURCE_CASE_STUDY.description },
@@ -365,8 +351,6 @@ export const SITE_ROUTES: SiteRoute[] = [
 
 /** Other URLs that render one of the pages above; their canonical is the main path. */
 export const ROUTE_ALIASES: Record<string, string> = {
-  '/case-studies': '/portfolio',
-  '/case-study': '/portfolio',
   '/fluid': '/fluid-dynamics',
 };
 

@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { to: '/#services', key: 'services' },
   { to: '/pest-control', key: 'pestControl' },
   { to: '/lawn-care', key: 'lawnCare' },
-  { to: '/portfolio', key: 'caseStudies' },
+  { to: '/meal-prep-ordering', key: 'mealPrepNav' },
   { to: '/skunkworks', key: 'skunkworks' },
   { to: '/contact', key: 'contact' },
 ] as const;
@@ -57,11 +57,15 @@ export default function GlobalHeader() {
             </span>
           </Link>
 
-          {/* Five links now, so the row is tightened between lg and xl and only
-              opens up above it. Spanish labels run longer again ("Control de
-              plagas"), so there the wide tracking waits until 1360px, the same
-              width at which the wordmark appears. */}
-          <nav aria-label={t.mainNavLabel} className="hidden lg:flex items-center gap-3 xl:gap-6 lg:justify-self-center">
+          {/* Six links, so the row is tightened between lg and xl and only opens
+              up above it. Spanish runs longer at every label, and the slot that
+              used to say "Trabajo" now says "Comidas preparadas": at 1024 that
+              row measured 711px and pushed "Hablemos" 22px past the viewport,
+              where the page's overflow-x-hidden quietly clipped it. So in
+              Spanish the desktop nav waits for xl and 1024 gets the menu
+              button instead, which is what every width below lg already does.
+              English is unchanged. */}
+          <nav aria-label={t.mainNavLabel} className={`hidden items-center gap-3 xl:gap-6 lg:justify-self-center ${lang === 'es' ? 'xl:flex' : 'lg:flex'}`}>
             {NAV_LINKS.map(link => (
               <Link
                 key={link.to}
@@ -94,14 +98,15 @@ export default function GlobalHeader() {
                 {t.orSendMessage}
               </Link>
             </div>
-            {/* Below lg the main nav is hidden, so its links sit behind this button. */}
+            {/* Wherever the main nav is hidden its links sit behind this button:
+                below lg in English, below xl in Spanish. */}
             <button
               type="button"
               aria-expanded={menuOpen}
               aria-controls={menuId}
               aria-label={t.menu}
               onClick={() => setMenuOpen(open => !open)}
-              className="lg:hidden flex items-center justify-center w-10 h-10 shrink-0 rounded-lg border border-slate-700 text-slate-300 hover:text-brand-orange hover:border-brand-orange transition-colors cursor-pointer"
+              className={`${lang === 'es' ? 'xl:hidden' : 'lg:hidden'} flex items-center justify-center w-10 h-10 shrink-0 rounded-lg border border-slate-700 text-slate-300 hover:text-brand-orange hover:border-brand-orange transition-colors cursor-pointer`}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={menuOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'} />
@@ -112,7 +117,7 @@ export default function GlobalHeader() {
         </div>
 
         {menuOpen && (
-          <nav id={menuId} aria-label={t.mainNavLabel} className="lg:hidden border-t border-slate-900 bg-slate-950">
+          <nav id={menuId} aria-label={t.mainNavLabel} className={`${lang === 'es' ? 'xl:hidden' : 'lg:hidden'} border-t border-slate-900 bg-slate-950`}>
             <ul className="site-container py-2 text-left">
               {NAV_LINKS.map(link => (
                 <li key={link.to}>

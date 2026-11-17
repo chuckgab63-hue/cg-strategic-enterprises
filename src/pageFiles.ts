@@ -8,9 +8,6 @@
 export const PAGE_FILES: [path: string, file: string][] = [
   ['', 'Home'],
   ['/automations', 'Automations'],
-  ['/portfolio', 'Portfolio'],
-  ['/case-studies', 'Portfolio'],
-  ['/case-study', 'Portfolio'],
   ['/work/one-source-total-pest-control', 'OneSourceCaseStudy'],
   ['/cinematic', 'CinematicSequences'],
   ['/fluid', 'FluidDynamics'],

@@ -7,11 +7,10 @@ const en = {
   nav: {
     services: 'Services',
     engine: 'Automation & Workflows',
-    // The header and footer both call /portfolio "Work" now: the homepage no
-    // longer leads with a case study, and "Work" covers the client builds and
-    // the demos alike. The page's own h1 and its <title> still say "Case
-    // Studies", which is what it ranks for.
-    caseStudies: 'Work',
+    // Short enough for the header; the footer's Services column keeps the
+    // full "Online Ordering for Meal Prep". /portfolio is gone and redirects
+    // here, so this is the nav slot that used to say Work.
+    mealPrepNav: 'Meal Prep',
     skunkworks: 'Skunkworks',
     contact: 'Contact',
     pestControl: 'Pest Control',
@@ -78,7 +77,7 @@ const es: typeof en = {
     // Services link and the footer's new labels and headings: NEW, not yet reviewed.
     services: 'Servicios',
     engine: 'Automatización y flujos de trabajo',
-    caseStudies: 'Trabajo',
+    mealPrepNav: 'Comidas preparadas',
     skunkworks: 'Skunkworks',
     contact: 'Contacto',
     pestControl: 'Control de plagas',

@@ -28,7 +28,6 @@ export default function GlobalFooter() {
         ['/lawn-care', t.nav.lawnCare],
         ['/meal-prep-ordering', t.nav.mealPrepOrdering],
         ['/search-ai-visibility', t.nav.searchAi],
-        ['/portfolio', t.nav.websites],
       ],
     },
     {
@@ -42,7 +41,6 @@ export default function GlobalFooter() {
     {
       heading: t.footer.company,
       links: [
-        ['/portfolio', t.nav.caseStudies],
         ['/skunkworks', t.nav.skunkworks],
         ['/faq', t.nav.faq],
         ['/contact', t.nav.contact],

@@ -35,8 +35,18 @@ describe('page meta', () => {
   });
 
   it('points aliases at their main page', () => {
-    expect(findRoute('/case-studies')?.path).toBe('/portfolio');
     expect(findRoute('/fluid')?.path).toBe('/fluid-dynamics');
+  });
+
+  it('has no route for the retired /portfolio, which redirects in vercel.json', () => {
+    expect(findRoute('/portfolio')).toBeUndefined();
+    expect(sitemapXml()).not.toContain('/portfolio');
+    const { redirects } = JSON.parse(vercelJson) as { redirects: { source: string; destination: string; statusCode: number }[] };
+    const bySource = new Map(redirects.map(r => [r.source, r]));
+    for (const [from, to] of [['/portfolio', '/meal-prep-ordering'], ['/es/portfolio', '/es/meal-prep-ordering'], ['/case-studies', '/meal-prep-ordering']]) {
+      expect(bySource.get(from)?.destination, from).toBe(to);
+      expect(bySource.get(from)?.statusCode, from).toBe(301);
+    }
   });
 
   it('gives each page its own-language canonical', () => {
@@ -102,10 +112,10 @@ describe('page meta', () => {
 describe('pre-rendered pages', () => {
   it('writes <html lang> and the page head into the shell', () => {
     const shell = '<html lang="en"><head><title>x</title></head></html>';
-    const out = applyHead(shell, headFor('/es/portfolio'));
+    const out = applyHead(shell, headFor('/es/skunkworks'));
     expect(out).toContain('<html lang="es">');
-    expect(out).toContain('<title>Casos de estudio | CG Strategic Enterprises</title>');
-    expect(out).toContain('<link rel="canonical" href="https://www.cgstrategic.dev/es/portfolio" data-seo />');
+    expect(out).toContain(`<title>${findRoute('/skunkworks')!.meta.es.title}</title>`);
+    expect(out).toContain('<link rel="canonical" href="https://www.cgstrategic.dev/es/skunkworks" data-seo />');
   });
 
   it('has a vercel.json rewrite for every pre-rendered page', () => {

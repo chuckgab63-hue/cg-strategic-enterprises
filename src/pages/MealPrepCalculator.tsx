@@ -577,7 +577,7 @@ export default function MealPrepCalculator() {
             {t.ctaOrderingLink} &rarr;
           </Link>
           <Link
-            to={lp('/portfolio')}
+            to={lp('/meal-prep-ordering')}
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap border border-brand-orange/40 text-brand-orange font-black uppercase tracking-widest text-xs px-6 py-4 rounded-full hover:bg-brand-orange/10 hover:border-brand-orange transition-colors"
           >
             {t.ctaLink} &rarr;

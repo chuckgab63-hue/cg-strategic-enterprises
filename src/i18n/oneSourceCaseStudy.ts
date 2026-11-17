@@ -9,7 +9,7 @@ type ScreenKey = 'home-hero' | 'service-page' | 'pest-analyzer' | 'talk-to-jess'
 type AdminKey = 'dashboard' | 'staff-readiness' | 'applicants-pipeline';
 
 const en = {
-  backToAll: '← All case studies',
+  backToAll: '← Pest control',
   category: 'Website Rebuild & Lead Automation',
   intro: 'One Source is a licensed pest control company in Jacksonville, Florida. We rebuilt their website from the ground up and connected every way a customer can reach them to one lead intake.',
   visitSite: 'Visit the site',
@@ -179,7 +179,7 @@ const en = {
 };
 
 const es: typeof en = {
-  backToAll: '← Todos los casos de estudio',
+  backToAll: '← Control de plagas',
   category: 'Renovación del sitio web y automatización de clientes potenciales',
   intro: 'One Source es una empresa de control de plagas con licencia en Jacksonville, Florida. Reconstruimos su sitio web desde cero y conectamos todas las formas en que un cliente puede comunicarse con ellos a un solo flujo de entrada de clientes potenciales.',
   visitSite: 'Visitar el sitio',

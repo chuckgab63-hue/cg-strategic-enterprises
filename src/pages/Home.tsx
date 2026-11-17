@@ -280,11 +280,6 @@ export default function Home() {
             >
               {t.hero.startProject}
             </button>
-            <Link to={lp('/portfolio')}>
-              <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold tracking-wide hover:bg-white hover:text-slate-900 transition-all cursor-pointer hover:scale-105">
-                {t.hero.viewWork}
-              </button>
-            </Link>
             {/* An extra option beside the two above: a free 30-minute Zoom intro call. */}
             <span className="inline-flex flex-col items-center gap-1">
               <a
