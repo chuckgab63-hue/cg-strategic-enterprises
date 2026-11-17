@@ -56,15 +56,56 @@ export const SCENE_CSS = `
 @keyframes sc-meet2{0%,100%{transform:translateX(0)}50%{transform:translateX(-16px)}}
 @keyframes sc-steam{0%{transform:translateY(0);opacity:0}35%{opacity:.55}100%{transform:translateY(-12px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.ssc .sc *{animation:none!important}.ssc-layer{transition:none}}
-/* The year-round web (SpiderScene.tsx). Their pluck, their hide and their walk cycle,
-   with the strand draw-in kept as it is: the web spins itself in, then she sets off. */
-.ssc .ssc-spider-root{position:absolute;inset:0}
+/* The year-round web (SpiderScene.tsx), ported from their stylesheet: the strands draw
+   themselves in, the dew fades up and glints, the web rocks when she plucks it, and her
+   legs step while she walks.
+
+   Two deliberate differences from theirs, both about size. The strands carry
+   vector-effect: non-scaling-stroke with widths in device pixels, because this frame is
+   up to 594px wide where their 0.9-unit strand would render at 2.2px and the web would
+   read as rope; pinned to pixels it keeps their weight at any frame size. And the colours
+   come from --c1 (the brand accent the showcase sets) rather than their grey, because
+   this is a demo of the idea in CG's color, which is what the caption says. */
+.ssc .ssc-spider-root{position:absolute;inset:0;pointer-events:none}
+.ssc .ssc-spider-root svg{display:block;width:100%;height:100%}
+/* Paused by the same switch as the scenes. This root deliberately does not carry the
+   engine's .sc class: that brings "svg *{transform-box:view-box}" with it, which beat
+   the legs' own fill-box origins on specificity and threw them across the frame. */
+.ssc.is-paused .ssc-spider-root *{animation-play-state:paused!important}
+/* The dash is 1000, not the 1 their pathLength normalisation allows, because
+   non-scaling-stroke puts the dash pattern in device pixels too: a dasharray of 1 then
+   means a 1px dash repeated down the strand, and the web renders as dotted fragments
+   rather than drawing itself in. 1000px covers the longest strand at any frame size. */
+.ssc .ssc-strand{fill:none;stroke:var(--c1);opacity:.75;stroke-linecap:round;vector-effect:non-scaling-stroke;
+  stroke-dasharray:1000;stroke-dashoffset:1000;animation:ssc-draw 1s cubic-bezier(.4,0,.2,1) var(--d) forwards}
+.ssc .ssc-spoke{stroke-width:1.1px}
+.ssc .ssc-ring{stroke-width:.8px}
+@keyframes ssc-draw{to{stroke-dashoffset:0}}
+.ssc .ssc-dew{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center;
+  animation:ssc-dew-in .6s ease-out calc(1s + var(--d)) forwards, ssc-glint 7s ease-in-out calc(1.6s + var(--d)) infinite}
+@keyframes ssc-dew-in{to{opacity:.85}}
+@keyframes ssc-glint{0%,90%,100%{transform:scale(1)}95%{transform:scale(1.8)}}
 .ssc .ssc-web{transform-box:view-box;transform-origin:0 100%}
 .ssc .ssc-web.is-plucked{animation:ssc-pluck .75s ease-out}
 @keyframes ssc-pluck{25%{transform:rotate(.7deg)}55%{transform:rotate(-.45deg)}80%{transform:rotate(.2deg)}}
 .ssc .ssc-spider{opacity:0;transition:opacity .6s ease}
 .ssc .ssc-spider-root.is-ready .ssc-spider{opacity:1}
-.ssc .ssc-spider-body{transition:transform .4s ease,opacity .4s ease;transform-box:fill-box;transform-origin:center}
-.ssc .ssc-spider-root.is-hiding .ssc-spider-body{transform:scale(.55);opacity:.55}
-@media (prefers-reduced-motion:reduce){.ssc .ssc-spider{opacity:1;transition:none}.ssc .ssc-web{animation:none!important}}
+.ssc .ssc-orient{transition:transform .4s ease,opacity .4s ease;transform-box:fill-box;transform-origin:center}
+.ssc .ssc-spider-root.is-hiding .ssc-orient{transform:scale(.55);opacity:.55}
+.ssc .ssc-leg,.ssc .ssc-palp{fill:none;stroke:#2b2118;stroke-width:.85;stroke-linecap:round;stroke-linejoin:round;transform-box:fill-box}
+.ssc .ssc-leg-l{transform-origin:100% 50%}
+.ssc .ssc-leg-r{transform-origin:0% 50%}
+.ssc .ssc-spider.is-walking .ssc-leg{animation:ssc-step .2s ease-in-out infinite alternate}
+.ssc .ssc-spider.is-walking .ssc-leg-b{animation-delay:-.2s}
+@keyframes ssc-step{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+.ssc .ssc-ceph{fill:#3a2b1e}
+.ssc .ssc-abd{fill:#5c4128}
+.ssc .ssc-mark{fill:none;stroke:#e6d4ae;stroke-width:.6;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.ssc .ssc-shine{fill:#fff;opacity:.16}
+@media (prefers-reduced-motion:reduce){
+  .ssc .ssc-strand{animation:none;stroke-dashoffset:0}
+  .ssc .ssc-dew{animation:none;opacity:.85}
+  .ssc .ssc-spider{opacity:1;transition:none}
+  .ssc .ssc-web,.ssc .ssc-leg{animation:none!important}
+}
 `;
