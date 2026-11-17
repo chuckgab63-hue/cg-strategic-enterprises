@@ -240,7 +240,17 @@ export default function PhoenixHero() {
           nothing, which a deeper wash would not. The cards do not depend on it:
           each one carries its own surface. */}
       <div className="phoenix-copy site-container flex flex-col gap-6 py-9 lg:absolute lg:inset-x-0 lg:bottom-0 lg:gap-5 lg:py-0 lg:pb-7">
-        <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
+        {/* The copy's own backing, not a darker frame. The wash below reaches
+            zero well under the h1, and the clip puts near-white pixels behind
+            these words as the fire sweeps through, so the panel is what makes
+            the contrast: 0.7 brand-ink puts white on rgb(78,80,89) at worst,
+            which is 8.5:1, and the subline's slate-200 is 6.9:1. The blur is
+            decoration -- with backdrop-filter unsupported the 0.7 fill alone
+            still clears 4.5:1, which is why the alpha, not the blur, carries
+            the number. Only from lg, because that is the only width where
+            this sits on the video at all; below it the copy is on the
+            section's own brand-ink and already past 15:1. */}
+        <div className="flex flex-col items-center gap-4 text-center lg:max-w-3xl lg:items-start lg:rounded-3xl lg:bg-brand-ink/70 lg:p-6 lg:text-left lg:backdrop-blur-sm">
           <h1
             id="phoenix-hero-title"
             className="text-3xl font-black leading-tight tracking-tight text-white md:text-4xl lg:text-5xl lg:phoenix-shadow"
@@ -262,6 +272,20 @@ export default function PhoenixHero() {
             </a>
             {c.bookCall.note && <small className="text-[11px] leading-4 text-slate-300 lg:phoenix-shadow">{c.bookCall.note}</small>}
           </span>
+
+          {/* The demo is on another domain, so it is a plain link rather than a
+              fourth card: it leaves the site. It sits inside the panel because
+              outside it, brand-orange on the bright frames measured about
+              1.5:1. */}
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener"
+            onClick={() => trackEvent('home_industry_click', lang, { industry: 'meal-prep-demo' })}
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-orange hover:text-white"
+          >
+            {t.demoLink} <span aria-hidden="true">&rarr;</span>
+          </a>
         </div>
 
         {/* The three industries, in one row from sm up and stacked in the same
@@ -290,19 +314,6 @@ export default function PhoenixHero() {
           ))}
         </ul>
 
-        {/* The demo lives on another domain, so it is a plain link rather than
-            a fourth card: it leaves the site. */}
-        <p className="text-center lg:text-left">
-          <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener"
-            onClick={() => trackEvent('home_industry_click', lang, { industry: 'meal-prep-demo' })}
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-orange hover:text-white lg:phoenix-shadow"
-          >
-            {t.demoLink} <span aria-hidden="true">&rarr;</span>
-          </a>
-        </p>
       </div>
     </section>
   );
