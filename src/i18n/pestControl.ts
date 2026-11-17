@@ -51,6 +51,16 @@ const en = {
     audience: 'Pest control companies',
   },
 
+  // The rotating seasonal showcase in the "Memorable, on-brand touches" frame
+  // (src/components/SeasonalShowcase.tsx). Labels only: the scenes themselves are
+  // decorative and hidden from screen readers, so these are what is announced.
+  showcase: {
+    previous: 'Previous scene',
+    next: 'Next scene',
+    pause: 'Pause the seasonal scenes',
+    play: 'Play the seasonal scenes',
+  },
+
   // --- The switch demo -----------------------------------------------------
   demo: {
     title: 'Turn features on when you are ready',
@@ -223,11 +233,11 @@ const en = {
           'Decorative: hidden from screen readers, and it never sits over a button',
           'Holds still for a visitor whose device asks for less motion',
           'Stops when the tab is in the background, so it is not spending a phone battery',
-          'Seasonal corners too — the holidays change themselves through the year',
+          '17 seasonal corners too — the holidays change themselves through the year',
           'Which pages show it, and how fast she moves, are switches in your admin area',
         ],
         demo: {
-          caption: 'A live one, in our colour, built the same way. Ask your device for less motion and it never starts.',
+          caption: 'All 17 seasonal scenes, cycling through the year — each one switches on automatically on its dates. Ask your device for less motion and they hold still.',
         },
       },
       {
@@ -449,6 +459,13 @@ const es: typeof en = {
     audience: 'Empresas de control de plagas',
   },
 
+  showcase: {
+    previous: 'Escena anterior',
+    next: 'Escena siguiente',
+    pause: 'Pausar las escenas de temporada',
+    play: 'Reproducir las escenas de temporada',
+  },
+
   demo: {
     title: 'Active funciones cuando esté listo',
     intro:
@@ -614,11 +631,11 @@ const es: typeof en = {
           'Decorativa: los lectores de pantalla no la ven y nunca queda encima de un botón',
           'Se queda quieta si el dispositivo del visitante pide menos movimiento',
           'Se detiene cuando la pestaña queda en segundo plano, así no gasta la batería del celular',
-          'También hay esquinas de temporada: los días festivos cambian solos a lo largo del año',
+          'También hay 17 esquinas de temporada: los días festivos cambian solos a lo largo del año',
           'Qué páginas la muestran, y a qué velocidad se mueve, son interruptores en su área de administración',
         ],
         demo: {
-          caption: 'Una de verdad, en nuestro color y hecha igual. Si su dispositivo pide menos movimiento, nunca se inicia.',
+          caption: 'Las 17 escenas de temporada, recorriendo el año: cada una se activa sola en sus fechas. Si su dispositivo pide menos movimiento, se quedan quietas.',
         },
       },
       {
