@@ -42,13 +42,14 @@ const en = {
   // the clip (WCAG 2.2.2); they are read out by a screen reader, never shown,
   // so they say what it does.
   //
-  // Each card's line says only what its own page shows today. Two were changed
-  // from the brief for that reason, and the reasons are here so nobody
-  // "restores" them: the lawn card cannot say "scheduling", because online
-  // booking and the sync into scheduling software have not been built (the page
-  // says so in its FAQ), and the meal prep card says "no per-order platform
-  // fee" rather than "no per-order fees", because Stripe's own processing fees
-  // do apply and /meal-prep-ordering is careful to say so.
+  // Each card's line says only what its own page shows today, and the reasons
+  // are here so nobody "restores" a stronger-sounding version: the pest card
+  // says contracts are "digital" rather than "signed", because the client's
+  // e-signature is built but not switched on; the lawn card cannot say
+  // "scheduling", because online booking and the sync into scheduling software
+  // have not been built (the page says so in its FAQ); and the meal prep card
+  // says "no per-order platform fee" rather than "no per-order fees", because
+  // Stripe's own processing fees do apply and /meal-prep-ordering says so.
   phoenix: {
     headline: 'Built to rise.',
     subline: 'AI answering, automation and websites that help local businesses grow — built for your industry.',
@@ -62,13 +63,13 @@ const en = {
         key: 'pest-control',
         path: '/pest-control',
         label: 'Pest Control',
-        line: 'Calls answered, termite contracts signed, licences tracked.',
+        line: 'Calls answered, termite contracts digital, licenses tracked.',
       },
       {
         key: 'lawn-care',
         path: '/lawn-care',
         label: 'Lawn Care',
-        line: 'Estimates, crews and licences, and a site that works while you mow.',
+        line: 'Estimates, crews and licenses, and a site that works while you mow.',
       },
       {
         key: 'meal-prep',
@@ -104,14 +105,14 @@ const en = {
         icon: 'pest',
         path: '/pest-control',
         title: 'Pest Control Companies',
-        body: 'Websites, an AI assistant that answers in English or Spanish, and the office system behind it: licences, hiring and termite contracts. Features switch on as you grow.',
+        body: 'Websites, an AI assistant that answers in English or Spanish, and the office system behind it: licenses, hiring and termite contracts. Features switch on as you grow.',
         cta: 'See the packages',
       },
       {
         icon: 'lawn',
         path: '/lawn-care',
         title: 'Lawn Care & Landscaping',
-        body: 'A page per service with a seasonal switch, residential and commercial estimate forms, an AI assistant in English or Spanish, and crew, licence and finance tools in your own admin area.',
+        body: 'A page per service with a seasonal switch, residential and commercial estimate forms, an AI assistant in English or Spanish, and crew, license and finance tools in your own admin area.',
         cta: 'See the packages',
       },
       {
@@ -201,7 +202,7 @@ const es: typeof en = {
         key: 'pest-control',
         path: '/pest-control',
         label: 'Control de plagas',
-        line: 'Llamadas atendidas, contratos de termitas firmados, licencias al día.',
+        line: 'Llamadas atendidas, contratos de termitas digitales, licencias al día.',
       },
       {
         key: 'lawn-care',
