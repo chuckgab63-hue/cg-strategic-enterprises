@@ -36,7 +36,6 @@ const en = {
     p1: 'In an industry obsessed with "faking it," we operate differently. CG Strategic Enterprises is built on forty-five years of enterprise architecture experience.',
     p2: 'No smoke, mirrors, or marketing fluff. Just tested code, secure integrations, and relentless execution to streamline your operations so your team runs leaner and faster.',
     startProject: 'Start a Project',
-    viewWork: 'View Our Work',
   },
   // The page's first hero: the phoenix clip, its h1 and the three industry
   // highlights (PhoenixHero.tsx). `pause` and `play` name the button that stops
@@ -142,7 +141,9 @@ const en = {
       },
       {
         icon: 'website',
-        path: '/portfolio',
+        // Was /portfolio, which is gone. The One Source write-up is the real
+        // website build it was pointing at, so the card goes straight there.
+        path: '/work/one-source-total-pest-control',
         title: 'Websites',
         body: 'Fast, mobile-first sites built to turn visitors into calls and bookings.',
       },
@@ -185,7 +186,6 @@ const es: typeof en = {
     p1: 'En una industria obsesionada con "aparentar", trabajamos de otra manera. CG Strategic Enterprises se basa en cuarenta y cinco años de experiencia en arquitectura empresarial.',
     p2: 'Sin humo, sin espejos y sin relleno de marketing. Solo código probado, integraciones seguras y una ejecución incansable para optimizar sus operaciones, de modo que su equipo sea más ágil y rápido.',
     startProject: 'Iniciar un proyecto',
-    viewWork: 'Ver nuestro trabajo',
   },
   // Main hero and the demo section: NEW, not yet reviewed by a native speaker.
   phoenix: {
@@ -280,7 +280,7 @@ const es: typeof en = {
       },
       {
         icon: 'website',
-        path: '/portfolio',
+        path: '/work/one-source-total-pest-control',
         title: 'Sitios web',
         body: 'Sitios rápidos, pensados primero para celulares y hechos para convertir visitas en llamadas y reservas.',
       },

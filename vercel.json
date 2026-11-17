@@ -4,14 +4,42 @@
       "maxDuration": 60
     }
   },
+  "redirects": [
+    {
+      "source": "/portfolio",
+      "destination": "/meal-prep-ordering",
+      "statusCode": 301
+    },
+    {
+      "source": "/es/portfolio",
+      "destination": "/es/meal-prep-ordering",
+      "statusCode": 301
+    },
+    {
+      "source": "/case-studies",
+      "destination": "/meal-prep-ordering",
+      "statusCode": 301
+    },
+    {
+      "source": "/case-study",
+      "destination": "/meal-prep-ordering",
+      "statusCode": 301
+    },
+    {
+      "source": "/es/case-studies",
+      "destination": "/es/meal-prep-ordering",
+      "statusCode": 301
+    },
+    {
+      "source": "/es/case-study",
+      "destination": "/es/meal-prep-ordering",
+      "statusCode": 301
+    }
+  ],
   "rewrites": [
     {
       "source": "/automations",
       "destination": "/automations/index.html"
-    },
-    {
-      "source": "/portfolio",
-      "destination": "/portfolio/index.html"
     },
     {
       "source": "/work/one-source-total-pest-control",
@@ -140,10 +168,6 @@
     {
       "source": "/es/automations",
       "destination": "/es/automations/index.html"
-    },
-    {
-      "source": "/es/portfolio",
-      "destination": "/es/portfolio/index.html"
     },
     {
       "source": "/es/work/one-source-total-pest-control",

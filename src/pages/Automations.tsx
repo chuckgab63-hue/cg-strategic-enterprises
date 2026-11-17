@@ -286,7 +286,7 @@ export default function Automations() {
         {/* --- Next Page Runway CTA --- */}
         <div className="w-full mt-24 mb-8 relative z-10">
           <Link 
-            to={lp('/portfolio')}
+            to={lp('/pest-control')}
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             {/* Glowing Hover Background */}

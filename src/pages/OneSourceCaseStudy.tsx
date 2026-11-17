@@ -56,7 +56,7 @@ export default function OneSourceCaseStudy() {
         <div className="absolute -top-40 right-0 w-[700px] max-w-full h-[700px] bg-brand-orange/10 blur-[140px] rounded-full pointer-events-none"></div>
 
         <div className="site-container relative z-10">
-          <Link to={lp('/portfolio')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm mb-10">
+          <Link to={lp('/pest-control')} className="text-slate-400 hover:text-brand-orange transition-colors font-bold inline-flex items-center gap-2 tracking-widest uppercase text-sm mb-10">
             {t.backToAll}
           </Link>
 
@@ -303,7 +303,7 @@ export default function OneSourceCaseStudy() {
       <section className="w-full pb-32">
         <div className="site-container">
           <Link
-            to={lp('/portfolio')}
+            to={lp('/pest-control')}
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             <div className="relative bg-[#020617] rounded-[1.35rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
