@@ -94,6 +94,15 @@ body {
 /* Shared content width for every page, header and footer: wide on big screens,
    with fluid side padding. 24px is the floor so phone layouts keep the old px-6
    gutter. Readable text widths are capped separately (max-w-prose etc.). */
+/* The dark halo under the home hero's copy, where it sits on the phoenix clip.
+   One utility rather than three arbitrary [text-shadow:...] classes: this file
+   is render-blocking on every page of the site, and the three spelled-out
+   versions cost about 300 gzipped bytes of it. Only used from lg up, which is
+   the only width where that copy is over the video. */
+@utility phoenix-shadow {
+  text-shadow: 0 2px 12px rgba(2, 6, 23, 0.95), 0 1px 3px rgba(2, 6, 23, 0.9);
+}
+
 @utility site-container {
   width: 100%;
   max-width: 1520px;

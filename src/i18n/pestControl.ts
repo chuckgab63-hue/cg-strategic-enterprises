@@ -347,6 +347,31 @@ const en = {
     body:
       'We built this with One Source Total Pest Control in Jacksonville. Their office uses the admin area every day — staff, licensing, training, hiring, onboarding and the daily email — and the site runs the photo analyzer, the voice assistant, one lead intake and, since this month, the corner web on their spiders page and seasonal corners that change themselves through the year. The newer parts — the contract file, the finance and tax area, the switch panel and the Spanish site — are built and working in the platform, ready for the day they switch them on. The case study walks through what was there before and what replaced it.',
     link: 'Read the One Source case study',
+    visitSite: 'Visit their site',
+    newTab: '(opens in a new tab)',
+    // Drawn from /work/one-source-total-pest-control, which is still the full
+    // write-up and still lives at its own URL. Each pair is what the old site
+    // did and what replaced it -- no results and no metrics, because the site
+    // is new and there are none to report honestly yet.
+    proofTitle: 'What changed when we rebuilt it',
+    proof: [
+      {
+        before: 'One JavaScript page: no service or pest had a page of its own to rank.',
+        after: 'A rebuild in Astro, with a search-friendly page per service and per pest.',
+      },
+      {
+        before: 'Contact buttons that went nowhere.',
+        after: 'Forms, photo analyzer and voice calls all land in one lead intake, routed to their CRM.',
+      },
+      {
+        before: 'AI endpoints with no rate limits, where anyone could run up the bill.',
+        after: 'Rate limits on every AI feature and a daily cap on calls.',
+      },
+      {
+        before: 'Licensing, training and hiring tracked by hand.',
+        after: 'An admin area their office works in daily: staff, licences, training, hiring, onboarding.',
+      },
+    ],
   },
 
   // --- FAQ -----------------------------------------------------------------
@@ -712,6 +737,27 @@ const es: typeof en = {
     body:
       'Esto lo construimos con One Source Total Pest Control en Jacksonville. Su oficina usa el área de administración todos los días (personal, licencias, capacitación, contratación, incorporación y el correo diario) y el sitio tiene el analizador de fotos, el asistente de voz, una sola entrada de clientes potenciales y, desde este mes, la telaraña de la esquina en su página de arañas y las esquinas de temporada que cambian solas a lo largo del año. Las partes más nuevas (el archivo de contratos, el área de finanzas e impuestos, el panel de interruptores y el sitio en español) están construidas y funcionando en la plataforma, listas para el día en que las activen. El caso de estudio recorre qué había antes y qué lo reemplazó.',
     link: 'Lea el caso de estudio de One Source',
+    visitSite: 'Visite su sitio',
+    newTab: '(se abre en una pestaña nueva)',
+    proofTitle: 'Qué cambió cuando lo reconstruimos',
+    proof: [
+      {
+        before: 'Una sola página de JavaScript: ningún servicio ni plaga tenía página propia para posicionar.',
+        after: 'Una reconstrucción en Astro, con una página pensada para búsqueda por servicio y por plaga.',
+      },
+      {
+        before: 'Botones de contacto que no llevaban a ningún lado.',
+        after: 'Formularios, analizador de fotos y llamadas de voz llegan a una sola entrada, enviada a su CRM.',
+      },
+      {
+        before: 'Puntos de acceso de IA sin límites de uso, donde cualquiera podía disparar la cuenta.',
+        after: 'Límites de uso en cada función de IA y un tope diario de llamadas.',
+      },
+      {
+        before: 'Licencias, capacitación y contratación anotadas a mano.',
+        after: 'Un área de administración para su oficina: personal, licencias, capacitación, contratación, incorporación.',
+      },
+    ],
   },
 
   faqTitle: 'Preguntas que hacen los dueños de empresas de control de plagas',

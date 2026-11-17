@@ -229,14 +229,45 @@ export default function PestControl() {
         </div>
       </ServiceSection>
 
-      {/* --- The case study --- */}
+      {/* --- Client proof. This was a one-paragraph band until the homepage
+              stopped leading with the case study; it is the main proof section
+              now, so it carries the before-and-after as well as the link. The
+              full write-up stays at its own URL, which outreach emails link
+              to, and this section points at it twice. --- */}
       <section className="mt-16 md:mt-20 bg-slate-900/50 border border-brand-orange/40 rounded-3xl p-6 md:p-10">
         <p className="text-xs font-bold tracking-widest uppercase text-brand-orange">{t.caseStudy.eyebrow}</p>
         <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mt-3">{t.caseStudy.title}</h2>
         <p className="text-slate-300 text-lg leading-relaxed mt-3 max-w-3xl">{t.caseStudy.body}</p>
-        <Link to={lp(ONE_SOURCE_CASE_STUDY.path)} className={`${primaryButtonClass} mt-6`}>
-          {t.caseStudy.link} <span aria-hidden="true">&rarr;</span>
-        </Link>
+
+        <h3 className="text-sm font-bold tracking-widest uppercase text-slate-400 mt-10">{t.caseStudy.proofTitle}</h3>
+        <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {t.caseStudy.proof.map(row => (
+            <li key={row.after} className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+              <p className="text-sm leading-relaxed text-slate-400 line-through decoration-slate-600">{row.before}</p>
+              <p className="mt-3 flex gap-3 text-slate-200 leading-relaxed">
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5 shrink-0 mt-0.5 text-brand-orange" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-4 9 3 3 5-6" />
+                </svg>
+                <span>{row.after}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Link to={lp(ONE_SOURCE_CASE_STUDY.path)} className={primaryButtonClass}>
+            {t.caseStudy.link} <span aria-hidden="true">&rarr;</span>
+          </Link>
+          <a
+            href={ONE_SOURCE_CASE_STUDY.liveSiteUrl}
+            target="_blank"
+            rel="noopener"
+            className="border border-slate-600 text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:border-brand-orange hover:text-brand-orange transition-colors"
+          >
+            {t.caseStudy.visitSite}
+          </a>
+          <small className="text-[11px] leading-4 text-slate-400">{t.caseStudy.newTab}</small>
+        </div>
       </section>
 
       <ServiceFaq title={t.faqTitle} items={t.faq} path={PEST_CONTROL_PATH} />

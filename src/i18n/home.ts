@@ -5,6 +5,19 @@
 /** Picks the card's icon in Home.tsx. */
 export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check' | 'pest' | 'lawn';
 
+/**
+ * One of the three industry highlights in the hero. `key` is both the icon in
+ * PhoenixHero.tsx and the value sent with the home_industry_click event, so it
+ * is a fixed vocabulary rather than a free string.
+ */
+interface IndustryCard {
+  key: 'pest-control' | 'lawn-care' | 'meal-prep';
+  /** Site path, localised by the component. */
+  path: string;
+  label: string;
+  line: string;
+}
+
 interface ServiceCard {
   icon: ServiceIcon;
   /** Site path. */
@@ -24,6 +37,65 @@ const en = {
     p2: 'No smoke, mirrors, or marketing fluff. Just tested code, secure integrations, and relentless execution to streamline your operations so your team runs leaner and faster.',
     startProject: 'Start a Project',
     viewWork: 'View Our Work',
+  },
+  // The page's first hero: the phoenix clip, its h1 and the three industry
+  // highlights (PhoenixHero.tsx). `pause` and `play` name the button that stops
+  // the clip (WCAG 2.2.2); they are read out by a screen reader, never shown,
+  // so they say what it does.
+  //
+  // Each card's line says only what its own page shows today. Two were changed
+  // from the brief for that reason, and the reasons are here so nobody
+  // "restores" them: the lawn card cannot say "scheduling", because online
+  // booking and the sync into scheduling software have not been built (the page
+  // says so in its FAQ), and the meal prep card says "no per-order platform
+  // fee" rather than "no per-order fees", because Stripe's own processing fees
+  // do apply and /meal-prep-ordering is careful to say so.
+  phoenix: {
+    headline: 'Built to rise.',
+    subline: 'AI answering, automation and websites that help local businesses grow — built for your industry.',
+    cta: 'Book a free intro call',
+    pause: 'Pause the background video',
+    play: 'Play the background video',
+    industriesLabel: 'What we build, by industry',
+    demoLink: 'Try the live demo',
+    industries: [
+      {
+        key: 'pest-control',
+        path: '/pest-control',
+        label: 'Pest Control',
+        line: 'Calls answered, termite contracts signed, licences tracked.',
+      },
+      {
+        key: 'lawn-care',
+        path: '/lawn-care',
+        label: 'Lawn Care',
+        line: 'Estimates, crews and licences, and a site that works while you mow.',
+      },
+      {
+        key: 'meal-prep',
+        path: '/meal-prep-ordering',
+        label: 'Meal Prep',
+        line: 'Your own ordering platform, with no per-order platform fee.',
+      },
+    ] as IndustryCard[],
+  },
+  // The featured demo section, in place of the case study that used to sit
+  // under the services grid. Every point is something the live demo and
+  // /demo-guide actually show — no numbers, no results, nothing invented.
+  demoFeature: {
+    eyebrow: 'Live demo',
+    title: 'See it working: the meal-prep ordering platform',
+    body: 'A real storefront and admin area, with sample data, that you can click through right now. No sign-up, and the demo takes no payment.',
+    points: [
+      'Browse the weekly menu, build a bowl and watch its calories and macros change, then check out for delivery or pickup',
+      'Ask the customer AI assistant about the menu in your own words, and read what it was asked on the admin Conversations page',
+      'Run the week as the owner: subscribers, delivery zones by ZIP, route sheets, meal labels, packing slips and stock',
+      'Switch the whole store to Spanish, or to your own name, logo and colours, from the panel at the top',
+    ],
+    openDemo: 'Open the live demo',
+    readGuide: 'Read the demo guide',
+    newTab: '(opens in a new tab)',
+    imageAlt: 'The demo admin Subscriptions page: every subscriber with their plan and whether they are delivering, skipping or paused this week',
   },
   services: {
     title: 'Services',
@@ -114,6 +186,51 @@ const es: typeof en = {
     p2: 'Sin humo, sin espejos y sin relleno de marketing. Solo código probado, integraciones seguras y una ejecución incansable para optimizar sus operaciones, de modo que su equipo sea más ágil y rápido.',
     startProject: 'Iniciar un proyecto',
     viewWork: 'Ver nuestro trabajo',
+  },
+  // Main hero and the demo section: NEW, not yet reviewed by a native speaker.
+  phoenix: {
+    headline: 'Hecho para crecer.',
+    subline: 'Atención telefónica con IA, automatización y sitios web que ayudan a los negocios locales a crecer, hechos para su industria.',
+    cta: 'Reserve una llamada gratis',
+    pause: 'Pausar el video de fondo',
+    play: 'Reproducir el video de fondo',
+    industriesLabel: 'Lo que construimos, por industria',
+    demoLink: 'Pruebe la demo en vivo',
+    industries: [
+      {
+        key: 'pest-control',
+        path: '/pest-control',
+        label: 'Control de plagas',
+        line: 'Llamadas atendidas, contratos de termitas firmados, licencias al día.',
+      },
+      {
+        key: 'lawn-care',
+        path: '/lawn-care',
+        label: 'Cuidado del césped',
+        line: 'Estimaciones, cuadrillas y licencias, y un sitio que trabaja mientras usted corta.',
+      },
+      {
+        key: 'meal-prep',
+        path: '/meal-prep-ordering',
+        label: 'Comidas preparadas',
+        line: 'Su propia plataforma de pedidos, sin comisión por pedido de nuestra parte.',
+      },
+    ] as IndustryCard[],
+  },
+  demoFeature: {
+    eyebrow: 'Demo en vivo',
+    title: 'Véalo funcionando: la plataforma de pedidos de comidas preparadas',
+    body: 'Una tienda y un área de administración reales, con datos de muestra, que puede recorrer ahora mismo. Sin registrarse, y la demo no cobra ningún pago.',
+    points: [
+      'Vea el menú de la semana, arme su propio bowl y observe cómo cambian sus calorías y macros, y luego pague para entrega o para recoger',
+      'Pregúntele al asistente de IA sobre el menú con sus propias palabras, y lea lo que le preguntaron en la página Conversaciones del área de administración',
+      'Maneje la semana como dueño: suscriptores, zonas de entrega por código postal, hojas de ruta, etiquetas de comidas, notas de empaque e inventario',
+      'Cambie toda la tienda al español, o a su propio nombre, logotipo y colores, desde el panel de arriba',
+    ],
+    openDemo: 'Abrir la demo en vivo',
+    readGuide: 'Leer la guía de la demo',
+    newTab: '(se abre en una pestaña nueva)',
+    imageAlt: 'La página Suscripciones del área de administración de la demo: cada suscriptor con su plan y si esta semana recibe, omite o está en pausa',
   },
   services: {
     title: 'Servicios',

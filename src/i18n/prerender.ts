@@ -9,7 +9,7 @@ import { headFor, type HeadData } from './head.ts';
 import { LANGS, SPANISH_PUBLIC, localizePath, stripLang } from './lang.ts';
 import { SITE_ROUTES } from './meta.ts';
 import { pageFileFor } from '../pageFiles.ts';
-import { HERO_IMAGE } from '../config/heroImage.ts';
+import { PHOENIX_POSTER } from '../config/phoenixHero.ts';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
@@ -79,14 +79,25 @@ export function pagePreloadTags(manifest: BuildManifest, path: string): string[]
 }
 
 /**
- * The home page's hero image is its largest paint, so it downloads with the
- * HTML instead of waiting for the <picture> to be parsed. AVIF only, marked
- * with its type: a browser without AVIF skips this and uses the WebP or JPEG
- * <source> as usual, rather than downloading a file it can't show.
+ * The home page's largest paint is the phoenix hero's poster, so it downloads
+ * with the HTML instead of waiting for the <img> to be parsed. One plain JPEG,
+ * which every browser can show, and the same URL the component asks for, so
+ * this is a head start rather than a second download.
+ *
+ * The video itself is never preloaded: it carries preload="none" and does not
+ * mount until the page has loaded (src/components/PhoenixHero.tsx). The lion
+ * image in the section below is no longer preloaded either -- it is below the
+ * fold now, and two eager heroes would race each other for the same
+ * connection.
+ *
+ * The built HTML carries a second preload lower down, for the JPEG: React
+ * emits one of its own for the <img fetchPriority="high"> inside the
+ * <picture> while it renders the body. A browser that took the AVIF <source>
+ * never requests it.
  */
 export function heroPreloadTags(path: string): string[] {
   if (stripLang(path) !== '/') return [];
-  return [`<link rel="preload" as="image" type="image/avif" imagesrcset="${HERO_IMAGE.avif}" imagesizes="${HERO_IMAGE.sizes}" fetchpriority="high">`];
+  return [`<link rel="preload" as="image" type="image/avif" href="${PHOENIX_POSTER.avif}" fetchpriority="high">`];
 }
 
 /** Every page in every language: its URL path and the HTML file that serves it. */
