@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAfterPageLoad } from '../lib/deferred';
-import { useT } from '../i18n/useLang';
+import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import home from '../i18n/home';
 import common from '../i18n/common';
 import { bookingUrl } from '../config/booking';
+import { DEMO_BASE } from '../i18n/mealPrepFeaturesMeta';
+import { PHOENIX_MP4, PHOENIX_POSTER, PHOENIX_WEBM } from '../config/phoenixHero';
+import { trackEvent } from '../lib/analytics';
 
-// The second hero on the home page: a full-width 16:9 frame of the phoenix
-// clip, with the headline over its foot on a desktop and under it on a phone.
-// It sits below the first hero and above the Free Website Check, so it is
-// never the first paint and never the LCP candidate on either language.
+// The home page's hero: a full-width 16:9 frame of the phoenix clip, carrying
+// the page's only h1 and the three industry highlights. On a desktop the copy
+// and the cards sit over the foot of the picture; below lg they stack under it.
 //
 // The picture is shown as shot. Nothing sits over the video but a wash across
-// the bottom 30%, where the words are, and nothing dims the element itself --
+// the bottom 35%, where the words are, and nothing dims the element itself --
 // no opacity, no filter, no blend mode.
 //
 // Phoenix video: generated with Runway (Kling 4.0) from an original photo by
@@ -20,24 +23,40 @@ import { bookingUrl } from '../config/booking';
 // today, so this comment is the only place it is recorded -- move it to a
 // visible credit if one is ever added.
 //
-// How the clip is kept cheap:
-//   * The poster is a plain lazy <img>, so the band costs one below-the-fold
-//     image on first load and the <video> element does not exist yet.
-//   * The <video> (with its two <source>s) only mounts once the page has
-//     loaded AND an IntersectionObserver says the band is within 300px of the
-//     viewport, so 1.6MB of video is never fetched by someone who never
-//     scrolls, and never while the first screen is still painting. On a
-//     desktop the band is already that close at the top of the page, so
-//     without the load gate the clip would start downloading beside the hero
-//     image.
+// Above the fold now, so the loading rules changed with it:
+//   * The poster is eager and fetchPriority high, in three formats, and the
+//     build preloads the AVIF (src/i18n/prerender.ts), so the page's largest
+//     paint is 37KB and starts downloading with the markup. The <video> has
+//     no poster attribute of its own: this picture is underneath it and shows
+//     through until the first frame decodes, and a poster attribute would
+//     fetch the JPEG a second time.
+//   * The <video> still carries preload="none" and still only mounts once the
+//     page has loaded AND an IntersectionObserver has seen the frame, so
+//     1.6MB of video never competes with the first screen. Above the fold the
+//     observer fires at once, which is why the load gate is what holds it
+//     back; without it the clip would start downloading beside the poster.
 //   * prefers-reduced-motion, prefers-reduced-data and the Save-Data header
 //     keep it at the poster for good: no video element, no fetch, and no
 //     pause button, because nothing moves.
 //   * It pauses itself whenever the tab is hidden, and resumes only if the
 //     viewer had not paused it by hand.
-const POSTER = '/video/phoenix-hero-poster.jpg';
-const WEBM = '/video/phoenix-hero.webm';
-const MP4 = '/video/phoenix-hero.mp4';
+// The files live in src/config/phoenixHero.ts, because the build's poster
+// preload has to name the same URL this asks for.
+const WEBM = PHOENIX_WEBM;
+const MP4 = PHOENIX_MP4;
+
+/** The meal prep demo, tagged so its visits are attributed to this hero. */
+const DEMO_URL = `${DEMO_BASE}/?utm_source=website&utm_medium=home-hero&utm_content=industry-meal-prep`;
+
+/** One outline icon per industry card, keyed by the card's `key`. */
+const INDUSTRY_ICONS: Record<'pest-control' | 'lawn-care' | 'meal-prep', string> = {
+  // A bug: body, antennae and legs.
+  'pest-control': 'M12 7a4 4 0 0 1 4 4v3a4 4 0 0 1-8 0v-3a4 4 0 0 1 4-4zm0 0V4m-2-1 2 1 2-1M8 11H4m4 3H5m11-3h4m-4 3h3',
+  // Blades of grass over the ground line.
+  'lawn-care': 'M5 20c0-5 2-8 4-10m3 10c0-7 2-11 5-14M8 20c0-4 1-7 3-9m-6 9h14',
+  // A shopping bag.
+  'meal-prep': 'M6 8h12l-1 12H7L6 8zm3 0V6a3 3 0 0 1 6 0v2',
+};
 
 /** True when the viewer has asked for less motion or less data. Read in an effect: it is false in the server markup, so hydration matches. */
 function quietMedia(): boolean {
@@ -49,6 +68,8 @@ function quietMedia(): boolean {
 export default function PhoenixHero() {
   const t = useT(home).phoenix;
   const c = useT(common);
+  const lang = useLang();
+  const lp = useLocalePath();
   const pageLoaded = useAfterPageLoad();
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -131,20 +152,25 @@ export default function PhoenixHero() {
           the whole shot is on screen at every width -- the bird's wingtips at
           the top, the beach at the foot. */}
       <div className="relative w-full overflow-hidden aspect-[16/9]">
-        {/* The poster, as an image rather than only the <video poster>
-            attribute, so a viewer who never scrolls this far pays for nothing.
+        {/* The page's largest paint: eager, high priority, and preloaded in the
+            pre-rendered HTML so it starts before this markup is parsed.
             width/height give the box its shape before it arrives. Decorative:
-            the headline says everything it says. */}
-        <img
-          src={POSTER}
-          width={1280}
-          height={720}
-          loading="lazy"
-          decoding="async"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+            the h1 beside it says everything it says. */}
+        <picture>
+          <source type="image/avif" srcSet={PHOENIX_POSTER.avif} />
+          <source type="image/webp" srcSet={PHOENIX_POSTER.webp} />
+          <img
+            src={PHOENIX_POSTER.jpeg}
+            width={PHOENIX_POSTER.width}
+            height={PHOENIX_POSTER.height}
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
 
         {/* Nothing dims this: no opacity, no filter, no blend mode, and no
             overlay across it. It plays at the brightness of the file. The
@@ -159,7 +185,6 @@ export default function PhoenixHero() {
             loop
             playsInline
             preload="none"
-            poster={POSTER}
             aria-hidden="true"
             tabIndex={-1}
             onPlaying={() => setPaused(false)}
@@ -172,15 +197,15 @@ export default function PhoenixHero() {
         )}
 
         {/* The only wash on the picture, and only where the words sit: the
-            bottom 30%, clear at its top edge and 0.6 brand-ink at the very
+            bottom 35%, clear at its top edge and 0.6 brand-ink at the very
             bottom. Above that line the footage is untouched.
 
-            It is only drawn from md up, because that is the only width where
-            the copy is over the video at all. The text-shadow on the copy does
-            the rest of the work -- see the comment there. */}
+            It is only drawn from lg up, because that is the only width where
+            the copy is over the video at all. The text-shadow on the copy and
+            the cards' own surfaces do the rest -- see the comments there. */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 hidden h-[30%] md:block"
+          className="absolute inset-x-0 bottom-0 hidden h-[35%] lg:block"
           style={{ background: 'linear-gradient(to top, rgba(2, 6, 23, 0.6) 0%, rgba(2, 6, 23, 0) 100%)' }}
         />
 
@@ -203,38 +228,81 @@ export default function PhoenixHero() {
 
       {/* One copy block, placed two ways rather than written twice (two of these
           would mean a duplicate heading id and a screen reader reading it
-          twice). Below md it is ordinary flow under the frame: a 390px phone
-          gives a 219px-tall video, which these three lines would cover
-          entirely. From md up (a 768px window is a 432px-tall frame) it is
-          lifted over the foot of the picture.
+          twice). Below lg it is ordinary flow under the frame: a 390px phone
+          gives a 219px-tall video, which this copy and three cards would bury.
+          From lg up it is lifted over the foot of the picture, with the cards
+          on its own row at the bottom.
 
           The text-shadow is load-bearing, not decoration. The wash is capped at
           0.6, and the brightest pixels the clip puts behind these words reach
           rgb(255, 237, 218) as the fire sweeps through, so the shadow is what
           keeps the letters legible on those frames. It costs the picture
-          nothing, which a deeper wash would not. */}
-      <div className="phoenix-copy site-container flex flex-col items-center gap-5 py-9 text-center md:absolute md:inset-x-0 md:bottom-0 md:items-start md:gap-4 md:py-0 md:pb-7 md:text-left lg:pb-9">
-        <h2
-          id="phoenix-hero-title"
-          className="text-3xl font-black leading-tight tracking-tight text-white md:text-5xl md:[text-shadow:0_2px_12px_rgba(2,6,23,0.95),0_1px_3px_rgba(2,6,23,0.9)]"
-        >
-          {t.headline}
-        </h2>
-        <p className="max-w-xl text-base leading-relaxed text-slate-200 md:text-lg md:[text-shadow:0_1px_8px_rgba(2,6,23,0.95),0_1px_2px_rgba(2,6,23,0.9)]">
-          {t.subline}
-        </p>
-        <span className="inline-flex flex-col items-center gap-1 md:items-start">
+          nothing, which a deeper wash would not. The cards do not depend on it:
+          each one carries its own surface. */}
+      <div className="phoenix-copy site-container flex flex-col gap-6 py-9 lg:absolute lg:inset-x-0 lg:bottom-0 lg:gap-5 lg:py-0 lg:pb-7">
+        <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
+          <h1
+            id="phoenix-hero-title"
+            className="text-3xl font-black leading-tight tracking-tight text-white md:text-4xl lg:text-5xl lg:phoenix-shadow"
+          >
+            {t.headline}
+          </h1>
+          <p className="max-w-2xl text-base leading-relaxed text-slate-200 md:text-lg lg:phoenix-shadow">
+            {t.subline}
+          </p>
+          <span className="inline-flex flex-col items-center gap-1 lg:items-start">
+            <a
+              href={bookingUrl('home', 'phoenix-hero')}
+              target="_blank"
+              rel="noopener"
+              data-book-call="phoenix-hero"
+              className="inline-block cursor-pointer rounded-md bg-brand-orange px-8 py-3 font-bold tracking-wide text-brand-ink shadow-md transition-all hover:scale-105 hover:opacity-90"
+            >
+              {t.cta}
+            </a>
+            {c.bookCall.note && <small className="text-[11px] leading-4 text-slate-300 lg:phoenix-shadow">{c.bookCall.note}</small>}
+          </span>
+        </div>
+
+        {/* The three industries, in one row from sm up and stacked in the same
+            order below it. Each card has its own near-opaque surface rather
+            than leaning on the wash: over video, a surface is what makes the
+            contrast reliable, and it works the same at every width and on
+            every frame. */}
+        <ul aria-label={t.industriesLabel} className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {t.industries.map(card => (
+            <li key={card.key} className="flex">
+              <Link
+                to={lp(card.path)}
+                onClick={() => trackEvent('home_industry_click', lang, { industry: card.key })}
+                className="group flex w-full flex-col gap-1 rounded-2xl border border-slate-700/80 bg-brand-ink/90 p-4 text-left transition-colors hover:border-brand-orange/60"
+              >
+                <span className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-white">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-brand-orange" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={INDUSTRY_ICONS[card.key]} />
+                  </svg>
+                  {card.label}
+                  <span aria-hidden="true" className="ml-auto text-brand-orange transition-transform group-hover:translate-x-1">&rarr;</span>
+                </span>
+                <span className="text-sm leading-snug text-slate-300">{card.line}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* The demo lives on another domain, so it is a plain link rather than
+            a fourth card: it leaves the site. */}
+        <p className="text-center lg:text-left">
           <a
-            href={bookingUrl('home', 'phoenix-hero')}
+            href={DEMO_URL}
             target="_blank"
             rel="noopener"
-            data-book-call="phoenix-hero"
-            className="inline-block cursor-pointer rounded-md bg-brand-orange px-8 py-3 font-bold tracking-wide text-brand-ink shadow-md transition-all hover:scale-105 hover:opacity-90"
+            onClick={() => trackEvent('home_industry_click', lang, { industry: 'meal-prep-demo' })}
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-orange hover:text-white lg:phoenix-shadow"
           >
-            {t.cta}
+            {t.demoLink} <span aria-hidden="true">&rarr;</span>
           </a>
-          {c.bookCall.note && <small className="text-[11px] leading-4 text-slate-300 md:[text-shadow:0_1px_6px_rgba(2,6,23,0.95)]">{c.bookCall.note}</small>}
-        </span>
+        </p>
       </div>
     </section>
   );

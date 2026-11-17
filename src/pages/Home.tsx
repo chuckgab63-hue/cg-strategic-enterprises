@@ -11,7 +11,7 @@ import { HERO_IMAGE } from '../config/heroImage';
 import { trackEvent } from '../lib/analytics';
 import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
 import PhoenixHero from '../components/PhoenixHero';
-import PestCaseStudyCard from '../components/PestCaseStudyCard';
+import { DEMO_BASE } from '../i18n/mealPrepFeaturesMeta';
 import type { ServiceIcon } from '../i18n/home';
 
 // The contact modal uses framer-motion, so its code loads after the page
@@ -41,6 +41,9 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
 // LocalBusiness structured data for the home page. No street address: the
 // business serves Florida and Georgia rather than customers at an office. (The
 // site-wide Organization JSON-LD from vite.config.ts carries the mailing address.)
+/** The demo, tagged so visits from this section are attributed to it. */
+const DEMO_FEATURE_URL = `${DEMO_BASE}/?utm_source=website&utm_medium=home-demo-feature&utm_content=meal-prep-demo`;
+
 const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
@@ -154,9 +157,18 @@ export default function Home() {
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20 z-0"></div>
 
       {/* =========================================
-          SECTION 1: ORIGINAL HERO 
+          SECTION 1: THE HERO, the phoenix clip with the page's h1 and the
+          three industry highlights. Its poster is the page's largest paint
+          and the build preloads it (src/i18n/prerender.ts).
           ========================================= */}
-      <header className="flex flex-col lg:flex-row items-center justify-center text-left site-container py-12 lg:py-24 gap-10 lg:gap-16 min-h-[85vh] relative z-10">
+      <PhoenixHero />
+
+      {/* =========================================
+          SECTION 2: WHO WE ARE, the original hero. It was the page's first
+          screen until the phoenix took that job; it keeps its layout and its
+          animation and gives up its h1, because a page has one.
+          ========================================= */}
+      <section className="flex flex-col lg:flex-row items-center justify-center text-left site-container py-12 lg:py-24 gap-10 lg:gap-16 min-h-[85vh] relative z-10">
         
         {/* Left Column: Visual Hook */}
         <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:ml-8">
@@ -164,12 +176,13 @@ export default function Home() {
               Shrink-wrapped, it had no width until the image downloaded, so on a slow
               connection the hero painted at zero height and the text below jumped. */}
           <div className="home-hero-float rounded-3xl relative w-full max-w-sm md:max-w-md lg:max-w-lg">
-            {/* The page's largest paint, so: AVIF/WebP/JPEG at 480/768/1024px (phones get a
-                small one), preloaded in the pre-rendered HTML (src/i18n/prerender.ts), and
-                width/height give the box its square shape before it arrives. It starts fully
-                opaque: an opacity-0 start meant it didn't count as painted until the
-                JavaScript loaded and the fade began. It still settles in from slightly
-                smaller. */}
+            {/* AVIF/WebP/JPEG at 480/768/1024px (phones get a small one), with
+                width/height giving the box its square shape before it arrives. It is
+                lazy and no longer preloaded: the phoenix poster above it is the page's
+                largest paint now, and two eager heroes would race each other. It starts
+                fully opaque -- an opacity-0 start meant it didn't count as painted until
+                the JavaScript loaded and the fade began -- and still settles in from
+                slightly smaller. */}
             <picture>
               <source type="image/avif" srcSet={HERO_IMAGE.avif} sizes={HERO_IMAGE.sizes} />
               <source type="image/webp" srcSet={HERO_IMAGE.webp} sizes={HERO_IMAGE.sizes} />
@@ -179,8 +192,7 @@ export default function Home() {
                 sizes={HERO_IMAGE.sizes}
                 width={HERO_IMAGE.width}
                 height={HERO_IMAGE.height}
-                fetchPriority="high"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
                 alt={t.hero.imageAlt}
                 className="home-hero-img w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-3xl bg-white relative z-10"
@@ -235,13 +247,16 @@ export default function Home() {
 
         {/* Right Column: High-Impact Abbreviated Copy */}
         <div className="flex-1 w-full flex flex-col items-start text-left z-20">
-          <h1
+          {/* h2, not h1: the phoenix hero above carries the page's only h1,
+              and two would be two. The size is unchanged -- this is still the
+              statement it always was, just no longer the page's title. */}
+          <h2
             className="home-rise text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-tight"
             style={{ animationDelay: '0.2s' }}
           >
             <span className="text-white">{t.hero.titleA}</span><br />
             <span className="text-brand-orange">{t.hero.titleB}</span>
-          </h1>
+          </h2>
 
           <div
             className="home-rise space-y-4 text-base md:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed"
@@ -285,14 +300,7 @@ export default function Home() {
             </span>
           </div>
         </div>
-      </header>
-
-      {/* =========================================
-          SECTION 2: SECOND HERO, the phoenix clip behind "Built to rise."
-          Below the first hero on purpose: it is never the first paint, so the
-          video never competes with the hero image or becomes the LCP element.
-          ========================================= */}
-      <PhoenixHero />
+      </section>
 
       {/* =========================================
           FREE WEBSITE CHECK: type a website, continue on /website-check
@@ -327,7 +335,63 @@ export default function Home() {
           ))}
         </div>
 
-        <PestCaseStudyCard className="mt-6" onClick={() => trackEvent('home_case_study_click', lang)} />
+      </section>
+
+      {/* =========================================
+          FEATURED DEMO: the meal-prep ordering platform, in place of the case
+          study that used to sit here. The client proof it carried now lives on
+          /pest-control, where the people it convinces are already reading.
+          ========================================= */}
+      <section className="site-container relative z-10 pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center text-left bg-gradient-to-br from-slate-900 to-[#020617] border border-brand-orange/30 rounded-3xl p-6 md:p-10">
+          <div>
+            <p className="text-xs font-bold tracking-widest uppercase text-brand-orange">{t.demoFeature.eyebrow}</p>
+            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight mt-4">{t.demoFeature.title}</h2>
+            <p className="text-slate-300 leading-relaxed mt-4">{t.demoFeature.body}</p>
+            <ul className="mt-5 flex flex-col gap-3">
+              {t.demoFeature.points.map(point => (
+                <li key={point} className="flex gap-3 text-slate-300 leading-relaxed">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5 shrink-0 mt-0.5 text-brand-orange" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-4 9 3 3 5-6" />
+                  </svg>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <a
+                href={DEMO_FEATURE_URL}
+                target="_blank"
+                rel="noopener"
+                onClick={() => trackEvent('home_industry_click', lang, { industry: 'meal-prep-demo' })}
+                className="bg-brand-orange text-brand-ink px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:bg-white hover:text-brand-orange-deep transition-colors"
+              >
+                {t.demoFeature.openDemo} <span aria-hidden="true">&rarr;</span>
+              </a>
+              <Link
+                to={lp('/demo-guide')}
+                className="border border-slate-600 text-white px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:border-brand-orange hover:text-brand-orange transition-colors"
+              >
+                {t.demoFeature.readGuide}
+              </Link>
+              <small className="text-[11px] leading-4 text-slate-400">{t.demoFeature.newTab}</small>
+            </div>
+          </div>
+          {/* An existing screenshot from the demo guide, not a placeholder: the
+              admin Subscriptions page, which is the one screen that shows the
+              week at a glance. */}
+          <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+            <img
+              src="/guides/screens/n10_subscriptions.webp"
+              alt={t.demoFeature.imageAlt}
+              width={1280}
+              height={800}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
       </section>
 
       {/* =========================================

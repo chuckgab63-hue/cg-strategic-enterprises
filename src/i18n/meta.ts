@@ -50,14 +50,14 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `${NAME} | Web, AI and Automation in Jacksonville, FL`,
-        description: `${NAME} builds websites, AI assistants, business automations and meal prep ordering systems for local businesses in Jacksonville, FL and beyond.`,
+        description: `${NAME} builds websites, AI answering and automation for pest control, lawn care and meal prep businesses in Jacksonville, FL and beyond — including your own meal-prep ordering platform.`,
       },
       es: {
         title: `${NAME} | Sitios web, IA y automatización en Jacksonville, FL`,
-        description: `${NAME} crea sitios web, asistentes de IA, automatizaciones y sistemas de pedidos para comidas preparadas para negocios locales en Jacksonville, FL y otras ciudades.`,
+        description: `${NAME} crea sitios web, atención telefónica con IA y automatización para empresas de control de plagas, cuidado del césped y comidas preparadas en Jacksonville, FL y otras ciudades, con su propia plataforma de pedidos.`,
       },
     },
-    lastmod: '2026-11-06',
+    lastmod: '2026-11-17',
   },
   {
     path: '/automations',
@@ -226,7 +226,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
     },
-    lastmod: '2026-11-16',
+    lastmod: '2026-11-17',
   },
   {
     path: LAWN_CARE_PATH,

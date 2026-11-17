@@ -3,9 +3,9 @@
 // string (calculator inputs, ?source= tags, ref codes), except the campaign
 // tags utm_source, utm_medium, utm_campaign and utm_content, kept so visits
 // from emails and ads are attributed; custom events
-// carry only their name, the page language and (for check_learn_more and
-// home_website_check_click) which card or button was used, never anything
-// typed into a form.
+// carry only their name, the page language and (for check_learn_more,
+// home_website_check_click and home_industry_click) which card or button was
+// used, never anything typed into a form.
 // The owner's own visits are dropped entirely: /analytics-optout (or the older
 // /ignore-me) sets a flag in this browser's localStorage that
 // analyticsBeforeSend checks on every event.
@@ -24,6 +24,7 @@ export type AnalyticsEvent =
   | 'check_estimator_used'
   | 'home_website_check_click'
   | 'home_case_study_click'
+  | 'home_industry_click'
   | 'pest_feature_toggled'
   | 'pest_tier_cta'
   | 'lawn_tier_cta';
@@ -93,6 +94,9 @@ export type CheckCard = 'speed' | 'mobile' | 'search' | 'missed_call';
 /** Where on the homepage a "Check my site" click came from, as sent with home_website_check_click. */
 export type HomeCheckPlacement = 'card' | 'section';
 
+/** Which hero highlight was used, as sent with home_industry_click. */
+export type HomeIndustry = 'pest-control' | 'lawn-care' | 'meal-prep' | 'meal-prep-demo';
+
 /**
  * What a custom event may carry besides its name and the page language. All of
  * it is fixed vocabulary from the code — a card name, a placement, a feature
@@ -107,6 +111,8 @@ export interface EventDetail {
   state?: 'on' | 'off';
   /** The package whose button was used (pest_tier_cta, lawn_tier_cta). */
   tier?: string;
+  /** Which hero highlight was used (home_industry_click). */
+  industry?: HomeIndustry;
 }
 
 export function trackEvent(name: AnalyticsEvent, language: Lang, extra: EventDetail = {}) {
