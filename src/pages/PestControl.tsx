@@ -251,8 +251,9 @@ export default function PestControl() {
       </section>
 
       {/* --- The proof, directly below it: what the old site did and what
-              replaced it, and the link to the full write-up, which keeps its
-              own URL because outreach emails point at it. --- */}
+              replaced it. No link out of here: the full write-up keeps its own
+              URL for the outreach emails that point at it, and the homepage
+              Websites card and the Automations page both link to it. --- */}
       <section className="mt-6 bg-slate-900/50 border border-slate-800 rounded-3xl p-6 md:p-10">
         <h2 className="text-sm font-bold tracking-widest uppercase text-slate-400">{t.caseStudy.proofTitle}</h2>
         <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -268,9 +269,6 @@ export default function PestControl() {
             </li>
           ))}
         </ul>
-        <Link to={lp(ONE_SOURCE_CASE_STUDY.path)} className={`${primaryButtonClass} mt-8`}>
-          {t.caseStudy.link} <span aria-hidden="true">&rarr;</span>
-        </Link>
       </section>
 
       <ServiceFaq title={t.faqTitle} items={t.faq} path={PEST_CONTROL_PATH} />

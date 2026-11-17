@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from '../components/ContactModal';
 import { useLocalePath, useT } from '../i18n/useLang';
+import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 import automationsText from '../i18n/automations';
 
 // --- Automation Workflow Data ---
@@ -283,10 +284,12 @@ export default function Automations() {
           </AnimatePresence>
         </div>
 
-        {/* --- Next Page Runway CTA --- */}
+        {/* --- Next Page Runway CTA: the One Source write-up, which is the case
+                study this card has always meant. It pointed at /portfolio until
+                that index was retired. --- */}
         <div className="w-full mt-24 mb-8 relative z-10">
           <Link 
-            to={lp('/pest-control')}
+            to={lp(ONE_SOURCE_CASE_STUDY.path)}
             className="block w-full group relative p-1 rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-brand-orange/50 transition-colors duration-500 shadow-2xl"
           >
             {/* Glowing Hover Background */}
