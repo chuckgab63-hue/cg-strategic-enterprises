@@ -84,8 +84,19 @@ export default function SeasonalShowcase() {
 
   const scene = scenes[index];
   const isSpider = scene.id === SPIDER_ID;
-  // Everything that can stop the motion, in one value the scenes and the timer both read.
-  const running = playing && onScreen && !hovered && !tabHidden && !reduced;
+
+  // Two signals, not one. Conflating them is what made the web scene look dead: hovering
+  // the frame froze the spider, and hovering is exactly what someone does when they move
+  // the cursor towards her to watch her bolt for the hub.
+  //
+  //   animating -- may the scene itself move? Off while the frame is off screen or the
+  //     tab is hidden (battery), with reduced motion, and when the viewer presses pause,
+  //     which is the mechanism WCAG 2.2.2 asks for and has to stop the motion itself.
+  //   rotating  -- may the showcase change scene? Everything above, and it also holds
+  //     while the pointer or focus is inside the frame, so the scene cannot slide out
+  //     from under someone reading the caption or reaching for a control.
+  const animating = playing && onScreen && !tabHidden && !reduced;
+  const rotating = animating && !hovered;
 
   // --- the art ---------------------------------------------------------------
   useEffect(() => {
@@ -132,10 +143,10 @@ export default function SeasonalShowcase() {
   }, [scenes.length]);
 
   useEffect(() => {
-    if (!running) return;
+    if (!rotating) return;
     const id = window.setTimeout(() => go(1), DWELL_MS);
     return () => clearTimeout(id);
-  }, [running, index, go]);
+  }, [rotating, index, go]);
 
   const label = sceneLabel(scene.id, lang);
   const when = sceneWhen(scene.id, lang, year);
@@ -157,14 +168,14 @@ export default function SeasonalShowcase() {
           height before any scene arrives: nothing below it moves when one does. */}
       <div
         ref={frameRef}
-        className={`ssc-frame rounded-2xl border border-slate-700 bg-slate-950 ${running ? '' : 'is-paused'}`}
+        className={`ssc-frame rounded-2xl border border-slate-700 bg-slate-950 ${animating ? '' : 'is-paused'}`}
         style={{ ['--c1' as string]: COLORS[0], ['--c2' as string]: COLORS[1], ['--c3' as string]: COLORS[2] }}
       >
         {outgoing && outgoing.id !== scene.id && (
           <div key={`out-${outgoing.id}`} className="ssc-layer ssc-layer-out" aria-hidden="true" dangerouslySetInnerHTML={{ __html: outgoing.html }} />
         )}
         {isSpider
-          ? <SpiderScene active={running} reduced={reduced} />
+          ? <SpiderScene active={animating} reduced={reduced} />
           : shown && (
             <div
               key={shown.id}
@@ -179,7 +190,7 @@ export default function SeasonalShowcase() {
       {/* The caption is the accessible version of the picture: which scene, and when it
           runs on the client's site. aria-live so a turn is announced without stealing
           focus; off when it is not turning on its own. */}
-      <p className="mt-3 text-sm leading-relaxed text-slate-300" aria-live={running ? 'polite' : 'off'}>
+      <p className="mt-3 text-sm leading-relaxed text-slate-300" aria-live={rotating ? 'polite' : 'off'}>
         <span className="font-bold text-white">{label}</span>
         <span className="text-slate-500"> · </span>
         <span>{when}</span>
