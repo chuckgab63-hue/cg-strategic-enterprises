@@ -90,7 +90,7 @@ const en = {
       'Browse the weekly menu, build a bowl and watch its calories and macros change, then check out for delivery or pickup',
       'Ask the customer AI assistant about the menu in your own words, and read what it was asked on the admin Conversations page',
       'Run the week as the owner: subscribers, delivery zones by ZIP, route sheets, meal labels, packing slips and stock',
-      'Switch the whole store to Spanish, or to your own name, logo and colours, from the panel at the top',
+      'Switch the whole store to Spanish, or to your own name, logo and colors, from the panel at the top',
     ],
     openDemo: 'Open the live demo',
     readGuide: 'Read the demo guide',
