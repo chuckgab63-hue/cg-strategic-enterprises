@@ -12,6 +12,8 @@ export const EMAIL_ARIA_LABEL = `Email CG Strategic Enterprises at ${EMAIL}`;
 
 export const BUSINESS_NAME = 'CG Strategic Enterprises';
 export const LEGAL_BUSINESS_NAME = 'CG Strategic Enterprises, LLC';
+// Named in the structured data as the company's founder (src/config/social.ts).
+export const FOUNDER_NAME = 'Chuck Gabbard';
 export const BUSINESS_LOCATION = 'Jacksonville, FL';
 export const SITE_URL = 'https://www.cgstrategic.dev';
 
