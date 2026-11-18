@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
 import MailingAddress from '../components/MailingAddress';
+import SocialLinks from '../components/SocialLinks';
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { useT } from '../i18n/useLang';
 import { BookCallButton, primaryButtonClass } from '../components/ServicePage';
@@ -35,7 +36,7 @@ const methodLinkClass = 'text-sm font-bold tracking-wide text-slate-200 hover:te
 
 export default function Contact() {
   const t = useT(contactDict).page;
-  const { callAriaLabel, emailAriaLabel, bookCall } = useT(common);
+  const { callAriaLabel, emailAriaLabel, bookCall, social } = useT(common);
   // "Book a free intro call" on /website-check and "Pilot Missed-Call Rescue" on
   // /missed-call-calculator link here with ?source=..., so the lead is tagged with
   // where it came from and the message is started for them. Other values are ignored.
@@ -69,6 +70,13 @@ export default function Contact() {
         <ContactMethod icon="location" label={t.mailingAddress} className="sm:col-span-2">
           <MailingAddress className="text-sm font-bold tracking-wide leading-relaxed text-slate-200" />
         </ContactMethod>
+      </div>
+
+      {/* -ml-3 as in the footer: it takes back the first tap box's own padding so
+          the icon lines up with the cards above, not three pixels to their right. */}
+      <div className="mb-10 -mt-4 flex items-center gap-2">
+        <span className="text-xs font-bold tracking-widest uppercase text-slate-400">{social.heading}</span>
+        <SocialLinks className="-ml-3" />
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8">

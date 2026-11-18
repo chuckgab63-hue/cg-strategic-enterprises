@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PHONE_HREF, PHONE_DISPLAY, EMAIL, EMAIL_HREF, LEGAL_BUSINESS_NAME } from '../config/site';
 import MailingAddress from './MailingAddress';
 import ContactForm from './ContactForm';
+import SocialLinks from './SocialLinks';
 import { stripLang } from '../i18n/lang';
 import { useLocalePath, useT } from '../i18n/useLang';
 import common from '../i18n/common';
@@ -97,6 +98,10 @@ export default function GlobalFooter() {
             <p className="text-xs text-slate-400 font-semibold tracking-wide">{t.footer.serving}</p>
             {/* The mailing address stays: SMS (A2P) and email rules expect a physical address. */}
             <MailingAddress className="text-xs font-semibold tracking-wide leading-relaxed text-slate-400" />
+            {/* -ml-3 pulls the first 44px tap box back so the icon itself lines up
+                with the phone, email and address above it rather than sitting
+                indented by its own padding. Centred on mobile, like the column. */}
+            <SocialLinks className="md:-ml-3" />
           </div>
         </div>
         {/* A short message form on every page, in the pre-rendered HTML. Same form,

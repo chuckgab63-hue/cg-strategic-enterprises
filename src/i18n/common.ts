@@ -55,6 +55,14 @@ const en = {
     serving: 'Serving Florida and Georgia',
     rights: 'All rights reserved.',
   },
+  // The icon links in the footer and on /contact. Each label names who the
+  // profile belongs to, because the icon is the whole of the link: LinkedIn is
+  // the founder's own profile until there is a company page.
+  social: {
+    heading: 'Follow us',
+    facebook: 'CG Strategic on Facebook',
+    linkedin: 'Chuck Gabbard on LinkedIn',
+  },
   langToggle: {
     groupLabel: 'Language',
   },
@@ -121,6 +129,11 @@ const es: typeof en = {
     contact: 'Contacto',
     serving: 'Atendemos Florida y Georgia',
     rights: 'Todos los derechos reservados.',
+  },
+  social: {
+    heading: 'Síganos',
+    facebook: 'CG Strategic en Facebook',
+    linkedin: 'Chuck Gabbard en LinkedIn',
   },
   langToggle: {
     groupLabel: 'Idioma',

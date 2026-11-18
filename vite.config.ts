@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 import {
   LEGAL_BUSINESS_NAME, SITE_URL, PHONE_INTL, EMAIL, ADDRESS,
 } from './src/config/site.ts'
+import { SOCIAL_SAME_AS } from './src/config/social.ts'
 import {
   FALLBACK_FILE, addToHead, applyBody, applyFallbackHead, applyHead, headFor, heroPreloadTags, pagePreloadTags, prerenderTargets, sitemapXml, type BuildManifest,
 } from './src/i18n/prerender.ts'
@@ -22,6 +23,9 @@ function organizationJsonLd(): Plugin {
     url: SITE_URL,
     telephone: PHONE_INTL,
     email: EMAIL,
+    // Claimed profiles elsewhere, so a crawler can tie this site and those pages
+    // to one organization. src/config/social.ts is the only place they live.
+    sameAs: SOCIAL_SAME_AS,
     address: {
       '@type': 'PostalAddress',
       streetAddress: ADDRESS.street,
