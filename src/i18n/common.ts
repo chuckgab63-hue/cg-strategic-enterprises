@@ -64,6 +64,7 @@ const en = {
     heading: 'Follow us',
     facebook: 'CG Strategic on Facebook',
     linkedin: 'Chuck Gabbard on LinkedIn',
+    instagram: 'CG Strategic on Instagram',
     google: 'Find us on Google',
   },
   langToggle: {
@@ -137,6 +138,7 @@ const es: typeof en = {
     heading: 'Síganos',
     facebook: 'CG Strategic en Facebook',
     linkedin: 'Chuck Gabbard en LinkedIn',
+    instagram: 'CG Strategic en Instagram',
     google: 'Encuéntrenos en Google',
   },
   langToggle: {

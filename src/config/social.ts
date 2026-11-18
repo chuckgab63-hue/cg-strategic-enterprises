@@ -17,7 +17,7 @@ import { FOUNDER_NAME, SITE_URL } from './site.ts';
 
 export interface SocialProfile {
   /** Matches a key in common.ts's `social` block, which holds the labels. */
-  key: 'facebook' | 'linkedin' | 'google';
+  key: 'facebook' | 'linkedin' | 'instagram' | 'google';
   url: string;
   /**
    * How the profile is shown. 'icon' is a brand glyph in the footer and on
@@ -32,6 +32,9 @@ export interface SocialProfile {
 }
 
 const FACEBOOK_URL = 'https://www.facebook.com/cgstrategic';
+// cgstrategic.dev, not cgstrategic: the plain handle was already taken on
+// Instagram by a dead account, so this one matches the domain instead.
+const INSTAGRAM_URL = 'https://www.instagram.com/cgstrategic.dev';
 const FOUNDER_LINKEDIN_URL = 'https://www.linkedin.com/in/chuckgabbard';
 /**
  * The Google Business Profile, by its cid: the link Google itself hands out for
@@ -45,6 +48,7 @@ export const GOOGLE_BUSINESS_PROFILE_URL = 'https://www.google.com/maps?cid=6494
 export const SOCIAL_PROFILES = [
   { key: 'facebook', url: FACEBOOK_URL, display: 'icon' },
   { key: 'linkedin', url: FOUNDER_LINKEDIN_URL, display: 'icon' },
+  { key: 'instagram', url: INSTAGRAM_URL, display: 'icon' },
   { key: 'google', url: GOOGLE_BUSINESS_PROFILE_URL, display: 'text' },
 ] as const satisfies readonly SocialProfile[];
 
