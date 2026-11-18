@@ -17,21 +17,54 @@ import { FOUNDER_NAME, SITE_URL } from './site.ts';
 
 export interface SocialProfile {
   /** Matches a key in common.ts's `social` block, which holds the labels. */
-  key: 'facebook' | 'linkedin';
+  key: 'facebook' | 'linkedin' | 'google';
   url: string;
+  /**
+   * How the profile is shown. 'icon' is a brand glyph in the footer and on
+   * /contact; 'text' is a text link on /contact only. The Google Business
+   * Profile is text: its glyph is a four-colour "G" that cannot be drawn in one
+   * currentColor path like the others, and a bare grey G reads as nothing.
+   *
+   * An 'icon' profile needs a path in SocialLinks.tsx's ICONS map, and the types
+   * there say so — switch one to 'icon' without drawing it and the build fails.
+   */
+  display: 'icon' | 'text';
 }
 
 const FACEBOOK_URL = 'https://www.facebook.com/cgstrategic';
 const FOUNDER_LINKEDIN_URL = 'https://www.linkedin.com/in/chuckgabbard';
+/**
+ * The Google Business Profile, by its cid: the link Google itself hands out for
+ * the listing, which survives a name or address edit as a /place/ URL would not.
+ * Also the home page's hasMap, since it is the map of this business.
+ */
+export const GOOGLE_BUSINESS_PROFILE_URL = 'https://www.google.com/maps?cid=6494469241290480803';
 
-export const SOCIAL_PROFILES: SocialProfile[] = [
-  { key: 'facebook', url: FACEBOOK_URL },
-  { key: 'linkedin', url: FOUNDER_LINKEDIN_URL },
-];
+// `as const` so each entry keeps its literal key and display, which is what
+// lets ICON_PROFILES below be typed down to the two keys that have glyphs.
+export const SOCIAL_PROFILES = [
+  { key: 'facebook', url: FACEBOOK_URL, display: 'icon' },
+  { key: 'linkedin', url: FOUNDER_LINKEDIN_URL, display: 'icon' },
+  { key: 'google', url: GOOGLE_BUSINESS_PROFILE_URL, display: 'text' },
+] as const satisfies readonly SocialProfile[];
+
+type Profile = (typeof SOCIAL_PROFILES)[number];
+
+/** The profiles drawn as brand glyphs, and only those: see `display` above. */
+export type IconProfile = Extract<Profile, { display: 'icon' }>;
+export const ICON_PROFILES: readonly IconProfile[] =
+  SOCIAL_PROFILES.filter((p): p is IconProfile => p.display === 'icon');
+
+/** The profiles shown as a text link on /contact. */
+export type TextProfile = Extract<Profile, { display: 'text' }>;
+export const TEXT_PROFILES: readonly TextProfile[] =
+  SOCIAL_PROFILES.filter((p): p is TextProfile => p.display === 'text');
 
 /**
- * Every profile URL, for schema.org sameAs. Add a Google Business Profile or any
- * other claimed listing here and it joins the markup everywhere at once.
+ * Every profile URL, for schema.org sameAs — including the ones with no icon,
+ * because sameAs is about who we are, not about what the footer draws. Add any
+ * other claimed listing to SOCIAL_PROFILES and it joins the markup everywhere
+ * at once.
  */
 export const SOCIAL_SAME_AS: string[] = SOCIAL_PROFILES.map(p => p.url);
 

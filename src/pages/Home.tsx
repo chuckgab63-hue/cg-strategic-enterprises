@@ -8,7 +8,7 @@ import common from '../i18n/common';
 import { bookingUrl } from '../config/booking';
 import { BUSINESS_NAME, EMAIL, PHONE_INTL, SITE_URL } from '../config/site';
 import { HERO_IMAGE } from '../config/heroImage';
-import { FOUNDER_PERSON, SOCIAL_SAME_AS } from '../config/social';
+import { FOUNDER_PERSON, GOOGLE_BUSINESS_PROFILE_URL, SOCIAL_SAME_AS } from '../config/social';
 import { trackEvent } from '../lib/analytics';
 import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
 import PhoenixHero from '../components/PhoenixHero';
@@ -54,6 +54,8 @@ const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
   email: EMAIL,
   sameAs: SOCIAL_SAME_AS,
   founder: FOUNDER_PERSON,
+  // The Google Business Profile, which is where the map of this business lives.
+  hasMap: GOOGLE_BUSINESS_PROFILE_URL,
   // Two states, each typed, rather than one bare string: a crawler reading
   // "Florida and Georgia" as a single name would match neither.
   areaServed: [

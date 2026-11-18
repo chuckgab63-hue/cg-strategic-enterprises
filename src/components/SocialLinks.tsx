@@ -1,4 +1,4 @@
-import { SOCIAL_PROFILES } from '../config/social';
+import { ICON_PROFILES, type IconProfile } from '../config/social';
 import { useT } from '../i18n/useLang';
 import common from '../i18n/common';
 
@@ -14,7 +14,7 @@ import common from '../i18n/common';
 // Each link is a 44px box around a 20px icon: WCAG 2.5.8 asks for 24, and a
 // thumb in a footer deserves better than the minimum. aria-label carries the
 // name because the icon is the only content; the SVG itself is decorative.
-type SocialKey = (typeof SOCIAL_PROFILES)[number]['key'];
+type SocialKey = IconProfile['key'];
 
 const ICONS: Record<SocialKey, string> = {
   facebook:
@@ -28,7 +28,7 @@ export default function SocialLinks({ className = '' }: { className?: string }) 
 
   return (
     <ul className={`flex items-center gap-1 ${className}`.trim()}>
-      {SOCIAL_PROFILES.map(({ key, url }) => (
+      {ICON_PROFILES.map(({ key, url }) => (
         <li key={key} className="flex">
           <a
             href={url}

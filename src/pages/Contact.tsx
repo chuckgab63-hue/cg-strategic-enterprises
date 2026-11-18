@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
 import MailingAddress from '../components/MailingAddress';
 import SocialLinks from '../components/SocialLinks';
+import { TEXT_PROFILES } from '../config/social';
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY, PHONE_HREF } from '../config/site';
 import { useT } from '../i18n/useLang';
 import { BookCallButton, primaryButtonClass } from '../components/ServicePage';
@@ -73,10 +74,25 @@ export default function Contact() {
       </div>
 
       {/* -ml-3 as in the footer: it takes back the first tap box's own padding so
-          the icon lines up with the cards above, not three pixels to their right. */}
-      <div className="mb-10 -mt-4 flex items-center gap-2">
+          the icon lines up with the cards above, not three pixels to their right.
+          The Google Business Profile is a text link rather than a fourth glyph
+          (src/config/social.ts says why), so it wraps to its own line on a narrow
+          phone instead of squeezing the row. min-h-11 keeps its tap target the
+          same height as the icons beside it. */}
+      <div className="mb-10 -mt-4 flex flex-wrap items-center gap-x-3">
         <span className="text-xs font-bold tracking-widest uppercase text-slate-400">{social.heading}</span>
         <SocialLinks className="-ml-3" />
+        {TEXT_PROFILES.map(({ key, url }) => (
+          <a
+            key={key}
+            href={url}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex min-h-11 items-center text-sm font-bold tracking-wide text-slate-300 hover:text-brand-orange transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            {social[key]}
+          </a>
+        ))}
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8">
