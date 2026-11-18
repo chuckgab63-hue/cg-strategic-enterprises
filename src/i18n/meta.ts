@@ -7,7 +7,7 @@
 
 import type { Lang } from './lang.ts';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
-import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath } from './mealPrepFeaturesMeta.ts';
+import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath, type FeatureSlug } from './mealPrepFeaturesMeta.ts';
 import { LAWN_CARE_META, LAWN_CARE_PATH } from './lawnCareMeta.ts';
 import { PEST_CONTROL_META, PEST_CONTROL_PATH } from './pestControlMeta.ts';
 
@@ -42,6 +42,17 @@ export interface SiteRoute {
   lastmod: string;
 }
 
+/**
+ * Feature pages whose own copy has moved since the set was published; the rest keep
+ * their original date. See the lastmod note on SiteRoute above: a date that moves
+ * without the words moving is what teaches a crawler to ignore all of them.
+ */
+const FEATURE_LASTMOD: Partial<Record<FeatureSlug, string>> = {
+  subscriptions: '2026-11-18',
+  labels: '2026-11-18',
+  'getting-started': '2026-11-18',
+};
+
 const NAME = 'CG Strategic Enterprises';
 
 export const SITE_ROUTES: SiteRoute[] = [
@@ -50,14 +61,14 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `${NAME} | Web, AI and Automation in Jacksonville, FL`,
-        description: `${NAME} builds websites, AI answering and automation for pest control, lawn care and meal prep businesses in Jacksonville, FL and beyond — including your own meal-prep ordering platform.`,
+        description: `Websites, AI phone answering and automation for pest control, lawn care and meal prep companies in Jacksonville, FL and beyond, from ${NAME}.`,
       },
       es: {
         title: `${NAME} | Sitios web, IA y automatización en Jacksonville, FL`,
-        description: `${NAME} crea sitios web, atención telefónica con IA y automatización para empresas de control de plagas, cuidado del césped y comidas preparadas en Jacksonville, FL y otras ciudades, con su propia plataforma de pedidos.`,
+        description: `Sitios web, atención telefónica con IA y automatización para empresas de control de plagas, cuidado del césped y comidas preparadas en Jacksonville, FL.`,
       },
     },
-    lastmod: '2026-11-17',
+    lastmod: '2026-11-18',
   },
   {
     path: '/automations',
@@ -79,7 +90,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: ONE_SOURCE_CASE_STUDY.title, description: ONE_SOURCE_CASE_STUDY.description },
       es: {
         title: 'One Source Total Pest Control: caso de estudio | CG Strategic',
-        description: 'Cómo renovamos en Astro el sitio web de una empresa de control de plagas de Jacksonville: una página para cada servicio y plaga, un analizador de fotos de plagas con IA, un asistente de voz con IA, un solo flujo automatizado para clientes potenciales y un área privada de administración para licencias, capacitación y contratación.',
+        description: 'Cómo renovamos en Astro el sitio de una empresa de control de plagas de Jacksonville: una página por servicio y plaga, analizador con IA y área privada.',
       },
     },
     og: {
@@ -92,21 +103,21 @@ export const SITE_ROUTES: SiteRoute[] = [
         es: 'Página de inicio de One Source Total Pest Control: "Friendly, local pest control in Jacksonville, FL" sobre un video de palmeras',
       },
     },
-    lastmod: '2026-11-08',
+    lastmod: '2026-11-18',
   },
   {
     path: '/skunkworks',
     meta: {
       en: {
         title: `Skunkworks: AI Automation Experiments for Local Businesses | ${NAME}`,
-        description: 'AI automation experiments for local businesses: missed-call callbacks, voice notes for field techs, photo-to-quote intake, bilingual voice agents and more, each labeled Concept, Prototype, Ready or In use.',
+        description: 'AI automation experiments for local businesses: missed-call callbacks, voice notes for field techs, photo-to-quote intake and bilingual voice agents.',
       },
       es: {
         title: `Skunkworks: experimentos de automatización con IA para negocios locales | ${NAME}`,
-        description: 'Experimentos de automatización con IA para negocios locales: devolución inmediata de llamadas perdidas, notas de voz para técnicos de campo, cotizaciones a partir de fotos, agentes de voz bilingües y más, cada uno marcado como Concepto, Prototipo, Listo o En uso.',
+        description: 'Experimentos de automatización con IA para negocios locales: devolución de llamadas perdidas, notas de voz, cotizaciones por foto y agentes bilingües.',
       },
     },
-    lastmod: '2026-11-08',
+    lastmod: '2026-11-18',
   },
   {
     path: '/cinematic',
@@ -155,56 +166,56 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Meal Prep Business Calculator | ${NAME}`,
-        description: 'Free meal-prep business calculator: enter your price, food cost, kitchen rent, delivery and your own time to see food cost %, prime cost %, contribution per meal, and the break-even volume that matters most.',
+        description: 'Free meal-prep business calculator: enter your price, food cost, rent, delivery and your own time to see food cost %, prime cost % and your break-even volume.',
       },
       es: {
         title: `Calculadora para negocios de comidas preparadas | ${NAME}`,
-        description: 'Calculadora gratuita para negocios de comidas preparadas: ingrese su precio, costo de alimentos, alquiler de cocina, entregas y su propio tiempo para ver el % de costo de alimentos, el % de costo primo, la contribución por comida y el volumen de equilibrio que más importa.',
+        description: 'Calculadora gratuita para comidas preparadas: ingrese precio, costo de alimentos, alquiler y su tiempo para ver el costo primo y su punto de equilibrio.',
       },
     },
-    lastmod: '2026-10-28',
+    lastmod: '2026-11-18',
   },
   {
     path: '/website-check',
     meta: {
       en: {
         title: `Free Website Check | ${NAME}`,
-        description: "Get a free check of your website's speed, mobile experience, search basics and missed-call risk, with the top fixes in plain language. We'll email you the report.",
+        description: "Get a free check of your website's speed, mobile experience, search basics and missed-call risk, with the top fixes in plain language, emailed to you.",
       },
       es: {
         title: `Revisión gratuita de su sitio web | ${NAME}`,
-        description: 'Reciba una revisión gratuita de la velocidad de su sitio, la experiencia en celulares, lo básico para buscadores y el riesgo de llamadas perdidas, con las mejoras principales en lenguaje sencillo. Le enviaremos el informe por correo electrónico.',
+        description: 'Revisión gratuita de la velocidad de su sitio, la experiencia en celulares, lo básico para buscadores y el riesgo de llamadas perdidas, por correo electrónico.',
       },
     },
-    lastmod: '2026-10-29',
+    lastmod: '2026-11-18',
   },
   {
     path: '/missed-call-calculator',
     meta: {
       en: {
         title: `Missed-Call Cost Calculator | ${NAME}`,
-        description: 'Free calculator: enter your calls per week, how many you miss, how many of those callers never try again, and what a customer is worth to estimate the revenue missed calls could be costing you each month and year.',
+        description: 'Free calculator: enter your calls per week, how many you miss and what a customer is worth to estimate what missed calls cost you each month and each year.',
       },
       es: {
         title: `Calculadora del costo de las llamadas perdidas | ${NAME}`,
-        description: 'Calculadora gratuita: ingrese sus llamadas por semana, cuántas no contesta, cuántas de esas personas no vuelven a llamar y cuánto vale un cliente para estimar los ingresos que las llamadas perdidas podrían costarle cada mes y cada año.',
+        description: 'Calculadora gratuita: ingrese sus llamadas por semana, cuántas no contesta y cuánto vale un cliente para estimar lo que le cuestan al mes y al año.',
       },
     },
-    lastmod: '2026-10-23',
+    lastmod: '2026-11-18',
   },
   {
     path: '/answering-service',
     meta: {
       en: {
         title: `AI Answering Service & Virtual Receptionist | ${NAME}`,
-        description: 'An AI answering service for small businesses in Florida and Georgia. Answers every call 24/7 in English or Spanish, captures leads and books follow-ups. Talk to Alex.',
+        description: 'An AI answering service for small businesses in Florida and Georgia: every call answered 24/7 in English or Spanish, leads captured, follow-ups booked.',
       },
       es: {
         title: `Servicio de atención telefónica con IA y recepcionista virtual | ${NAME}`,
-        description: 'Servicio de atención telefónica con IA para pequeños negocios de Florida y Georgia: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda seguimientos.',
+        description: 'Atención telefónica con IA para pequeños negocios de Florida y Georgia: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda citas.',
       },
     },
-    lastmod: '2026-11-06',
+    lastmod: '2026-11-18',
   },
   {
     path: PEST_CONTROL_PATH,
@@ -212,7 +223,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
     },
-    lastmod: '2026-11-17',
+    lastmod: '2026-11-18',
   },
   {
     path: LAWN_CARE_PATH,
@@ -220,21 +231,21 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${LAWN_CARE_META.en.title} | ${NAME}`, description: LAWN_CARE_META.en.description },
       es: { title: `${LAWN_CARE_META.es.title} | ${NAME}`, description: LAWN_CARE_META.es.description },
     },
-    lastmod: '2026-11-16',
+    lastmod: '2026-11-18',
   },
   {
     path: '/meal-prep-ordering',
     meta: {
       en: {
         title: `Meal Prep Ordering System & Website for Meal Prep Businesses | ${NAME}`,
-        description: 'Online ordering for meal prep businesses in Florida and Georgia, set up for you: weekly menus and plans, delivery zones and routes, labels and gift cards. See the live demo.',
+        description: 'Online ordering for meal prep businesses in Florida and Georgia, set up for you: weekly menus and plans, delivery zones and routes, labels and gift cards.',
       },
       es: {
         title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
-        description: 'Pedidos en línea para negocios de comidas preparadas en Florida y Georgia, configurados por nosotros: planes semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
+        description: 'Pedidos en línea para negocios de comidas preparadas en Florida y Georgia: planes y menús semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
       },
     },
-    lastmod: '2026-11-01',
+    lastmod: '2026-11-18',
   },
   {
     path: MEAL_PREP_FEATURES_PATH,
@@ -242,7 +253,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${HUB_META.en.title} | ${NAME}`, description: HUB_META.en.description },
       es: { title: `${HUB_META.es.title} | ${NAME}`, description: HUB_META.es.description },
     },
-    lastmod: '2026-11-01',
+    lastmod: '2026-11-18',
   },
   // One route per feature page; the titles and descriptions are in mealPrepFeaturesMeta.ts.
   ...FEATURE_SLUGS.map((slug): SiteRoute => ({
@@ -251,7 +262,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${FEATURE_META[slug].en.title} | ${NAME}`, description: FEATURE_META[slug].en.description },
       es: { title: `${FEATURE_META[slug].es.title} | ${NAME}`, description: FEATURE_META[slug].es.description },
     },
-    lastmod: '2026-11-01',
+    lastmod: FEATURE_LASTMOD[slug] ?? '2026-11-01',
   })),
   {
     path: '/demo-guide',
@@ -262,10 +273,10 @@ export const SITE_ROUTES: SiteRoute[] = [
       },
       es: {
         title: `Demo de pedidos para meal prep: guía paso a paso | ${NAME}`,
-        description: 'Guía PDF gratuita de la demo en vivo de pedidos para comidas preparadas: planes semanales, entregas, etiquetas, tarjetas de regalo, asistente de IA y Trend Finder.',
+        description: 'Guía PDF gratuita de la demo de pedidos para comidas preparadas: planes semanales, entregas, etiquetas, tarjetas de regalo, asistente de IA y Trend Finder.',
       },
     },
-    lastmod: '2026-11-01',
+    lastmod: '2026-11-18',
     og: {
       image: '/og/meal-prep-demo-guide.jpg',
       width: 1200,
@@ -282,42 +293,42 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Search & AI Visibility for Small Businesses in Florida and Georgia | ${NAME}`,
-        description: 'Get found on Google, Bing, Maps and AI assistants: technical SEO, Google Business Profile, keyword-driven service pages, AI search visibility and Spanish versions.',
+        description: 'Get found on Google, Bing, Maps and AI assistants: technical SEO, Google Business Profile, keyword-driven service pages and Spanish versions of your site.',
       },
       es: {
         title: `Visibilidad en buscadores e IA para pequeños negocios de Florida y Georgia | ${NAME}`,
-        description: 'Que lo encuentren en Google, Bing, Maps y los asistentes de IA: SEO técnico, Perfil de Empresa en Google, páginas de servicios por palabras clave, búsqueda con IA y versiones en español.',
+        description: 'Que lo encuentren en Google, Bing, Maps y los asistentes de IA: SEO técnico, Perfil de Empresa, páginas de servicios por palabras clave y versiones en español.',
       },
     },
-    lastmod: '2026-11-06',
+    lastmod: '2026-11-18',
   },
   {
     path: '/faq',
     meta: {
       en: {
         title: `FAQ | ${NAME}`,
-        description: 'Answers about our websites, AI assistants and automations: how projects start, pricing, timelines, hosting and care, who owns your website and data, Alex our AI assistant, and working in Spanish.',
+        description: 'Answers about our websites, AI assistants and automations: how projects start, pricing and timelines, hosting and care, who owns your site, and Spanish.',
       },
       es: {
         title: `Preguntas frecuentes | ${NAME}`,
-        description: 'Respuestas sobre nuestros sitios web, asistentes de IA y automatizaciones: cómo empieza un proyecto, precios, plazos, alojamiento y mantenimiento, quién es dueño de su sitio web y sus datos, Alex, nuestro asistente de IA, y nuestro trabajo en español.',
+        description: 'Respuestas sobre nuestros sitios web, asistentes de IA y automatizaciones: cómo empieza un proyecto, precios, plazos, alojamiento, mantenimiento y español.',
       },
     },
-    lastmod: '2026-11-06',
+    lastmod: '2026-11-18',
   },
   {
     path: '/contact',
     meta: {
       en: {
         title: `Contact | ${NAME}`,
-        description: `Contact ${NAME} in Jacksonville, FL. Call (904) 822-8929, email info@cgstrategic.dev, or send us a message about your web, AI, or automation project.`,
+        description: `Contact ${NAME} in Jacksonville, FL: call (904) 822-8929, email info@cgstrategic.dev, or message us about your web, AI or automation project.`,
       },
       es: {
         title: `Contacto | ${NAME}`,
-        description: `Comuníquese con ${NAME} en Jacksonville, FL. Llame al (904) 822-8929, escriba a info@cgstrategic.dev o envíenos un mensaje sobre su proyecto web, de IA o de automatización.`,
+        description: `Comuníquese con nosotros en Jacksonville, FL: llame al (904) 822-8929, escriba a info@cgstrategic.dev o cuéntenos su proyecto web, de IA o de automatización.`,
       },
     },
-    lastmod: '2026-11-02',
+    lastmod: '2026-11-18',
   },
   {
     path: '/privacy',
@@ -328,10 +339,10 @@ export const SITE_ROUTES: SiteRoute[] = [
       },
       es: {
         title: `Política de privacidad | ${NAME}`,
-        description: `Cómo ${NAME} recopila, usa y protege la información que usted comparte en este sitio web, incluidos los formularios de contacto y los mensajes de texto.`,
+        description: `Cómo recopilamos, usamos y protegemos la información que usted comparte en este sitio web, incluidos los formularios de contacto y los mensajes de texto.`,
       },
     },
-    lastmod: '2026-10-23',
+    lastmod: '2026-11-18',
   },
   {
     path: '/terms',

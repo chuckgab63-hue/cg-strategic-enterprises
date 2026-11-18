@@ -33,7 +33,7 @@ interface Meta { title: string; description: string }
 export const HUB_META = {
   en: {
     title: 'Meal Prep Ordering System Features',
-    description: 'Every feature of the meal prep ordering system, by what it does for you: subscriptions, delivery routes, kitchen planning, labels, loyalty, reports and AI tools.',
+    description: 'Every feature of the meal prep ordering system, by what it does for you: subscriptions, delivery routes, kitchen planning, labels, loyalty, reports and AI.',
   },
   es: {
     title: 'Funciones de pedidos para comidas preparadas',
@@ -44,7 +44,7 @@ export const HUB_META = {
 export const FEATURE_META: Record<FeatureSlug, Record<Lang, Meta>> = {
   'subscriptions': {
     en: { title: 'Meal Prep Subscription Software', description: 'Weekly meal plans customers can skip, pause, swap or cancel on their own, billed each week to your own Stripe account. See it live in the demo.' },
-    es: { title: 'Software de suscripciones para comidas preparadas', description: 'Planes semanales de comidas que los clientes saltan, pausan, cambian o cancelan solos, con cobro semanal en su propia cuenta de Stripe. Véalo en la demo en vivo.' },
+    es: { title: 'Software de suscripciones para comidas preparadas', description: 'Planes semanales de comidas que los clientes saltan, pausan, cambian o cancelan solos, con cobro semanal en su propia cuenta de Stripe. Véalo en la demo.' },
   },
   'bigger-orders': {
     en: { title: 'Build-Your-Own Meals, Sizes and Bundles', description: 'Meal prep ordering with build-your-own bowls and live macros, sizes, paid add-ons, meal packs and a minimum order, so each order is worth delivering.' },
@@ -60,7 +60,7 @@ export const FEATURE_META: Record<FeatureSlug, Record<Lang, Meta>> = {
   },
   'labels': {
     en: { title: 'Meal Prep Labels with Nutrition Facts', description: 'Print meal prep labels with a nutrition panel, ingredients, allergens and packed and use-by dates, generated from your own meal data for you to review.' },
-    es: { title: 'Etiquetas con información nutricional', description: 'Imprima etiquetas con panel nutricional, ingredientes, alérgenos y fechas de empacado y de consumo, generadas con los datos de sus comidas para que usted las revise.' },
+    es: { title: 'Etiquetas con información nutricional', description: 'Imprima etiquetas con panel nutricional, ingredientes, alérgenos y fechas de empacado y consumo, generadas con los datos de sus comidas para que las revise.' },
   },
   'loyalty-and-referrals': {
     en: { title: 'Meal Prep Loyalty, Referrals and Gift Cards', description: 'Reward points, a referral program that rewards both sides after a paid first order, gift cards and coupon codes for meal prep businesses.' },
@@ -83,7 +83,7 @@ export const FEATURE_META: Record<FeatureSlug, Record<Lang, Meta>> = {
     es: { title: 'Sitio bilingüe y app para comidas preparadas', description: 'Un sitio de pedidos en inglés y español con cambio de un toque, una administración en los dos idiomas y una tienda que los clientes instalan en su teléfono.' },
   },
   'getting-started': {
-    en: { title: 'Done-for-You Meal Prep Ordering Setup', description: 'We set up your meal prep ordering system, move your menu and customers, and put it on your own domain and Stripe account. English and Spanish, Northeast Florida.' },
+    en: { title: 'Done-for-You Meal Prep Ordering Setup', description: 'We set up your meal prep ordering system, move your menu and customers, and put it on your own domain and Stripe. English and Spanish, Northeast Florida.' },
     es: { title: 'Configuración de pedidos para comidas preparadas', description: 'Configuramos su sistema de pedidos, pasamos su menú y clientes, y lo ponemos en su dominio y su cuenta de Stripe. En inglés y español, noreste de Florida.' },
   },
 };

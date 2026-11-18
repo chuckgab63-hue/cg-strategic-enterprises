@@ -12,11 +12,11 @@ export const LAWN_CARE_META: Record<Lang, { title: string; description: string }
   en: {
     title: 'Lawn Care & Landscaping Website + AI Answering Service',
     description:
-      'Lawn care and landscaping websites for companies in Florida and Georgia: a page per service with a seasonal switch, residential and commercial estimate forms, an AI answering service in English and Spanish, and crew, license and finance tools in your own admin area.',
+      'Lawn care and landscaping websites in Florida and Georgia: a page per service with a seasonal switch, estimate forms, and a bilingual AI answering service.',
   },
   es: {
     title: 'Sitios web y atención telefónica con IA para jardinería y paisajismo',
     description:
-      'Sitios web de jardinería y paisajismo para empresas en Florida y Georgia: una página por servicio con interruptor de temporada, formularios de cotización residencial y comercial, atención con IA en inglés y español, y herramientas de cuadrilla, licencias y finanzas en su propia área de administración.',
+      'Sitios web de jardinería y paisajismo en Florida y Georgia: una página por servicio con interruptor de temporada, cotizaciones y atención con IA bilingüe.',
   },
 };

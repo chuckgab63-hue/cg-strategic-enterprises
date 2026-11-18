@@ -84,10 +84,12 @@ describe('page meta', () => {
     for (const [, loc, , lastmod] of locs) expect(lastmod, loc).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
     // A page and its Spanish twin share the route's date.
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-17</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-17</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-02</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-17</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-18</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-18</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-18</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-18</lastmod>');
+    // And a page whose copy has not moved keeps its own, so "today everywhere" would fail here.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/automations</loc>\n    <lastmod>2026-10-29</lastmod>');
   });
 
   it('keeps /analytics-optout and /ignore-me out of search and the sitemap', () => {
