@@ -113,42 +113,42 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Cinematic Scale | ${NAME}`,
-        description: 'A demo of large, cinematic, scroll-driven animation for websites.',
+        description: 'Scroll-driven cinematic animation demo: full-screen type and motion carry a visitor through a three-phase story. Web design in Jacksonville, FL.',
       },
       es: {
         title: `Escala de cine | ${NAME}`,
-        description: 'Una demostración de animaciones grandes y cinematográficas, controladas por el desplazamiento, para sitios web.',
+        description: 'Demostración de animación cinematográfica guiada por el desplazamiento: tipografía a pantalla completa y movimiento que recorren una historia en tres fases.',
       },
     },
-    lastmod: '2026-10-29',
+    lastmod: '2026-11-18',
   },
   {
     path: '/fluid-dynamics',
     meta: {
       en: {
         title: `Fluid Dynamics | ${NAME}`,
-        description: 'A demo of fluid, physics-based interface animation for websites.',
+        description: 'Physics-based web animation demo: click any module for layout transitions, specs and capabilities across lead pipelines, automations and AI dashboards.',
       },
       es: {
         title: `Dinámica de fluidos | ${NAME}`,
-        description: 'Una demostración de animaciones de interfaz fluidas y basadas en física para sitios web.',
+        description: 'Demo de animación web basada en física: haga clic en un módulo para ver sus transiciones, detalles y capacidades en proyectos web, de IA y de automatización.',
       },
     },
-    lastmod: '2026-10-29',
+    lastmod: '2026-11-18',
   },
   {
     path: '/ui-polish',
     meta: {
       en: {
         title: `Native UI Polish | ${NAME}`,
-        description: 'A demo of app-like interface details on the web: gestures, transitions and micro-interactions.',
+        description: 'Native UI polish demo: hover sweeps, frosted glass, neon depth and real-time form validation — the app-like interface details we build into your website.',
       },
       es: {
         title: `Interfaz con acabado nativo | ${NAME}`,
-        description: 'Una demostración de detalles de interfaz como los de una app, en la web: gestos, transiciones y microinteracciones.',
+        description: 'Demostración de acabado nativo: efectos al pasar el cursor, vidrio escarchado, profundidad neón y validación de formularios en tiempo real, en su sitio web.',
       },
     },
-    lastmod: '2026-10-29',
+    lastmod: '2026-11-18',
   },
   {
     path: '/meal-prep-calculator',
@@ -338,14 +338,14 @@ export const SITE_ROUTES: SiteRoute[] = [
     meta: {
       en: {
         title: `Terms of Service | ${NAME}`,
-        description: `The terms for using the ${NAME} website and our text message program.`,
+        description: 'The terms for using cgstrategic.dev and our text message program: the services we provide, intellectual property, liability, privacy and Florida governing law.',
       },
       es: {
         title: `Términos del servicio | ${NAME}`,
-        description: `Los términos para usar el sitio web de ${NAME} y nuestro programa de mensajes de texto.`,
+        description: 'Los términos para usar cgstrategic.dev y nuestro programa de mensajes de texto: servicios, propiedad intelectual, responsabilidad, privacidad y ley de Florida.',
       },
     },
-    lastmod: '2026-10-23',
+    lastmod: '2026-11-18',
   },
 ];
 
