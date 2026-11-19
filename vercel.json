@@ -6,6 +6,16 @@
   },
   "redirects": [
     {
+      "source": "/videos/mealprep-demo-hero-poster.jpg",
+      "destination": "/videos/mealprep-demo-hero-poster.webp",
+      "statusCode": 301
+    },
+    {
+      "source": "/videos/mealprep-demo-hero-es-poster.jpg",
+      "destination": "/videos/mealprep-demo-hero-es-poster.webp",
+      "statusCode": 301
+    },
+    {
       "source": "/portfolio",
       "destination": "/meal-prep-ordering",
       "statusCode": 301
@@ -290,7 +300,7 @@
       "destination": "/es/terms/index.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!videos/|guides/|images/)(?!.*[.](?:avif|bmp|gif|ico|jpe?g|m4v|mov|mp4|ogv|pdf|png|svg|tiff?|vtt|webm|webp)$).*)",
       "destination": "/app-shell.html"
     }
   ]

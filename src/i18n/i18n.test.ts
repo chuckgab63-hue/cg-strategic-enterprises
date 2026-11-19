@@ -127,6 +127,66 @@ describe('pre-rendered pages', () => {
       if (path === '/') continue; // served straight from dist/index.html
       expect(bySource.get(path), path).toBe(`/${file}`);
     }
-    expect(rewrites.at(-1)).toEqual({ source: '/(.*)', destination: '/app-shell.html' });
+    expect(rewrites.at(-1)?.destination).toBe('/app-shell.html');
+  });
+
+  it('sends a missing static asset to a real 404 instead of the shell', () => {
+    const { rewrites } = JSON.parse(vercelJson) as { rewrites: { source: string; destination: string }[] };
+    const last = rewrites.at(-1)!;
+    expect(last.destination).toBe('/app-shell.html');
+    // The last rewrite is the fallback for everything the filesystem did not
+    // answer. Its source is a path-to-regexp pattern with one unnamed group,
+    // which Vercel compiles to exactly `^(?:<source>)$` -- so testing that
+    // regex here is testing the rule Vercel will apply. A path it does NOT
+    // match reaches no rewrite at all, which is a 404.
+    const shell = new RegExp(`^(?:${last.source})$`);
+
+    // Asset-shaped URLs: a crawler holding a dead image or video URL gets a
+    // 404 it can drop, not a 200 of the noindex app shell.
+    for (const url of [
+      '/videos/nope.mp4',
+      '/videos/mealprep-demo-hero-poster.jpg',
+      '/guides/nope.pdf',
+      '/guides/screens/nope.png',
+      '/images/logo.png',
+      '/og/missing.jpg',
+      '/feature-screens/missing.webp',
+      '/es/videos/missing.mp4',
+      '/deep/path/photo.jpeg',
+      '/captions.vtt',
+      '/brochure.pdf',
+      '/icon.svg',
+    ]) {
+      expect(shell.test(url), url).toBe(false);
+    }
+
+    // Page routes still fall back to the shell, which is what makes an unknown
+    // URL render the app's own not-found page in the right language.
+    for (const url of [
+      '/',
+      '/no-such-page',
+      '/es/no-such-page',
+      '/meal-prep-ordering/features/not-real',
+      '/estimates',
+    ]) {
+      expect(shell.test(url), url).toBe(true);
+    }
+
+    // Known limit: the extension list is lower case, so an upper-case asset
+    // URL outside the three directories above still gets the shell. Nothing on
+    // the site ever links one. Inside those directories the folder rule covers
+    // it whatever the case of the extension.
+    expect(shell.test('/og/missing.PNG')).toBe(true);
+    expect(shell.test('/videos/nope.MP4')).toBe(false);
+  });
+
+  it('redirects the retired JPEG posters to the WebP files that replaced them', () => {
+    const { redirects } = JSON.parse(vercelJson) as { redirects: { source: string; destination: string; statusCode: number }[] };
+    const bySource = new Map(redirects.map(r => [r.source, r]));
+    for (const name of ['mealprep-demo-hero-poster', 'mealprep-demo-hero-es-poster']) {
+      const from = `/videos/${name}.jpg`;
+      expect(bySource.get(from)?.destination, from).toBe(`/videos/${name}.webp`);
+      expect(bySource.get(from)?.statusCode, from).toBe(301);
+    }
   });
 });
