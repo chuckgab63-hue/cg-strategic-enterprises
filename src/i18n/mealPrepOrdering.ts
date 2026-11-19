@@ -31,7 +31,7 @@ const en = {
   intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida and Georgia, in English and Spanish.",
   ctaDemo: 'Try the demo',
   ctaAlex: 'Talk to Alex',
-  // The demo clip in the hero (src/components/DemoVideo.tsx). Each language has
+  // The demo clip in the hero (src/components/NarratedVideo.tsx). Each language has
   // its own recording, so the lengths in the two captions differ on purpose:
   // the clip itself is 81 seconds in English and 95 in Spanish. `label` names
   // the player for a screen reader, `caption` is the line under it.

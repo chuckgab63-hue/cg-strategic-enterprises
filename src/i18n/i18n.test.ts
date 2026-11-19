@@ -83,9 +83,11 @@ describe('page meta', () => {
     expect(locs.length).toBe(SITE_ROUTES.length * (SPANISH_PUBLIC ? 2 : 1));
     for (const [, loc, , lastmod] of locs) expect(lastmod, loc).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
-    // A page and its Spanish twin share the route's date.
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-18</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-18</lastmod>');
+    // A page and its Spanish twin share the route's date. /pest-control moved
+    // to the 19th when the tour video went on it, and /es/pest-control moved
+    // with it although that page shows no video: the date belongs to the route.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-19</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-19</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-18</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-18</lastmod>');
     // And a page whose copy has not moved keeps its own, so "today everywhere" would fail here.

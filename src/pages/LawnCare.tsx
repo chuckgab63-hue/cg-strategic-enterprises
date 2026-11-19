@@ -4,6 +4,7 @@ import {
   StepList, TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
 import TierPackages from '../components/TierPackages';
+import TourVideo from '../components/TourVideo';
 import { statusLabel, statusMeaning } from '../config/featureStatus';
 import { BY_THE_C_URL, LAWN_CARE_PATH, LAWN_PACKAGE_GROUPS } from '../config/lawnPackages';
 import { TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PROMISE } from '../config/tiers';
@@ -115,6 +116,11 @@ export default function LawnCare() {
       <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>
         {ctas('hero')}
       </ServiceHero>
+
+      {/* --- The tour, English only, directly under the hero: showing the work
+              beats describing it, and #tour is the anchor the outreach emails
+              point at. Renders nothing on /es/lawn-care. --- */}
+      <TourVideo tour="lawn" />
 
       {/* --- The problems --- */}
       <ServiceSection title={t.problems.title}>

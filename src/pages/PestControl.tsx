@@ -6,6 +6,7 @@ import {
 import FeatureSwitchDemo from '../components/FeatureSwitchDemo';
 import LazySeasonalShowcase from '../components/LazySeasonalShowcase';
 import TierPackages from '../components/TierPackages';
+import TourVideo from '../components/TourVideo';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies';
 import { statusLabel, statusMeaning } from '../config/featureStatus';
 import { PACKAGE_GROUPS, PEST_CONTROL_PATH, TIER_HEADLINE, TIER_KEYS, TIER_NAME, TIER_PROMISE } from '../config/pestPackages';
@@ -106,6 +107,11 @@ export default function PestControl() {
       <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>
         {ctas('hero')}
       </ServiceHero>
+
+      {/* --- The tour, English only, directly under the hero: showing the work
+              beats describing it, and #tour is the anchor the outreach emails
+              point at. Renders nothing on /es/pest-control. --- */}
+      <TourVideo tour="pest" />
 
       {/* --- The switch demo --- */}
       <ServiceSection title={t.demo.title}>

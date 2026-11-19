@@ -223,7 +223,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
     },
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-19',
   },
   {
     path: LAWN_CARE_PATH,
@@ -231,7 +231,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${LAWN_CARE_META.en.title} | ${NAME}`, description: LAWN_CARE_META.en.description },
       es: { title: `${LAWN_CARE_META.es.title} | ${NAME}`, description: LAWN_CARE_META.es.description },
     },
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-19',
   },
   {
     path: '/meal-prep-ordering',

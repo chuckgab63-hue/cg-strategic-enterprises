@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import DemoVideo from '../components/DemoVideo';
+import NarratedVideo from '../components/NarratedVideo';
 import {
   BookCallButton, CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
-import { demoVideoJsonLdText } from '../config/demoVideo';
+import { DEMO_VIDEO, DEMO_VIDEO_ANCHOR, videoJsonLdText } from '../config/videos';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import mealPrepOrdering, {
   DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH, demoHref, type IncludedIcon,
@@ -72,13 +72,14 @@ export default function MealPrepOrdering() {
   return (
     <ServicePage>
       {/* The demo clip is the hero's second column in both languages, each page
-          playing the clip narrated in its own: DemoVideo picks the file by the
-          page's language. */}
+          playing the clip narrated in its own: the row is picked by the page's
+          language, and the player takes the file, the captions and the track
+          label from it. */}
       <ServiceHero
         eyebrow={t.eyebrow}
         title={t.title}
         intro={t.intro}
-        media={<DemoVideo label={t.video.label} caption={t.video.caption} />}
+        media={<NarratedVideo video={DEMO_VIDEO[lang]} anchor={DEMO_VIDEO_ANCHOR} label={t.video.label} caption={t.video.caption} />}
       >
         <div className="flex flex-wrap gap-3">
           {demoLink(DEMO_MENU_URL, t.ctaDemo, primaryButtonClass)}
@@ -89,7 +90,7 @@ export default function MealPrepOrdering() {
 
       {/* Each page claims the one clip it plays: two VideoObjects, two files,
           neither page describing the other's. */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: demoVideoJsonLdText(lang) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: videoJsonLdText(DEMO_VIDEO[lang]) }} />
 
       <ServiceSection title={t.included.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mb-8">{t.included.intro}</p>
