@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import {
-  LEGAL_BUSINESS_NAME, SITE_URL, PHONE_INTL, EMAIL, ADDRESS,
+  LEGAL_BUSINESS_NAME, ORGANIZATION_ID, SITE_URL, PHONE_INTL, EMAIL, ADDRESS,
 } from './src/config/site.ts'
 import { FOUNDER_PERSON, SOCIAL_SAME_AS } from './src/config/social.ts'
 import {
@@ -19,6 +19,9 @@ function organizationJsonLd(): Plugin {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    // Named, so other nodes can point at this one: the demo video's publisher
+    // on /meal-prep-ordering does (src/config/demoVideo.ts).
+    '@id': ORGANIZATION_ID,
     name: LEGAL_BUSINESS_NAME,
     url: SITE_URL,
     telephone: PHONE_INTL,

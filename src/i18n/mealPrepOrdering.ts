@@ -31,6 +31,17 @@ const en = {
   intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida and Georgia, in English and Spanish.",
   ctaDemo: 'Try the demo',
   ctaAlex: 'Talk to Alex',
+  // The demo clip in the hero (src/components/DemoVideo.tsx). The narration is
+  // English only, so the two languages use this block differently: the English
+  // page plays the video and shows `caption` under it, while the Spanish page
+  // keeps its own hero and shows `link` to the English one. Every key is
+  // translated either way -- `es: typeof en` below requires it, and a Spanish
+  // player becomes a one-line change the day there is Spanish narration.
+  video: {
+    label: 'Meal-prep online ordering demo',
+    caption: '81-second tour: what your customers see, and what you get behind the scenes.',
+    link: 'Watch the video tour (English narration, captions available)',
+  },
   live: {
     title: 'See it live',
     body: 'Order as a customer and manage a weekly plan, then see the same week from the kitchen side: subscribers, delivery routes, labels and what to cook.',
@@ -208,6 +219,11 @@ const es: typeof en = {
   intro: 'Tomar pedidos por mensajes directos, textos y hojas de cálculo funciona hasta que deja de funcionar. Un sistema de pedidos para comidas preparadas permite que sus clientes ordenen y se suscriban por su cuenta mientras su semana se organiza sola. Nosotros lo configuramos y pasamos a sus clientes al nuevo sistema, para negocios pequeños y medianos de comidas preparadas en Florida y Georgia, en inglés y en español.',
   ctaDemo: 'Probar la demo',
   ctaAlex: 'Hablar con Alex',
+  video: {
+    label: 'Demostración del sistema de pedidos en línea para comidas preparadas',
+    caption: 'Recorrido de 81 segundos: lo que ven sus clientes y lo que usted obtiene detrás de escena.',
+    link: 'Ver el recorrido en video (narración en inglés, subtítulos disponibles)',
+  },
   live: {
     title: 'Véalo en vivo',
     body: 'Haga un pedido como cliente y administre un plan semanal, y luego vea la misma semana desde el lado de la cocina: suscriptores, rutas de entrega, etiquetas y lo que hay que cocinar.',

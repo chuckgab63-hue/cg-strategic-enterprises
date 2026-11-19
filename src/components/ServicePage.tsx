@@ -38,13 +38,37 @@ export function ServicePage({ children }: { children: ReactNode }) {
   );
 }
 
-export function ServiceHero({ eyebrow, title, intro, children }: { eyebrow: string; title: string; intro: string; children: ReactNode }) {
-  return (
-    <header className="max-w-3xl">
+/**
+ * The page's opening block: eyebrow, h1, intro, then the buttons passed as
+ * children.
+ *
+ * `media` is optional and the only thing that changes the layout. Without it
+ * this is the single 3xl-wide column every service page has had. With it the
+ * hero is two columns from lg -- copy beside the media -- and one column below
+ * that, with the media LAST, so on a phone the headline, the intro and the
+ * buttons come first and the media follows instead of pushing them off screen.
+ * Pages that pass nothing render exactly the markup they did before.
+ */
+export function ServiceHero({ eyebrow, title, intro, media, children }: { eyebrow: string; title: string; intro: string; media?: ReactNode; children: ReactNode }) {
+  const copy = (
+    <>
       <p className="text-brand-orange font-bold uppercase tracking-widest text-xs">{eyebrow}</p>
       <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mt-3">{title}</h1>
       <p className="text-slate-300 text-lg leading-relaxed mt-5">{intro}</p>
       <div className="mt-8">{children}</div>
+    </>
+  );
+
+  if (!media) {
+    return <header className="max-w-3xl">{copy}</header>;
+  }
+
+  // The media column is capped at 26rem so the copy keeps a readable measure:
+  // at this page's width that leaves about 512px of text beside a 416px frame.
+  return (
+    <header className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-12">
+      <div>{copy}</div>
+      <div>{media}</div>
     </header>
   );
 }

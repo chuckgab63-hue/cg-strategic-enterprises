@@ -245,7 +245,8 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Pedidos en línea para negocios de comidas preparadas en Florida y Georgia: planes y menús semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
       },
     },
-    lastmod: '2026-11-18',
+    // 2026-11-19: the demo video in the hero, and the Spanish page's link to it.
+    lastmod: '2026-11-19',
   },
   {
     path: MEAL_PREP_FEATURES_PATH,

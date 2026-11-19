@@ -17,6 +17,16 @@ export const FOUNDER_NAME = 'Chuck Gabbard';
 export const BUSINESS_LOCATION = 'Jacksonville, FL';
 export const SITE_URL = 'https://www.cgstrategic.dev';
 
+/**
+ * The Organization node's own name in the structured data. vite.config.ts puts
+ * that node in the head of every page; anything else that needs to say "this
+ * company" points here by @id rather than describing it a second time, the way
+ * src/config/demoVideo.ts names it as the demo video's publisher. The same
+ * trick as FOUNDER_PERSON's @id in src/config/social.ts: a crawler that meets
+ * one @id twice merges the two mentions into one entity.
+ */
+export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+
 // Mailing address, used in the footer, /contact, the legal pages, and the
 // Organization JSON-LD that vite.config.ts injects into index.html.
 export const ADDRESS = {
