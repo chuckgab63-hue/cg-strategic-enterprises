@@ -37,7 +37,7 @@ type DemoVideoFile = {
 export const DEMO_VIDEO: Record<Lang, DemoVideoFile> = {
   en: {
     mp4: '/videos/mealprep-demo-hero.mp4',
-    poster: '/videos/mealprep-demo-hero-poster.jpg',
+    poster: '/videos/mealprep-demo-hero-poster.webp',
     captions: '/videos/mealprep-demo-hero.en.vtt',
     captionsLabel: 'English',
     width: 1280,
@@ -47,7 +47,7 @@ export const DEMO_VIDEO: Record<Lang, DemoVideoFile> = {
   },
   es: {
     mp4: '/videos/mealprep-demo-hero-es.mp4',
-    poster: '/videos/mealprep-demo-hero-es-poster.jpg',
+    poster: '/videos/mealprep-demo-hero-es-poster.webp',
     captions: '/videos/mealprep-demo-hero-es.es.vtt',
     captionsLabel: 'Español',
     width: 1280,
@@ -90,9 +90,8 @@ const VIDEO_DESCRIPTION: Record<Lang, string> = {
  * company's details. vite.config.ts puts that node in the head of every page,
  * both of these included, so the reference always resolves.
  *
- * `inLanguage` is on the Spanish node alone, and deliberately: adding it to the
- * English one would be right too, but it would change a page this change is
- * meant to leave untouched. It belongs in the next edit to that page.
+ * `inLanguage` is the clip's spoken language, which is the page's: each page
+ * plays its own recording, so the two never disagree.
  */
 export function demoVideoJsonLd(lang: Lang) {
   const file = DEMO_VIDEO[lang];
@@ -105,7 +104,7 @@ export function demoVideoJsonLd(lang: Lang) {
     contentUrl: `${SITE_URL}${file.mp4}`,
     uploadDate: file.uploadDate,
     duration: isoDuration(file.seconds),
-    ...(lang === 'es' ? { inLanguage: 'es' } : {}),
+    inLanguage: lang,
     publisher: { '@id': ORGANIZATION_ID },
   };
 }

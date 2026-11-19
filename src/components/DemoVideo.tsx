@@ -23,16 +23,21 @@ import { useLang } from '../i18n/useLang';
 // watching in a quiet office is the normal case, not the exception.
 //
 // The poster arrives after the load event, not with the markup. preload="none"
-// holds back the video but not the poster attribute, and that still is 103KB of
-// detailed storefront UI that does not shrink much (a 960px WebP was 54KB).
-// Measured on this page, three Lighthouse runs each: eager, it cost 2 points
-// (97-98 -> 95) and pushed LCP from 2.10s to 2.63s, because on a throttled
-// connection it downloads alongside the hero copy that IS the LCP element.
-// Deferred, the first screen is byte-for-byte the page it was before the video
-// existed, and the still appears a moment later over a frame that is already
-// the right shape and the right colour. useAfterPageLoad is false in the server
-// markup too, so hydration matches. The Spanish poster is the same weight as
-// the English one and is handled the same way.
+// holds back the video but not the poster attribute, so without this the still
+// downloads alongside the hero copy that IS the LCP element. Measured on this
+// page, three Lighthouse runs each: eager, it cost 2 points (97-98 -> 95) and
+// pushed LCP from 2.10s to 2.63s. Deferred, the first screen is byte-for-byte
+// the page it was before the video existed, and the still appears a moment
+// later over a frame that is already the right shape and the right colour.
+// useAfterPageLoad is false in the server markup too, so hydration matches.
+//
+// Both posters are 960px WebP, about 60KB, down from ~103KB JPEGs. That saving
+// is real bytes and nothing else: six Lighthouse runs per encoding per page put
+// WebP and JPEG on the same score, because LCP here is the hero PARAGRAPH, and
+// its render delay (~1.9s of a ~2.4s LCP) is set by parsing and running the
+// bundle, not by anything the poster does. No image change can move that
+// number; only a smaller or later bundle can. 960px is ~2.3x the widest the
+// player is ever drawn (a 26rem column on desktop, full width on a phone).
 export default function DemoVideo({ label, caption }: { label: string; caption: string }) {
   const pageLoaded = useAfterPageLoad();
   const lang = useLang();
