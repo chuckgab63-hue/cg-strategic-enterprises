@@ -63,7 +63,7 @@ Notes for the legal reviewer:
 | `src/i18n/missedCallCalculator.ts` | `/es/missed-call-calculator`: labels, breakdown, CTAs, the email form and the estimate summary sent with the lead |
 | `src/i18n/faq.ts` | `/es/faq`: every question and answer (also used for the FAQPage structured data). **New, not yet reviewed.** |
 | `src/i18n/answeringService.ts` | `/es/answering-service`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
-| `src/i18n/mealPrepOrdering.ts` | `/es/meal-prep-ordering`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
+| `src/i18n/mealPrepOrdering.ts` | `/es/meal-prep-ordering`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** Its demo video brings three more unreviewed pieces with it: the Spanish narration script (`public/videos/mealprep-demo-hero-es.es.vtt`), the caption under the player, and the `VideoObject` copy in `src/config/demoVideo.ts`. See Nov 19, 2026 below |
 | `src/i18n/demoGuide.ts` | `/es/demo-guide`: the demo walkthrough guide page. The Spanish PDF (`public/guides/meal-prep-demo-guide-es.pdf`) is marked for native review on its cover. **New, not yet reviewed.** |
 | `src/i18n/oneSourceCaseStudy.ts` | `/es/work/one-source-total-pest-control` |
 | `src/i18n/lawnCare.ts` | `/es/lawn-care`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
@@ -89,6 +89,39 @@ on the Spanish site.
 
 ## Words and choices worth a second look
 
+- **Spanish demo video (Nov 19, 2026).** `/es/meal-prep-ordering` now plays its own
+  95-second clip, narrated in Spanish, instead of linking to the English one. Review the
+  **narration script first**: it is the one thing here that is spoken aloud, so fixing it
+  means re-recording, not editing a string.
+  - The script is the captions file, `public/videos/mealprep-demo-hero-es.es.vtt`
+    (13 cues, word for word what the voice says). Words to check: "hora límite" (*order
+    cutoff*), "platillo" (*meal*, as a dish on a menu), "barra de envío gratis"
+    (*free-delivery bar*), "orden de parada" (*stop order*, on a delivery route),
+    "clientes que repiten" (*repeat customers*), "recogida" (*pickup*), "lista de
+    preparación" (*prep list*). The closing line reads the phone number as
+    "(904) 822-8929" and the domain as "cgstrategic.dev".
+  - `mealPrepOrdering.ts` `video.caption`, changed: "Recorrido de 95 segundos: lo que ven
+    sus clientes y lo que usted recibe detrás de escena." (was the 81-second line that
+    pointed at the English clip).
+  - `mealPrepOrdering.ts` `video.label`, now read aloud by screen readers on this page
+    rather than only on a link: "Demostración del sistema de pedidos en línea para comidas
+    preparadas".
+  - The captions track is listed in the player's own menu as **"Español"**.
+  - `src/config/demoVideo.ts`, the Spanish `VideoObject` — this is what Google shows in a
+    video result, so it is public copy even though it never appears on the page:
+    - name: "Demostración de pedidos en línea para comidas preparadas — CG Strategic Enterprises"
+    - description: "Un recorrido de 95 segundos por el sistema de pedidos en línea para un
+      negocio de comidas preparadas, con narración en español. Del lado del cliente: el menú
+      de la semana con una cuenta regresiva hasta la hora límite de pedidos, los macros y
+      los tamaños de porción de cada platillo, un carrito con una barra de envío gratis,
+      planes semanales que el cliente mismo salta o pausa, y entrega a domicilio, recogida,
+      cupones y tarjetas de regalo al pagar. Del lado de la cocina: todos los pedidos en una
+      sola lista, las listas de preparación y de compras listas al llegar la hora límite, las
+      etiquetas nutricionales de la semana con un solo clic, las rutas de entrega en orden de
+      parada, y los ingresos, los clientes que repiten y los platillos más vendidos."
+  - The "Ver el recorrido en video (narración en inglés, subtítulos disponibles)" link is
+    gone: there is nothing left on the Spanish site that sends a Spanish speaker to English
+    audio.
 - **Plans and feature controls (Nov 2, 2026).** Every new or changed Spanish string:
   - `mealPrepOrdering.ts` `plans` (new section):
     - title: "Empiece simple y agregue funciones a medida que crece"

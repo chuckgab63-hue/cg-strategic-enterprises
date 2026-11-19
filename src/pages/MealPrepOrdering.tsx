@@ -4,7 +4,7 @@ import {
   BookCallButton, CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
-import { DEMO_VIDEO_ANCHOR, demoVideoJsonLdText } from '../config/demoVideo';
+import { demoVideoJsonLdText } from '../config/demoVideo';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import mealPrepOrdering, {
   DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH, demoHref, type IncludedIcon,
@@ -71,15 +71,14 @@ export default function MealPrepOrdering() {
 
   return (
     <ServicePage>
-      {/* The demo clip is the hero's second column in English. The narration is
-          English only, so the Spanish page keeps its one-column hero and gets
-          the link below instead -- a Spanish player with English audio would be
-          a worse answer than a link that says what it is. */}
+      {/* The demo clip is the hero's second column in both languages, each page
+          playing the clip narrated in its own: DemoVideo picks the file by the
+          page's language. */}
       <ServiceHero
         eyebrow={t.eyebrow}
         title={t.title}
         intro={t.intro}
-        media={lang === 'en' ? <DemoVideo label={t.video.label} caption={t.video.caption} /> : undefined}
+        media={<DemoVideo label={t.video.label} caption={t.video.caption} />}
       >
         <div className="flex flex-wrap gap-3">
           {demoLink(DEMO_MENU_URL, t.ctaDemo, primaryButtonClass)}
@@ -88,26 +87,9 @@ export default function MealPrepOrdering() {
         </div>
       </ServiceHero>
 
-      {/* One page claims the video, the one that plays it. */}
-      {lang === 'en' && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: demoVideoJsonLdText() }} />
-      )}
-
-      {/* Lands on the English page with the player in view. hrefLang and lang
-          say the destination is in another language, as the legal pages' own
-          language links do. */}
-      {lang === 'es' && (
-        <p className="mt-6">
-          <Link
-            to={`${MEAL_PREP_ORDERING_PATH}#${DEMO_VIDEO_ANCHOR}`}
-            hrefLang="en"
-            lang="en"
-            className="text-sm font-bold text-brand-orange underline underline-offset-4 transition-colors hover:text-white"
-          >
-            {t.video.link}
-          </Link>
-        </p>
-      )}
+      {/* Each page claims the one clip it plays: two VideoObjects, two files,
+          neither page describing the other's. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: demoVideoJsonLdText(lang) }} />
 
       <ServiceSection title={t.included.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mb-8">{t.included.intro}</p>

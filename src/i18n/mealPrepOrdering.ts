@@ -31,16 +31,13 @@ const en = {
   intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida and Georgia, in English and Spanish.",
   ctaDemo: 'Try the demo',
   ctaAlex: 'Talk to Alex',
-  // The demo clip in the hero (src/components/DemoVideo.tsx). The narration is
-  // English only, so the two languages use this block differently: the English
-  // page plays the video and shows `caption` under it, while the Spanish page
-  // keeps its own hero and shows `link` to the English one. Every key is
-  // translated either way -- `es: typeof en` below requires it, and a Spanish
-  // player becomes a one-line change the day there is Spanish narration.
+  // The demo clip in the hero (src/components/DemoVideo.tsx). Each language has
+  // its own recording, so the lengths in the two captions differ on purpose:
+  // the clip itself is 81 seconds in English and 95 in Spanish. `label` names
+  // the player for a screen reader, `caption` is the line under it.
   video: {
     label: 'Meal-prep online ordering demo',
     caption: '81-second tour: what your customers see, and what you get behind the scenes.',
-    link: 'Watch the video tour (English narration, captions available)',
   },
   live: {
     title: 'See it live',
@@ -221,8 +218,7 @@ const es: typeof en = {
   ctaAlex: 'Hablar con Alex',
   video: {
     label: 'Demostración del sistema de pedidos en línea para comidas preparadas',
-    caption: 'Recorrido de 81 segundos: lo que ven sus clientes y lo que usted obtiene detrás de escena.',
-    link: 'Ver el recorrido en video (narración en inglés, subtítulos disponibles)',
+    caption: 'Recorrido de 95 segundos: lo que ven sus clientes y lo que usted recibe detrás de escena.',
   },
   live: {
     title: 'Véalo en vivo',

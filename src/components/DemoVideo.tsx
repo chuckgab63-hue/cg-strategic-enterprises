@@ -1,13 +1,18 @@
 import { useAfterPageLoad } from '../lib/deferred';
 import { DEMO_VIDEO, DEMO_VIDEO_ANCHOR } from '../config/demoVideo';
+import { useLang } from '../i18n/useLang';
 
-// The meal-prep demo clip, in the hero of /meal-prep-ordering.
+// The meal-prep demo clip, in the hero of /meal-prep-ordering -- the English
+// clip on the English page, the Spanish one on /es/meal-prep-ordering. Which
+// file, which captions track and which label all come from the one row in
+// src/config/demoVideo.ts that the page's own language picks, so a page can
+// never end up playing one language under another's captions.
 //
 // It plays only when the visitor asks for it. There is no autoplay of any kind,
 // muted or not: the clip is narrated, it is the reason the page exists rather
-// than decoration behind the copy, and 4.6MB has no business downloading for
-// someone who came to read. preload="none" means the browser fetches no video
-// at all until the play button is pressed.
+// than decoration behind the copy, and 4.6MB (5.7MB in Spanish) has no business
+// downloading for someone who came to read. preload="none" means the browser
+// fetches no video at all until the play button is pressed.
 //
 // That also settles prefers-reduced-motion without a media query: nothing moves
 // until a person starts it. The home page's phoenix clip needs all that
@@ -26,13 +31,16 @@ import { DEMO_VIDEO, DEMO_VIDEO_ANCHOR } from '../config/demoVideo';
 // Deferred, the first screen is byte-for-byte the page it was before the video
 // existed, and the still appears a moment later over a frame that is already
 // the right shape and the right colour. useAfterPageLoad is false in the server
-// markup too, so hydration matches.
+// markup too, so hydration matches. The Spanish poster is the same weight as
+// the English one and is handled the same way.
 export default function DemoVideo({ label, caption }: { label: string; caption: string }) {
   const pageLoaded = useAfterPageLoad();
+  const lang = useLang();
+  const video = DEMO_VIDEO[lang];
 
   return (
-    // The anchor the Spanish page links to. On the figure rather than the video
-    // so landing here brings the line underneath into view with it, and
+    // The player's own anchor, on the figure rather than the video so landing
+    // on #demo-video brings the line underneath into view with it, and
     // scroll-mt-28 clears the fixed 80px header, as the other anchor targets on
     // the site do (src/components/ScrollToTop.tsx).
     <figure id={DEMO_VIDEO_ANCHOR} className="m-0 scroll-mt-28">
@@ -47,15 +55,17 @@ export default function DemoVideo({ label, caption }: { label: string; caption: 
           controls
           playsInline
           preload="none"
-          poster={pageLoaded ? DEMO_VIDEO.poster : undefined}
-          width={DEMO_VIDEO.width}
-          height={DEMO_VIDEO.height}
+          poster={pageLoaded ? video.poster : undefined}
+          width={video.width}
+          height={video.height}
           aria-label={label}
           className="block aspect-video h-auto w-full bg-brand-ink"
         >
           {/* Sources before tracks: the parser expects them in that order. */}
-          <source src={DEMO_VIDEO.mp4} type="video/mp4" />
-          <track kind="captions" srcLang="en" label="English" src={DEMO_VIDEO.captions} default />
+          <source src={video.mp4} type="video/mp4" />
+          {/* srclang is the page's language because the clip is narrated in it:
+              there is no second track to choose between. */}
+          <track kind="captions" srcLang={lang} label={video.captionsLabel} src={video.captions} default />
         </video>
       </div>
       <figcaption className="mt-3 text-sm leading-relaxed text-slate-400">{caption}</figcaption>
