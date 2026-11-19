@@ -3,13 +3,12 @@
 // disagree about where we are. Plain TypeScript, no React, so vite.config.ts can
 // import it for the structured data it injects at build time.
 //
-// LinkedIn is the founder's own profile for now; a company page replaces it when
-// there is one. That matters for the markup as well as the link: a founder's
-// profile belongs on a Person's sameAs, a company page on the Organization's.
-// Until the company page exists this URL is the only LinkedIn presence there is,
-// so it stands in for the organization as well as describing the Person below.
-// When a company page arrives, it replaces this URL in SOCIAL_PROFILES and the
-// founder's own profile moves to FOUNDER_PERSON's sameAs alone.
+// There are two LinkedIn URLs below and they are not interchangeable. The
+// company page is the organization's own profile, so it is the one in
+// SOCIAL_PROFILES: it draws the footer icon and it is what belongs on the
+// Organization's and LocalBusiness's sameAs. The founder's personal profile
+// describes a person, not a company, so it stays on FOUNDER_PERSON's sameAs
+// alone and gets no icon of its own — one "in" glyph, pointing at the company.
 
 // .ts extension because vite.config.ts pulls this file into the node-side
 // tsconfig, which resolves like Node and wants the extension spelled out.
@@ -35,6 +34,9 @@ const FACEBOOK_URL = 'https://www.facebook.com/cgstrategic';
 // cgstrategic.dev, not cgstrategic: the plain handle was already taken on
 // Instagram by a dead account, so this one matches the domain instead.
 const INSTAGRAM_URL = 'https://www.instagram.com/cgstrategic.dev';
+const LINKEDIN_COMPANY_URL = 'https://www.linkedin.com/company/cgstrategic';
+// The founder's own profile. Reachable only through FOUNDER_PERSON below, never
+// through SOCIAL_PROFILES: see the note at the top of this file.
 const FOUNDER_LINKEDIN_URL = 'https://www.linkedin.com/in/chuckgabbard';
 /**
  * The Google Business Profile, by its cid: the link Google itself hands out for
@@ -44,10 +46,10 @@ const FOUNDER_LINKEDIN_URL = 'https://www.linkedin.com/in/chuckgabbard';
 export const GOOGLE_BUSINESS_PROFILE_URL = 'https://www.google.com/maps?cid=6494469241290480803';
 
 // `as const` so each entry keeps its literal key and display, which is what
-// lets ICON_PROFILES below be typed down to the two keys that have glyphs.
+// lets ICON_PROFILES below be typed down to just the keys that have glyphs.
 export const SOCIAL_PROFILES = [
   { key: 'facebook', url: FACEBOOK_URL, display: 'icon' },
-  { key: 'linkedin', url: FOUNDER_LINKEDIN_URL, display: 'icon' },
+  { key: 'linkedin', url: LINKEDIN_COMPANY_URL, display: 'icon' },
   { key: 'instagram', url: INSTAGRAM_URL, display: 'icon' },
   { key: 'google', url: GOOGLE_BUSINESS_PROFILE_URL, display: 'text' },
 ] as const satisfies readonly SocialProfile[];
@@ -75,8 +77,8 @@ export const SOCIAL_SAME_AS: string[] = SOCIAL_PROFILES.map(p => p.url);
 /**
  * The founder as a schema.org Person, for the `founder` property on both the
  * site-wide Organization node and the home page's LocalBusiness. One object, so
- * the two nodes never describe them differently, and the LinkedIn URL sits on a
- * Person as well as on the organization it currently stands in for.
+ * the two nodes never describe them differently, and the founder's own LinkedIn
+ * profile is attached to the person it describes rather than to the company.
  *
  * The `@id` is what makes those two mentions one person rather than two who
  * happen to share a name: a crawler that meets the same @id twice merges them.
