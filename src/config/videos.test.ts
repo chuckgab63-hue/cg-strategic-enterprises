@@ -5,8 +5,10 @@ import mealPrepEnVtt from '../../public/videos/mealprep-demo-hero.en.vtt?raw';
 import mealPrepEsVtt from '../../public/videos/mealprep-demo-hero-es.es.vtt?raw';
 import pestVtt from '../../public/videos/pest-tour-hero.en.vtt?raw';
 import lawnVtt from '../../public/videos/lawn-tour-hero.en.vtt?raw';
+import rescueEnVtt from '../../public/videos/missed-call-rescue-hero.en.vtt?raw';
+import rescueEsVtt from '../../public/videos/missed-call-rescue-hero-es.es.vtt?raw';
 import { ORGANIZATION_ID, SITE_URL } from './site';
-import { DEMO_VIDEO, TOUR_VIDEO, videoJsonLd, videoJsonLdText, type VideoFile } from './videos';
+import { DEMO_VIDEO, RESCUE_VIDEO, TOUR_VIDEO, videoJsonLd, videoJsonLdText, type VideoFile } from './videos';
 
 /** Every clip on the site, with the captions file it ships with. */
 const CLIPS: { key: string; file: VideoFile; vtt: string }[] = [
@@ -14,6 +16,8 @@ const CLIPS: { key: string; file: VideoFile; vtt: string }[] = [
   { key: 'meal-prep es', file: DEMO_VIDEO.es, vtt: mealPrepEsVtt },
   { key: 'pest tour', file: TOUR_VIDEO.pest, vtt: pestVtt },
   { key: 'lawn tour', file: TOUR_VIDEO.lawn, vtt: lawnVtt },
+  { key: 'missed-call rescue en', file: RESCUE_VIDEO.en, vtt: rescueEnVtt },
+  { key: 'missed-call rescue es', file: RESCUE_VIDEO.es, vtt: rescueEsVtt },
 ];
 
 /** The end of a cue line, "00:01:12.047 --> 00:01:19.500", in seconds. */
@@ -76,6 +80,8 @@ describe('narrated clips', () => {
     expect(videoJsonLd(DEMO_VIDEO.es).duration).toBe('PT1M35S');
     expect(videoJsonLd(TOUR_VIDEO.pest).duration).toBe('PT1M14S');
     expect(videoJsonLd(TOUR_VIDEO.lawn).duration).toBe('PT1M12S');
+    expect(videoJsonLd(RESCUE_VIDEO.en).duration).toBe('PT1M12S');
+    expect(videoJsonLd(RESCUE_VIDEO.es).duration).toBe('PT1M28S');
   });
 
   it('escapes the JSON-LD so it cannot close its own script tag', () => {

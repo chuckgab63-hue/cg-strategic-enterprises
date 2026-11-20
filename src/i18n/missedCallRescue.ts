@@ -109,6 +109,13 @@ const en = {
     upgrade: `Outgrow it and it rolls into the full Pest Control, Lawn Care or Meal Prep package — and the ${setupEn} setup fee is credited if you upgrade within ${OFFER.upgradeCreditDays} days.`,
   },
 
+  // The hero clip (src/config/videos.ts, RESCUE_VIDEO). The length in the
+  // caption is the row's own `seconds`.
+  video: {
+    label: 'Missed-Call Rescue intro: how an AI receptionist answers the calls you miss',
+    caption: '72-second intro: one missed call, from the ring to the lead in your texts.',
+  },
+
   calculator: {
     title: 'See what missed calls cost you',
     body: 'Put in your own calls per week, how many you miss and what a customer is worth. The estimate is yours, from your numbers.',
@@ -242,6 +249,11 @@ const es: typeof en = {
     a2pNote: `El mensaje automático se activa en cuanto se apruebe el registro de mensajería con los operadores (A2P 10DLC) de su negocio. Eso suele tardar de ${weeksFrom} a ${weeksTo} semanas y no está en nuestras manos. La atención de llamadas funciona desde el primer día de cualquier manera.`,
     finePrint: 'El uso telefónico va incluido hasta un límite de uso razonable. Un volumen alto de llamadas se cobra al costo, y confirmamos el límite con usted antes de empezar.',
     upgrade: `Cuando le quede chico, se integra al paquete completo de Control de plagas, Jardinería o Comidas preparadas, y los ${setupEs} de instalación se le acreditan si hace el cambio dentro de ${OFFER.upgradeCreditDays} días.`,
+  },
+
+  video: {
+    label: 'Presentación de Missed-Call Rescue: cómo una recepcionista con IA contesta las llamadas que usted no alcanza',
+    caption: 'Presentación de 88 segundos: una llamada perdida, desde que suena hasta el cliente potencial en sus mensajes.',
   },
 
   calculator: {

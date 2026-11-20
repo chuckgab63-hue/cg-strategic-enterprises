@@ -3,7 +3,8 @@
 // and its structured data can never disagree about which file plays, how long
 // it runs, or what it shows.
 //
-// Three clips, four rows. The meal-prep demo exists twice, once per language:
+// Four clips, six rows. The Missed-Call Rescue intro exists in both languages
+// (RESCUE_VIDEO below), and so does the meal-prep demo:
 // each is narrated in its own language, so they are separate recordings of
 // different lengths -- the Spanish one runs 14 seconds longer, because Spanish
 // says the same thing in more syllables. Keyed by language below, which is what
@@ -113,6 +114,52 @@ export const TOUR_VIDEO: Record<'pest' | 'lawn', VideoFile> = {
     description: 'A narrated tour of a lawn care and landscaping website and admin area built by CG Strategic Enterprises. The public site: separate paths for homeowners and commercial properties, a page each for lawn maintenance, weed control and landscape design written for local search, a projects gallery, the service area across Duval, St. Johns, Clay and Nassau counties clearly mapped, a free quote form, William the AI voice assistant, and one tap that switches the whole site to Spanish. Behind the scenes: role-based logins for owners, managers and staff covering hiring and onboarding, and every service and feature switchable from admin settings. The site shown is By The C of Jax.',
   },
 };
+
+/**
+ * The Missed-Call Rescue intro, in the hero of /missed-call-rescue and
+ * /es/missed-call-rescue -- the same placement and the same per-language split
+ * as the meal-prep demo. It is not a tour of a client build: it follows one
+ * call from the ring on a job to the lead texted to the owner, then the price
+ * and the number that reaches Alex. The call, question, text and log screens in
+ * it are labelled "Example" on screen, because the business and callers are
+ * made up. Visuals made with Runway (three animated stills), narration is
+ * Runway text-to-speech; sources in the Runway folder,
+ * missed-call-rescue-video-assets.zip.
+ *
+ * The Spanish recording runs 16 seconds longer, for the same reason the
+ * meal-prep one does.
+ */
+export const RESCUE_VIDEO: Record<Lang, VideoFile> = {
+  en: {
+    mp4: '/videos/missed-call-rescue-hero.mp4',
+    poster: '/videos/missed-call-rescue-hero-poster.webp',
+    captions: '/videos/missed-call-rescue-hero.en.vtt',
+    captionsLabel: 'English',
+    lang: 'en',
+    width: 1280,
+    height: 720,
+    seconds: 72, // 71.16s in the file
+    uploadDate: '2026-11-20',
+    name: `Missed-Call Rescue: an AI receptionist for missed calls — ${BUSINESS_NAME}`,
+    description: 'A 72-second introduction to Missed-Call Rescue, an AI receptionist for local service businesses. When the owner cannot pick up, the AI answers with the business name, in English or Spanish, asks what the caller needs, where they are, how soon and the best number to call back, texts the owner the lead, and logs every call in one place. The business keeps its own number, setup is done with the owner and it is live in 14 days, for $497 to set up and $149 a month, cancel anytime. Ends with the number that reaches Alex, CG Strategic\'s own AI receptionist.',
+  },
+  es: {
+    mp4: '/videos/missed-call-rescue-hero-es.mp4',
+    poster: '/videos/missed-call-rescue-hero-es-poster.webp',
+    captions: '/videos/missed-call-rescue-hero-es.es.vtt',
+    captionsLabel: 'Español',
+    lang: 'es',
+    width: 1280,
+    height: 720,
+    seconds: 88, // 87.61s in the file
+    uploadDate: '2026-11-20',
+    name: `Missed-Call Rescue: recepcionista con IA para llamadas perdidas — ${BUSINESS_NAME}`,
+    description: 'Una presentación de 88 segundos de Missed-Call Rescue, una recepcionista con IA para negocios locales de servicios, con narración en español. Cuando el dueño no puede contestar, la IA contesta con el nombre del negocio, en inglés o en español, pregunta qué necesita la persona, dónde está, para cuándo y el mejor número para devolver la llamada, le envía el cliente potencial al dueño por mensaje de texto y registra cada llamada en un solo lugar. El negocio conserva su número, la instalación se hace con el dueño y queda funcionando en 14 días, por $497 de instalación y $149 al mes, con cancelación cuando quiera. Termina con el número donde contesta Alex, la recepcionista con IA de CG Strategic.',
+  },
+};
+
+/** The id on the Missed-Call Rescue figure, so #rescue-video reaches the player. */
+export const RESCUE_VIDEO_ANCHOR = 'rescue-video';
 
 /**
  * The id on the meal-prep figure, so #demo-video reaches the player on either

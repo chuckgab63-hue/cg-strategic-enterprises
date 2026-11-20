@@ -3,7 +3,9 @@ import {
   ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
+import NarratedVideo from '../components/NarratedVideo';
 import { bookingUrl } from '../config/booking';
+import { RESCUE_VIDEO, RESCUE_VIDEO_ANCHOR, videoJsonLdText } from '../config/videos';
 import { MISSED_CALL_RESCUE as OFFER, OFFER_CURRENCY } from '../config/offers';
 import { ORGANIZATION_ID, PHONE_DISPLAY, PHONE_HREF, SITE_URL } from '../config/site';
 import { breadcrumbJsonLdText } from '../i18n/breadcrumbs';
@@ -126,7 +128,14 @@ export default function MissedCallRescue() {
         </ol>
       </nav>
 
-      <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>
+      {/* The intro clip is the hero's second column, as on /meal-prep-ordering:
+          each language's page plays the clip narrated in its own language. */}
+      <ServiceHero
+        eyebrow={t.eyebrow}
+        title={t.title}
+        intro={t.intro}
+        media={<NarratedVideo video={RESCUE_VIDEO[lang]} anchor={RESCUE_VIDEO_ANCHOR} label={t.video.label} caption={t.video.caption} />}
+      >
         {/* The price, the term and the timeline as their own row above the
             buttons: it is a fixed-price offer, so the figures are the offer. */}
         <dl className="flex flex-wrap gap-3">
@@ -143,6 +152,9 @@ export default function MissedCallRescue() {
         </dl>
         <div className="mt-6">{ctas('hero')}</div>
       </ServiceHero>
+
+      {/* Each page claims the one clip it plays. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: videoJsonLdText(RESCUE_VIDEO[lang]) }} />
 
       <ServiceSection title={t.who.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl">{t.who.body}</p>
