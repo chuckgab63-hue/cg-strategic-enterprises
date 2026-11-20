@@ -106,9 +106,10 @@ on the Spanish site.
   - The carrier texting line: "el registro de mensajería con los operadores (A2P 10DLC)".
     The English keeps the A2P 10DLC term as-is and so does this; check "operadores" reads as
     *phone carriers* and not as *operators* (people).
-  - The booking button says "Agende una llamada de 15 minutos" with the note "Reserva un
-    espacio gratuito de 30 minutos; 15 suelen alcanzar. (Página en inglés.)" — the Cal.com
-    event really is a free 30-minute slot, so the note has to stay truthful in Spanish too.
+  - The booking button says "Agende una llamada de 30 minutos" with the note "Gratis, y casi
+    nunca usamos la media hora completa. (Página en inglés.)" — 30 because that is the length
+    of the only event on the Cal.com calendar, and the parenthesis because that booking page
+    has no Spanish. Check "media hora completa" reads naturally for *the whole half hour*.
   - Prices are printed by `Intl` from `src/config/offers.ts` and read "$497" and "$149" in
     both languages; nothing to translate there.
   - The proof link on the Spanish page goes to `/es/pest-control` with no `#tour` anchor,

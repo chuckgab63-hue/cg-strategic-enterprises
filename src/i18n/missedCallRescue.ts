@@ -49,10 +49,12 @@ const en = {
   priceTerm: 'Month to month. Cancel anytime.',
   priceLive: `Live in ${OFFER.liveInDays} days`,
 
-  ctaBook: 'Book a 15-minute call',
-  // The one event type on the calendar is a free 30-minute slot, so the button
-  // cannot imply the booking page will offer anything shorter.
-  ctaBookNote: 'Books a free 30-minute slot — 15 minutes is usually plenty.',
+  // 30 and not 15: the one event type on the calendar is a free half hour, and
+  // a button that promises a shorter call than the booking page will offer is
+  // the kind of small lie a visitor notices in the first click. If the cal.com
+  // event is ever shortened, this is the string to move with it.
+  ctaBook: 'Book a 30-minute call',
+  ctaBookNote: 'Free, and we rarely need the whole half hour.',
   ctaAlex: 'Hear it answer a call',
   ctaCall: 'Call us',
   tryNote: `Try it now: Alex, our own AI receptionist, answers ${PHONE_DISPLAY}.`,
@@ -187,8 +189,9 @@ const es: typeof en = {
   priceTerm: 'Mes a mes. Cancele cuando quiera.',
   priceLive: `Funcionando en ${OFFER.liveInDays} días`,
 
-  ctaBook: 'Agende una llamada de 15 minutos',
-  ctaBookNote: 'Reserva un espacio gratuito de 30 minutos; 15 suelen alcanzar. (Página en inglés.)',
+  ctaBook: 'Agende una llamada de 30 minutos',
+  // The "(Página en inglés.)" stays: the cal.com booking page has no Spanish.
+  ctaBookNote: 'Gratis, y casi nunca usamos la media hora completa. (Página en inglés.)',
   ctaAlex: 'Escuche cómo contesta una llamada',
   ctaCall: 'Llámenos',
   tryNote: `Pruébelo ahora: Alex, nuestra propia recepcionista con IA, contesta el ${PHONE_DISPLAY}.`,
