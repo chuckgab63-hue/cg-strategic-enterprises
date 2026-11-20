@@ -200,6 +200,10 @@ describe('pre-rendered pages', () => {
 // blank, and nobody notices until a post is already out. These are the parts
 // that can be checked without fetching anything.
 describe('social preview images', () => {
+  /** One path, or one per language: the files an og block points at. */
+  const imagePaths = (image: string | Record<string, string>) =>
+    typeof image === 'string' ? [image] : Object.values(image);
+
   it('declares 1200x630 and alt text in both languages wherever a page has one', () => {
     const withOg = SITE_ROUTES.filter(r => r.og);
     expect(withOg.length).toBeGreaterThan(0);
@@ -208,7 +212,7 @@ describe('social preview images', () => {
       // The size every scraper crops to. Anything else gets letterboxed or cut.
       expect(og.width, route.path).toBe(1200);
       expect(og.height, route.path).toBe(630);
-      expect(og.image.startsWith('/'), route.path).toBe(true);
+      for (const path of imagePaths(og.image)) expect(path.startsWith('/'), route.path).toBe(true);
       for (const lang of ['en', 'es'] as const) {
         expect(og.alt[lang], `${lang} ${route.path}`).toBeTruthy();
       }
@@ -217,7 +221,8 @@ describe('social preview images', () => {
 
   it('never points a preview tag at a WebP, which LinkedIn will not render', () => {
     for (const route of SITE_ROUTES) {
-      if (route.og) expect(route.og.image, route.path).toMatch(/[.](?:jpe?g|png)$/);
+      if (!route.og) continue;
+      for (const path of imagePaths(route.og.image)) expect(path, route.path).toMatch(/[.](?:jpe?g|png)$/);
     }
   });
 
@@ -238,13 +243,26 @@ describe('social preview images', () => {
     }
   });
 
-  it('leaves the pages that have no preview image without the tags', () => {
-    // Not an endorsement of the gap -- /pest-control and /meal-prep-ordering
-    // should get their own images. It pins the current state so adding one is
-    // a deliberate edit here rather than a silent half-configuration.
-    for (const path of ['/pest-control', '/meal-prep-ordering']) {
-      expect(findRoute(path)!.og, path).toBeUndefined();
-      expect(renderHeadTags(headFor(path)), path).not.toContain('og:image');
+  it('gives every service page a card, in both languages', () => {
+    for (const path of ['/pest-control', '/lawn-care', '/meal-prep-ordering']) {
+      expect(findRoute(path)!.og, path).toBeTruthy();
+      for (const url of [path, `/es${path}`]) {
+        const tags = renderHeadTags(headFor(url));
+        expect(tags, url).toContain('<meta property="og:image" content="https://www.cgstrategic.dev/og/');
+        expect(tags, url).toContain('<meta name="twitter:image" content="https://www.cgstrategic.dev/og/');
+      }
     }
+  });
+
+  it('serves the Spanish meal-prep card on the Spanish page and the English one on the English page', () => {
+    // The one route with a picture per language: its words are part of the
+    // image, so a shared card would put English on the Spanish page.
+    const en = renderHeadTags(headFor('/meal-prep-ordering'));
+    const es = renderHeadTags(headFor('/es/meal-prep-ordering'));
+    expect(en).toContain('content="https://www.cgstrategic.dev/og/meal-prep-ordering.jpg"');
+    expect(en).not.toContain('meal-prep-ordering-es.jpg');
+    expect(es).toContain('content="https://www.cgstrategic.dev/og/meal-prep-ordering-es.jpg"');
+    // And a route with one shared image still gives both languages that image.
+    expect(renderHeadTags(headFor('/es/pest-control'))).toContain('content="https://www.cgstrategic.dev/og/pest-control.jpg"');
   });
 });

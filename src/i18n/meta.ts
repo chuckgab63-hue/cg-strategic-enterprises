@@ -21,8 +21,15 @@ export interface SiteRoute {
   /** The English path; the Spanish one is localizePath(path, 'es'). */
   path: string;
   meta: Record<Lang, PageMeta>;
-  /** Open Graph image for link previews, if the page has one. */
-  og?: { image: string; width: number; height: number; alt: Record<Lang, string>; type: 'article' | 'website' };
+  /**
+   * Open Graph image for link previews, if the page has one.
+   *
+   * One path for both languages, or one per language where the picture has
+   * words burnt into it and a translated version of it exists. Alt text is
+   * always per language, because the alt describes the image to someone who
+   * cannot see it and that belongs in their language either way.
+   */
+  og?: { image: string | Record<Lang, string>; width: number; height: number; alt: Record<Lang, string>; type: 'article' | 'website' };
   /**
    * The sitemap's lastmod, as YYYY-MM-DD.
    *
@@ -243,6 +250,19 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
       es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
     },
+    // The tour poster, cropped to 1200x630. One image for both languages:
+    // the headline is burnt into it in English and there is no Spanish
+    // recording of this tour to cut a Spanish card from.
+    og: {
+      image: '/og/pest-control.jpg',
+      width: 1200,
+      height: 630,
+      type: 'website',
+      alt: {
+        en: 'Pest control websites, done right: a Florida home under a golden dome of spray at sunset',
+        es: 'Vista previa de control de plagas: "Pest control websites, done right" sobre una casa de Florida bajo una cúpula dorada al atardecer',
+      },
+    },
     lastmod: '2026-11-19',
   },
   {
@@ -284,6 +304,23 @@ export const SITE_ROUTES: SiteRoute[] = [
       es: {
         title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
         description: 'Pedidos en línea para negocios de comidas preparadas en Florida y Georgia: planes y menús semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
+      },
+    },
+    // The only page with a card per language: the demo video was recorded
+    // twice, so its poster exists with Spanish words on it as well as English.
+    // Sharing the English card on /es/meal-prep-ordering when the Spanish one
+    // is sitting right there would be the odd choice.
+    og: {
+      image: {
+        en: '/og/meal-prep-ordering.jpg',
+        es: '/og/meal-prep-ordering-es.jpg',
+      },
+      width: 1200,
+      height: 630,
+      type: 'website',
+      alt: {
+        en: 'Online ordering for meal prep: a phoenix of fire over the ocean at sunrise',
+        es: 'Pedidos en línea para comidas preparadas: un ave fénix de fuego sobre el mar al amanecer',
       },
     },
     // 2026-11-19: the demo video in the hero, and the Spanish page's link to it.

@@ -62,7 +62,7 @@ export function headFor(pathname: string): HeadData {
       url: canonical,
       title,
       description,
-      image: absolute(route.og.image),
+      image: absolute(typeof route.og.image === 'string' ? route.og.image : route.og.image[lang]),
       imageWidth: route.og.width,
       imageHeight: route.og.height,
       imageAlt: route.og.alt[lang],
