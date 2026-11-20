@@ -251,6 +251,27 @@ export const SITE_ROUTES: SiteRoute[] = [
       en: { title: `${LAWN_CARE_META.en.title} | ${NAME}`, description: LAWN_CARE_META.en.description },
       es: { title: `${LAWN_CARE_META.es.title} | ${NAME}`, description: LAWN_CARE_META.es.description },
     },
+    // The tour video's poster, re-cropped from the 1280x720 master to the
+    // 1200x630 that LinkedIn, Facebook and X all read, so the preview card
+    // shows the same frame a visitor sees on the page.
+    //
+    // JPEG and not the WebP beside it, which is 24KB smaller: LinkedIn's
+    // scraper rejects WebP outright and shows a blank card, and og:image has
+    // no <picture>-style fallback -- a crawler reads one URL and renders what
+    // it gets. The WebP is kept for anything on-site that wants the lighter
+    // file; the tag has to stay on the JPEG.
+    og: {
+      image: '/og/lawn-care.jpg',
+      width: 1200,
+      height: 630,
+      type: 'website',
+      alt: {
+        en: 'Lawn care websites, done right: a crew member on a zero-turn mower on a striped lawn at sunset',
+        es: 'Vista previa de jardinería: "Lawn care websites, done right" sobre un operario en una podadora de giro cero al atardecer',
+      },
+    },
+    // Unmoved on purpose: a link-preview image is not copy a visitor reads,
+    // and the lastmod note above says styling and plumbing do not count.
     lastmod: '2026-11-19',
   },
   {

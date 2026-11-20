@@ -31,7 +31,13 @@ export function renderHeadTags(head: HeadData): string {
       ['og:image:height', String(og.imageHeight)], ['og:image:alt', og.imageAlt],
     ];
     for (const [p, c] of props) tags.push(`<meta property="${p}" content="${esc(c)}" data-seo />`);
+    // twitter:card and twitter:image are name=, not property=: the card tags
+    // are plain meta names, and X ignores them under property. X does fall back
+    // to og:image on its own, but naming it keeps the card explicit, and the
+    // same tags are what Slack and a few others read first. Keep this in step
+    // with SeoHead.tsx, which builds the same set for client-side navigation.
     tags.push('<meta name="twitter:card" content="summary_large_image" data-seo />');
+    tags.push(`<meta name="twitter:image" content="${esc(og.image)}" data-seo />`);
   }
   return tags.join('\n    ');
 }

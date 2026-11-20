@@ -4,7 +4,7 @@ import vercelJson from '../../vercel.json?raw';
 import { langFromPath, localizePath, stripLang, SPANISH_PUBLIC } from './lang';
 import { headFor } from './head';
 import { SITE_ROUTES, findRoute } from './meta';
-import { applyHead, prerenderTargets, sitemapXml } from './prerender';
+import { applyHead, prerenderTargets, renderHeadTags, sitemapXml } from './prerender';
 
 describe('language paths', () => {
   it('keeps English at the existing URLs and puts Spanish under /es', () => {
@@ -192,6 +192,59 @@ describe('pre-rendered pages', () => {
       const from = `/videos/${name}.jpg`;
       expect(bySource.get(from)?.destination, from).toBe(`/videos/${name}.webp`);
       expect(bySource.get(from)?.statusCode, from).toBe(301);
+    }
+  });
+});
+
+// A broken link-preview image fails silently: the page is fine, the card is
+// blank, and nobody notices until a post is already out. These are the parts
+// that can be checked without fetching anything.
+describe('social preview images', () => {
+  it('declares 1200x630 and alt text in both languages wherever a page has one', () => {
+    const withOg = SITE_ROUTES.filter(r => r.og);
+    expect(withOg.length).toBeGreaterThan(0);
+    for (const route of withOg) {
+      const og = route.og!;
+      // The size every scraper crops to. Anything else gets letterboxed or cut.
+      expect(og.width, route.path).toBe(1200);
+      expect(og.height, route.path).toBe(630);
+      expect(og.image.startsWith('/'), route.path).toBe(true);
+      for (const lang of ['en', 'es'] as const) {
+        expect(og.alt[lang], `${lang} ${route.path}`).toBeTruthy();
+      }
+    }
+  });
+
+  it('never points a preview tag at a WebP, which LinkedIn will not render', () => {
+    for (const route of SITE_ROUTES) {
+      if (route.og) expect(route.og.image, route.path).toMatch(/[.](?:jpe?g|png)$/);
+    }
+  });
+
+  it('gives /lawn-care an absolute image URL and the full tag set, in both languages', () => {
+    for (const [path, alt] of [
+      ['/lawn-care', findRoute('/lawn-care')!.og!.alt.en],
+      ['/es/lawn-care', findRoute('/lawn-care')!.og!.alt.es],
+    ] as const) {
+      const tags = renderHeadTags(headFor(path));
+      // Absolute, not /og/lawn-care.jpg: a scraper has no page to resolve it against.
+      expect(tags, path).toContain('<meta property="og:image" content="https://www.cgstrategic.dev/og/lawn-care.jpg" data-seo />');
+      expect(tags, path).toContain('<meta property="og:image:width" content="1200" data-seo />');
+      expect(tags, path).toContain('<meta property="og:image:height" content="630" data-seo />');
+      expect(tags, path).toContain('og:image:alt');
+      expect(tags, path).toContain(alt.replace(/"/g, '&quot;'));
+      expect(tags, path).toContain('<meta name="twitter:card" content="summary_large_image" data-seo />');
+      expect(tags, path).toContain('<meta name="twitter:image" content="https://www.cgstrategic.dev/og/lawn-care.jpg" data-seo />');
+    }
+  });
+
+  it('leaves the pages that have no preview image without the tags', () => {
+    // Not an endorsement of the gap -- /pest-control and /meal-prep-ordering
+    // should get their own images. It pins the current state so adding one is
+    // a deliberate edit here rather than a silent half-configuration.
+    for (const path of ['/pest-control', '/meal-prep-ordering']) {
+      expect(findRoute(path)!.og, path).toBeUndefined();
+      expect(renderHeadTags(headFor(path)), path).not.toContain('og:image');
     }
   });
 });

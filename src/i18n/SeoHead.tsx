@@ -34,7 +34,10 @@ export default function SeoHead() {
         ['og:image', og.image], ['og:image:width', String(og.imageWidth)],
         ['og:image:height', String(og.imageHeight)], ['og:image:alt', og.imageAlt],
       ].forEach(([property, content]) => add('meta', { property, content }));
+      // name=, not property= -- see the note in prerender.ts, which renders
+      // the same two tags into the pre-built HTML.
       add('meta', { name: 'twitter:card', content: 'summary_large_image' });
+      add('meta', { name: 'twitter:image', content: og.image });
     }
   }, [pathname]);
 
