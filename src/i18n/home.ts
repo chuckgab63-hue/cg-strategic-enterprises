@@ -2,8 +2,10 @@
 // The case study card under the services has its own file (caseStudyCard.ts).
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
+import { MISSED_CALL_RESCUE as OFFER, offerMoney } from '../config/offers.ts';
+
 /** Picks the card's icon in Home.tsx. */
-export type ServiceIcon = 'automation' | 'phone' | 'ordering' | 'search' | 'website' | 'check' | 'pest' | 'lawn';
+export type ServiceIcon = 'automation' | 'phone' | 'voicemail' | 'ordering' | 'search' | 'website' | 'check' | 'pest' | 'lawn';
 
 /**
  * One of the three industry highlights in the hero. `key` is both the icon in
@@ -26,6 +28,12 @@ interface ServiceCard {
   body: string;
   /** The card's link text, when it isn't "Learn more". */
   cta?: string;
+  /**
+   * A small pill above the title, for the one card that is a fixed-price
+   * starter offer rather than a service we quote. Its price comes from
+   * src/config/offers.ts, so the card cannot drift from the offer page.
+   */
+  badge?: string;
 }
 
 const en = {
@@ -101,6 +109,16 @@ const en = {
     title: 'Services',
     learnMore: 'Learn more',
     cards: [
+      // First in the grid on purpose: it is the one card with a price on it and
+      // the cheapest way in, so it reads before the packages that are quoted.
+      {
+        icon: 'voicemail',
+        path: '/missed-call-rescue',
+        title: 'Missed-Call Rescue',
+        body: `An AI receptionist answers the calls you miss, so the job doesn't go to the next company on Google. Live in ${OFFER.liveInDays} days.`,
+        cta: 'See the offer',
+        badge: `Starter · ${offerMoney(OFFER.setupPrice, 'en')} setup`,
+      },
       {
         icon: 'pest',
         path: '/pest-control',
@@ -238,6 +256,15 @@ const es: typeof en = {
     learnMore: 'Más información',
     // Services grid and case study card: NEW, not yet reviewed by a native speaker.
     cards: [
+      // Missed-Call Rescue card: NEW, not yet reviewed by a native speaker.
+      {
+        icon: 'voicemail',
+        path: '/missed-call-rescue',
+        title: 'Missed-Call Rescue',
+        body: `Una recepcionista con IA contesta las llamadas que usted no alcanza, para que el trabajo no se vaya a la siguiente empresa en Google. Funcionando en ${OFFER.liveInDays} días.`,
+        cta: 'Ver la oferta',
+        badge: `Inicial · ${offerMoney(OFFER.setupPrice, 'es')} de instalación`,
+      },
       // Pest control card: NEW, not yet reviewed by a native speaker.
       {
         icon: 'pest',

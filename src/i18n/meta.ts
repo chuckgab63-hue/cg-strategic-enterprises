@@ -10,6 +10,7 @@ import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
 import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath, type FeatureSlug } from './mealPrepFeaturesMeta.ts';
 import { LAWN_CARE_META, LAWN_CARE_PATH } from './lawnCareMeta.ts';
 import { PEST_CONTROL_META, PEST_CONTROL_PATH } from './pestControlMeta.ts';
+import { MISSED_CALL_RESCUE_PATH } from '../config/offers.ts';
 
 export interface PageMeta {
   title: string;
@@ -216,6 +217,25 @@ export const SITE_ROUTES: SiteRoute[] = [
       },
     },
     lastmod: '2026-11-18',
+  },
+  {
+    // The fixed-price starter offer. Its price, timeline and inclusions are
+    // src/config/offers.ts, which is where the path comes from too. The figures
+    // are written out here rather than imported: this file is in the bundle
+    // every page loads, and src/config/offers.test.ts fails if a number here
+    // ever drifts from the offer config.
+    path: MISSED_CALL_RESCUE_PATH,
+    meta: {
+      en: {
+        title: `Missed-Call Rescue: AI Receptionist, Live in 14 Days | ${NAME}`,
+        description: 'A starter offer for local service businesses: an AI receptionist answers the calls you miss and your after-hours calls in English or Spanish. $497 setup, $149/month.',
+      },
+      es: {
+        title: `Missed-Call Rescue: recepcionista con IA en 14 días | ${NAME}`,
+        description: 'Oferta inicial para negocios locales de servicios: una recepcionista con IA contesta sus llamadas perdidas y las de fuera de horario, en inglés o español. $497 de instalación y $149 al mes.',
+      },
+    },
+    lastmod: '2026-11-20',
   },
   {
     path: PEST_CONTROL_PATH,

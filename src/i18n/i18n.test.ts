@@ -90,6 +90,9 @@ describe('page meta', () => {
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-19</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-18</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-18</lastmod>');
+    // The starter offer page, added on the 20th, in both languages.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/missed-call-rescue</loc>\n    <lastmod>2026-11-20</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/missed-call-rescue</loc>\n    <lastmod>2026-11-20</lastmod>');
     // And a page whose copy has not moved keeps its own, so "today everywhere" would fail here.
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/automations</loc>\n    <lastmod>2026-10-29</lastmod>');
   });

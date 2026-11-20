@@ -25,6 +25,7 @@ export default function GlobalFooter() {
       links: [
         ['/automations', t.nav.engine],
         ['/answering-service', t.nav.answeringService],
+        ['/missed-call-rescue', t.nav.missedCallRescue],
         ['/pest-control', t.nav.pestControl],
         ['/lawn-care', t.nav.lawnCare],
         ['/meal-prep-ordering', t.nav.mealPrepOrdering],

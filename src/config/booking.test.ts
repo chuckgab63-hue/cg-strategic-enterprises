@@ -15,6 +15,15 @@ describe('booking link', () => {
     expect(url.searchParams.get('utm_content')).toBe('hero');
   });
 
+  it('tags a named offer with utm_campaign, keeping the other three', () => {
+    const url = new URL(bookingUrl('missed-call-rescue', 'hero', 'website', 'missedcallrescue'));
+    expect(url.searchParams.get('utm_campaign')).toBe('missedcallrescue');
+    expect(url.searchParams.get('utm_medium')).toBe('missed-call-rescue');
+    expect(url.searchParams.get('utm_content')).toBe('hero');
+    // Every other link on the site is unchanged: no empty campaign tag.
+    expect(new URL(bookingUrl('home', 'hero')).searchParams.has('utm_campaign')).toBe(false);
+  });
+
   it('accepts another source (demo, guide)', () => {
     expect(new URL(bookingUrl('chat-widget', 'daily-cap', 'demo')).searchParams.get('utm_source')).toBe('demo');
   });

@@ -62,6 +62,7 @@ Notes for the legal reviewer:
 | `src/lib/websiteCheck/lead.ts` | Website Check report email: the score labels in the plain-text report (`MESSAGE_LABELS.es`). **New, not yet reviewed.** |
 | `src/i18n/missedCallCalculator.ts` | `/es/missed-call-calculator`: labels, breakdown, CTAs, the email form and the estimate summary sent with the lead |
 | `src/i18n/faq.ts` | `/es/faq`: every question and answer (also used for the FAQPage structured data). **New, not yet reviewed.** |
+| `src/i18n/missedCallRescue.ts` | `/es/missed-call-rescue`: the whole Missed-Call Rescue starter-offer page and its FAQ (also used for the FAQPage structured data), plus the card on `/es`. **New, not yet reviewed.** The product name stays in English. See Nov 20, 2026 below |
 | `src/i18n/answeringService.ts` | `/es/answering-service`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** |
 | `src/i18n/mealPrepOrdering.ts` | `/es/meal-prep-ordering`: the whole page and its FAQ (also used for the FAQPage structured data). **New, not yet reviewed.** Its demo video brings three more unreviewed pieces with it: the Spanish narration script (`public/videos/mealprep-demo-hero-es.es.vtt`), the caption under the player, and the `VideoObject` copy in `src/config/demoVideo.ts`. See Nov 19, 2026 below |
 | `src/i18n/demoGuide.ts` | `/es/demo-guide`: the demo walkthrough guide page. The Spanish PDF (`public/guides/meal-prep-demo-guide-es.pdf`) is marked for native review on its cover. **New, not yet reviewed.** |
@@ -89,6 +90,30 @@ on the Spanish site.
 
 ## Words and choices worth a second look
 
+- **Missed-Call Rescue starter offer (Nov 20, 2026).** `/es/missed-call-rescue` is a new page
+  and `/es` has a new first card in the services grid. Everything in
+  `src/i18n/missedCallRescue.ts` `es` is new. Words to check:
+  - The product name is left in English, **Missed-Call Rescue**, as it already is on
+    `/es/contact` and the Spanish missed-call calculator. Note that `/es/skunkworks` calls the
+    same idea "Rescate de llamadas perdidas" — if a reviewer prefers one of the two
+    everywhere, the skunkworks card and this page should move together.
+  - Headline: "Que ningún otro trabajo se le vaya al buzón de voz" (*never lose another job to
+    voicemail*). "Trabajo" was chosen over "chamba" as the neutral Latin American word for a job.
+  - "recepcionista con IA" (*AI receptionist*), "desvío de llamadas" (*call forwarding*),
+    "fuera del horario" (*after hours*), "mes a mes" (*month to month*), "llamada inicial"
+    (*kickoff call*), "límite de uso razonable" (*fair-use limit*), "se cobra al costo"
+    (*billed at cost*), "se le acreditan" (*credited*).
+  - The carrier texting line: "el registro de mensajería con los operadores (A2P 10DLC)".
+    The English keeps the A2P 10DLC term as-is and so does this; check "operadores" reads as
+    *phone carriers* and not as *operators* (people).
+  - The booking button says "Agende una llamada de 15 minutos" with the note "Reserva un
+    espacio gratuito de 30 minutos; 15 suelen alcanzar. (Página en inglés.)" — the Cal.com
+    event really is a free 30-minute slot, so the note has to stay truthful in Spanish too.
+  - Prices are printed by `Intl` from `src/config/offers.ts` and read "$497" and "$149" in
+    both languages; nothing to translate there.
+  - The proof link on the Spanish page goes to `/es/pest-control` with no `#tour` anchor,
+    because the narrated tour is English only. Keep it that way: there is nothing on the
+    Spanish site that sends a Spanish speaker to English audio.
 - **Spanish demo video (Nov 19, 2026).** `/es/meal-prep-ordering` now plays its own
   95-second clip, narrated in Spanish, instead of linking to the English one. Review the
   **narration script first**: it is the one thing here that is spoken aloud, so fixing it

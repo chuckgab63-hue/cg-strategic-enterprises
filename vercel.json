@@ -88,6 +88,10 @@
       "destination": "/answering-service/index.html"
     },
     {
+      "source": "/missed-call-rescue",
+      "destination": "/missed-call-rescue/index.html"
+    },
+    {
       "source": "/pest-control",
       "destination": "/pest-control/index.html"
     },
@@ -214,6 +218,10 @@
     {
       "source": "/es/answering-service",
       "destination": "/es/answering-service/index.html"
+    },
+    {
+      "source": "/es/missed-call-rescue",
+      "destination": "/es/missed-call-rescue/index.html"
     },
     {
       "source": "/es/pest-control",

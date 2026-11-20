@@ -26,6 +26,8 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
   // Two steps joined by a line: a workflow.
   automation: 'M4 4h6v5H4zM14 15h6v5h-6zM7 9v4a2 2 0 0 0 2 2h5',
   phone: 'M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
+  // Two reels over a line: the voicemail icon, for the missed-call offer.
+  voicemail: 'M6.5 9a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm11 0a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM6.5 16h11',
   // A shopping bag.
   ordering: 'M6 8h12l-1 12H7L6 8zm3 0V6a3 3 0 0 1 6 0v2',
   search: 'M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm5 12 5 5',
@@ -326,6 +328,13 @@ export default function Home() {
                   <path d={SERVICE_ICONS[card.icon]} />
                 </svg>
               </span>
+              {/* Only the starter offer carries one, so the rest of the grid is
+                  unchanged (src/i18n/home.ts). */}
+              {card.badge && (
+                <span className="inline-block mb-3 rounded-full border border-brand-orange/50 bg-brand-orange/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-brand-orange">
+                  {card.badge}
+                </span>
+              )}
               <h3 className="text-xl md:text-2xl font-black text-white">{card.title}</h3>
               <p className="text-slate-400 leading-relaxed mt-3">{card.body}</p>
               <span className="inline-block mt-5 text-xs font-bold tracking-widest uppercase text-brand-orange">
