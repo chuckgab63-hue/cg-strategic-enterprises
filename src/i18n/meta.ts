@@ -245,6 +245,31 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Oferta inicial para negocios locales de servicios: una recepcionista con IA contesta sus llamadas perdidas y las de fuera de horario, en inglés o español. $497 de instalación y $149 al mes.',
       },
     },
+    // Cut from the 1200x900 card in design/og/missed-call-rescue-src.jpg (a
+    // master, so it lives beside the other design sources rather than in
+    // public/, where it would be served to every visitor for nothing). The
+    // brand lockup at the top and the price block are 654px apart there, so no
+    // 1200x630 window holds both: this one starts below the lockup and keeps
+    // the headline, the three bullets, the price block and the line with the
+    // URL and the phone number, which is where the name goes on the card now.
+    // The alternative was scaling the whole thing down behind side bars, at 14%
+    // smaller text. Same straight-crop choice /lawn-care made.
+    //
+    // One image for both languages: its words are burnt in in English and there
+    // is no Spanish version of the card, so /es gets the English picture and a
+    // Spanish alt that quotes the headline — what /pest-control already does.
+    og: {
+      image: '/og/missed-call-rescue.jpg',
+      width: 1200,
+      height: 630,
+      type: 'website',
+      alt: {
+        en: 'Missed-Call Rescue: "Never lose another job to voicemail", an AI receptionist on the calls you miss, live in 14 days, $497 setup and $149 a month',
+        es: 'Vista previa de Missed-Call Rescue: "Never lose another job to voicemail", una recepcionista con IA en las llamadas que usted no alcanza, $497 de instalación y $149 al mes',
+      },
+    },
+    // Unmoved: a link-preview image is not copy a visitor reads. It happens to
+    // be today's date anyway, the day the page went up.
     lastmod: '2026-11-20',
   },
   {
