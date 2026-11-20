@@ -125,7 +125,8 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Experimentos de automatización con IA para negocios locales: devolución de llamadas perdidas, notas de voz, cotizaciones por foto y agentes bilingües.',
       },
     },
-    // 2026-11-20: the Missed-Call Rescue card's link now names the offer page.
+    // 2026-11-20: the Missed-Call Rescue card's link now names the offer page,
+    // and its badge moved from Prototype to Ready.
     lastmod: '2026-11-20',
   },
   {

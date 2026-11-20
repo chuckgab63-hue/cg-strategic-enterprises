@@ -7,7 +7,7 @@ describe('SKUNKWORKS_PROJECTS', () => {
   it('keeps each project at its agreed status', () => {
     const statuses = Object.fromEntries(SKUNKWORKS_PROJECTS.map(p => [p.slug, p.status]));
     expect(statuses).toEqual({
-      'missed-call-rescue': 'prototype',
+      'missed-call-rescue': 'ready',
       'field-tech-voice-notes': 'concept',
       'ai-for-software-without-an-api': 'concept',
       'ask-your-business-anything': 'concept',

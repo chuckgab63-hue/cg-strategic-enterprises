@@ -22,9 +22,13 @@ export interface SkunkworksProject {
 export const SKUNKWORKS_PROJECTS: SkunkworksProject[] = [
   // The card's link goes to the offer page rather than the calculator: this is
   // the one project on this page a visitor can actually buy, and the offer page
-  // links on to the calculator. The status is untouched on purpose — see
-  // src/config/featureStatus.ts for what 'ready' and 'in-use' would claim.
-  { slug: 'missed-call-rescue', status: 'prototype', link: { to: MISSED_CALL_RESCUE_PATH } },
+  // links on to the calculator.
+  //
+  // 'ready' and not 'in-use': /missed-call-rescue sells it as built and switched
+  // on within 14 days of a kickoff call, which is what 'ready' says. 'in-use'
+  // claims a client is running their business on it in production today, and
+  // that is a different sentence — move it the day that is true, not before.
+  { slug: 'missed-call-rescue', status: 'ready', link: { to: MISSED_CALL_RESCUE_PATH } },
   { slug: 'field-tech-voice-notes', status: 'concept' },
   { slug: 'ai-for-software-without-an-api', status: 'concept' },
   { slug: 'ask-your-business-anything', status: 'concept' },
