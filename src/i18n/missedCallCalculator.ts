@@ -57,7 +57,9 @@ const en = {
   recoverHeading: 'How to win it back',
   recover: 'Answer every call, text missed callers back within a minute or two, and cover evenings and weekends, whether that means a person, an answering service or an AI assistant.',
   ctaAlex: 'Hear how Alex would answer your calls',
-  ctaPilot: 'Pilot Missed-Call Rescue',
+  // Names the page it opens: the Missed-Call Rescue offer, with its price and
+  // its 14-day timeline. It used to open a contact form instead.
+  ctaPilot: 'See the Missed-Call Rescue offer',
   ctaWebsiteCheck: 'Run a free website check',
   shareHeading: 'Share or save',
   shareNote: 'The link keeps your numbers (no personal details), so you can bookmark it or send it to a partner.',
@@ -141,7 +143,8 @@ const es: typeof en = {
   recoverHeading: 'Cómo recuperarlos',
   recover: 'Conteste todas las llamadas, envíe un mensaje de texto a quien no pudo atender en uno o dos minutos y cubra las noches y los fines de semana, ya sea con una persona, un servicio de contestación o un asistente de IA.',
   ctaAlex: 'Escuche cómo Alex contestaría sus llamadas',
-  ctaPilot: 'Pruebe Missed-Call Rescue',
+  // NEW, not yet reviewed by a native speaker.
+  ctaPilot: 'Vea la oferta de Missed-Call Rescue',
   ctaWebsiteCheck: 'Revise su sitio web gratis',
   shareHeading: 'Compartir o guardar',
   shareNote: 'El enlace conserva sus números (sin datos personales), para que pueda guardarlo o enviárselo a un socio.',

@@ -8,6 +8,8 @@
 // so a project labelled here reads the same as the matching feature on
 // /pest-control. 'concept' and 'prototype' belong to this page alone.
 
+import { MISSED_CALL_RESCUE_PATH } from './offers.ts';
+
 export type ProjectStatus = 'concept' | 'prototype' | 'ready' | 'in-use';
 
 export interface SkunkworksProject {
@@ -18,7 +20,11 @@ export interface SkunkworksProject {
 }
 
 export const SKUNKWORKS_PROJECTS: SkunkworksProject[] = [
-  { slug: 'missed-call-rescue', status: 'prototype', link: { to: '/missed-call-calculator' } },
+  // The card's link goes to the offer page rather than the calculator: this is
+  // the one project on this page a visitor can actually buy, and the offer page
+  // links on to the calculator. The status is untouched on purpose — see
+  // src/config/featureStatus.ts for what 'ready' and 'in-use' would claim.
+  { slug: 'missed-call-rescue', status: 'prototype', link: { to: MISSED_CALL_RESCUE_PATH } },
   { slug: 'field-tech-voice-notes', status: 'concept' },
   { slug: 'ai-for-software-without-an-api', status: 'concept' },
   { slug: 'ask-your-business-anything', status: 'concept' },

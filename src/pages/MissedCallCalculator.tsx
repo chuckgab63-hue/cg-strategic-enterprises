@@ -9,7 +9,7 @@ import { trackEvent } from '../lib/analytics';
 import { calculateMissedCalls, type MissedCallInputs } from '../lib/missedCall/model';
 import { formatCount, formatMoney, formatPct } from '../lib/missedCall/format';
 import { buildMissedCallSearch, missedCallCalculatorUrl, NUMERIC_PARAMS, parseMissedCallParams } from '../lib/missedCall/url';
-import { MISSED_CALL_CALCULATOR_SOURCE } from '../lib/missedCall/submission';
+import { MISSED_CALL_RESCUE_PATH } from '../config/offers';
 
 type NumericField = Exclude<keyof MissedCallInputs, 'recurring'>;
 type Kind = 'count' | 'pct' | 'money';
@@ -225,8 +225,14 @@ export default function MissedCallCalculator() {
               >
                 {t.ctaAlex}
               </button>
+              {/* Was /contact with the estimate as a prefilled message. It goes to
+                  the offer page now: somebody who has just seen a number wants the
+                  price and the timeline, and that page carries the booking button,
+                  Alex and the phone number, so no way to get in touch is lost.
+                  /contact still understands ?source=missed-call-calculator, which
+                  is what the estimate email and any older link use. */}
               <Link
-                to={lp(`/contact?source=${MISSED_CALL_CALCULATOR_SOURCE}`)}
+                to={lp(MISSED_CALL_RESCUE_PATH)}
                 className="text-center border border-slate-600 text-slate-200 px-6 py-3 rounded-full font-bold tracking-widest uppercase text-xs hover:border-brand-orange hover:text-brand-orange transition-colors"
               >
                 {t.ctaPilot}

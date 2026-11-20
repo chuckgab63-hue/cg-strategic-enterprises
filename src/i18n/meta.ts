@@ -125,7 +125,8 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Experimentos de automatización con IA para negocios locales: devolución de llamadas perdidas, notas de voz, cotizaciones por foto y agentes bilingües.',
       },
     },
-    lastmod: '2026-11-18',
+    // 2026-11-20: the Missed-Call Rescue card's link now names the offer page.
+    lastmod: '2026-11-20',
   },
   {
     path: '/cinematic',
@@ -209,7 +210,8 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: 'Calculadora gratuita: ingrese sus llamadas por semana, cuántas no contesta y cuánto vale un cliente para estimar lo que le cuestan al mes y al año.',
       },
     },
-    lastmod: '2026-11-18',
+    // 2026-11-20: the second button now opens the Missed-Call Rescue offer.
+    lastmod: '2026-11-20',
   },
   {
     path: '/answering-service',
