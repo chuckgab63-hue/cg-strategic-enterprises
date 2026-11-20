@@ -126,7 +126,7 @@ export const TOUR_VIDEO: Record<'pest' | 'lawn', VideoFile> = {
  * Runway text-to-speech; sources in the Runway folder,
  * missed-call-rescue-video-assets.zip.
  *
- * The Spanish recording runs 16 seconds longer, for the same reason the
+ * The Spanish recording runs 15 seconds longer, for the same reason the
  * meal-prep one does.
  */
 export const RESCUE_VIDEO: Record<Lang, VideoFile> = {
@@ -151,10 +151,10 @@ export const RESCUE_VIDEO: Record<Lang, VideoFile> = {
     lang: 'es',
     width: 1280,
     height: 720,
-    seconds: 88, // 87.61s in the file
+    seconds: 87, // 86.66s in the file
     uploadDate: '2026-11-20',
     name: `Missed-Call Rescue: recepcionista con IA para llamadas perdidas — ${BUSINESS_NAME}`,
-    description: 'Una presentación de 88 segundos de Missed-Call Rescue, una recepcionista con IA para negocios locales de servicios, con narración en español. Cuando el dueño no puede contestar, la IA contesta con el nombre del negocio, en inglés o en español, pregunta qué necesita la persona, dónde está, para cuándo y el mejor número para devolver la llamada, le envía el cliente potencial al dueño por mensaje de texto y registra cada llamada en un solo lugar. El negocio conserva su número, la instalación se hace con el dueño y queda funcionando en 14 días, por $497 de instalación y $149 al mes, con cancelación cuando quiera. Termina con el número donde contesta Alex, la recepcionista con IA de CG Strategic.',
+    description: 'Una presentación de 87 segundos de Missed-Call Rescue, una recepcionista con IA para negocios locales de servicios, con narración en español. Cuando el dueño no puede contestar, la IA contesta con el nombre del negocio, en inglés o en español, pregunta qué necesita la persona, dónde está, para cuándo y el mejor número para devolver la llamada, le envía el cliente potencial al dueño por mensaje de texto y registra cada llamada en un solo lugar. El negocio conserva su número, la instalación se hace con el dueño y queda funcionando en 14 días, por $497 de instalación y $149 al mes, con cancelación cuando quiera. Termina con el número donde contesta Alex, la recepcionista con IA de CG Strategic.',
   },
 };
 

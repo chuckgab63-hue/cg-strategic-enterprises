@@ -253,7 +253,7 @@ const es: typeof en = {
 
   video: {
     label: 'Presentación de Missed-Call Rescue: cómo una recepcionista con IA contesta las llamadas que usted no alcanza',
-    caption: 'Presentación de 88 segundos: una llamada perdida, desde que suena hasta el cliente potencial en sus mensajes.',
+    caption: 'Presentación de 87 segundos: una llamada perdida, desde que suena hasta el cliente potencial en sus mensajes.',
   },
 
   calculator: {

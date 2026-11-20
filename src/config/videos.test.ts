@@ -81,7 +81,7 @@ describe('narrated clips', () => {
     expect(videoJsonLd(TOUR_VIDEO.pest).duration).toBe('PT1M14S');
     expect(videoJsonLd(TOUR_VIDEO.lawn).duration).toBe('PT1M12S');
     expect(videoJsonLd(RESCUE_VIDEO.en).duration).toBe('PT1M12S');
-    expect(videoJsonLd(RESCUE_VIDEO.es).duration).toBe('PT1M28S');
+    expect(videoJsonLd(RESCUE_VIDEO.es).duration).toBe('PT1M27S');
   });
 
   it('escapes the JSON-LD so it cannot close its own script tag', () => {
