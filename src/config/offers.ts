@@ -80,3 +80,44 @@ export function offerMoney(amount: number, lang: Lang): string {
     minimumFractionDigits: 0,
   }).format(amount);
 }
+
+export const DM_RESCUE_PATH = '/dm-rescue';
+
+/**
+ * What DM Rescue includes, in the order the page lists it. Same shape as the
+ * missed-call offer above: the keys are the contract, and src/i18n/dmRescue.ts
+ * is a Record over them, so an item added here fails the build until both
+ * languages describe it.
+ */
+export type DmInclusionKey =
+  | 'autoReply'
+  | 'keywords'
+  | 'commentToDm'
+  | 'textAlert'
+  | 'oncePerConversation'
+  | 'existingAccounts';
+
+export const DM_RESCUE = {
+  /** One-time setup fee, in OFFER_CURRENCY. */
+  setupPrice: 397,
+  /** Then this much a month, month to month, cancel anytime. */
+  monthlyPrice: 129,
+  /**
+   * The two offers bought together. Cheaper than the sum of the parts, which
+   * is the whole point of saying it on the page — and the reason the figures
+   * live here rather than being added up in a template: the discount is a
+   * decision, not arithmetic.
+   */
+  bundleSetupPrice: 697,
+  bundleMonthlyPrice: 199,
+  /** Usually live within this many business days of the kickoff call. */
+  liveInBusinessDays: 3,
+  inclusions: [
+    'autoReply',
+    'keywords',
+    'commentToDm',
+    'textAlert',
+    'oncePerConversation',
+    'existingAccounts',
+  ] as DmInclusionKey[],
+} as const;

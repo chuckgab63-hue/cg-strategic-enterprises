@@ -22,6 +22,7 @@ const en = {
     answeringService: 'AI Answering Service',
     // The footer's Services column; the header's six links are full by now.
     missedCallRescue: 'Missed-Call Rescue',
+    dmRescue: 'DM Rescue',
     mealPrepOrdering: 'Online Ordering for Meal Prep',
     searchAi: 'Search & AI Visibility',
     websites: 'Websites',
@@ -102,6 +103,7 @@ const es: typeof en = {
     answeringService: 'Atención telefónica con IA',
     // The product name stays in English, as on /es/contact. NEW, not yet reviewed.
     missedCallRescue: 'Missed-Call Rescue',
+    dmRescue: 'Rescate de Mensajes',
     mealPrepOrdering: 'Pedidos en línea para comidas preparadas',
     searchAi: 'Visibilidad en buscadores e IA',
     websites: 'Sitios web',

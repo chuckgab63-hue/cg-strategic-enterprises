@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>DM Rescue social card</title>
+<!--
+  The source of public/og/dm-rescue.jpg, the 1200x630 link-preview card for
+  /dm-rescue. It is a page rather than a design file because the card is type
+  on a flat ground: drawn here it stays editable, and the price can be fixed
+  in a text editor when the offer changes.
+
+  Render it with `node scripts/og-card.mjs dm-rescue` (headless Chrome at
+  1200x630, then ffmpeg to JPEG).
+
+  Same furniture as the Missed-Call Rescue card beside it: near-black ground
+  with a faint warm glow top right, the headline in white, the three bullets
+  with orange dots, an orange price pill and the wordmark line along the
+  bottom.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #050812;
+    --orange: #FF5F1F;
+    --brand-ink: #020617;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: Montserrat, system-ui, sans-serif;
+    background: var(--ink);
+    color: #fff;
+    overflow: hidden;
+  }
+  .card {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    padding: 50px 90px 46px;
+    display: flex;
+    flex-direction: column;
+    /* The same faint warm wash in the top-right corner the missed-call card has. */
+    background:
+      radial-gradient(900px 520px at 100% 0%, rgba(255, 95, 31, 0.10), transparent 62%),
+      var(--ink);
+  }
+  h1 {
+    font-weight: 800;
+    font-size: 68px;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    max-width: 17ch;
+  }
+  ul { list-style: none; margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+  li { display: flex; align-items: center; gap: 18px; font-size: 27px; font-weight: 600; color: #E6EAF4; }
+  li::before {
+    content: '';
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    flex: none;
+  }
+  .prices { margin-top: auto; display: flex; align-items: center; gap: 36px; }
+  .prices { padding-top: 28px; }
+  .pill {
+    background: var(--orange);
+    color: var(--brand-ink);
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -0.01em;
+    padding: 26px 46px;
+    border-radius: 22px;
+  }
+  .price .setup { font-weight: 800; font-size: 36px; letter-spacing: -0.01em; }
+  .price .monthly { font-weight: 500; font-size: 29px; color: #9FA9BE; margin-top: 4px; }
+  .foot {
+    margin-top: 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-size: 25px;
+    color: #8C97AD;
+    letter-spacing: 0.01em;
+  }
+  .wordmark { font-weight: 800; color: #E6EAF4; letter-spacing: 0.02em; }
+  .dot { color: #44506A; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Stop losing customers in your DMs.</h1>
+    <ul>
+      <li>Instant replies on Instagram and Facebook</li>
+      <li>Your menu, quote or booking link, sent for you</li>
+      <li>A text alert the moment someone messages</li>
+    </ul>
+    <div class="prices">
+      <span class="pill">Answers in seconds</span>
+      <span class="price">
+        <div class="setup">$397 setup</div>
+        <div class="monthly">+ $129/mo</div>
+      </span>
+    </div>
+    <div class="foot">
+      <span class="wordmark">CG STRATEGIC</span>
+      <span class="dot">·</span>
+      <span>cgstrategic.dev/dm-rescue</span>
+    </div>
+  </div>
+</body>
+</html>

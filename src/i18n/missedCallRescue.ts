@@ -116,6 +116,12 @@ const en = {
     caption: '72-second intro: one missed call, from the ring to the lead in your texts.',
   },
 
+  // One line under the hero pointing at the other offer. Not a section: the
+  // visitor came here for the phone, and this is a note, not a pitch.
+  dmCrossLink: {
+    text: 'Get leads from Instagram too? Pair it with DM Rescue',
+  },
+
   calculator: {
     title: 'See what missed calls cost you',
     body: 'Put in your own calls per week, how many you miss and what a customer is worth. The estimate is yours, from your numbers.',
@@ -254,6 +260,10 @@ const es: typeof en = {
   video: {
     label: 'Presentación de Missed-Call Rescue: cómo una recepcionista con IA contesta las llamadas que usted no alcanza',
     caption: 'Presentación de 87 segundos: una llamada perdida, desde que suena hasta el cliente potencial en sus mensajes.',
+  },
+
+  dmCrossLink: {
+    text: '¿También le llegan clientes por Instagram? Combínelo con Rescate de Mensajes',
   },
 
   calculator: {

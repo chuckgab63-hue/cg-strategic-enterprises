@@ -28,6 +28,8 @@ const SERVICE_ICONS: Record<ServiceIcon, string> = {
   phone: 'M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
   // Two reels over a line: the voicemail icon, for the missed-call offer.
   voicemail: 'M6.5 9a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm11 0a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM6.5 16h11',
+  // A speech bubble with a paper-plane send arrow inside it: a direct message.
+  dm: 'M21 11.5a7.5 8.5 0 0 1-7.5 8.5 8.4 8.4 0 0 1-3.3-.6L4 21l1.4-3.7A8.3 8.3 0 0 1 4 11.5 7.5 8.5 0 0 1 11.5 3a7.5 8.5 0 0 1 9.5 8.5zM16 9l-6 2.5 2.4 1.1L13.5 15z',
   // A shopping bag.
   ordering: 'M6 8h12l-1 12H7L6 8zm3 0V6a3 3 0 0 1 6 0v2',
   search: 'M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm5 12 5 5',
@@ -317,11 +319,15 @@ export default function Home() {
         <h2 className="text-sm font-bold tracking-widest uppercase text-slate-400 mb-6 text-center">{t.services.title}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {t.services.cards.map(card => (
+            // The wrapper is the grid cell, not the card's link: a card with a
+            // `secondary` link puts that second link under the card, and an
+            // anchor cannot sit inside another anchor. Cards without one render
+            // exactly the markup they did before, one link filling the cell.
+            <div key={card.path} className="flex flex-col">
             <Link
-              key={card.path}
               to={lp(card.path)}
               onClick={card.path === '/website-check' ? () => trackEvent('home_website_check_click', lang, { placement: 'card' }) : undefined}
-              className="group block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors"
+              className="group flex-1 block text-left bg-slate-900/60 border border-slate-800 hover:border-brand-orange/50 rounded-3xl p-6 md:p-8 transition-colors"
             >
               <span className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 text-brand-orange flex items-center justify-center mb-5">
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -341,6 +347,21 @@ export default function Home() {
                 {card.cta ?? t.services.learnMore} <span aria-hidden="true" className="inline-block group-hover:translate-x-1 transition-transform">&rarr;</span>
               </span>
             </Link>
+            {/* The live demo, which is not on this site: DM Rescue's proof is
+                the account that answers, so the card sends people straight
+                there as well as to the offer page. */}
+            {card.secondary && (
+              <a
+                href={card.secondary.href}
+                target="_blank"
+                rel="noopener"
+                className="self-start mt-3 px-2 text-left text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-brand-orange transition-colors"
+              >
+                {card.secondary.label} <span aria-hidden="true">&rarr;</span>
+                <span className="sr-only"> {t.demoFeature.newTab}</span>
+              </a>
+            )}
+            </div>
           ))}
         </div>
 

@@ -4,6 +4,7 @@
 //
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
+import { DEMO_KEYWORD } from '../config/social.ts';
 import type { FaqItem } from './faq.ts';
 import type { Lang } from './lang.ts';
 
@@ -31,6 +32,10 @@ const en = {
   intro: "Taking orders through DMs, texts and spreadsheets works until it doesn't. A meal prep ordering system lets customers order and subscribe on their own while your week organizes itself. We set it up for you and move your customers over, for small and mid-sized meal prep businesses in Florida and Georgia, in English and Spanish.",
   ctaDemo: 'Try the demo',
   ctaAlex: 'Talk to Alex',
+  // One line under the hero buttons, pointing at the other live demo: a lot
+  // of these kitchens take their orders in Instagram DMs today, and that one
+  // is a text message away rather than a page away.
+  dmDemo: `Want to see instant DM replies too? DM us ${DEMO_KEYWORD} on Instagram`,
   // The demo clip in the hero (src/components/NarratedVideo.tsx). Each language has
   // its own recording, so the lengths in the two captions differ on purpose:
   // the clip itself is 81 seconds in English and 95 in Spanish. `label` names
@@ -216,6 +221,7 @@ const es: typeof en = {
   intro: 'Tomar pedidos por mensajes directos, textos y hojas de cálculo funciona hasta que deja de funcionar. Un sistema de pedidos para comidas preparadas permite que sus clientes ordenen y se suscriban por su cuenta mientras su semana se organiza sola. Nosotros lo configuramos y pasamos a sus clientes al nuevo sistema, para negocios pequeños y medianos de comidas preparadas en Florida y Georgia, en inglés y en español.',
   ctaDemo: 'Probar la demo',
   ctaAlex: 'Hablar con Alex',
+  dmDemo: `¿Quiere ver también las respuestas al instante por mensaje? Escríbanos ${DEMO_KEYWORD} en Instagram`,
   video: {
     label: 'Demostración del sistema de pedidos en línea para comidas preparadas',
     caption: 'Recorrido de 95 segundos: lo que ven sus clientes y lo que usted recibe detrás de escena.',

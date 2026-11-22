@@ -5,6 +5,7 @@ import {
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
 import { DEMO_VIDEO, DEMO_VIDEO_ANCHOR, videoJsonLdText } from '../config/videos';
+import { INSTAGRAM_DM_URL } from '../config/social';
 import { useLang, useLocalePath, useT } from '../i18n/useLang';
 import mealPrepOrdering, {
   DEMO_ADMIN_URL, DEMO_MENU_URL, MEAL_PREP_ORDERING_PATH, demoHref, type IncludedIcon,
@@ -86,6 +87,14 @@ export default function MealPrepOrdering() {
           <TalkToAlexButton label={t.ctaAlex} className={secondaryButtonClass} />
           <BookCallButton medium="meal-prep-ordering" content="hero" />
         </div>
+        {/* The other live demo, which runs on Instagram rather than here:
+            these kitchens take a lot of their orders by DM already. */}
+        <p className="mt-5">
+          <a href={INSTAGRAM_DM_URL} target="_blank" rel="noopener" className="text-brand-orange font-bold underline underline-offset-4 hover:text-white transition-colors">
+            {t.dmDemo} <span aria-hidden="true">&rarr;</span>
+            <span className="sr-only"> {t.live.newTab}</span>
+          </a>
+        </p>
       </ServiceHero>
 
       {/* Each page claims the one clip it plays: two VideoObjects, two files,

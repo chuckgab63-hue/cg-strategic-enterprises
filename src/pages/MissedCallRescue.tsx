@@ -6,7 +6,7 @@ import {
 import NarratedVideo from '../components/NarratedVideo';
 import { bookingUrl } from '../config/booking';
 import { RESCUE_VIDEO, RESCUE_VIDEO_ANCHOR, videoJsonLdText } from '../config/videos';
-import { MISSED_CALL_RESCUE as OFFER, OFFER_CURRENCY } from '../config/offers';
+import { DM_RESCUE_PATH, MISSED_CALL_RESCUE as OFFER, OFFER_CURRENCY } from '../config/offers';
 import { ORGANIZATION_ID, PHONE_DISPLAY, PHONE_HREF, SITE_URL } from '../config/site';
 import { breadcrumbJsonLdText } from '../i18n/breadcrumbs';
 import { localizePath, type Lang } from '../i18n/lang';
@@ -155,6 +155,14 @@ export default function MissedCallRescue() {
 
       {/* Each page claims the one clip it plays. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: videoJsonLdText(RESCUE_VIDEO[lang]) }} />
+
+      {/* One line to the other fixed-price offer: this page answers the phone,
+          that one answers the DMs, and plenty of these businesses need both. */}
+      <p className="mt-10">
+        <Link to={lp(DM_RESCUE_PATH)} className="text-brand-orange font-bold underline underline-offset-4 hover:text-white transition-colors">
+          {t.dmCrossLink.text} <span aria-hidden="true">&rarr;</span>
+        </Link>
+      </p>
 
       <ServiceSection title={t.who.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl">{t.who.body}</p>

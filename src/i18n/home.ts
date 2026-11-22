@@ -2,10 +2,11 @@
 // The case study card under the services has its own file (caseStudyCard.ts).
 // Spanish: NEEDS NATIVE REVIEW (docs/SPANISH_REVIEW.md).
 
-import { MISSED_CALL_RESCUE as OFFER, offerMoney } from '../config/offers.ts';
+import { DM_RESCUE, MISSED_CALL_RESCUE as OFFER, offerMoney } from '../config/offers.ts';
+import { DEMO_KEYWORD, INSTAGRAM_DM_URL } from '../config/social.ts';
 
 /** Picks the card's icon in Home.tsx. */
-export type ServiceIcon = 'automation' | 'phone' | 'voicemail' | 'ordering' | 'search' | 'website' | 'check' | 'pest' | 'lawn';
+export type ServiceIcon = 'automation' | 'phone' | 'voicemail' | 'dm' | 'ordering' | 'search' | 'website' | 'check' | 'pest' | 'lawn';
 
 /**
  * One of the three industry highlights in the hero. `key` is both the icon in
@@ -34,6 +35,12 @@ interface ServiceCard {
    * src/config/offers.ts, so the card cannot drift from the offer page.
    */
   badge?: string;
+  /**
+   * A small off-site link under the card, outside the card's own link because
+   * an anchor cannot sit inside another one. The one card that has one is DM
+   * Rescue, whose demo lives on Instagram rather than on this site.
+   */
+  secondary?: { label: string; href: string };
 }
 
 const en = {
@@ -118,6 +125,17 @@ const en = {
         body: `An AI receptionist answers the calls you miss, so the job doesn't go to the next company on Google. Live in ${OFFER.liveInDays} days.`,
         cta: 'See the offer',
         badge: `Starter · ${offerMoney(OFFER.setupPrice, 'en')} setup`,
+      },
+      // Straight after it: the other fixed-price offer. Its price is in the
+      // body rather than on a badge, so the grid keeps the single badge the
+      // starter offer above carries.
+      {
+        icon: 'dm',
+        path: '/dm-rescue',
+        title: 'DM Rescue',
+        body: `Instant replies to every Instagram and Facebook message, plus a text alert to you. ${offerMoney(DM_RESCUE.setupPrice, 'en')} setup + ${offerMoney(DM_RESCUE.monthlyPrice, 'en')}/mo.`,
+        cta: 'See the offer',
+        secondary: { label: `Try it: DM us ${DEMO_KEYWORD}`, href: INSTAGRAM_DM_URL },
       },
       {
         icon: 'pest',
@@ -264,6 +282,15 @@ const es: typeof en = {
         body: `Una recepcionista con IA contesta las llamadas que usted no alcanza, para que el trabajo no se vaya a la siguiente empresa en Google. Funcionando en ${OFFER.liveInDays} días.`,
         cta: 'Ver la oferta',
         badge: `Inicial · ${offerMoney(OFFER.setupPrice, 'es')} de instalación`,
+      },
+      // DM Rescue card: NEW, not yet reviewed by a native speaker.
+      {
+        icon: 'dm',
+        path: '/dm-rescue',
+        title: 'Rescate de Mensajes',
+        body: `Respuestas al instante a cada mensaje de Instagram y Facebook, y una alerta por texto para usted. ${offerMoney(DM_RESCUE.setupPrice, 'es')} de instalación + ${offerMoney(DM_RESCUE.monthlyPrice, 'es')} al mes.`,
+        cta: 'Ver la oferta',
+        secondary: { label: `Pruébelo: escríbanos ${DEMO_KEYWORD}`, href: INSTAGRAM_DM_URL },
       },
       // Pest control card: NEW, not yet reviewed by a native speaker.
       {

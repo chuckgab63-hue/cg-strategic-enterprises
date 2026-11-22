@@ -26,6 +26,7 @@ export default function GlobalFooter() {
         ['/automations', t.nav.engine],
         ['/answering-service', t.nav.answeringService],
         ['/missed-call-rescue', t.nav.missedCallRescue],
+        ['/dm-rescue', t.nav.dmRescue],
         ['/pest-control', t.nav.pestControl],
         ['/lawn-care', t.nav.lawnCare],
         ['/meal-prep-ordering', t.nav.mealPrepOrdering],

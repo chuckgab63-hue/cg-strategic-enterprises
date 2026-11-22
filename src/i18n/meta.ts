@@ -10,7 +10,7 @@ import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
 import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath, type FeatureSlug } from './mealPrepFeaturesMeta.ts';
 import { LAWN_CARE_META, LAWN_CARE_PATH } from './lawnCareMeta.ts';
 import { PEST_CONTROL_META, PEST_CONTROL_PATH } from './pestControlMeta.ts';
-import { MISSED_CALL_RESCUE_PATH } from '../config/offers.ts';
+import { DM_RESCUE_PATH, MISSED_CALL_RESCUE_PATH } from '../config/offers.ts';
 
 export interface PageMeta {
   title: string;
@@ -271,6 +271,46 @@ export const SITE_ROUTES: SiteRoute[] = [
     // Unmoved: a link-preview image is not copy a visitor reads. It happens to
     // be today's date anyway, the day the page went up.
     lastmod: '2026-11-20',
+  },
+  {
+    // The second fixed-price offer. Same arrangement as the one above: the
+    // prices and the inclusions are src/config/offers.ts, which is where the
+    // path comes from, and the figures are written out here rather than
+    // imported because this file is in the bundle every page loads.
+    // src/config/dmRescue.test.ts fails if a number here drifts from the
+    // offer config.
+    path: DM_RESCUE_PATH,
+    meta: {
+      en: {
+        title: `DM Rescue: Instant Instagram & Facebook Replies | ${NAME}`,
+        description: 'Auto-reply to every Instagram DM and Facebook message in seconds, send your menu or quote link, and get a text alert. $397 setup + $129/mo.',
+      },
+      es: {
+        title: `Rescate de Mensajes: respuestas al instante en Instagram y Facebook | ${NAME}`,
+        description: 'Conteste cada mensaje de Instagram y Facebook en segundos, envíe su menú o su enlace de cotización y reciba una alerta por texto. $397 de instalación y $129 al mes.',
+      },
+    },
+    // Drawn as a 1200x630 card rather than cropped from a master, so there is
+    // no separate source file: design/og/dm-rescue.html is the card, and
+    // scripts/og-dm-rescue.mjs is what turned it into this JPEG. Same dark
+    // ground, same orange and the same wordmark line as the Missed-Call
+    // Rescue card above.
+    //
+    // One image for both languages: its words are burnt in in English and
+    // there is no Spanish version of the card, so /es gets the English
+    // picture and a Spanish alt that quotes the headline — what
+    // /missed-call-rescue and /pest-control already do.
+    og: {
+      image: '/og/dm-rescue.jpg',
+      width: 1200,
+      height: 630,
+      type: 'website',
+      alt: {
+        en: 'DM Rescue: "Stop losing customers in your DMs.", instant replies to every Instagram and Facebook message, $397 setup and $129 a month, from CG Strategic',
+        es: 'Vista previa de DM Rescue: "Stop losing customers in your DMs.", respuestas al instante a cada mensaje de Instagram y Facebook, $397 de instalación y $129 al mes',
+      },
+    },
+    lastmod: '2026-11-22',
   },
   {
     path: PEST_CONTROL_PATH,

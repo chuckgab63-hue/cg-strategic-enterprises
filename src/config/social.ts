@@ -34,6 +34,21 @@ const FACEBOOK_URL = 'https://www.facebook.com/cgstrategic';
 // cgstrategic.dev, not cgstrategic: the plain handle was already taken on
 // Instagram by a dead account, so this one matches the domain instead.
 const INSTAGRAM_URL = 'https://www.instagram.com/cgstrategic.dev';
+/**
+ * The "message this account" deep link for the same handle. ig.me is
+ * Instagram's own short domain for it: on a phone it opens the Instagram app
+ * straight into a new thread, and on a desktop it lands on the web inbox.
+ *
+ * This is the live DM Rescue demo — anyone who sends the word DEMO to the
+ * account gets the automated reply back — so every "try it" button on the site
+ * points here, and it lives beside the profile URL so the two can never name
+ * different accounts.
+ */
+export const INSTAGRAM_DM_URL = 'https://ig.me/m/cgstrategic.dev';
+/** The word a visitor sends to set the demo reply off. Shown in the copy, so it is data. */
+export const DEMO_KEYWORD = 'DEMO';
+/** The handle as it is written on the page, @ included. */
+export const INSTAGRAM_HANDLE = '@cgstrategic.dev';
 const LINKEDIN_COMPANY_URL = 'https://www.linkedin.com/company/cgstrategic';
 // The founder's own profile. Reachable only through FOUNDER_PERSON below, never
 // through SOCIAL_PROFILES: see the note at the top of this file.
