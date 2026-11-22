@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import {
-  ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
+  PriceTiles, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
 import NarratedVideo from '../components/NarratedVideo';
+import RescueBundleCard from '../components/RescueBundleCard';
 import { bookingUrl } from '../config/booking';
 import { RESCUE_VIDEO, RESCUE_VIDEO_ANCHOR, videoJsonLdText } from '../config/videos';
 import { DM_RESCUE_PATH, MISSED_CALL_RESCUE as OFFER, OFFER_CURRENCY } from '../config/offers';
@@ -138,18 +139,13 @@ export default function MissedCallRescue() {
       >
         {/* The price, the term and the timeline as their own row above the
             buttons: it is a fixed-price offer, so the figures are the offer. */}
-        <dl className="flex flex-wrap gap-3">
-          {[
-            { label: t.priceSetup, detail: null },
+        <PriceTiles
+          tiles={[
+            { label: t.priceSetup },
             { label: t.priceMonthly, detail: t.priceTerm },
-            { label: t.priceLive, detail: null },
-          ].map(item => (
-            <div key={item.label} className="bg-slate-900/60 border border-brand-orange/40 rounded-2xl px-4 py-3">
-              <dt className="text-white font-black tracking-tight">{item.label}</dt>
-              {item.detail && <dd className="text-slate-400 text-xs leading-4 mt-1">{item.detail}</dd>}
-            </div>
-          ))}
-        </dl>
+            { label: t.priceLive },
+          ]}
+        />
         <div className="mt-6">{ctas('hero')}</div>
       </ServiceHero>
 
@@ -163,6 +159,10 @@ export default function MissedCallRescue() {
           {t.dmCrossLink.text} <span aria-hidden="true">&rarr;</span>
         </Link>
       </p>
+
+      {/* Both offers together, directly after this page's own prices (the
+          hero's price row above). */}
+      <RescueBundleCard medium="missed-call-rescue" />
 
       <ServiceSection title={t.who.title}>
         <p className="text-slate-300 text-lg leading-relaxed max-w-3xl">{t.who.body}</p>

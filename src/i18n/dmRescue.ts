@@ -41,12 +41,8 @@ export const DM_RESCUE_SOURCE = 'site';
 
 const setupEn = offerMoney(OFFER.setupPrice, 'en');
 const monthlyEn = offerMoney(OFFER.monthlyPrice, 'en');
-const bundleSetupEn = offerMoney(OFFER.bundleSetupPrice, 'en');
-const bundleMonthlyEn = offerMoney(OFFER.bundleMonthlyPrice, 'en');
 const setupEs = offerMoney(OFFER.setupPrice, 'es');
 const monthlyEs = offerMoney(OFFER.monthlyPrice, 'es');
-const bundleSetupEs = offerMoney(OFFER.bundleSetupPrice, 'es');
-const bundleMonthlyEs = offerMoney(OFFER.bundleMonthlyPrice, 'es');
 
 interface Included {
   title: string;
@@ -148,8 +144,6 @@ const en = {
     monthly: `${monthlyEn}/month`,
     term: 'Month to month. Cancel anytime.',
     live: `Usually live within ${OFFER.liveInBusinessDays} business days`,
-    bundle: `Bundle with Missed-Call Rescue: ${bundleSetupEn} setup + ${bundleMonthlyEn}/mo.`,
-    bundleLink: 'See Missed-Call Rescue',
   },
 
   faqTitle: 'Frequently asked questions',
@@ -289,8 +283,6 @@ const es: typeof en = {
     monthly: `${monthlyEs} al mes`,
     term: 'Mes a mes. Cancele cuando quiera.',
     live: `Normalmente funcionando en ${OFFER.liveInBusinessDays} días hábiles`,
-    bundle: `Combínelo con Missed-Call Rescue: ${bundleSetupEs} de instalación + ${bundleMonthlyEs} al mes.`,
-    bundleLink: 'Ver Missed-Call Rescue',
   },
 
   faqTitle: 'Preguntas frecuentes',

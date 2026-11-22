@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import {
-  ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
+  PriceTiles, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
   primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
+import RescueBundleCard from '../components/RescueBundleCard';
 import { bookingUrl } from '../config/booking';
-import { DM_RESCUE as OFFER, MISSED_CALL_RESCUE_PATH, OFFER_CURRENCY } from '../config/offers';
+import { DM_RESCUE as OFFER, OFFER_CURRENCY, RESCUE_BUNDLE_ANCHOR } from '../config/offers';
+import rescueBundle from '../i18n/rescueBundle';
 import { INSTAGRAM_DM_URL } from '../config/social';
 import { ORGANIZATION_ID, SITE_URL } from '../config/site';
 import { breadcrumbJsonLdText } from '../i18n/breadcrumbs';
@@ -120,6 +122,7 @@ function ChatMock({ t }: { t: typeof dmRescue.en.demo.mock }) {
 
 export default function DmRescue() {
   const t = useT(dmRescue);
+  const bundle = useT(rescueBundle);
   const lang = useLang();
   const lp = useLocalePath();
 
@@ -245,26 +248,25 @@ export default function DmRescue() {
       <ServiceSection title={t.pricing.title}>
         {/* The figures as their own row, the way /missed-call-rescue prints
             them: it is a fixed-price offer, so the figures are the offer. */}
-        <dl className="flex flex-wrap gap-3">
-          {[
-            { label: t.pricing.setup, detail: null },
+        <PriceTiles
+          tiles={[
+            { label: t.pricing.setup },
             { label: t.pricing.monthly, detail: t.pricing.term },
-            { label: t.pricing.live, detail: null },
-          ].map(item => (
-            <div key={item.label} className="bg-slate-900/60 border border-brand-orange/40 rounded-2xl px-4 py-3">
-              <dt className="text-white font-black tracking-tight">{item.label}</dt>
-              {item.detail && <dd className="text-slate-400 text-xs leading-4 mt-1">{item.detail}</dd>}
-            </div>
-          ))}
-        </dl>
-        <p className="text-slate-300 leading-relaxed max-w-3xl mt-6">
-          {t.pricing.bundle}{' '}
-          <Link to={lp(MISSED_CALL_RESCUE_PATH)} className="text-brand-orange font-bold underline underline-offset-4 hover:text-white transition-colors">
-            {t.pricing.bundleLink} <span aria-hidden="true">&rarr;</span>
-          </Link>
+            { label: t.pricing.live },
+          ]}
+        />
+        {/* The bundle price is stated once, on the card below, so this is a
+            link to it rather than a second copy of the figures. */}
+        <p className="mt-6">
+          <a href={`#${RESCUE_BUNDLE_ANCHOR}`} className="text-brand-orange font-bold underline underline-offset-4 hover:text-white transition-colors">
+            {bundle.jumpLink} <span aria-hidden="true">&darr;</span>
+          </a>
         </p>
         <div className="mt-6">{ctas('pricing')}</div>
       </ServiceSection>
+
+      {/* Both offers together, directly after this page's own prices. */}
+      <RescueBundleCard medium="dm-rescue" />
 
       <ServiceClosing title={t.closing.title} body={t.closing.body}>
         <div className="flex flex-wrap items-start gap-3">

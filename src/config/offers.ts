@@ -102,14 +102,6 @@ export const DM_RESCUE = {
   setupPrice: 397,
   /** Then this much a month, month to month, cancel anytime. */
   monthlyPrice: 129,
-  /**
-   * The two offers bought together. Cheaper than the sum of the parts, which
-   * is the whole point of saying it on the page — and the reason the figures
-   * live here rather than being added up in a template: the discount is a
-   * decision, not arithmetic.
-   */
-  bundleSetupPrice: 697,
-  bundleMonthlyPrice: 199,
   /** Usually live within this many business days of the kickoff call. */
   liveInBusinessDays: 3,
   inclusions: [
@@ -121,3 +113,38 @@ export const DM_RESCUE = {
     'existingAccounts',
   ] as DmInclusionKey[],
 } as const;
+
+export const RESCUE_BUNDLE_PATH = '/missed-call-rescue';
+
+/** The anchor the bundle card carries, on whichever offer page shows it. */
+export const RESCUE_BUNDLE_ANCHOR = 'rescue-bundle';
+
+/**
+ * Missed-Call Rescue and DM Rescue bought together: the phone and the inbox
+ * on one invoice.
+ *
+ * The two prices are a decision, so they are typed. Everything the card
+ * compares them against is arithmetic, so it is derived here and nowhere
+ * else — change either offer's price above and the struck-through totals and
+ * both savings follow, in both languages, on every page that shows them.
+ * That is the whole reason this block exists rather than four more numbers in
+ * the copy files.
+ */
+const SEPARATE_SETUP = MISSED_CALL_RESCUE.setupPrice + DM_RESCUE.setupPrice;
+const SEPARATE_MONTHLY = MISSED_CALL_RESCUE.monthlyPrice + DM_RESCUE.monthlyPrice;
+
+export const RESCUE_BUNDLE = {
+  /** One-time setup fee for both, in OFFER_CURRENCY. */
+  setupPrice: 697,
+  /** Then this much a month for both, month to month, cancel anytime. */
+  monthlyPrice: 199,
+  /** The same two offers bought apart. Derived: never type this. */
+  separateSetupPrice: SEPARATE_SETUP,
+  separateMonthlyPrice: SEPARATE_MONTHLY,
+  /** What the bundle takes off each figure. Derived, so it cannot drift. */
+  setupSaving: SEPARATE_SETUP - 697,
+  monthlySaving: SEPARATE_MONTHLY - 199,
+} as const;
+
+/** utm_campaign on every booking link from the bundle card. */
+export const RESCUE_BUNDLE_CAMPAIGN = 'rescue-bundle';

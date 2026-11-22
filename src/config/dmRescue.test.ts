@@ -18,7 +18,7 @@ const LANGS = ['en', 'es'] as const;
 
 describe('DM Rescue offer', () => {
   it('is a fixed price in whole dollars, month to month', () => {
-    for (const amount of [OFFER.setupPrice, OFFER.monthlyPrice, OFFER.bundleSetupPrice, OFFER.bundleMonthlyPrice]) {
+    for (const amount of [OFFER.setupPrice, OFFER.monthlyPrice]) {
       expect(Number.isInteger(amount)).toBe(true);
       expect(amount).toBeGreaterThan(0);
     }
@@ -27,21 +27,11 @@ describe('DM Rescue offer', () => {
     expect(OFFER.liveInBusinessDays).toBe(3);
   });
 
-  it('prices the bundle below the two offers bought apart', () => {
-    // Otherwise the bundle line on the page is an insult rather than an offer.
-    expect(OFFER.bundleSetupPrice).toBeLessThan(OFFER.setupPrice + 497);
-    expect(OFFER.bundleMonthlyPrice).toBeLessThan(OFFER.monthlyPrice + 149);
-    expect(OFFER.bundleSetupPrice).toBe(697);
-    expect(OFFER.bundleMonthlyPrice).toBe(199);
-  });
-
   it('prints the same figures in both languages', () => {
     expect(OFFER_CURRENCY).toBe('USD');
     for (const lang of LANGS) {
       expect(offerMoney(OFFER.setupPrice, lang)).toBe('$397');
       expect(offerMoney(OFFER.monthlyPrice, lang)).toBe('$129');
-      expect(offerMoney(OFFER.bundleSetupPrice, lang)).toBe('$697');
-      expect(offerMoney(OFFER.bundleMonthlyPrice, lang)).toBe('$199');
     }
   });
 
@@ -110,8 +100,9 @@ describe('DM Rescue page copy', () => {
       expect(t.pricing.setup, lang).toContain(offerMoney(OFFER.setupPrice, lang));
       expect(t.pricing.monthly, lang).toContain(offerMoney(OFFER.monthlyPrice, lang));
       expect(t.pricing.live, lang).toContain(String(OFFER.liveInBusinessDays));
-      expect(t.pricing.bundle, lang).toContain(offerMoney(OFFER.bundleSetupPrice, lang));
-      expect(t.pricing.bundle, lang).toContain(offerMoney(OFFER.bundleMonthlyPrice, lang));
+      // The bundle price is not stated here any more: it comes from
+      // RESCUE_BUNDLE, through the card (src/config/rescueBundle.test.ts).
+      expect(JSON.stringify(t.pricing), lang).not.toContain('697');
       // The headline and the tagline are the offer's own words, unchanged.
       expect(t.intro.length, lang).toBeGreaterThan(100);
       expect(t.tagline.length, lang).toBeGreaterThan(40);

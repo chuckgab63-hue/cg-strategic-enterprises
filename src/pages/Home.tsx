@@ -14,6 +14,8 @@ import HomeWebsiteCheck from '../components/HomeWebsiteCheck';
 import PhoenixHero from '../components/PhoenixHero';
 import { DEMO_BASE } from '../i18n/mealPrepFeaturesMeta';
 import type { ServiceIcon } from '../i18n/home';
+import rescueBundle from '../i18n/rescueBundle';
+import { RESCUE_BUNDLE_ANCHOR, RESCUE_BUNDLE_PATH } from '../config/offers';
 
 // The contact modal uses framer-motion, so its code loads after the page
 // (src/lib/deferred.tsx) and a phone spends its first seconds on the HTML and
@@ -73,6 +75,7 @@ const LOCAL_BUSINESS_JSON_LD = JSON.stringify({
 // ==========================================
 export default function Home() {
   const t = useT(home);
+  const bundle = useT(rescueBundle);
   const lang = useLang();
   const lp = useLocalePath();
   const c = useT(common);
@@ -364,6 +367,20 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        {/* The two fixed-price offers lead the grid; this is the pair of them
+            on one invoice. Under the grid rather than under those two cards:
+            the grid is 1, 2 or 3 columns depending on the viewport, so there
+            is no row the two cards reliably share to sit beneath. The link
+            lands on the bundle card itself. */}
+        <p className="mt-8 text-center">
+          <Link
+            to={lp(`${RESCUE_BUNDLE_PATH}#${RESCUE_BUNDLE_ANCHOR}`)}
+            className="text-sm font-bold tracking-widest uppercase text-brand-orange underline underline-offset-4 hover:text-white transition-colors"
+          >
+            {bundle.homeLink} <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </p>
 
       </section>
 

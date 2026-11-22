@@ -97,6 +97,34 @@ export function CheckList({ items }: { items: string[] }) {
   );
 }
 
+export interface PriceTile {
+  /** The figure itself: "$497 one-time setup". */
+  label: string;
+  /** The small line under it, where there is one: "Month to month. Cancel anytime." */
+  detail?: string | null;
+}
+
+/**
+ * The row of price tiles the fixed-price offers print: one tile per figure,
+ * the figure in white and its condition under it.
+ *
+ * Lifted out of /missed-call-rescue and /dm-rescue, which had the same markup
+ * twice, so the bundle card is a third use rather than a third copy. The
+ * rendered DOM is unchanged from what those two pages had.
+ */
+export function PriceTiles({ tiles }: { tiles: PriceTile[] }) {
+  return (
+    <dl className="flex flex-wrap gap-3">
+      {tiles.map(tile => (
+        <div key={tile.label} className="bg-slate-900/60 border border-brand-orange/40 rounded-2xl px-4 py-3">
+          <dt className="text-white font-black tracking-tight">{tile.label}</dt>
+          {tile.detail && <dd className="text-slate-400 text-xs leading-4 mt-1">{tile.detail}</dd>}
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function StepList({ steps }: { steps: { title: string; body: string }[] }) {
   return (
     <ol className="grid grid-cols-1 md:grid-cols-2 gap-4">
