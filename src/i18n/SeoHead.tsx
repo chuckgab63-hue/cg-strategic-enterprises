@@ -33,6 +33,16 @@ export default function SeoHead() {
         ['og:title', og.title], ['og:description', og.description], ['og:url', og.url],
         ['og:image', og.image], ['og:image:width', String(og.imageWidth)],
         ['og:image:height', String(og.imageHeight)], ['og:image:alt', og.imageAlt],
+        // The watch pages only. Without these here the tags are in the
+        // pre-rendered HTML and then dropped the moment React hydrates, so a
+        // share scraped after a client-side navigation loses the video.
+        ...(og.video
+          ? ([
+              ['og:video', og.video.url], ['og:video:secure_url', og.video.url],
+              ['og:video:type', og.video.type], ['og:video:width', String(og.video.width)],
+              ['og:video:height', String(og.video.height)],
+            ] as [string, string][])
+          : []),
       ].forEach(([property, content]) => add('meta', { property, content }));
       // name=, not property= -- see the note in prerender.ts, which renders
       // the same two tags into the pre-built HTML.
