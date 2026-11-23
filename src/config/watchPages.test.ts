@@ -4,7 +4,9 @@ import { videoJsonLd } from './videos';
 import { ORGANIZATION_ID, SITE_URL } from './site';
 import { findRoute, routeLangs } from '../i18n/meta';
 import { pageFileFor } from '../pageFiles';
-import { sitemapXml } from '../i18n/prerender';
+import { renderHeadTags, sitemapXml } from '../i18n/prerender';
+import { headFor } from '../i18n/head';
+import { localizePath } from '../i18n/lang';
 import videoPages from '../i18n/videoPages';
 
 // The watch pages exist for one reason: Search Console refuses to index a clip
@@ -139,6 +141,25 @@ describe('video watch pages', () => {
     // Six English watch pages plus the two with a Spanish recording.
     expect(withVideo).toBe(8);
     expect(xml).toContain('xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"');
+  });
+
+  it('points og:video at the file this language actually plays', () => {
+    // The Spanish meal-prep and missed-call pages play different recordings
+    // from their English twins. An og:video naming the English file on the
+    // Spanish page would hand a share card the wrong video, and nothing else
+    // on the page would disagree with it.
+    for (const page of WATCH_PAGES) {
+      for (const lang of watchPageLangs(page)) {
+        const file = watchVideo(page, lang)!;
+        const tags = renderHeadTags(headFor(localizePath(watchPath(page.slug), lang)));
+        const where = `${page.slug} [${lang}]`;
+        expect(tags, where).toContain(`<meta property="og:video" content="${SITE_URL}${file.mp4}" data-seo />`);
+        expect(tags, where).toContain('<meta property="og:video:type" content="video/mp4" data-seo />');
+        // And og:image stays a JPEG card, not the poster: LinkedIn will not
+        // render the WebP posters these clips use.
+        expect(tags, where).toMatch(/<meta property="og:image" content="[^"]+\.jpg"/);
+      }
+    }
   });
 
   it('leaves the decorative background clips out of all of it', () => {

@@ -35,8 +35,14 @@ export interface SiteRoute {
     height: number;
     alt: Record<Lang, string>;
     type: 'article' | 'website' | 'video.other';
-    /** Only the watch pages: the mp4 itself, for og:video. `path` is site-relative. */
-    video?: { path: string; type: string; width: number; height: number };
+    /**
+     * Only the watch pages: the mp4 itself, for og:video. `path` is
+     * site-relative, and one per language where the two languages are
+     * different recordings — the same shape, and the same reason, as `image`
+     * above. A share card that plays the English file on the Spanish page is
+     * the bug this prevents.
+     */
+    video?: { path: string | Record<Lang, string>; type: string; width: number; height: number };
   };
   /**
    * The sitemap's lastmod, as YYYY-MM-DD.
@@ -573,7 +579,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         en: 'Missed-Call Rescue demo video: an AI receptionist answering a missed call',
         es: 'Video de Missed-Call Rescue: una recepcionista con IA contestando una llamada perdida',
       },
-      video: { path: '/videos/missed-call-rescue-hero.mp4', type: 'video/mp4', width: 1280, height: 720 },
+      video: { path: { en: '/videos/missed-call-rescue-hero.mp4', es: '/videos/missed-call-rescue-hero-es.mp4' }, type: 'video/mp4', width: 1280, height: 720 },
     },
     lastmod: '2026-11-23',
   },
@@ -624,7 +630,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         en: 'Meal prep online ordering demo video: the weekly menu and the kitchen side',
         es: 'Video de pedidos en línea para comidas preparadas: el menú semanal y la cocina',
       },
-      video: { path: '/videos/mealprep-demo-hero.mp4', type: 'video/mp4', width: 1280, height: 720 },
+      video: { path: { en: '/videos/mealprep-demo-hero.mp4', es: '/videos/mealprep-demo-hero-es.mp4' }, type: 'video/mp4', width: 1280, height: 720 },
     },
     lastmod: '2026-11-23',
   },

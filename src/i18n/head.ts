@@ -78,7 +78,10 @@ export function headFor(pathname: string): HeadData {
       imageAlt: route.og.alt[lang],
       locale: LOCALE[lang].replace('-', '_'),
       siteName: LEGAL_BUSINESS_NAME,
-      video: route.og.video && { ...route.og.video, url: absolute(route.og.video.path) },
+      video: route.og.video && {
+        ...route.og.video,
+        url: absolute(typeof route.og.video.path === 'string' ? route.og.video.path : route.og.video.path[lang]),
+      },
     },
   };
 }
