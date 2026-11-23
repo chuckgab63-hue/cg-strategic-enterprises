@@ -44,7 +44,7 @@ describe('DM Rescue offer', () => {
     expect(DM_RESCUE_PATH).toBe('/dm-rescue');
     expect(pageFileFor(DM_RESCUE_PATH)).toBe('DmRescue');
     const route = findRoute(DM_RESCUE_PATH);
-    expect(route?.lastmod).toBe('2026-11-22');
+    expect(route?.lastmod).toBe('2026-11-23');
     for (const lang of LANGS) {
       // src/i18n/meta.ts writes the figures out rather than importing the
       // offer config, because that file is in the bundle every page loads. So
@@ -53,8 +53,26 @@ describe('DM Rescue offer', () => {
       expect(route?.meta[lang].description, lang).toContain(offerMoney(OFFER.setupPrice, lang));
       expect(route?.meta[lang].description, lang).toContain(offerMoney(OFFER.monthlyPrice, lang));
     }
-    expect(route?.meta.en.title).toBe('DM Rescue: Instant Instagram & Facebook Replies | CG Strategic Enterprises');
+    expect(route?.meta.en.title).toBe('DM Rescue: Instant Instagram & Facebook Replies | CG Strategic');
     expect(route?.og?.image).toBe('/og/dm-rescue.jpg');
+  });
+
+  it('keeps both titles inside the length a search result shows', () => {
+    // Bing URL Inspection reported "Title too long" for this page on
+    // 2026-11-23, which is why the titles use SHORT_NAME. 65 is the limit it
+    // enforces. Plenty of other pages on the site are still over it — this
+    // guards the two that were fixed, it is not a site-wide rule yet.
+    const route = findRoute(DM_RESCUE_PATH)!;
+    for (const lang of LANGS) {
+      expect(route.meta[lang].title.length, `${lang}: ${route.meta[lang].title}`).toBeLessThanOrEqual(65);
+    }
+    // And the shortening kept the words that matter: the offer's name and,
+    // in English, both platforms.
+    expect(route.meta.en.title).toContain('DM Rescue');
+    expect(route.meta.en.title).toContain('Instagram');
+    expect(route.meta.en.title).toContain('Facebook');
+    expect(route.meta.es.title).toContain('Rescate de Mensajes');
+    expect(route.meta.es.title).toContain('Instagram');
   });
 });
 

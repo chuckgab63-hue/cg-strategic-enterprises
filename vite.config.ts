@@ -113,6 +113,13 @@ export default defineConfig({
   build: { manifest: true },
   test: {
     // claude-seo/ is a separate plugin repo checked out locally (gitignored).
-    exclude: [...configDefaults.exclude, 'claude-seo/**'],
+    //
+    // .claude/ holds the git worktrees the desktop app creates for agent
+    // sessions. Each one is a full checkout of this repo, so without this the
+    // run picks up a second and third copy of an older version of the suite
+    // and reports three times the tests, all passing, from code nobody is
+    // working on. That happened: a run showing 66 files was 26 real ones plus
+    // two stale worktrees of 20.
+    exclude: [...configDefaults.exclude, 'claude-seo/**', '.claude/**'],
   },
 })

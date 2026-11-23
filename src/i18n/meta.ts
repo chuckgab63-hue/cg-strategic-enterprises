@@ -62,6 +62,17 @@ const FEATURE_LASTMOD: Partial<Record<FeatureSlug, string>> = {
 };
 
 const NAME = 'CG Strategic Enterprises';
+/**
+ * The brand, short, for titles that would otherwise run past what a search
+ * result shows. Bing's URL Inspection flags a title over about 65 characters
+ * as an error, and the full name costs 27 of them — so a page whose own words
+ * are worth keeping trades the "Enterprises" instead of its keywords.
+ *
+ * Used only where the long form does not fit. Most of the site still reads
+ * NAME; several of those titles are also over the limit and are a separate
+ * decision, not something to change by sweeping this constant across them.
+ */
+const SHORT_NAME = 'CG Strategic';
 
 export const SITE_ROUTES: SiteRoute[] = [
   {
@@ -282,11 +293,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     path: DM_RESCUE_PATH,
     meta: {
       en: {
-        title: `DM Rescue: Instant Instagram & Facebook Replies | ${NAME}`,
+        title: `DM Rescue: Instant Instagram & Facebook Replies | ${SHORT_NAME}`,
         description: 'Auto-reply to every Instagram DM and Facebook message in seconds, send your menu or quote link, and get a text alert. $397 setup + $129/mo.',
       },
       es: {
-        title: `Rescate de Mensajes: respuestas al instante en Instagram y Facebook | ${NAME}`,
+        title: `Rescate de Mensajes: Instagram y Facebook | ${SHORT_NAME}`,
         description: 'Conteste cada mensaje de Instagram y Facebook en segundos, envíe su menú o su enlace de cotización y reciba una alerta por texto. $397 de instalación y $129 al mes.',
       },
     },
@@ -310,7 +321,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         es: 'Vista previa de DM Rescue: "Stop losing customers in your DMs.", respuestas al instante a cada mensaje de Instagram y Facebook, $397 de instalación y $129 al mes',
       },
     },
-    lastmod: '2026-11-22',
+    lastmod: '2026-11-23',
   },
   {
     path: PEST_CONTROL_PATH,
