@@ -4,8 +4,8 @@
 // can't drift apart. Plain TypeScript, no React.
 
 import { SITE_URL, LEGAL_BUSINESS_NAME } from '../config/site.ts';
-import { LANGS, LOCALE, SPANISH_PUBLIC, langFromPath, localizePath, stripLang, type Lang } from './lang.ts';
-import { NOT_FOUND_META, findRoute } from './meta.ts';
+import { LOCALE, SPANISH_PUBLIC, langFromPath, localizePath, stripLang, type Lang } from './lang.ts';
+import { NOT_FOUND_META, findRoute, routeLangs } from './meta.ts';
 
 export interface HeadData {
   lang: Lang;
@@ -17,7 +17,9 @@ export interface HeadData {
   canonical?: string;
   alternates: { hreflang: string; href: string }[];
   noindex: boolean;
-  og?: { type: string; url: string; title: string; description: string; image: string; imageWidth: number; imageHeight: number; imageAlt: string; locale: string; siteName: string };
+  og?: { type: string; url: string; title: string; description: string; image: string; imageWidth: number; imageHeight: number; imageAlt: string; locale: string; siteName: string;
+    /** Only the video watch pages: the file itself, so a share card can play it. */
+    video?: { url: string; type: string; width: number; height: number } };
 }
 
 const absolute = (path: string) => SITE_URL + path;
@@ -35,6 +37,11 @@ export function headFor(pathname: string): HeadData {
     return { lang: 'en', htmlLang: 'en', title: 'Analytics opt-out', description: '', alternates: [], noindex: true };
   }
   const route = findRoute(stripLang(pathname));
+  // A route can exist in English only (a clip with no Spanish recording). Its
+  // /es/ URL is not a page: no canonical, no alternates, noindex.
+  if (route && !routeLangs(route).includes(lang)) {
+    return { lang, htmlLang: lang, ...NOT_FOUND_META[lang], alternates: [], noindex: true };
+  }
   if (!route) {
     return { lang, htmlLang: lang, ...NOT_FOUND_META[lang], alternates: [], noindex: true };
   }
@@ -42,9 +49,12 @@ export function headFor(pathname: string): HeadData {
   const { title, description } = route.meta[lang];
   const canonical = absolute(localizePath(route.path, lang));
   // While Spanish is hidden, don't point search engines at it.
-  const alternates = SPANISH_PUBLIC
+  // Only the languages this route exists in: a page with no Spanish twin
+  // advertises no Spanish alternate, and gets no x-default pair either.
+  const langs = routeLangs(route);
+  const alternates = SPANISH_PUBLIC && langs.length > 1
     ? [
-        ...LANGS.map(l => ({ hreflang: l, href: absolute(localizePath(route.path, l)) })),
+        ...langs.map(l => ({ hreflang: l, href: absolute(localizePath(route.path, l)) })),
         { hreflang: 'x-default', href: absolute(route.path) },
       ]
     : [];
@@ -68,6 +78,7 @@ export function headFor(pathname: string): HeadData {
       imageAlt: route.og.alt[lang],
       locale: LOCALE[lang].replace('-', '_'),
       siteName: LEGAL_BUSINESS_NAME,
+      video: route.og.video && { ...route.og.video, url: absolute(route.og.video.path) },
     },
   };
 }

@@ -15,8 +15,11 @@
 // either, and a page does not get a clip it cannot narrate, so /es/pest-control
 // and /es/lawn-care show no video at all (src/components/TourVideo.tsx).
 
-import type { Lang } from '../i18n/lang';
-import { BUSINESS_NAME, ORGANIZATION_ID, SITE_URL } from './site';
+import type { Lang } from '../i18n/lang.ts';
+
+/** The reels' first commit, which is the commit that adds them. */
+const UPLOADED_TODAY = '2026-11-23T08:30:00-05:00';
+import { BUSINESS_NAME, ORGANIZATION_ID, SITE_URL } from './site.ts';
 
 export type VideoFile = {
   mp4: string;
@@ -58,7 +61,7 @@ export const DEMO_VIDEO: Record<Lang, VideoFile> = {
     width: 1280,
     height: 720,
     seconds: 81, // 80.67s in the file
-    uploadDate: '2026-11-19',
+    uploadDate: '2026-11-19T06:11:25-05:00',
     name: `Meal-prep online ordering demo — ${BUSINESS_NAME}`,
     description: "An 81-second walkthrough of online ordering for a meal prep business. The customer side: this week's menu with a live countdown to the order cutoff, macros and portion sizes on every meal, a cart with a free-delivery bar, weekly plans customers can skip or pause themselves, and delivery, pickup, coupons and gift cards at checkout. The kitchen side: every order in one list, prep and shopping lists built when the cutoff hits, nutrition labels for the week in one click, delivery routes in stop order, and revenue, repeat customers and best sellers.",
   },
@@ -71,7 +74,7 @@ export const DEMO_VIDEO: Record<Lang, VideoFile> = {
     width: 1280,
     height: 720,
     seconds: 95, // 94.83s in the file
-    uploadDate: '2026-11-19',
+    uploadDate: '2026-11-19T10:46:13-05:00',
     name: `Demostración de pedidos en línea para comidas preparadas — ${BUSINESS_NAME}`,
     description: 'Un recorrido de 95 segundos por el sistema de pedidos en línea para un negocio de comidas preparadas, con narración en español. Del lado del cliente: el menú de la semana con una cuenta regresiva hasta la hora límite de pedidos, los macros y los tamaños de porción de cada platillo, un carrito con una barra de envío gratis, planes semanales que el cliente mismo salta o pausa, y entrega a domicilio, recogida, cupones y tarjetas de regalo al pagar. Del lado de la cocina: todos los pedidos en una sola lista, las listas de preparación y de compras listas al llegar la hora límite, las etiquetas nutricionales de la semana con un solo clic, las rutas de entrega en orden de parada, y los ingresos, los clientes que repiten y los platillos más vendidos.',
   },
@@ -96,7 +99,7 @@ export const TOUR_VIDEO: Record<'pest' | 'lawn', VideoFile> = {
     width: 1280,
     height: 720,
     seconds: 74, // 73.73s in the file
-    uploadDate: '2026-11-19',
+    uploadDate: '2026-11-19T15:12:14-05:00',
     name: `Pest control website and admin area tour — ${BUSINESS_NAME}`,
     description: 'A narrated tour of a pest control website and admin area built by CG Strategic Enterprises. The public site: a page for every service written for local search, a pest library answering what customers ask before they call, a Pest Analyzer that takes a photo and gives an instant first guess, Jess the AI voice assistant answering day or night, a ZIP code checker that tells a visitor straight away whether the area is served, and a careers page with an apply flow. Behind the scenes: staff licensing, training and new applicants tracked with a daily digest, and verified training records showing which technicians are ready for their own route. The site shown is One Source Total Pest Control of Jacksonville, Florida.',
   },
@@ -109,7 +112,7 @@ export const TOUR_VIDEO: Record<'pest' | 'lawn', VideoFile> = {
     width: 1280,
     height: 720,
     seconds: 72, // 71.23s in the file
-    uploadDate: '2026-11-19',
+    uploadDate: '2026-11-19T15:12:14-05:00',
     name: `Lawn care website and admin area tour — ${BUSINESS_NAME}`,
     description: 'A narrated tour of a lawn care and landscaping website and admin area built by CG Strategic Enterprises. The public site: separate paths for homeowners and commercial properties, a page each for lawn maintenance, weed control and landscape design written for local search, a projects gallery, the service area across Duval, St. Johns, Clay and Nassau counties clearly mapped, a free quote form, William the AI voice assistant, and one tap that switches the whole site to Spanish. Behind the scenes: role-based logins for owners, managers and staff covering hiring and onboarding, and every service and feature switchable from admin settings. The site shown is By The C of Jax.',
   },
@@ -139,7 +142,7 @@ export const RESCUE_VIDEO: Record<Lang, VideoFile> = {
     width: 1280,
     height: 720,
     seconds: 72, // 71.16s in the file
-    uploadDate: '2026-11-20',
+    uploadDate: '2026-11-20T10:19:59-05:00',
     name: `Missed-Call Rescue: an AI receptionist for missed calls — ${BUSINESS_NAME}`,
     description: 'A 72-second introduction to Missed-Call Rescue, an AI receptionist for local service businesses. When the owner cannot pick up, the AI answers with the business name, in English or Spanish, asks what the caller needs, where they are, how soon and the best number to call back, texts the owner the lead, and logs every call in one place. The business keeps its own number, setup is done with the owner and it is live in 14 days, for $497 to set up and $149 a month, cancel anytime. Ends with the number that reaches Alex, CG Strategic\'s own AI receptionist.',
   },
@@ -152,11 +155,56 @@ export const RESCUE_VIDEO: Record<Lang, VideoFile> = {
     width: 1280,
     height: 720,
     seconds: 87, // 86.66s in the file
-    uploadDate: '2026-11-20',
+    uploadDate: '2026-11-20T10:19:59-05:00',
     name: `Missed-Call Rescue: recepcionista con IA para llamadas perdidas — ${BUSINESS_NAME}`,
     description: 'Una presentación de 87 segundos de Missed-Call Rescue, una recepcionista con IA para negocios locales de servicios, con narración en español. Cuando el dueño no puede contestar, la IA contesta con el nombre del negocio, en inglés o en español, pregunta qué necesita la persona, dónde está, para cuándo y el mejor número para devolver la llamada, le envía el cliente potencial al dueño por mensaje de texto y registra cada llamada en un solo lugar. El negocio conserva su número, la instalación se hace con el dueño y queda funcionando en 14 días, por $497 de instalación y $149 al mes, con cancelación cuando quiera. Termina con el número donde contesta Alex, la recepcionista con IA de CG Strategic.',
   },
 };
+
+/**
+ * The two vertical reels, made for Instagram and reused on their own watch
+ * pages. They differ from every row above in three ways that matter to the
+ * markup: they are 1080x1920 rather than 16:9, they are short enough to be
+ * measured in seconds rather than minutes, and they carry no captions file —
+ * their words are burnt-in on-screen text, not narration, so the watch page
+ * prints them as a transcript instead of shipping a .vtt with invented
+ * timings.
+ *
+ * `captions` is empty for both, and the player omits the track element rather
+ * than pointing at a file that is not there.
+ *
+ * dm-call-manta-reel.mp4 is the already-compressed cut of that reel
+ * (dm-call-manta-reel-ad.mp4 in the Runway folder, 6.7 MB against 12.8 MB for
+ * the master, same 24s and same 1080x1920).
+ */
+export const REEL_VIDEO = {
+  dmRescue: {
+    mp4: '/videos/dm-rescue-reel.mp4',
+    poster: '/videos/dm-rescue-reel-poster.jpg',
+    captions: '',
+    captionsLabel: '',
+    lang: 'en',
+    width: 1080,
+    height: 1920,
+    seconds: 18, // 17.50s in the file
+    uploadDate: UPLOADED_TODAY,
+    name: `DM Rescue: instant Instagram and Facebook replies — ${BUSINESS_NAME}`,
+    description: 'An 18-second look at DM Rescue. A customer messages a business at 9:14 at night, nobody answers, and they message the next business instead. With DM Rescue the reply goes out in seconds and the owner gets a text the moment someone reaches out. $397 to set up and $129 a month, or $697 and $199 bundled with Missed-Call Rescue.',
+  },
+  manta: {
+    mp4: '/videos/dm-call-manta-reel.mp4',
+    poster: '/videos/dm-call-manta-reel-poster.jpg',
+    captions: '',
+    captionsLabel: '',
+    lang: 'en',
+    width: 1080,
+    height: 1920,
+    seconds: 25, // 24.34s in the file
+    uploadDate: UPLOADED_TODAY,
+    name: `Never miss a customer, even on your day off — ${BUSINESS_NAME}`,
+    description: 'A 25-second look at Missed-Call Rescue and DM Rescue working together. The owner is forty feet underwater on a dive; back on the boat the phone is ringing and the messages are arriving. The call is answered, the DMs are replied to in seconds, and a text arrives so the owner can stay where they are. $697 to set up and $199 a month for both.',
+  },
+} as const satisfies Record<string, VideoFile>;
 
 /** The id on the Missed-Call Rescue figure, so #rescue-video reaches the player. */
 export const RESCUE_VIDEO_ANCHOR = 'rescue-video';
@@ -170,9 +218,15 @@ export const RESCUE_VIDEO_ANCHOR = 'rescue-video';
  */
 export const DEMO_VIDEO_ANCHOR = 'demo-video';
 
-/** Seconds as a schema.org ISO 8601 duration: 81 -> PT1M21S. */
+/**
+ * Seconds as a schema.org ISO 8601 duration: 81 -> PT1M21S, 18 -> PT18S.
+ *
+ * A clip under a minute drops the minutes part rather than claiming PT0M18S,
+ * which is legal but reads as a mistake in the Rich Results Test output.
+ */
 function isoDuration(seconds: number): string {
-  return `PT${Math.floor(seconds / 60)}M${seconds % 60}S`;
+  const minutes = Math.floor(seconds / 60);
+  return minutes ? `PT${minutes}M${seconds % 60}S` : `PT${seconds}S`;
 }
 
 /**

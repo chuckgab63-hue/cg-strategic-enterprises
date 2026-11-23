@@ -5,7 +5,7 @@
 //
 // Spanish strings here: NEEDS NATIVE REVIEW (see docs/SPANISH_REVIEW.md).
 
-import type { Lang } from './lang.ts';
+import { LANGS, type Lang } from './lang.ts';
 import { ONE_SOURCE_CASE_STUDY } from '../config/caseStudies.ts';
 import { FEATURE_META, FEATURE_SLUGS, HUB_META, MEAL_PREP_FEATURES_PATH, featurePath, type FeatureSlug } from './mealPrepFeaturesMeta.ts';
 import { LAWN_CARE_META, LAWN_CARE_PATH } from './lawnCareMeta.ts';
@@ -29,7 +29,15 @@ export interface SiteRoute {
    * always per language, because the alt describes the image to someone who
    * cannot see it and that belongs in their language either way.
    */
-  og?: { image: string | Record<Lang, string>; width: number; height: number; alt: Record<Lang, string>; type: 'article' | 'website' };
+  og?: {
+    image: string | Record<Lang, string>;
+    width: number;
+    height: number;
+    alt: Record<Lang, string>;
+    type: 'article' | 'website' | 'video.other';
+    /** Only the watch pages: the mp4 itself, for og:video. `path` is site-relative. */
+    video?: { path: string; type: string; width: number; height: number };
+  };
   /**
    * The sitemap's lastmod, as YYYY-MM-DD.
    *
@@ -48,6 +56,18 @@ export interface SiteRoute {
    * but only a person can say whether the words actually changed.
    */
   lastmod: string;
+  /**
+   * The languages this page exists in. Omitted means every language, which is
+   * all but the video watch pages built from an English-only recording: those
+   * list ['en'], and their /es/ URL is never routed, pre-rendered, listed in
+   * the sitemap or named in an hreflang tag.
+   */
+  langs?: Lang[];
+}
+
+/** The languages a route exists in; every language unless it says otherwise. */
+export function routeLangs(route: SiteRoute): Lang[] {
+  return route.langs ?? LANGS;
 }
 
 /**
@@ -515,6 +535,176 @@ export const SITE_ROUTES: SiteRoute[] = [
       },
     },
     lastmod: '2026-11-18',
+  },
+  {
+    // The video hub. Not a watch page itself, so no og:video and no
+    // <video:video>: it lists the pages that are.
+    path: '/videos',
+    meta: {
+      en: {
+        title: `Demo Videos: AI Answering, Ordering & Websites | ${SHORT_NAME}`,
+        description: 'Watch the demos: an AI receptionist answering a missed call, instant Instagram and Facebook replies, and full tours of the websites and admin areas we build.',
+      },
+      es: {
+        title: `Videos: IA, pedidos en línea y sitios web | ${SHORT_NAME}`,
+        description: 'Vea las demostraciones: una recepcionista con IA contestando una llamada perdida, respuestas al instante en Instagram y Facebook, y recorridos por los sitios que construimos.',
+      },
+    },
+    lastmod: '2026-11-23',
+  },
+  {
+    path: '/videos/missed-call-rescue-demo',
+    meta: {
+      en: {
+        title: `AI Answering Service Demo: Missed-Call Rescue | ${SHORT_NAME}`,
+        description: 'Watch an AI receptionist answer a missed call, take the details and text the lead to the owner. A 72-second demo of Missed-Call Rescue, with captions.',
+      },
+      es: {
+        title: `Demo de recepcionista con IA: Missed-Call Rescue | ${SHORT_NAME}`,
+        description: 'Vea una recepcionista con IA contestar una llamada perdida, tomar los datos y enviarle el cliente potencial por mensaje. Demostración de 87 segundos, con subtítulos.',
+      },
+    },
+    og: {
+      image: '/og/missed-call-rescue.jpg',
+      width: 1200,
+      height: 630,
+      type: 'video.other',
+      alt: {
+        en: 'Missed-Call Rescue demo video: an AI receptionist answering a missed call',
+        es: 'Video de Missed-Call Rescue: una recepcionista con IA contestando una llamada perdida',
+      },
+      video: { path: '/videos/missed-call-rescue-hero.mp4', type: 'video/mp4', width: 1280, height: 720 },
+    },
+    lastmod: '2026-11-23',
+  },
+  {
+    path: '/videos/dm-rescue-demo',
+    meta: {
+      en: {
+        title: `Instagram Auto-Reply Demo: DM Rescue | ${SHORT_NAME}`,
+        description: 'An 18-second look at DM Rescue: a customer messages at 9pm, gets an answer in seconds, and the owner gets a text. Instagram and Facebook replies on autopilot.',
+      },
+      es: {
+        title: `Demo de respuestas automáticas: DM Rescue | ${SHORT_NAME}`,
+        description: 'Un video de 18 segundos sobre DM Rescue: un cliente escribe a las 9 de la noche, recibe respuesta en segundos y el dueño recibe un mensaje de texto.',
+      },
+    },
+    og: {
+      image: '/og/dm-rescue.jpg',
+      width: 1200,
+      height: 630,
+      type: 'video.other',
+      alt: {
+        en: 'DM Rescue demo video: an instant reply to an Instagram message at 9pm',
+        es: 'Video de DM Rescue: una respuesta al instante a un mensaje de Instagram',
+      },
+      video: { path: '/videos/dm-rescue-reel.mp4', type: 'video/mp4', width: 1080, height: 1920 },
+    },
+    lastmod: '2026-11-23',
+    langs: ['en'],
+  },
+  {
+    path: '/videos/meal-prep-ordering-tour',
+    meta: {
+      en: {
+        title: `Meal Prep Ordering Demo: Full Tour | ${SHORT_NAME}`,
+        description: 'A full tour of online ordering for meal prep, both sides: the weekly menu, macros, plans and checkout, then orders, prep lists, labels and delivery routes.',
+      },
+      es: {
+        title: `Demo de pedidos para comidas preparadas | ${SHORT_NAME}`,
+        description: 'Un recorrido completo por los pedidos en línea para comidas preparadas: el menú semanal, los macros, los planes y el pago, y del otro lado los pedidos y las rutas.',
+      },
+    },
+    og: {
+      image: '/og/meal-prep-ordering.jpg',
+      width: 1200,
+      height: 630,
+      type: 'video.other',
+      alt: {
+        en: 'Meal prep online ordering demo video: the weekly menu and the kitchen side',
+        es: 'Video de pedidos en línea para comidas preparadas: el menú semanal y la cocina',
+      },
+      video: { path: '/videos/mealprep-demo-hero.mp4', type: 'video/mp4', width: 1280, height: 720 },
+    },
+    lastmod: '2026-11-23',
+  },
+  {
+    path: '/videos/lawn-care-site-tour',
+    meta: {
+      en: {
+        title: `Lawn Care Website Demo: Site & Admin Tour | ${SHORT_NAME}`,
+        description: 'A 72-second tour of a lawn care and landscaping website and the office system behind it: quote forms, an AI assistant, Spanish in one tap, and crew logins.',
+      },
+      es: {
+        title: `Demo de sitio web de jardinería: recorrido completo | ${SHORT_NAME}`,
+        description: 'Un recorrido de 72 segundos por un sitio web de jardinería y paisajismo y el sistema de oficina detrás: cotizaciones, asistente con IA y accesos para la cuadrilla.',
+      },
+    },
+    og: {
+      image: '/og/lawn-care.jpg',
+      width: 1200,
+      height: 630,
+      type: 'video.other',
+      alt: {
+        en: 'Lawn care website tour video: the site and the admin area behind it',
+        es: 'Video del recorrido por un sitio de jardinería: el sitio y su área de administración',
+      },
+      video: { path: '/videos/lawn-tour-hero.mp4', type: 'video/mp4', width: 1280, height: 720 },
+    },
+    lastmod: '2026-11-23',
+    langs: ['en'],
+  },
+  {
+    path: '/videos/pest-control-site-tour',
+    meta: {
+      en: {
+        title: `Pest Control Website Demo: Site & Admin Tour | ${SHORT_NAME}`,
+        description: 'A 74-second tour of a pest control website and the office system behind it: a page per service, a photo pest analyzer, an AI voice assistant and licence tracking.',
+      },
+      es: {
+        title: `Demo de sitio web de control de plagas: recorrido | ${SHORT_NAME}`,
+        description: 'Un recorrido de 74 segundos por un sitio web de control de plagas y el sistema de oficina detrás: una página por servicio, analizador por foto y asistente con IA.',
+      },
+    },
+    og: {
+      image: '/og/pest-control.jpg',
+      width: 1200,
+      height: 630,
+      type: 'video.other',
+      alt: {
+        en: 'Pest control website tour video: the site and the admin area behind it',
+        es: 'Video del recorrido por un sitio de control de plagas: el sitio y su administración',
+      },
+      video: { path: '/videos/pest-tour-hero.mp4', type: 'video/mp4', width: 1280, height: 720 },
+    },
+    lastmod: '2026-11-23',
+    langs: ['en'],
+  },
+  {
+    path: '/videos/never-miss-a-customer',
+    meta: {
+      en: {
+        title: `Never Miss a Customer: Calls + DMs Answered | ${SHORT_NAME}`,
+        description: 'A 25-second look at Missed-Call Rescue and DM Rescue together: the call answered, the DMs replied to in seconds, and a text to you, even on your day off.',
+      },
+      es: {
+        title: `No pierda ningún cliente: llamadas y mensajes | ${SHORT_NAME}`,
+        description: 'Un video de 25 segundos con Missed-Call Rescue y DM Rescue juntos: la llamada contestada, los mensajes respondidos en segundos y un texto para usted.',
+      },
+    },
+    og: {
+      image: '/og/missed-call-rescue.jpg',
+      width: 1200,
+      height: 630,
+      type: 'video.other',
+      alt: {
+        en: 'Rescue Bundle video: a diver off duty while the calls and DMs are answered',
+        es: 'Video del Paquete Rescate: un buzo en su día libre mientras se contestan las llamadas',
+      },
+      video: { path: '/videos/dm-call-manta-reel.mp4', type: 'video/mp4', width: 1080, height: 1920 },
+    },
+    lastmod: '2026-11-23',
+    langs: ['en'],
   },
 ];
 

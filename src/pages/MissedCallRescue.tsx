@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import WatchDemoLink from '../components/WatchDemoLink';
 import {
   PriceTiles, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
@@ -151,6 +152,8 @@ export default function MissedCallRescue() {
 
       {/* Each page claims the one clip it plays. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: videoJsonLdText(RESCUE_VIDEO[lang]) }} />
+
+      <WatchDemoLink slug="missed-call-rescue-demo" />
 
       {/* One line to the other fixed-price offer: this page answers the phone,
           that one answers the DMs, and plenty of these businesses need both. */}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import WatchDemoLink from '../components/WatchDemoLink';
 import {
   PriceTiles, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection, StepList,
   primaryButtonClass, secondaryButtonClass,
@@ -186,6 +187,8 @@ export default function DmRescue() {
       <ServiceHero eyebrow={t.eyebrow} title={t.title} intro={t.intro}>
         {ctas('hero')}
       </ServiceHero>
+
+      <WatchDemoLink slug="dm-rescue-demo" kind="video" />
 
       {/* The live demo, directly under the hero, in its own framed block: it is
           the one thing on this page a visitor can check for themselves, so it

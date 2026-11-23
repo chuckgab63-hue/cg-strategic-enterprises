@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import WatchDemoLink from '../components/WatchDemoLink';
 import NarratedVideo from '../components/NarratedVideo';
 import {
   BookCallButton, CheckList, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
@@ -96,6 +97,8 @@ export default function MealPrepOrdering() {
           </a>
         </p>
       </ServiceHero>
+
+      <WatchDemoLink slug="meal-prep-ordering-tour" />
 
       {/* Each page claims the one clip it plays: two VideoObjects, two files,
           neither page describing the other's. */}

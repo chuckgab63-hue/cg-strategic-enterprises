@@ -44,6 +44,7 @@ export default function GlobalFooter() {
     {
       heading: t.footer.company,
       links: [
+        ['/videos', t.nav.videos],
         ['/skunkworks', t.nav.skunkworks],
         ['/faq', t.nav.faq],
         ['/contact', t.nav.contact],

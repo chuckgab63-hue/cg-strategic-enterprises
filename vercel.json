@@ -48,6 +48,46 @@
   ],
   "rewrites": [
     {
+      "source": "/videos",
+      "destination": "/videos/index.html"
+    },
+    {
+      "source": "/videos/missed-call-rescue-demo",
+      "destination": "/videos/missed-call-rescue-demo/index.html"
+    },
+    {
+      "source": "/videos/dm-rescue-demo",
+      "destination": "/videos/dm-rescue-demo/index.html"
+    },
+    {
+      "source": "/videos/meal-prep-ordering-tour",
+      "destination": "/videos/meal-prep-ordering-tour/index.html"
+    },
+    {
+      "source": "/videos/lawn-care-site-tour",
+      "destination": "/videos/lawn-care-site-tour/index.html"
+    },
+    {
+      "source": "/videos/pest-control-site-tour",
+      "destination": "/videos/pest-control-site-tour/index.html"
+    },
+    {
+      "source": "/videos/never-miss-a-customer",
+      "destination": "/videos/never-miss-a-customer/index.html"
+    },
+    {
+      "source": "/es/videos",
+      "destination": "/es/videos/index.html"
+    },
+    {
+      "source": "/es/videos/missed-call-rescue-demo",
+      "destination": "/es/videos/missed-call-rescue-demo/index.html"
+    },
+    {
+      "source": "/es/videos/meal-prep-ordering-tour",
+      "destination": "/es/videos/meal-prep-ordering-tour/index.html"
+    },
+    {
       "source": "/automations",
       "destination": "/automations/index.html"
     },

@@ -41,6 +41,13 @@ export const PAGE_FILES: [path: string, file: string][] = [
   ['/meal-prep-ordering/features/getting-started', 'MealPrepFeature'],
   ['/demo-guide', 'DemoGuide'],
   ['/search-ai-visibility', 'SearchAiVisibility'],
+  ['/videos', 'Videos'],
+  ['/videos/missed-call-rescue-demo', 'VideoWatch'],
+  ['/videos/dm-rescue-demo', 'VideoWatch'],
+  ['/videos/meal-prep-ordering-tour', 'VideoWatch'],
+  ['/videos/lawn-care-site-tour', 'VideoWatch'],
+  ['/videos/pest-control-site-tour', 'VideoWatch'],
+  ['/videos/never-miss-a-customer', 'VideoWatch'],
 ];
 
 /** The page file for an English path ("/" for the home page), if it has one. */

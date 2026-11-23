@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import WatchDemoLink from '../components/WatchDemoLink';
 import {
   BookCallButton, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
@@ -112,6 +113,7 @@ export default function PestControl() {
               beats describing it, and #tour is the anchor the outreach emails
               point at. Renders nothing on /es/pest-control. --- */}
       <TourVideo tour="pest" />
+      <WatchDemoLink slug="pest-control-site-tour" />
 
       {/* --- The switch demo --- */}
       <ServiceSection title={t.demo.title}>

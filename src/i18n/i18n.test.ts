@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import vercelJson from '../../vercel.json?raw';
 import { langFromPath, localizePath, stripLang, SPANISH_PUBLIC } from './lang';
 import { headFor } from './head';
-import { SITE_ROUTES, findRoute } from './meta';
+import { SITE_ROUTES, findRoute, routeLangs } from './meta';
 import { applyHead, prerenderTargets, renderHeadTags, sitemapXml } from './prerender';
 
 describe('language paths', () => {
@@ -80,7 +80,11 @@ describe('page meta', () => {
   it('puts a lastmod under every URL in the sitemap, English and Spanish', () => {
     const xml = sitemapXml();
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>(\n    <lastmod>([^<]+)<\/lastmod>)?/g)];
-    expect(locs.length).toBe(SITE_ROUTES.length * (SPANISH_PUBLIC ? 2 : 1));
+    // Not simply routes x languages any more: a watch page built from an
+    // English-only recording has no Spanish URL at all (SiteRoute.langs).
+    const expected = SITE_ROUTES.reduce(
+      (n, r) => n + routeLangs(r).filter(l => SPANISH_PUBLIC || l === 'en').length, 0);
+    expect(locs.length).toBe(expected);
     for (const [, loc, , lastmod] of locs) expect(lastmod, loc).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
     // A page and its Spanish twin share the route's date. /pest-control moved

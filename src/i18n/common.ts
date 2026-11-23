@@ -11,6 +11,7 @@ const en = {
     // full "Online Ordering for Meal Prep". /portfolio is gone and redirects
     // here, so this is the nav slot that used to say Work.
     mealPrepNav: 'Meal Prep',
+    videos: 'Videos',
     skunkworks: 'Skunkworks',
     contact: 'Contact',
     pestControl: 'Pest Control',
@@ -92,6 +93,7 @@ const es: typeof en = {
     services: 'Servicios',
     engine: 'Automatización y flujos de trabajo',
     mealPrepNav: 'Comidas preparadas',
+    videos: 'Videos',
     skunkworks: 'Skunkworks',
     contact: 'Contacto',
     pestControl: 'Control de plagas',

@@ -67,7 +67,10 @@ describe('narrated clips', () => {
       expect(node.thumbnailUrl, key).toBe(`${SITE_URL}${file.poster}`);
       expect(node.contentUrl, key).toBe(`${SITE_URL}${file.mp4}`);
       expect(node.publisher, key).toEqual({ '@id': ORGANIZATION_ID });
-      expect(node.uploadDate, key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      // A full ISO 8601 instant with an offset, not just a date: the video
+      // watch pages need the time, and both sides read this one row.
+      expect(node.uploadDate, key).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
+      expect(Number.isNaN(Date.parse(node.uploadDate)), key).toBe(false);
       expect(node.name.length, key).toBeGreaterThan(20);
       expect(node.description.length, key).toBeGreaterThan(120);
       // A description written from the narration, not from the page.

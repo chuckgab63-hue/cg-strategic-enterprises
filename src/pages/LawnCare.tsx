@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import WatchDemoLink from '../components/WatchDemoLink';
 import {
   BookCallButton, ServiceClosing, ServiceFaq, ServiceHero, ServicePage, ServiceSection,
   StepList, TalkToAlexButton, primaryButtonClass, secondaryButtonClass,
@@ -121,6 +122,7 @@ export default function LawnCare() {
               beats describing it, and #tour is the anchor the outreach emails
               point at. Renders nothing on /es/lawn-care. --- */}
       <TourVideo tour="lawn" />
+      <WatchDemoLink slug="lawn-care-site-tour" />
 
       {/* --- The problems --- */}
       <ServiceSection title={t.problems.title}>

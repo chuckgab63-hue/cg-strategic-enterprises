@@ -6,10 +6,11 @@
 
 import { SITE_URL, BUSINESS_NAME } from '../config/site.ts';
 import { headFor, type HeadData } from './head.ts';
-import { LANGS, SPANISH_PUBLIC, localizePath, stripLang } from './lang.ts';
-import { SITE_ROUTES } from './meta.ts';
+import { SPANISH_PUBLIC, localizePath, stripLang } from './lang.ts';
+import { SITE_ROUTES, routeLangs } from './meta.ts';
 import { pageFileFor } from '../pageFiles.ts';
 import { PHOENIX_POSTER } from '../config/phoenixHero.ts';
+import { videoSitemapEntry } from './videoSitemap.ts';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
@@ -30,6 +31,11 @@ export function renderHeadTags(head: HeadData): string {
       ['og:image', og.image], ['og:image:width', String(og.imageWidth)],
       ['og:image:height', String(og.imageHeight)], ['og:image:alt', og.imageAlt],
     ];
+    if (og.video) {
+      props.push(['og:video', og.video.url], ['og:video:secure_url', og.video.url],
+        ['og:video:type', og.video.type], ['og:video:width', String(og.video.width)],
+        ['og:video:height', String(og.video.height)]);
+    }
     for (const [p, c] of props) tags.push(`<meta property="${p}" content="${esc(c)}" data-seo />`);
     // twitter:card and twitter:image are name=, not property=: the card tags
     // are plain meta names, and X ignores them under property. X does fall back
@@ -109,7 +115,7 @@ export function heroPreloadTags(path: string): string[] {
 /** Every page in every language: its URL path and the HTML file that serves it. */
 export function prerenderTargets(): { path: string; file: string }[] {
   return SITE_ROUTES.flatMap(route =>
-    LANGS.map(lang => {
+    routeLangs(route).map(lang => {
       const path = localizePath(route.path, lang);
       return { path, file: path === '/' ? 'index.html' : `${path.replace(/^\/|\/$/g, '')}/index.html` };
     }),
@@ -129,22 +135,28 @@ export function applyFallbackHead(indexHtml: string): string {
 }
 
 export function sitemapXml(): string {
-  const langs = SPANISH_PUBLIC ? LANGS : (['en'] as const);
-  const urls = SITE_ROUTES.flatMap(route =>
-    langs.map(lang => {
+  const urls = SITE_ROUTES.flatMap(route => {
+    // The languages this route exists in, minus Spanish while it is unlisted.
+    const langs = routeLangs(route).filter(l => SPANISH_PUBLIC || l === 'en');
+    return langs.map(lang => {
       const loc = SITE_URL + localizePath(route.path, lang);
-      const alternates = SPANISH_PUBLIC
-        ? [...LANGS.map(l => [l, SITE_URL + localizePath(route.path, l)]), ['x-default', SITE_URL + route.path]]
+      // A route with one language gets no alternates: an hreflang set naming
+      // a URL that does not exist is worse than no set at all.
+      const alternates = SPANISH_PUBLIC && langs.length > 1
+        ? [...langs.map(l => [l, SITE_URL + localizePath(route.path, l)]), ['x-default', SITE_URL + route.path]]
             .map(([hreflang, href]) => `\n    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}" />`)
             .join('')
         : '';
       const lastmod = route.lastmod ? `\n    <lastmod>${route.lastmod}</lastmod>` : '';
-      return `  <url>\n    <loc>${loc}</loc>${lastmod}${alternates}\n  </url>`;
-    }),
-  );
+      // Watch pages carry a <video:video>, which is what puts the clip itself
+      // in front of Google rather than only the page that holds it.
+      const video = videoSitemapEntry(route.path, lang);
+      return `  <url>\n    <loc>${loc}</loc>${lastmod}${alternates}${video}\n  </url>`;
+    });
+  });
   return [
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`,
     ...urls,
     '</urlset>',
     '',
