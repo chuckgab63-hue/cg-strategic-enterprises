@@ -84,15 +84,15 @@ describe('page meta', () => {
     for (const [, loc, , lastmod] of locs) expect(lastmod, loc).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
     // A page and its Spanish twin share the route's date. /pest-control moved
-    // to the 19th when the tour video went on it, and /es/pest-control moved
-    // with it although that page shows no video: the date belongs to the route.
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-19</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-19</lastmod>');
+    // to the 23rd when its title was shortened, and /es/pest-control moved
+    // with it although only the title changed: the date belongs to the route.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-23</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-23</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-18</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-18</lastmod>');
-    // The starter offer page, added on the 20th, in both languages.
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/missed-call-rescue</loc>\n    <lastmod>2026-11-20</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/missed-call-rescue</loc>\n    <lastmod>2026-11-20</lastmod>');
+    // The starter offer page, its title shortened on the 23rd, both languages.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/missed-call-rescue</loc>\n    <lastmod>2026-11-23</lastmod>');
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/missed-call-rescue</loc>\n    <lastmod>2026-11-23</lastmod>');
     // And a page whose copy has not moved keeps its own, so "today everywhere" would fail here.
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/automations</loc>\n    <lastmod>2026-10-29</lastmod>');
   });

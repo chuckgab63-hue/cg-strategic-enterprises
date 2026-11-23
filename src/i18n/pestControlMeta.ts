@@ -15,7 +15,7 @@ export const PEST_CONTROL_META: Record<Lang, { title: string; description: strin
       'Websites for pest control companies in Florida and Georgia: a page per service, a bilingual AI answering service, photo pest ID and digital termite contracts.',
   },
   es: {
-    title: 'Sitios web y atención telefónica con IA para control de plagas',
+    title: 'Control de plagas: sitios web y atención con IA',
     description:
       'Sitios web para control de plagas en Florida y Georgia: una página por servicio, atención con IA bilingüe, identificación por foto y contratos de termitas.',
   },

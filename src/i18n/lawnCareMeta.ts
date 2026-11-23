@@ -10,12 +10,12 @@ export { LAWN_CARE_PATH } from '../config/lawnPackages.ts';
 
 export const LAWN_CARE_META: Record<Lang, { title: string; description: string }> = {
   en: {
-    title: 'Lawn Care & Landscaping Website + AI Answering Service',
+    title: 'Lawn Care & Landscaping: AI Answering Service',
     description:
       'Lawn care and landscaping websites in Florida and Georgia: a page per service with a seasonal switch, estimate forms, and a bilingual AI answering service.',
   },
   es: {
-    title: 'Sitios web y atención telefónica con IA para jardinería y paisajismo',
+    title: 'Jardinería y paisajismo: sitios web y atención IA',
     description:
       'Sitios web de jardinería y paisajismo en Florida y Georgia: una página por servicio con interruptor de temporada, cotizaciones y atención con IA bilingüe.',
   },

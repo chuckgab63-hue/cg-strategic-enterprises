@@ -49,7 +49,8 @@ describe('Missed-Call Rescue offer', () => {
     expect(MISSED_CALL_RESCUE_PATH).toBe('/missed-call-rescue');
     expect(pageFileFor(MISSED_CALL_RESCUE_PATH)).toBe('MissedCallRescue');
     const route = findRoute(MISSED_CALL_RESCUE_PATH);
-    expect(route?.lastmod).toBe('2026-11-20');
+    // Moved on the 23rd when the title was shortened to fit a search result.
+    expect(route?.lastmod).toBe('2026-11-23');
     for (const lang of LANGS) {
       // src/i18n/meta.ts writes these figures out rather than importing the
       // offer config, because that file is in the bundle every page loads. So

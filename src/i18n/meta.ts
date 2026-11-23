@@ -229,15 +229,15 @@ export const SITE_ROUTES: SiteRoute[] = [
     path: '/answering-service',
     meta: {
       en: {
-        title: `AI Answering Service & Virtual Receptionist | ${NAME}`,
+        title: `AI Answering Service & Virtual Receptionist | ${SHORT_NAME}`,
         description: 'An AI answering service for small businesses in Florida and Georgia: every call answered 24/7 in English or Spanish, leads captured, follow-ups booked.',
       },
       es: {
-        title: `Servicio de atención telefónica con IA y recepcionista virtual | ${NAME}`,
+        title: `Atención telefónica con IA y recepcionista virtual | ${SHORT_NAME}`,
         description: 'Atención telefónica con IA para pequeños negocios de Florida y Georgia: contesta cada llamada 24/7 en inglés o español, capta clientes y agenda citas.',
       },
     },
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-23',
   },
   {
     // The fixed-price starter offer. Its price, timeline and inclusions are
@@ -248,11 +248,11 @@ export const SITE_ROUTES: SiteRoute[] = [
     path: MISSED_CALL_RESCUE_PATH,
     meta: {
       en: {
-        title: `Missed-Call Rescue: AI Receptionist, Live in 14 Days | ${NAME}`,
+        title: `Missed-Call Rescue: AI Receptionist in 14 Days | ${SHORT_NAME}`,
         description: 'A starter offer for local service businesses: an AI receptionist answers the calls you miss and your after-hours calls in English or Spanish. $497 setup, $149/month.',
       },
       es: {
-        title: `Missed-Call Rescue: recepcionista con IA en 14 días | ${NAME}`,
+        title: `Missed-Call Rescue: recepcionista IA en 14 días | ${SHORT_NAME}`,
         description: 'Oferta inicial para negocios locales de servicios: una recepcionista con IA contesta sus llamadas perdidas y las de fuera de horario, en inglés o español. $497 de instalación y $149 al mes.',
       },
     },
@@ -281,7 +281,7 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
     // Unmoved: a link-preview image is not copy a visitor reads. It happens to
     // be today's date anyway, the day the page went up.
-    lastmod: '2026-11-20',
+    lastmod: '2026-11-23',
   },
   {
     // The second fixed-price offer. Same arrangement as the one above: the
@@ -326,8 +326,8 @@ export const SITE_ROUTES: SiteRoute[] = [
   {
     path: PEST_CONTROL_PATH,
     meta: {
-      en: { title: `${PEST_CONTROL_META.en.title} | ${NAME}`, description: PEST_CONTROL_META.en.description },
-      es: { title: `${PEST_CONTROL_META.es.title} | ${NAME}`, description: PEST_CONTROL_META.es.description },
+      en: { title: `${PEST_CONTROL_META.en.title} | ${SHORT_NAME}`, description: PEST_CONTROL_META.en.description },
+      es: { title: `${PEST_CONTROL_META.es.title} | ${SHORT_NAME}`, description: PEST_CONTROL_META.es.description },
     },
     // The tour poster, cropped to 1200x630. One image for both languages:
     // the headline is burnt into it in English and there is no Spanish
@@ -342,13 +342,13 @@ export const SITE_ROUTES: SiteRoute[] = [
         es: 'Vista previa de control de plagas: "Pest control websites, done right" sobre una casa de Florida bajo una cúpula dorada al atardecer',
       },
     },
-    lastmod: '2026-11-19',
+    lastmod: '2026-11-23',
   },
   {
     path: LAWN_CARE_PATH,
     meta: {
-      en: { title: `${LAWN_CARE_META.en.title} | ${NAME}`, description: LAWN_CARE_META.en.description },
-      es: { title: `${LAWN_CARE_META.es.title} | ${NAME}`, description: LAWN_CARE_META.es.description },
+      en: { title: `${LAWN_CARE_META.en.title} | ${SHORT_NAME}`, description: LAWN_CARE_META.en.description },
+      es: { title: `${LAWN_CARE_META.es.title} | ${SHORT_NAME}`, description: LAWN_CARE_META.es.description },
     },
     // The tour video's poster, re-cropped from the 1280x720 master to the
     // 1200x630 that LinkedIn, Facebook and X all read, so the preview card
@@ -371,17 +371,17 @@ export const SITE_ROUTES: SiteRoute[] = [
     },
     // Unmoved on purpose: a link-preview image is not copy a visitor reads,
     // and the lastmod note above says styling and plumbing do not count.
-    lastmod: '2026-11-19',
+    lastmod: '2026-11-23',
   },
   {
     path: '/meal-prep-ordering',
     meta: {
       en: {
-        title: `Meal Prep Ordering System & Website for Meal Prep Businesses | ${NAME}`,
+        title: `Meal Prep Ordering System & Website | ${SHORT_NAME}`,
         description: 'Online ordering for meal prep businesses in Florida and Georgia, set up for you: weekly menus and plans, delivery zones and routes, labels and gift cards.',
       },
       es: {
-        title: `Sistema de pedidos y sitio web para negocios de comidas preparadas | ${NAME}`,
+        title: `Comidas preparadas: sistema de pedidos en línea | ${SHORT_NAME}`,
         description: 'Pedidos en línea para negocios de comidas preparadas en Florida y Georgia: planes y menús semanales, zonas y rutas de entrega, etiquetas y tarjetas de regalo.',
       },
     },
@@ -403,7 +403,7 @@ export const SITE_ROUTES: SiteRoute[] = [
       },
     },
     // 2026-11-19: the demo video in the hero, and the Spanish page's link to it.
-    lastmod: '2026-11-19',
+    lastmod: '2026-11-23',
   },
   {
     path: MEAL_PREP_FEATURES_PATH,
@@ -450,15 +450,15 @@ export const SITE_ROUTES: SiteRoute[] = [
     path: '/search-ai-visibility',
     meta: {
       en: {
-        title: `Search & AI Visibility for Small Businesses in Florida and Georgia | ${NAME}`,
+        title: `Search & AI Visibility for Small Businesses | ${SHORT_NAME}`,
         description: 'Get found on Google, Bing, Maps and AI assistants: technical SEO, Google Business Profile, keyword-driven service pages and Spanish versions of your site.',
       },
       es: {
-        title: `Visibilidad en buscadores e IA para pequeños negocios de Florida y Georgia | ${NAME}`,
+        title: `Visibilidad en buscadores e IA para negocios | ${SHORT_NAME}`,
         description: 'Que lo encuentren en Google, Bing, Maps y los asistentes de IA: SEO técnico, Perfil de Empresa, páginas de servicios por palabras clave y versiones en español.',
       },
     },
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-23',
   },
   {
     path: '/faq',
