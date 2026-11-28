@@ -30,7 +30,7 @@ export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 // Mailing address, used in the footer, /contact, the legal pages, and the
 // Organization JSON-LD that vite.config.ts injects into index.html.
 export const ADDRESS = {
-  street: '12220 Atlantic Blvd, Ste 130 1506',
+  street: '12220 Atlantic Blvd, Ste 130 #1506',
   city: 'Jacksonville',
   region: 'FL',
   postalCode: '32225',
