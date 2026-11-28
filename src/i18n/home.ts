@@ -126,14 +126,15 @@ const en = {
         cta: 'See the offer',
         badge: `Starter · ${offerMoney(OFFER.setupPrice, 'en')} setup`,
       },
-      // Straight after it: the other fixed-price offer. Its price is in the
-      // body rather than on a badge, so the grid keeps the single badge the
-      // starter offer above carries.
+      // Straight after it: the self-serve offer. Its price is in the body
+      // rather than on a badge, so the grid keeps the single badge the starter
+      // offer above carries -- and because "plans from" plus a free trial is
+      // two facts, which is one more than a badge can hold.
       {
         icon: 'dm',
         path: '/dm-rescue',
         title: 'DM Rescue',
-        body: `Instant replies to every Instagram and Facebook message, plus a text alert to you. ${offerMoney(DM_RESCUE.setupPrice, 'en')} setup + ${offerMoney(DM_RESCUE.monthlyPrice, 'en')}/mo.`,
+        body: `Instant replies to every Instagram and Facebook message, plus a text alert to you. Set it up yourself in minutes: plans from ${offerMoney(DM_RESCUE.fromMonthlyPrice, 'en')}/mo, first ${DM_RESCUE.trialDays} days free.`,
         cta: 'See the offer',
         secondary: { label: `Try it: DM us ${DEMO_KEYWORD}`, href: INSTAGRAM_DM_URL },
       },
@@ -288,7 +289,7 @@ const es: typeof en = {
         icon: 'dm',
         path: '/dm-rescue',
         title: 'Rescate de Mensajes',
-        body: `Respuestas al instante a cada mensaje de Instagram y Facebook, y una alerta por texto para usted. ${offerMoney(DM_RESCUE.setupPrice, 'es')} de instalación + ${offerMoney(DM_RESCUE.monthlyPrice, 'es')} al mes.`,
+        body: `Respuestas al instante a cada mensaje de Instagram y Facebook, y una alerta por texto para usted. Actívelo usted mismo en minutos: planes desde ${offerMoney(DM_RESCUE.fromMonthlyPrice, 'es')} al mes, los primeros ${DM_RESCUE.trialDays} días gratis.`,
         cta: 'Ver la oferta',
         secondary: { label: `Pruébelo: escríbanos ${DEMO_KEYWORD}`, href: INSTAGRAM_DM_URL },
       },

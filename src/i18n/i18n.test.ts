@@ -93,7 +93,9 @@ describe('page meta', () => {
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/pest-control</loc>\n    <lastmod>2026-11-23</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/pest-control</loc>\n    <lastmod>2026-11-23</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/contact</loc>\n    <lastmod>2026-11-18</lastmod>');
-    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-18</lastmod>');
+    // The home page moved to the 28th: its DM Rescue card now sells the
+    // self-serve plan rather than the done-for-you install.
+    expect(xml).toContain('<loc>https://www.cgstrategic.dev/</loc>\n    <lastmod>2026-11-28</lastmod>');
     // The starter offer page, its title shortened on the 23rd, both languages.
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/missed-call-rescue</loc>\n    <lastmod>2026-11-23</lastmod>');
     expect(xml).toContain('<loc>https://www.cgstrategic.dev/es/missed-call-rescue</loc>\n    <lastmod>2026-11-23</lastmod>');

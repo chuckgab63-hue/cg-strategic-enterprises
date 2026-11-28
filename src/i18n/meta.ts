@@ -113,7 +113,7 @@ export const SITE_ROUTES: SiteRoute[] = [
         description: `Sitios web, atención telefónica con IA y automatización para empresas de control de plagas, cuidado del césped y comidas preparadas en Jacksonville, FL.`,
       },
     },
-    lastmod: '2026-11-18',
+    lastmod: '2026-11-28',
   },
   {
     path: '/automations',
@@ -310,21 +310,21 @@ export const SITE_ROUTES: SiteRoute[] = [
     lastmod: '2026-11-23',
   },
   {
-    // The second fixed-price offer. Same arrangement as the one above: the
-    // prices and the inclusions are src/config/offers.ts, which is where the
-    // path comes from, and the figures are written out here rather than
-    // imported because this file is in the bundle every page loads.
-    // src/config/dmRescue.test.ts fails if a number here drifts from the
-    // offer config.
+    // The self-serve offer. Same arrangement as the one above: the prices and
+    // the inclusions are src/config/offers.ts, which is where the path comes
+    // from, and the figures are written out here rather than imported because
+    // this file is in the bundle every page loads. src/config/dmRescue.test.ts
+    // fails if a number here drifts from the offer config -- including the
+    // done-for-you figures, which this description must NOT carry any more.
     path: DM_RESCUE_PATH,
     meta: {
       en: {
         title: `DM Rescue: Instant Instagram & Facebook Replies | ${SHORT_NAME}`,
-        description: 'Auto-reply to every Instagram DM and Facebook message in seconds, send your menu or quote link, and get a text alert. $397 setup + $129/mo.',
+        description: 'Auto-reply to every Instagram DM and Facebook message in seconds, send your menu or quote link, and get a text alert. Plans from $97/mo, 7 days free.',
       },
       es: {
         title: `Rescate de Mensajes: Instagram y Facebook | ${SHORT_NAME}`,
-        description: 'Conteste cada mensaje de Instagram y Facebook en segundos, envíe su menú o su enlace de cotización y reciba una alerta por texto. $397 de instalación y $129 al mes.',
+        description: 'Conteste cada mensaje de Instagram y Facebook en segundos y reciba una alerta por texto. Planes desde $97 al mes, con 7 días gratis.',
       },
     },
     // Drawn as a 1200x630 card rather than cropped from a master, so there is
@@ -343,11 +343,11 @@ export const SITE_ROUTES: SiteRoute[] = [
       height: 630,
       type: 'website',
       alt: {
-        en: 'DM Rescue: "Stop losing customers in your DMs.", instant replies to every Instagram and Facebook message, $397 setup and $129 a month, from CG Strategic',
-        es: 'Vista previa de DM Rescue: "Stop losing customers in your DMs.", respuestas al instante a cada mensaje de Instagram y Facebook, $397 de instalación y $129 al mes',
+        en: 'DM Rescue: "Stop losing customers in your DMs.", instant replies to every Instagram and Facebook message, 7 days free and plans from $97 a month, from CG Strategic',
+        es: 'Vista previa de DM Rescue: "Stop losing customers in your DMs.", respuestas al instante a cada mensaje de Instagram y Facebook, 7 días gratis y planes desde $97 al mes',
       },
     },
-    lastmod: '2026-11-23',
+    lastmod: '2026-11-28',
   },
   {
     path: PEST_CONTROL_PATH,

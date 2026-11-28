@@ -84,10 +84,25 @@ export function offerMoney(amount: number, lang: Lang): string {
 export const DM_RESCUE_PATH = '/dm-rescue';
 
 /**
+ * The self-serve app: where "Start free trial" goes.
+ *
+ * One constant for the whole site. At go-live this becomes
+ * https://app.cgstrategic.dev and nothing else changes — see
+ * docs/GO-LIVE-CHECKLIST.md in the dm-rescue-app repo, which lists this as
+ * one of the URLs to move. Until then it is the Vercel domain, which is where
+ * the app actually answers, because a trial button that 404s is worse than one
+ * on a domain we have not branded yet.
+ */
+export const DM_RESCUE_APP_URL = 'https://dm-rescue-app.vercel.app';
+
+/**
  * What DM Rescue includes, in the order the page lists it. Same shape as the
  * missed-call offer above: the keys are the contract, and src/i18n/dmRescue.ts
  * is a Record over them, so an item added here fails the build until both
  * languages describe it.
+ *
+ * These are the features, not the plan. Both ways of buying DM Rescue — the
+ * self-serve app and the done-for-you install — deliver all six.
  */
 export type DmInclusionKey =
   | 'autoReply'
@@ -97,12 +112,33 @@ export type DmInclusionKey =
   | 'oncePerConversation'
   | 'existingAccounts';
 
+/**
+ * DM Rescue, which can now be bought two ways.
+ *
+ * **Self-serve** (`trialDays`, `fromMonthlyPrice`): the customer signs up at
+ * DM_RESCUE_APP_URL, connects their own Instagram and writes their own
+ * replies. This is what the page leads with.
+ *
+ * **Done-for-you** (`doneForYouSetupPrice`, `doneForYouMonthlyPrice`,
+ * `liveInBusinessDays`): we build it with them. Unchanged, and still what the
+ * Rescue Bundle below is made of, because the bundle is two done-for-you
+ * installs on one invoice.
+ *
+ * `fromMonthlyPrice` is the only figure on this site that is also a figure in
+ * Stripe. The app itself never prints a price — it reads STRIPE_PRICE_ID — so
+ * nothing downstream catches a mismatch. If the live plan price changes, this
+ * is the line to change, and "Plans from $97/mo" follows everywhere.
+ */
 export const DM_RESCUE = {
-  /** One-time setup fee, in OFFER_CURRENCY. */
-  setupPrice: 397,
-  /** Then this much a month, month to month, cancel anytime. */
-  monthlyPrice: 129,
-  /** Usually live within this many business days of the kickoff call. */
+  /** Free trial length, in days. Matches TRIAL_DAYS in the app. */
+  trialDays: 7,
+  /** The headline figure: "Plans from $97/mo". Must match the live Stripe price. */
+  fromMonthlyPrice: 97,
+  /** Done-for-you: one-time setup fee, in OFFER_CURRENCY. */
+  doneForYouSetupPrice: 397,
+  /** Done-for-you: then this much a month, month to month, cancel anytime. */
+  doneForYouMonthlyPrice: 129,
+  /** Done-for-you: usually live within this many business days of the kickoff call. */
   liveInBusinessDays: 3,
   inclusions: [
     'autoReply',
@@ -114,6 +150,23 @@ export const DM_RESCUE = {
   ] as DmInclusionKey[],
 } as const;
 
+/**
+ * The signup link, tagged like every other outbound link on the site so a
+ * trial can be attributed to the page and placement that sent it.
+ *
+ * The app ignores unknown query parameters, so these ride along harmlessly
+ * and show up in its logs and in Vercel analytics.
+ */
+export function dmRescueSignupUrl(placement: string, medium = 'offer', source = 'site'): string {
+  const params = new URLSearchParams({
+    utm_source: source,
+    utm_medium: medium,
+    utm_content: placement,
+    utm_campaign: 'dm-rescue-self-serve',
+  });
+  return `${DM_RESCUE_APP_URL}/signup?${params.toString()}`;
+}
+
 export const RESCUE_BUNDLE_PATH = '/missed-call-rescue';
 
 /** The anchor the bundle card carries, on whichever offer page shows it. */
@@ -121,7 +174,9 @@ export const RESCUE_BUNDLE_ANCHOR = 'rescue-bundle';
 
 /**
  * Missed-Call Rescue and DM Rescue bought together: the phone and the inbox
- * on one invoice.
+ * on one invoice. Both done-for-you — the bundle is not a self-serve plan, so
+ * it compares against the done-for-you figures above and is unaffected by the
+ * self-serve price.
  *
  * The two prices are a decision, so they are typed. Everything the card
  * compares them against is arithmetic, so it is derived here and nowhere
@@ -130,8 +185,8 @@ export const RESCUE_BUNDLE_ANCHOR = 'rescue-bundle';
  * That is the whole reason this block exists rather than four more numbers in
  * the copy files.
  */
-const SEPARATE_SETUP = MISSED_CALL_RESCUE.setupPrice + DM_RESCUE.setupPrice;
-const SEPARATE_MONTHLY = MISSED_CALL_RESCUE.monthlyPrice + DM_RESCUE.monthlyPrice;
+const SEPARATE_SETUP = MISSED_CALL_RESCUE.setupPrice + DM_RESCUE.doneForYouSetupPrice;
+const SEPARATE_MONTHLY = MISSED_CALL_RESCUE.monthlyPrice + DM_RESCUE.doneForYouMonthlyPrice;
 
 export const RESCUE_BUNDLE = {
   /** One-time setup fee for both, in OFFER_CURRENCY. */

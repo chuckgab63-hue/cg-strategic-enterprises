@@ -206,6 +206,25 @@ export const REEL_VIDEO = {
   },
 } as const satisfies Record<string, VideoFile>;
 
+/**
+ * The featured ad slot on /dm-rescue.
+ *
+ * `null` means the page renders no video section at all, which is deliberate:
+ * an empty frame or a "coming soon" box on a live sales page is worse than
+ * nothing. Set this to a VideoFile and the section appears, titled by
+ * `featuredVideo.title` in src/i18n/dmRescue.ts, in both languages.
+ *
+ * Reserved for the vertical ad planned in Phase 7 of the launch brief (25s,
+ * 1080x1920, "Plans from $97/mo" on screen). Do NOT point this at
+ * REEL_VIDEO.dmRescue: that reel's burnt-in text still quotes the done-for-you
+ * $397 + $129, which is no longer what this page leads with.
+ *
+ * One entry, not one per language: the ad is one cut with on-screen text, and a
+ * Spanish version would be its own VideoFile here (Record<Lang, VideoFile>)
+ * rather than the English file shown on a Spanish page.
+ */
+export const DM_RESCUE_FEATURED_AD: VideoFile | null = null;
+
 /** The id on the Missed-Call Rescue figure, so #rescue-video reaches the player. */
 export const RESCUE_VIDEO_ANCHOR = 'rescue-video';
 

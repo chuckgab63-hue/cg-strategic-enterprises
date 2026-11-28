@@ -25,9 +25,13 @@ describe('Rescue Bundle prices', () => {
     }
   });
 
+  // The bundle is two done-for-you installs on one invoice, so it compares
+  // against the done-for-you figures. DM Rescue's self-serve plan does not
+  // enter into it, which is why these totals did not move when the offer
+  // gained one.
   it('adds the separate totals up from the two offers rather than typing them', () => {
-    expect(BUNDLE.separateSetupPrice).toBe(MISSED_CALL_RESCUE.setupPrice + DM_RESCUE.setupPrice);
-    expect(BUNDLE.separateMonthlyPrice).toBe(MISSED_CALL_RESCUE.monthlyPrice + DM_RESCUE.monthlyPrice);
+    expect(BUNDLE.separateSetupPrice).toBe(MISSED_CALL_RESCUE.setupPrice + DM_RESCUE.doneForYouSetupPrice);
+    expect(BUNDLE.separateMonthlyPrice).toBe(MISSED_CALL_RESCUE.monthlyPrice + DM_RESCUE.doneForYouMonthlyPrice);
     // Today's figures, so a change to either offer shows up here as well as
     // in the derivation above.
     expect(BUNDLE.separateSetupPrice).toBe(894);

@@ -5,8 +5,10 @@ import {
   primaryButtonClass, secondaryButtonClass,
 } from '../components/ServicePage';
 import RescueBundleCard from '../components/RescueBundleCard';
+import NarratedVideo from '../components/NarratedVideo';
 import { bookingUrl } from '../config/booking';
-import { DM_RESCUE as OFFER, OFFER_CURRENCY, RESCUE_BUNDLE_ANCHOR } from '../config/offers';
+import { DM_RESCUE as OFFER, OFFER_CURRENCY, RESCUE_BUNDLE_ANCHOR, dmRescueSignupUrl } from '../config/offers';
+import { DM_RESCUE_FEATURED_AD } from '../config/videos';
 import rescueBundle from '../i18n/rescueBundle';
 import { INSTAGRAM_DM_URL } from '../config/social';
 import { ORGANIZATION_ID, SITE_URL } from '../config/site';
@@ -25,48 +27,62 @@ import dmRescue, { DM_RESCUE_CAMPAIGN, DM_RESCUE_MEDIUM, DM_RESCUE_PATH, DM_RESC
 // src/components/ServicePage.tsx.
 
 /**
- * Service with the two prices as Offers, in the page's own language — the same
- * shape /missed-call-rescue uses, for the same reason: this offer has a fixed
- * price, so it can state one. The monthly Offer gets a UnitPriceSpecification
- * so the figure reads as "per month" rather than as a second one-time charge,
- * and the provider is the Organization node vite.config.ts puts in every
- * page's head, by @id rather than described again.
+ * Product with the plan as an Offer, in the page's own language.
+ *
+ * Product rather than the Service node this page used to carry: DM Rescue is
+ * now something you buy, subscribe to and operate yourself, and the Offer has
+ * a recurring price and a free trial to describe. /missed-call-rescue is still
+ * a Service, correctly — that one is an engagement we deliver.
+ *
+ * Two offers, because there are genuinely two ways to buy it: the self-serve
+ * plan (recurring, which is why it carries a UnitPriceSpecification with
+ * unitCode MON — without it the figure reads as a single charge) and the
+ * done-for-you setup (one-time). The plan's price is a FROM price, so it is
+ * marked `priceSpecification.minPrice` as well, which is what stops a rich
+ * result quoting $97 as the only price we offer.
+ *
+ * The brand is the Organization node vite.config.ts puts in every page's head,
+ * by @id rather than described again. No aggregateRating and no review: there
+ * are none, and inventing them is the one thing structured data makes easy and
+ * indefensible.
  */
-function serviceJsonLd(lang: Lang, t: typeof dmRescue.en): string {
+function productJsonLd(lang: Lang, t: typeof dmRescue.en): string {
   const url = SITE_URL + localizePath(DM_RESCUE_PATH, lang);
   return JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'Service',
+    '@type': 'Product',
     name: t.schema.name,
     description: t.intro,
-    serviceType: t.schema.serviceType,
-    url,
-    provider: { '@id': ORGANIZATION_ID },
-    areaServed: [
-      { '@type': 'State', name: 'Florida' },
-      { '@type': 'State', name: 'Georgia' },
-    ],
+    category: t.schema.category,
+    brand: { '@id': ORGANIZATION_ID },
     audience: { '@type': 'BusinessAudience', name: t.schema.audience },
     offers: [
       {
         '@type': 'Offer',
-        name: t.schema.setupOffer,
-        price: OFFER.setupPrice,
+        name: t.schema.planOffer,
+        price: OFFER.fromMonthlyPrice,
         priceCurrency: OFFER_CURRENCY,
-        url,
-      },
-      {
-        '@type': 'Offer',
-        name: t.schema.monthlyOffer,
-        price: OFFER.monthlyPrice,
-        priceCurrency: OFFER_CURRENCY,
-        url,
+        availability: 'https://schema.org/InStock',
+        // The trial is part of the offer, not a separate product: a visitor
+        // pays nothing for the first week and the Offer says so.
+        url: dmRescueSignupUrl('schema'),
+        seller: { '@id': ORGANIZATION_ID },
         priceSpecification: {
           '@type': 'UnitPriceSpecification',
-          price: OFFER.monthlyPrice,
+          price: OFFER.fromMonthlyPrice,
+          minPrice: OFFER.fromMonthlyPrice,
           priceCurrency: OFFER_CURRENCY,
           referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' },
         },
+      },
+      {
+        '@type': 'Offer',
+        name: t.schema.setupOffer,
+        price: OFFER.doneForYouSetupPrice,
+        priceCurrency: OFFER_CURRENCY,
+        availability: 'https://schema.org/InStock',
+        url,
+        seller: { '@id': ORGANIZATION_ID },
       },
     ],
   }).replace(/</g, '\\u003c');
@@ -137,7 +153,34 @@ export default function DmRescue() {
    * Instagram thread with the account that answers. A new tab with
    * rel="noopener", like every off-site link on the site.
    */
-  const demoButton = (label: string, className = primaryButtonClass) => (
+  /**
+   * The primary call to action everywhere on the page: straight into the app's
+   * signup, tagged with its placement so a trial can be attributed to the
+   * block that sent it. An off-site link, so a new tab with rel="noopener"
+   * like every other one on the site.
+   *
+   * The note under it says when the card is charged. That is not fine print:
+   * Stripe collects a card before the trial starts, so a page that said
+   * "free trial" and stopped there would be misleading.
+   */
+  const trialButton = (placement: string) => (
+    <span className="inline-flex flex-col items-start gap-1">
+      <a
+        href={dmRescueSignupUrl(placement, DM_RESCUE_MEDIUM, DM_RESCUE_SOURCE)}
+        target="_blank"
+        rel="noopener"
+        data-start-trial={placement}
+        className={primaryButtonClass}
+      >
+        {t.ctaTrial}<span className="sr-only"> {t.newTab}</span>
+      </a>
+      <small className="text-[11px] leading-4 text-slate-400 max-w-[18rem]">{t.ctaTrialNote}</small>
+    </span>
+  );
+
+  // The live demo, now the second button rather than the first: it is still the
+  // strongest thing on the page, but the page's job is to start a trial.
+  const demoButton = (label: string, className = secondaryButtonClass) => (
     <a href={INSTAGRAM_DM_URL} target="_blank" rel="noopener" className={className}>
       {label}<span className="sr-only"> {t.newTab}</span>
     </a>
@@ -164,14 +207,14 @@ export default function DmRescue() {
 
   const ctas = (placement: string) => (
     <div className="flex flex-wrap items-start gap-3">
+      {trialButton(placement)}
       {demoButton(t.ctaDemo)}
-      {bookButton(placement)}
     </div>
   );
 
   return (
     <ServicePage>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serviceJsonLd(lang, t) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productJsonLd(lang, t) }} />
 
       <nav aria-label={t.breadcrumbs.label} className="text-sm text-slate-400 mb-6">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbJsonLdText(crumbs, lang) }} />
@@ -204,6 +247,17 @@ export default function DmRescue() {
           <ChatMock t={t.demo.mock} />
         </div>
       </section>
+
+      {/* The featured ad slot. DM_RESCUE_FEATURED_AD is null until there is an
+          ad to show, and then this whole section does not render -- an empty
+          frame on a sales page is worse than no frame. */}
+      {DM_RESCUE_FEATURED_AD && (
+        <ServiceSection title={t.featuredVideo.title}>
+          <div className="mx-auto w-full max-w-sm">
+            <NarratedVideo video={DM_RESCUE_FEATURED_AD} label={t.featuredVideo.title} />
+          </div>
+        </ServiceSection>
+      )}
 
       <ServiceSection title={t.problem.title}>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -249,13 +303,14 @@ export default function DmRescue() {
       <ServiceFaq title={t.faqTitle} items={t.faq} path={DM_RESCUE_PATH} />
 
       <ServiceSection title={t.pricing.title}>
-        {/* The figures as their own row, the way /missed-call-rescue prints
-            them: it is a fixed-price offer, so the figures are the offer. */}
+        {/* Two tiles rather than three: the trial and the plan. There is no
+            setup fee on the self-serve plan, so there is no setup tile, and
+            "usually live in N business days" belongs to the done-for-you block
+            below rather than here -- self-serve is live when the owner says so. */}
         <PriceTiles
           tiles={[
-            { label: t.pricing.setup },
+            { label: t.pricing.trial },
             { label: t.pricing.monthly, detail: t.pricing.term },
-            { label: t.pricing.live },
           ]}
         />
         {/* The bundle price is stated once, on the card below, so this is a
@@ -266,6 +321,19 @@ export default function DmRescue() {
           </a>
         </p>
         <div className="mt-6">{ctas('pricing')}</div>
+
+        {/* The upsell. This is the install the page used to lead with, now a
+            card under the self-serve prices: same six inclusions, we do the
+            work. It books the existing intro call rather than inventing a
+            second contact route. */}
+        <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900/50 p-6 md:p-8">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">{t.doneForYou.eyebrow}</p>
+          <h3 className="mt-2 text-xl md:text-2xl font-black text-white tracking-tight">{t.doneForYou.title}</h3>
+          <p className="mt-3 text-slate-300 leading-relaxed max-w-3xl">{t.doneForYou.body}</p>
+          <p className="mt-4 text-lg font-bold text-white">{t.doneForYou.price}</p>
+          <p className="text-sm text-slate-400">{t.doneForYou.term}</p>
+          <div className="mt-5">{bookButton('done-for-you', primaryButtonClass)}</div>
+        </div>
       </ServiceSection>
 
       {/* Both offers together, directly after this page's own prices. */}
@@ -273,8 +341,8 @@ export default function DmRescue() {
 
       <ServiceClosing title={t.closing.title} body={t.closing.body}>
         <div className="flex flex-wrap items-start gap-3">
+          {trialButton('closing')}
           {demoButton(t.ctaDemo)}
-          {bookButton('closing')}
         </div>
       </ServiceClosing>
     </ServicePage>
