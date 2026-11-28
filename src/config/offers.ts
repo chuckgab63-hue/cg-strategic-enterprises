@@ -86,14 +86,14 @@ export const DM_RESCUE_PATH = '/dm-rescue';
 /**
  * The self-serve app: where "Start free trial" goes.
  *
- * One constant for the whole site. At go-live this becomes
- * https://app.cgstrategic.dev and nothing else changes — see
- * docs/GO-LIVE-CHECKLIST.md in the dm-rescue-app repo, which lists this as
- * one of the URLs to move. Until then it is the Vercel domain, which is where
- * the app actually answers, because a trial button that 404s is worse than one
- * on a domain we have not branded yet.
+ * One constant for the whole site. Moved to the custom domain on 2026-11-28,
+ * when the app got it — Vercel, Supabase redirects, the Stripe webhook and the
+ * four Meta URLs all moved in the same sitting.
+ *
+ * The old Vercel domain still answers and 308s here, so links already out in
+ * the world keep working. New ones should not use it.
  */
-export const DM_RESCUE_APP_URL = 'https://dm-rescue-app.vercel.app';
+export const DM_RESCUE_APP_URL = 'https://app.cgstrategic.dev';
 
 /**
  * What DM Rescue includes, in the order the page lists it. Same shape as the
