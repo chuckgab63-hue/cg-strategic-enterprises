@@ -7,7 +7,7 @@ import {
 import RescueBundleCard from '../components/RescueBundleCard';
 import NarratedVideo from '../components/NarratedVideo';
 import { bookingUrl } from '../config/booking';
-import { DM_RESCUE as OFFER, OFFER_CURRENCY, RESCUE_BUNDLE_ANCHOR, dmRescueSignupUrl } from '../config/offers';
+import { DM_RESCUE as OFFER, OFFER_CURRENCY, RESCUE_BUNDLE_ANCHOR, DM_RESCUE_DONE_FOR_YOU_ANCHOR, dmRescueSignupUrl } from '../config/offers';
 import { DM_RESCUE_FEATURED_AD } from '../config/videos';
 import rescueBundle from '../i18n/rescueBundle';
 import { INSTAGRAM_DM_URL } from '../config/social';
@@ -326,7 +326,7 @@ export default function DmRescue() {
             card under the self-serve prices: same six inclusions, we do the
             work. It books the existing intro call rather than inventing a
             second contact route. */}
-        <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900/50 p-6 md:p-8">
+        <div id={DM_RESCUE_DONE_FOR_YOU_ANCHOR} className="mt-10 scroll-mt-24 rounded-3xl border border-slate-800 bg-slate-900/50 p-6 md:p-8">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">{t.doneForYou.eyebrow}</p>
           <h3 className="mt-2 text-xl md:text-2xl font-black text-white tracking-tight">{t.doneForYou.title}</h3>
           <p className="mt-3 text-slate-300 leading-relaxed max-w-3xl">{t.doneForYou.body}</p>

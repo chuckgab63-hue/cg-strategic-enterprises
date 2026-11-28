@@ -167,6 +167,17 @@ export function dmRescueSignupUrl(placement: string, medium = 'offer', source = 
   return `${DM_RESCUE_APP_URL}/signup?${params.toString()}`;
 }
 
+/**
+ * The id on the done-for-you card, so #done-for-you reaches it.
+ *
+ * getcgstrategic.com links straight to it: its DM Rescue card offers the
+ * self-serve trial and the install side by side, and the install's price and
+ * its booking button both live here rather than being restated over there.
+ * The page is pre-rendered in full, so the element exists before any
+ * JavaScript runs and the browser scrolls to it on arrival.
+ */
+export const DM_RESCUE_DONE_FOR_YOU_ANCHOR = 'done-for-you';
+
 export const RESCUE_BUNDLE_PATH = '/missed-call-rescue';
 
 /** The anchor the bundle card carries, on whichever offer page shows it. */
